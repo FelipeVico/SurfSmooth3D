@@ -1,0 +1,48 @@
+{
+  "model": "UV_curved_bezier",
+  "step_sha256": "2d2d19f85a01645904343ded35000f6b18b0b4ae3bc2585cefc5e158a8a52be2",
+  "requests": [
+    {
+      "operation": "cad-measurements",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196302842902000-cad-measurements/record.json",
+      "expected_sha256": "332622a7e9f6cea3d7d8569e6eb090f06f22912ff7f114b0bfe204fb6f20edae"
+    },
+    {
+      "operation": "helper-curves",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196303227275000-helper-curves/record.json",
+      "expected_sha256": "04371072756cfea6e6abaa4b378b3b0299fb2874edaa447419cbe6b529d4af17",
+      "request_source_sha256": "be14e1148ac53c9648f6b32d8676255a587fcd217b0243b2d5b2d18bdaf7c4e5",
+      "request_change": "Only STEP path line replaced by @STEP_FIXTURE_PATH@."
+    },
+    {
+      "operation": "feature-nodes",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196304277885000-feature-nodes/record.json",
+      "expected_sha256": "1e77cab55afeaefb8b5146bf84108643b1946d3e70e13d2a4ecd9717bfb8c46b",
+      "request_source_sha256": "5d961047c3fa2344bbb5b0ea617d22dbf65a1afbc6516c35ed3a4da1b9262983",
+      "request_change": "Only STEP path line replaced by @STEP_FIXTURE_PATH@."
+    },
+    {
+      "operation": "edge-samples",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196304930582000-edge-samples/record.json",
+      "expected_sha256": "fde7bb3d29a858d939feb0c51c65b05b7ce0ec3707c9d190dfdaa1ac5ad32309",
+      "request_source_sha256": "32daef22f6c52266c30292b73399c49a7b94f49713c8db93da6b479b08338a72",
+      "request_change": "Only STEP path line replaced by @STEP_FIXTURE_PATH@."
+    },
+    {
+      "operation": "feature-samples",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196305587677000-feature-samples/record.json",
+      "expected_sha256": "8db9652d2516a96181f8e461376a3d602eeefd745cc8f04e07ea77cfab030671",
+      "request_source_sha256": "4c6e1e3088b4e97ee01e2e87bb2a731c0ed2bfa0b38a4498c1e5f9f0c99cd289",
+      "request_change": "Only STEP path line replaced by @STEP_FIXTURE_PATH@."
+    },
+    {
+      "operation": "project-nodes",
+      "historical_record": "step_mesher_cpp_matlab_astra_v3/build/native-identity-20260923/publication-20260923T230202Z-46601b23/prepared/evidence/results/archived-cli-p2-unsandboxed/UV_curved_bezier-occ/helper-io/1790196306103556000-project-nodes/record.json",
+      "expected_sha256": "3cb79ffeeddeb4536846e89e7eb84fde9661d3f1cee5d17a7da9bf4c1f4c19c3",
+      "request_source_sha256": "0f6c7dfa9f361b08c6dae8491c69630d563225af58be08f1216805833e1248ff",
+      "request_change": "Only STEP path line replaced by @STEP_FIXTURE_PATH@."
+    }
+  ],
+  "comparison": "Expected outputs retained verbatim; discrete fields and all numerical output bytes must match.",
+  "retention": "Same five operations and CAD measurements must agree before and after Gmsh helper fragmentation."
+}

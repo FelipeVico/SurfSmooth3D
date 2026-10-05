@@ -1,0 +1,247 @@
+[
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/ModType_Smooth_Surface.f90",
+    "destination": "src/multiscale_mesher/ModType_Smooth_Surface.f90",
+    "source_sha256": "bb19ff0958641392e0f5b52a8aa9daf05d491e9d63414ba41d2dd0e2bc9a1b55",
+    "sha256": "bb19ff0958641392e0f5b52a8aa9daf05d491e9d63414ba41d2dd0e2bc9a1b55",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Adaptive_Blend_Surface.f90",
+    "destination": "src/multiscale_mesher/Mod_Adaptive_Blend_Surface.f90",
+    "source_sha256": "1ea63acec5df63994dd5f18736df32104e854773a71dfa46aef2a1610f28735c",
+    "sha256": "1ea63acec5df63994dd5f18736df32104e854773a71dfa46aef2a1610f28735c",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Adaptive_Smooth_Surface.f90",
+    "destination": "src/multiscale_mesher/Mod_Adaptive_Smooth_Surface.f90",
+    "source_sha256": "862e42d722596ab47de516b2dbe5cdfd01106194b83511b5a5391e9a573a1756",
+    "sha256": "862e42d722596ab47de516b2dbe5cdfd01106194b83511b5a5391e9a573a1756",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Fast_Sigma.f90",
+    "destination": "src/multiscale_mesher/Mod_Fast_Sigma.f90",
+    "source_sha256": "c10f5a831f0638149d1d2decc11103c40bd172b7daaa702267d3db2a424028cf",
+    "sha256": "c10f5a831f0638149d1d2decc11103c40bd172b7daaa702267d3db2a424028cf",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Feval.f90",
+    "destination": "src/multiscale_mesher/Mod_Feval.f90",
+    "source_sha256": "a736961bbe83eada4ac1edb0b57c6d30c1210ad01e3cc7988a8f180f35bf7ea4",
+    "sha256": "a736961bbe83eada4ac1edb0b57c6d30c1210ad01e3cc7988a8f180f35bf7ea4",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Plot_Tools_sigma.f90",
+    "destination": "src/multiscale_mesher/Mod_Plot_Tools_sigma.f90",
+    "source_sha256": "ec7671a464f54aec3dd578023b7b411d7c98149d3fa0efdedbbbb0d7f6d40716",
+    "sha256": "ec7671a464f54aec3dd578023b7b411d7c98149d3fa0efdedbbbb0d7f6d40716",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_Smooth_Surface.f90",
+    "destination": "src/multiscale_mesher/Mod_Smooth_Surface.f90",
+    "source_sha256": "cd1f4c4d15c09d65a3916e07f949e30ce99c171783d0a5295d6891b8563645af",
+    "sha256": "cd1f4c4d15c09d65a3916e07f949e30ce99c171783d0a5295d6891b8563645af",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/Mod_TreeLRD.f90",
+    "destination": "src/multiscale_mesher/Mod_TreeLRD.f90",
+    "source_sha256": "62656db7bf2e583a9ac122e055fd8d0c03541a11e417061d73de9fdcc960922b",
+    "sha256": "62656db7bf2e583a9ac122e055fd8d0c03541a11e417061d73de9fdcc960922b",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/cisurf_loadmsh.f90",
+    "destination": "src/multiscale_mesher/cisurf_loadmsh.f90",
+    "source_sha256": "9dab9de9e3fc816a27a0b3e596c6037df8d66b0665bf9b507009dc57354e212c",
+    "sha256": "9dab9de9e3fc816a27a0b3e596c6037df8d66b0665bf9b507009dc57354e212c",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/cisurf_plottools.f90",
+    "destination": "src/multiscale_mesher/cisurf_plottools.f90",
+    "source_sha256": "62b544216858b3c50c927ba07b746f3ca1408a531440d15c990d998e0a7e27ac",
+    "sha256": "62b544216858b3c50c927ba07b746f3ca1408a531440d15c990d998e0a7e27ac",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/cisurf_skeleton.f90",
+    "destination": "src/multiscale_mesher/cisurf_skeleton.f90",
+    "source_sha256": "b85a25d157433fb7b2513b80a95a79bde455d311a180e690c12a7d67ea7b38e8",
+    "sha256": "b85a25d157433fb7b2513b80a95a79bde455d311a180e690c12a7d67ea7b38e8",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/cisurf_tritools.f90",
+    "destination": "src/multiscale_mesher/cisurf_tritools.f90",
+    "source_sha256": "fb5af8edd829dbe8f6a5955e101cad4f1368d18ca1842df73fc4a702a654677c",
+    "sha256": "fb5af8edd829dbe8f6a5955e101cad4f1368d18ca1842df73fc4a702a654677c",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/surface_smoother.f90",
+    "destination": "src/multiscale_mesher/surface_smoother.f90",
+    "source_sha256": "a9eb3fb90719b7f244b08a29fb32385e8dd23417c4f5c1c2db0346579f13b980",
+    "sha256": "a9eb3fb90719b7f244b08a29fb32385e8dd23417c4f5c1c2db0346579f13b980",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/multiscale_mesher/tfmm_setsub.f",
+    "destination": "src/multiscale_mesher/tfmm_setsub.f",
+    "source_sha256": "f04ccd25c339e749bc558bb7505466a017adab779a7b5f936dbefae90fddf86c",
+    "sha256": "f04ccd25c339e749bc558bb7505466a017adab779a7b5f936dbefae90fddf86c",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/tria_routs/koornexps.f90",
+    "destination": "src/special_functions/koornexps.f90",
+    "source_sha256": "79c643f1d11534dfc1de43140081245b7468664a0b2b3ac96831e33940f8a1d0",
+    "sha256": "79c643f1d11534dfc1de43140081245b7468664a0b2b3ac96831e33940f8a1d0",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/tria_routs/koorn-uvs-dat.txt",
+    "destination": "src/special_functions/koorn-uvs-dat.txt",
+    "source_sha256": "1e3d01cf781aa8e61249907a0553dcf2d61fd8ae772a109cb6ef30c3baa919b0",
+    "sha256": "1e3d01cf781aa8e61249907a0553dcf2d61fd8ae772a109cb6ef30c3baa919b0",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/tria_routs/koorn-wts-dat.txt",
+    "destination": "src/special_functions/koorn-wts-dat.txt",
+    "source_sha256": "f12f10152dc5c989b1d60a7e688c01b91745fe791173f1c376be6d0c1862693b",
+    "sha256": "f12f10152dc5c989b1d60a7e688c01b91745fe791173f1c376be6d0c1862693b",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/common/lapack_wrap.f90",
+    "destination": "src/support/lapack_wrap.f90",
+    "source_sha256": "c543af97b78acba24ef71dd580aa4d5558eae9b8f00815e008e4de41e3f16320",
+    "sha256": "c543af97b78acba24ef71dd580aa4d5558eae9b8f00815e008e4de41e3f16320",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/common/lapack_wrap_64.f90",
+    "destination": "src/support/lapack_wrap_64.f90",
+    "source_sha256": "97e7e87d082869e14fb7f30ae33f9e9b6c76c737df63aa117584707b126cbb35",
+    "sha256": "97e7e87d082869e14fb7f30ae33f9e9b6c76c737df63aa117584707b126cbb35",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/common/setops.f",
+    "destination": "src/support/setops.f",
+    "source_sha256": "0ede5379afe2d719f6523ee1ab9bb2a843ed14dc5d56dd82420012bd769caea8",
+    "sha256": "0ede5379afe2d719f6523ee1ab9bb2a843ed14dc5d56dd82420012bd769caea8",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/src/common/sort.f",
+    "destination": "src/support/sort.f",
+    "source_sha256": "b3d5c1351758976be122ffa2becdc14da0e2c66fbbdbf00de7d68f71bc261a54",
+    "sha256": "b3d5c1351758976be122ffa2becdc14da0e2c66fbbdbf00de7d68f71bc261a54",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/FMM3D/src/Common/legeexps.f",
+    "destination": "src/special_functions/legeexps.f",
+    "source_sha256": "0a6bb06d0ab8e2f4b61755b74cfa118309a0edbd0a78cf873ded3785b177d8ab",
+    "sha256": "0a6bb06d0ab8e2f4b61755b74cfa118309a0edbd0a78cf873ded3785b177d8ab",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/FMM3D/src/Common/prini.f",
+    "destination": "src/special_functions/prini.f",
+    "source_sha256": "fd075175a8aa170e58ebef2561d4aaeb1e17d1b2139c3559cba5d6df7906ef24",
+    "sha256": "fd075175a8aa170e58ebef2561d4aaeb1e17d1b2139c3559cba5d6df7906ef24",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_adaptive_blend.f90",
+    "destination": "tests/fortran/test_adaptive_blend.f90",
+    "source_sha256": "eb5738391746c77e6426a5e62a4dcaa3ee968f834f65eb0056ae8e5ee67483b2",
+    "sha256": "eb5738391746c77e6426a5e62a4dcaa3ee968f834f65eb0056ae8e5ee67483b2",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_adaptive_smoother.f90",
+    "destination": "tests/fortran/test_adaptive_smoother.f90",
+    "source_sha256": "5571c3a1587fd65995064044e9ae783c4d3eeb1bb2426eb1f58dbdcac7fbc069",
+    "sha256": "5571c3a1587fd65995064044e9ae783c4d3eeb1bb2426eb1f58dbdcac7fbc069",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_fixed_sources.f90",
+    "destination": "tests/fortran/test_fixed_sources.f90",
+    "source_sha256": "17871b197c2bb137ac0b2415cce6d45b5e056bdb309d7fecdccb79ea19a1c7c3",
+    "sha256": "17871b197c2bb137ac0b2415cce6d45b5e056bdb309d7fecdccb79ea19a1c7c3",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_newton_radius_guard.f90",
+    "destination": "tests/fortran/test_newton_radius_guard.f90",
+    "source_sha256": "7aa1b4d316781ecd4ebc37bbcc3b00571b49dfabc5851935cf132046b0891f66",
+    "sha256": "7aa1b4d316781ecd4ebc37bbcc3b00571b49dfabc5851935cf132046b0891f66",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_sigma_modes.f90",
+    "destination": "tests/fortran/test_sigma_modes.f90",
+    "source_sha256": "244db5f392ef62cc71ac2b2b96ef07ae57d1bf20da4785032fc388cbc1a1c1a6",
+    "sha256": "244db5f392ef62cc71ac2b2b96ef07ae57d1bf20da4785032fc388cbc1a1c1a6",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_surfsmooth.c",
+    "destination": "tests/fortran/test_surfsmooth.c",
+    "source_sha256": "1233350adc0f8cb78248dcb9515def9e8f6e4562cfd61e17aaf36b856e99439c",
+    "sha256": "4defb1008948e0a3e5f4f07c2ea93d4702df452e7eafb433e39e402e9e0c02df",
+    "change": "Add required stdint include, accept fixture/output paths as arguments, use the cylinder CAD parameters shared by the native equivalence test, and fail on nonzero ier; unchanged C-string entrypoint."
+  },
+  {
+    "source": "tools/fmm3dbie/test/multiscale_mesher/test_surfsmooth.f90",
+    "destination": "tests/fortran/test_surfsmooth.f90",
+    "source_sha256": "9a65922e2b75abd0586a9d01351050307b4d0e6c6559467a00c55e1410b82ba0",
+    "sha256": "64e8db9db6600a98281e54e36b85aa9a9841676c20b65cde96ed093f4cbccc50",
+    "change": "Test paths from command arguments, longer path buffer and checked status; numerical regression unchanged"
+  },
+  {
+    "source": "tools/fmm3dbie/geometries/meshes/cylinder.gidmsh",
+    "destination": "tests/fixtures/cylinder/cylinder.gidmsh",
+    "source_sha256": "561d33c69c2d0c3934bd1d799b59ca8b044193c3819541d2fde368c4406af05d",
+    "sha256": "561d33c69c2d0c3934bd1d799b59ca8b044193c3819541d2fde368c4406af05d",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/geometries/meshes/cylinder_skeleton.txt",
+    "destination": "tests/fixtures/cylinder/cylinder_skeleton.txt",
+    "source_sha256": "d2bc72f2e7fe2068eb9b0b2f1253a5967aa26f971d8a4ea0a987c994d11201dc",
+    "sha256": "d2bc72f2e7fe2068eb9b0b2f1253a5967aa26f971d8a4ea0a987c994d11201dc",
+    "change": "none"
+  },
+  {
+    "source": "tools/fmm3dbie/local/fmm3dbie_gateway.c",
+    "destination": "config/runtime/surfsmooth3d_routs_gateway.c",
+    "source_sha256": "18a31c8d08f433823c380107a5934060c1c4899344923c0d9e4afa97ad2b832e",
+    "sha256": "2faf904f7d6b9c2be4ee9e58068cb6113a619df1c0d35ad9413e82af1a53b37a",
+    "change": "Gateway include path and private identifier only; locks/runtime retention unchanged"
+  },
+  {
+    "source": "tools/fmm3dbie/local/fmm3dbie_adaptive_gateway.c",
+    "destination": "config/runtime/surfsmooth3d_adaptive_routs_gateway.c",
+    "source_sha256": "a603f3d2864b00101c97b5227fefd6de5aec696340be5eb6e20f08fae0b1135e",
+    "sha256": "3a7f706e57ec66141f45fdb54a489ba5416b84e0bf71e4f5aa4473243fea3bbf",
+    "change": "Gateway include path and private identifier only; locks/runtime retention unchanged"
+  },
+  {
+    "source": "tools/fmm3dbie/local/fmm3dbie_adaptive_blend_gateway.c",
+    "destination": "config/runtime/surfsmooth3d_adaptive_blend_routs_gateway.c",
+    "source_sha256": "2e82dcc850b600e6e31411d8dc9823ec1683473fae4ed78e7c36454442051c50",
+    "sha256": "26713895aea91ffa94bdf58ce719dade7989420fedddaf3dc4d7e3d04e18e0dc",
+    "change": "Gateway include path and private identifier only; locks/runtime retention unchanged"
+  }
+]

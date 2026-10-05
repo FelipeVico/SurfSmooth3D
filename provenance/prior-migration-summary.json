@@ -1,0 +1,39 @@
+{
+  "branch": "add-exact-cad-skeleton",
+  "upstream_cad_base": "d1e688e6cc6cdbfa23edd27f66749dfcd45066fa",
+  "prior_gradient_commit": "43fcbc5",
+  "bundled_fmm": "3785618eda092a2234def359227a30e68582080c",
+  "native_static_checks": {
+    "passed": 75,
+    "total": 75
+  },
+  "native_dynamic_checks": {
+    "passed": 49,
+    "total": 49
+  },
+  "legacy_native_output": "byte-identical order 8 at refinement 0 and 1",
+  "fixed_sources": "CAD points/normals/weights, sigma tree and sampled phi/gradphi/sigma/gradsigma unchanged at six stages including selective refinement",
+  "repeated_calls": "native A-B-A returns identical A; explicit/default one-step MATLAB outputs identical",
+  "debug_fortran": "O0, fcheck=all, fbacktrace: all passed",
+  "matlab_core_exit": 0,
+  "matlab_real_exit": 0,
+  "matlab_final_sessions_exit": 0,
+  "adaptive_standalone_exit": 0,
+  "blend_standalone_runtime_pin_exit": 0,
+  "matlab_real_tests": [
+    "smoke_edgepreserve_real_package",
+    "smoke_adaptive_gui",
+    "test_adaptive_accuracy",
+    "smoke_adaptive_blend_gui",
+    "test_adaptive_blend_accuracy",
+    "smoke_sigma_modes_gui"
+  ],
+  "real_adaptive_patches": 1769,
+  "uniform_patches_at_same_max_depth": 3872,
+  "real_adaptive_unresolved": 0,
+  "gateway_compatibility": "46 original unique dispatch signatures and normalized stub bodies retained, 2 signatures added",
+  "mwrap_version": "v1.2 (c7b507b055d32cb02a721688bb48f656a94e4350)",
+  "local_runtime_workaround": "Three ignored mexLock adapters; blend additionally retains actual linked libgfortran via RTLD_NODELETE. Native cleanup unchanged.",
+  "scope": "Original development checkout unchanged; no push performed; local build/config/logs excluded from Git.",
+  "migration_commit": "1708ec866f55f19a21186eb1373d2d8770a5b3c5"
+}

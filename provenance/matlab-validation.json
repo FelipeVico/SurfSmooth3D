@@ -1,0 +1,218 @@
+{
+  "package": "SurfSmooth3D",
+  "component": "MATLAB smoother interfaces and workflows",
+  "validation_date": "2026-10-05T19:21:12.876596+00:00",
+  "platform": "macOS 14.7.1 arm64",
+  "matlab": "R2026a",
+  "omp_num_threads": 2,
+  "locale": "C",
+  "numerical_algorithm_changes": "None; MATLAB extraction changed namespaces and package/fixture paths.",
+  "runtime_profile": {
+    "matlab_runtime_pin": 1,
+    "notes": "Existing local macOS compatibility adapters retained. These results do not claim validation on other operating systems or MATLAB releases."
+  },
+  "groups": {
+    "pure": {
+      "passed": true,
+      "process_exit_code": 0,
+      "log": "build/logs/matlab-pure.log",
+      "tests": [
+        "test_edgepreserve_fixed_cad",
+        "test_adaptive_reference_maps",
+        "test_adaptive_blend_math",
+        "check_adaptive_code"
+      ]
+    },
+    "native": {
+      "passed": true,
+      "process_exit_code": 0,
+      "log": "build/logs/matlab-native.log",
+      "tests": [
+        "test_adaptive_smoother",
+        "test_adaptive_blend",
+        "test_adaptive_blend('limits')",
+        "test_sigma_modes"
+      ]
+    },
+    "gui": {
+      "passed": true,
+      "process_exit_code": 0,
+      "log": "build/logs/matlab-gui.log",
+      "tests": [
+        "smoke_edgepreserve_gui_batch",
+        "smoke_edgepreserve_real_package",
+        "smoke_sigma_modes_gui",
+        "smoke_adaptive_gui",
+        "test_adaptive_accuracy",
+        "smoke_adaptive_blend_gui",
+        "test_adaptive_blend_accuracy"
+      ],
+      "metrics": {
+        "sphere_batch_valid_reloadable_exports": 18,
+        "cad_batch_valid_reloadable_exports": 8,
+        "sigma_batch_valid_exports": 4,
+        "adaptive_smoother": {
+          "patches": 1769,
+          "uniform_patches_at_deepest_level": 3872,
+          "unresolved_patches": 0,
+          "valid": true,
+          "independent_position_error_loose": 4.988875e-05,
+          "independent_position_error_tight": 1.311095e-05,
+          "independent_normal_error_loose": 0.003101572,
+          "independent_normal_error_tight": 0.001014096,
+          "shared_edge_discrepancy_loose": 5.41597e-05,
+          "shared_edge_discrepancy_tight": 1.564952e-05
+        },
+        "adaptive_blend": {
+          "tight_patches": 1706,
+          "tight_unresolved_patches": 531,
+          "max_refine": 2,
+          "valid": true,
+          "position_rms_loose": 3.5239e-06,
+          "position_rms_tight": 1.8961e-06,
+          "normal_rms_loose": 0.018125,
+          "normal_rms_tight": 0.018099,
+          "note": "Values transcribed at log display precision. The depth-two blend case is geometrically valid but does not meet all requested tolerance checks; preserved behavior and explicit tolerance-unmet status are tested."
+        }
+      }
+    },
+    "diagnostics": {
+      "passed": true,
+      "process_exit_codes": [
+        0,
+        0
+      ],
+      "logs": [
+        "build/logs/matlab-native.log",
+        "build/logs/matlab-diagnostic-batches.log"
+      ],
+      "tests": [
+        "test_newton_radius_guard",
+        "test_newton_projection_failure",
+        "test_newton_guard_batch(radius snapshot)",
+        "test_newton_guard_batch(ordinary Newton snapshot)"
+      ],
+      "per_batch": {
+        "snapshots_preserved": 6,
+        "failed_pair_members_recorded": 12,
+        "invalid_exports": 0
+      }
+    }
+  },
+  "optional_not_run": [
+    {
+      "test": "smoke_newton_radius_guard_gui",
+      "reason": "Requires the large external Multiscale_step p8/r0 CAD package; it is not bundled."
+    },
+    {
+      "test": "smoke_newton_projection_failure_gui",
+      "reason": "Requires the large external Multiscale_step p8/r0 CAD package; it is not bundled."
+    }
+  ],
+  "current_external_fmm": {
+    "revision": "d2b5e6e983e1ec915d15330ce74df44221a9ac42",
+    "archive": "../tools/FMM3D/install/lib/libfmm3d.a",
+    "archive_sha256": "c84337716642a3f4ff4bc20b1f6c70076bf27227f6c3ee07355e879df9f14783",
+    "reference_revision": "3785618eda092a2234def359227a30e68582080c",
+    "passed": true,
+    "process_exit_code": 0,
+    "build_log": "build/logs/matlab-fmm-candidate-build.log",
+    "log": "build/logs/matlab-fmm-candidate.log",
+    "report": "build/validation/fmm-candidate-matlab/equivalence-report.json",
+    "exact_comparison": {
+      "exact": true,
+      "cases": {
+        "source": true,
+        "edges": true,
+        "one_step": true,
+        "two_stage": true,
+        "sigma": true,
+        "uniform_blend": true,
+        "adaptive": true,
+        "adaptive_blend": true,
+        "repeat": true
+      },
+      "go3_files": [
+        "adaptive.go3",
+        "adaptive_blend.go3",
+        "one_step.go3",
+        "two_stage.go3",
+        "uniform_blend.go3"
+      ]
+    },
+    "repeated_a_b_a_unchanged": true,
+    "clear_mex_and_normal_shutdown_passed": true
+  },
+  "restored_reference": {
+    "passed": true,
+    "make_exit_code": 0,
+    "command": "make matlab",
+    "archive": "build/deps/fmm3d-reference/install/lib/libfmm3d.a",
+    "archive_sha256": "38032bd02db49e923c6dd458a8be0dac5758fab0db5be8e10eb2a2b56377addb",
+    "log": "build/logs/matlab-reference-restore.log",
+    "saved_precomparison_mex": "build/reference-mex",
+    "note": "Reference link settings restored. Rebuilt Mach-O file hashes can differ from the saved artifacts; byte-identical executable binaries are not asserted."
+  },
+  "isolated_gateway_processes": {
+    "passed": true,
+    "fixture": "tests/fixtures/cylinder",
+    "order": 4,
+    "nquad": 8,
+    "rlam": 5,
+    "adaptive_max_refine": 0,
+    "adaptive_eps_adapt": 0.99,
+    "blend_max_points": 200000,
+    "main_uses_cad_skeleton": false,
+    "fresh_process_for_each_gateway": true,
+    "cases": [
+      {
+        "gateway": "surfsmooth3d_routs",
+        "points": 6210,
+        "initial_mex_count": 0,
+        "loaded_mex_names": [
+          "surfsmooth3d_routs"
+        ],
+        "other_mex_count": 0,
+        "locked_before_clear": true,
+        "clear_mex_passed": true,
+        "locked_after_clear": true,
+        "process_exit_code": 0,
+        "log": "build/logs/matlab-gateway-alone-main.log",
+        "report": "build/validation/gateway-alone/main.json"
+      },
+      {
+        "gateway": "surfsmooth3d_adaptive_routs",
+        "points": 6210,
+        "initial_mex_count": 0,
+        "loaded_mex_names": [
+          "surfsmooth3d_adaptive_routs"
+        ],
+        "other_mex_count": 0,
+        "locked_before_clear": true,
+        "clear_mex_passed": true,
+        "locked_after_clear": true,
+        "process_exit_code": 0,
+        "log": "build/logs/matlab-gateway-alone-adaptive.log",
+        "report": "build/validation/gateway-alone/adaptive.json"
+      },
+      {
+        "gateway": "surfsmooth3d_adaptive_blend_routs",
+        "points": 6210,
+        "initial_mex_count": 0,
+        "loaded_mex_names": [
+          "surfsmooth3d_adaptive_blend_routs"
+        ],
+        "other_mex_count": 0,
+        "locked_before_clear": true,
+        "clear_mex_passed": true,
+        "locked_after_clear": true,
+        "process_exit_code": 0,
+        "log": "build/logs/matlab-gateway-alone-blend.log",
+        "report": "build/validation/gateway-alone/blend.json"
+      }
+    ]
+  },
+  "runner": "tests/matlab/run_surfsmooth3d_tests.m",
+  "source_imports": "provenance/matlab-imports.json",
+  "fixtures": "provenance/matlab-fixtures.json"
+}

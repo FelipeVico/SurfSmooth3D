@@ -1,0 +1,6 @@
+function s = default_settings()
+%DEFAULT_SETTINGS Independent adaptive partial-surface workflow.
+s = struct('order',6,'rlam',2,'adapt_sigma',1,'eps_adapt',1e-4, ...
+    'max_refine',3,'max_points',2000000,'selectedEdgeIds',[], ...
+    'c_eps',.5,'c_rad',2.7,'c_tau',1.05,'sigmaFloorRel',1e-12,'distanceFloor',1e-300);
+end

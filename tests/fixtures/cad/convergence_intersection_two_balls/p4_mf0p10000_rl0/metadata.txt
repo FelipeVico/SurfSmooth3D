@@ -1,0 +1,14 @@
+STEP_MESHER_GEOM_PACKAGE_V1
+name p4_mf0p10000_rl0
+source_step /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/step_mesher_cpp_matlab/examples/step_files/intersection_two_balls.step
+surface_file surface.go3
+scaffold_file scaffold.gidmsh
+edges_file edges_gll.txt
+surface_order 4
+edge_order 8
+mesh_fraction 1.0000000000000001e-01
+refinement_level 0
+num_surface_patches 242
+num_cad_edges 3
+num_edge_panels 31
+END_STEP_MESHER_GEOM_PACKAGE

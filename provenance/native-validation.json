@@ -1,0 +1,240 @@
+{
+  "status": "passed: optimized reference, full-core bounds-checked debug, native C interface, native candidate FMM, and install smoke",
+  "platform": "macOS Apple Silicon",
+  "compiler": "GNU Fortran (Homebrew GCC 14.2.0_1) 14.2.0",
+  "omp_num_threads": 2,
+  "core_sources": {
+    "count": 14,
+    "all_byte_identical": true
+  },
+  "reference_fmm": {
+    "revision": "3785618",
+    "archive": "build/deps/fmm3d-reference/install/lib/libfmm3d.a",
+    "sha256": "38032bd02db49e923c6dd458a8be0dac5758fab0db5be8e10eb2a2b56377addb"
+  },
+  "reference_native": {
+    "command": "OMP_NUM_THREADS=2 make -j4 test-native",
+    "exit_code": 0,
+    "log": "build/native-tests.log",
+    "passed_suites": [
+      "sigma modes and gradients",
+      "Newton radius guard and diagnostics",
+      "adaptive smoother",
+      "adaptive blend session backend",
+      "fixed CAD/phi/sigma and repeated A/B/A calls",
+      "small-distance gradient and legacy smoother"
+    ],
+    "static_shared_output_byte_identical": true,
+    "fixed_phi_and_sigma_max_delta": 0,
+    "legacy_A_repeat_max_delta": 0
+  },
+  "c_interface": {
+    "command": "OMP_NUM_THREADS=2 make -j4 test-c",
+    "exit_code": 0,
+    "log": "build/native-c-tests.log",
+    "C_vs_Fortran_output_byte_identical": true
+  },
+  "legacy_equivalence": [
+    {
+      "old_source": "tools/fmm3dbie/install/logs/smoother-migration-2026-10-05/candidate/geometries/cylinder_o08_r00.go3",
+      "output": "build/native/test-output/legacy_o08_r00.go3",
+      "bytes": 6036164,
+      "sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+      "byte_identical": true
+    },
+    {
+      "old_source": "tools/fmm3dbie/install/logs/smoother-migration-2026-10-05/candidate/geometries/cylinder_o08_r01.go3",
+      "output": "build/native/test-output/legacy_o08_r01.go3",
+      "bytes": 24144524,
+      "sha256": "6eced06dfa910a43dc9a1d8b0b60be94190ef8164d5ced55927c9e1217ce90fa",
+      "byte_identical": true
+    }
+  ],
+  "install": {
+    "prefix": "build/install-check",
+    "build_install_exit_code": 0,
+    "installed_shared_library_consumer_compiles": true,
+    "log": "build/native-install-check.log"
+  },
+  "link_audit": {
+    "static_archive_contains_only_18_smoother_and_support_objects": true,
+    "mex_exported_symbols": [
+      "mexFunction",
+      "mexfilerequiredapiversion"
+    ],
+    "matlab_blas": "MATLAB mwblas/mwlapack with lapack_wrap_64",
+    "native_blas": "Accelerate with lapack_wrap",
+    "matlab_openmp": "MATLAB libomp",
+    "native_openmp": "GNU libgomp",
+    "external_fmm_provider_public_symbols": [],
+    "copied_support_provider_public_symbols": [],
+    "note": "All imported smoother-core globals remain exported, including cisurf internal helpers; this preserves the Fortran ABI but does not claim collision-free native co-loading with an old full fmm3dbie core."
+  },
+  "debug": {
+    "status": "passed",
+    "flags": "-fPIC -O0 -g -std=legacy -fcheck=all -fbacktrace -mno-outline-atomics",
+    "log": "build/debug-native-tests.log",
+    "exit_code": 0,
+    "command": "OMP_NUM_THREADS=2 make BUILD=\"$PWD/build/debug\" FFLAGS=\"-fPIC -O0 -g -std=legacy -fcheck=all -fbacktrace -mno-outline-atomics\" -j4 test-native",
+    "entire_smoother_core_bounds_checked": true,
+    "static_shared_output_byte_identical": true,
+    "reference_comparison": [
+      {
+        "file": "adaptive.go3",
+        "bytes": 7873244,
+        "sha256": "d3592afc48bb081513d6e7a89383e593636979f8d6cab6592b9529d82d6adc75",
+        "reference_sha256": "5bccfca36ce7731f0c3edef57d1c5c820cd51444cbd208bcd6ba4288defa9863",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 2.4424906541753444e-14
+      },
+      {
+        "file": "fixed_legacy_a_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "ef245ee73efcc29536fefa71076d39f71fc7078c190c6fa68758bd1ec4003331",
+        "reference_sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 7.105427357601002e-15
+      },
+      {
+        "file": "fixed_legacy_a_repeat_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "ef245ee73efcc29536fefa71076d39f71fc7078c190c6fa68758bd1ec4003331",
+        "reference_sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 7.105427357601002e-15
+      },
+      {
+        "file": "fixed_legacy_b_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "e86d82373975ca00c2ba66da361ef6acef940339ace7a4c1bf8f1afb464447b6",
+        "reference_sha256": "9582aaaf53fdf7b6e8e61f0c6932b944a9b619bb3c9fc1732ffa3632a86902f0",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 7.105427357601002e-15
+      },
+      {
+        "file": "legacy_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "83fa6a840f822c4df0a339f18f52e2af7cc565d515a25bd656c4156196a99ed6",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 1.3877787807814457e-14
+      },
+      {
+        "file": "legacy_o08_r01.go3",
+        "bytes": 24144524,
+        "sha256": "b6173bd7253ea14fa990134ec1bbad976d9dc1c32497b27746241703e7c2aa85",
+        "reference_sha256": "6eced06dfa910a43dc9a1d8b0b60be94190ef8164d5ced55927c9e1217ce90fa",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 8.021361352916756e-15
+      },
+      {
+        "file": "shared_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "83fa6a840f822c4df0a339f18f52e2af7cc565d515a25bd656c4156196a99ed6",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 1.3877787807814457e-14
+      },
+      {
+        "file": "static_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "83fa6a840f822c4df0a339f18f52e2af7cc565d515a25bd656c4156196a99ed6",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": false,
+        "same_dimensions": true,
+        "max_absolute_difference": 1.3877787807814457e-14
+      }
+    ],
+    "warnings": "Imported code creates array temporaries for strided sigma gradient outputs; no bounds/runtime-check failure.",
+    "max_absolute_difference_from_optimized_reference": 2.4424906541753444e-14
+  },
+  "candidate_fmm": {
+    "status": "native passed; MATLAB candidate acceptance handled separately",
+    "revision": "d2b5e6e",
+    "archive": "../tools/FMM3D/install/lib/libfmm3d.a",
+    "sha256": "c84337716642a3f4ff4bc20b1f6c70076bf27227f6c3ee07355e879df9f14783",
+    "log": "build/fmm-candidate-native-tests.log",
+    "exit_code": 0,
+    "command": "OMP_NUM_THREADS=2 make BUILD=\"$PWD/build/fmm-candidate\" FMM_PREFIX=\"$PWD/../tools/FMM3D/install\" -j4 test-native",
+    "passed_suites": [
+      "sigma modes and gradients",
+      "Newton radius guard and diagnostics",
+      "adaptive smoother",
+      "adaptive blend session backend",
+      "fixed CAD/phi/sigma and repeated A/B/A calls",
+      "small-distance gradient and legacy smoother"
+    ],
+    "static_shared_output_byte_identical": true,
+    "reference_comparison": [
+      {
+        "file": "adaptive.go3",
+        "bytes": 7873244,
+        "sha256": "5bccfca36ce7731f0c3edef57d1c5c820cd51444cbd208bcd6ba4288defa9863",
+        "reference_sha256": "5bccfca36ce7731f0c3edef57d1c5c820cd51444cbd208bcd6ba4288defa9863",
+        "byte_identical": true
+      },
+      {
+        "file": "fixed_legacy_a_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "reference_sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "byte_identical": true
+      },
+      {
+        "file": "fixed_legacy_a_repeat_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "reference_sha256": "9f9bb6bb766c99ff91d23e99466b5740472d727167a3dc5b5d6cfc69a086e1fc",
+        "byte_identical": true
+      },
+      {
+        "file": "fixed_legacy_b_o04_r00.go3",
+        "bytes": 2012084,
+        "sha256": "9582aaaf53fdf7b6e8e61f0c6932b944a9b619bb3c9fc1732ffa3632a86902f0",
+        "reference_sha256": "9582aaaf53fdf7b6e8e61f0c6932b944a9b619bb3c9fc1732ffa3632a86902f0",
+        "byte_identical": true
+      },
+      {
+        "file": "legacy_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": true
+      },
+      {
+        "file": "legacy_o08_r01.go3",
+        "bytes": 24144524,
+        "sha256": "6eced06dfa910a43dc9a1d8b0b60be94190ef8164d5ced55927c9e1217ce90fa",
+        "reference_sha256": "6eced06dfa910a43dc9a1d8b0b60be94190ef8164d5ced55927c9e1217ce90fa",
+        "byte_identical": true
+      },
+      {
+        "file": "shared_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": true
+      },
+      {
+        "file": "static_o08_r00.go3",
+        "bytes": 6036164,
+        "sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "reference_sha256": "0a8a3c6115d975b09cd5ae73c6e65da736779cad052b69c63bf09f91658b0fe0",
+        "byte_identical": true
+      }
+    ],
+    "all_outputs_byte_identical_to_reference": true
+  },
+  "limitations": [
+    "Only Apple Silicon toolchain validated in this extraction. Linux profile is supplied but untested.",
+    "Static co-linking with another unprefixed smoother/support copy is not supported.",
+    "Mac MATLAB local shutdown compatibility pin remains enabled, matching the working original configuration."
+  ]
+}

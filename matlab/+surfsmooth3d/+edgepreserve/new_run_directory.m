@@ -1,0 +1,23 @@
+function runDir = new_run_directory(parent, pkg, settings, kind)
+%NEW_RUN_DIRECTORY One isolated output folder and provenance snapshot per run.
+geometry = regexprep(pkg.geometry_name,'[^A-Za-z0-9_-]','_');
+geometryDir = fullfile(parent,geometry);
+if ~isfolder(geometryDir), mkdir(geometryDir); end
+stamp = char(datetime('now','Format','yyyyMMdd_HHmmss_SSS'));
+runDir = fullfile(geometryDir,[kind '_' stamp]);
+suffix = 0;
+while isfolder(runDir)
+    suffix = suffix+1;
+    runDir = fullfile(geometryDir,sprintf('%s_%s_%02d',kind,stamp,suffix));
+end
+mkdir(runDir);
+parameters = struct('source_package',pkg.package_dir, ...
+    'source_paths',{pkg.source_paths},'source_sha256',{pkg.source_hashes}, ...
+    'source_order',pkg.source_order,'source_refinement',pkg.source_level, ...
+    'coarse_triangle_count',pkg.coarse_triangle_count,'geometry_name',pkg.geometry_name, ...
+    'settings',settings,'created',char(datetime('now')), ...
+    'sigma_mode',surfsmooth3d.edgepreserve.sigma_mode_label(settings.adapt_sigma), ...
+    'source_convention','STEP lattice','output_convention','Fortran recursive children', ...
+    'blend_convention','beta*smooth + (1-beta)*CAD; selected edges are smoothed');
+save(fullfile(runDir,'parameters.mat'),'parameters');
+end

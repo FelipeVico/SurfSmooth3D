@@ -1,0 +1,200 @@
+{
+  "package": "SurfSmooth3D",
+  "component": "STEP mesher",
+  "component_version": "3.0.0",
+  "validation_date": "2026-10-05",
+  "platform": "macOS 14.7.1 arm64",
+  "matlab": "R2026a",
+  "source_imports": "provenance/step-imports.json",
+  "imported_files": 66,
+  "native_algorithm_changes": "None. The only changed C++ source text is the bundled helper path, extended with the surfsmooth3d MATLAB namespace.",
+  "fresh_dependencies": {
+    "OCCT": "7.9.3",
+    "Gmsh": "4.12.2",
+    "prefix": "build/deps/cad/install",
+    "locked_archives_verified": true,
+    "recipe": "step_mesher/tools/build_native_dependencies.py",
+    "build_log": "build/step-dependencies-build.log",
+    "provenance": "build/deps/cad/logs/provenance.json"
+  },
+  "native_tests": {
+    "passed": 26,
+    "failed": 0,
+    "coverage": [
+      "basic STEP import",
+      "native helper contract and fallback paths",
+      "all 12 STEP fixture import equivalence checks",
+      "retained OCC context lifetime",
+      "all six frozen CAD operations with exact archived outputs",
+      "five retained-context operations and CAD measurements after Gmsh helper fragmentation"
+    ],
+    "log": "build/validation/step/ctest.log"
+  },
+  "matlab_parity": {
+    "passed": true,
+    "cases": [
+      {
+        "name": "test_geometry_1",
+        "patches": 582,
+        "area": 600.0000000000005,
+        "numeric_comparisons": 92,
+        "exact_comparisons": 92,
+        "maximum_scaled_difference": 0,
+        "output": "build/validation/step/test_geometry_1"
+      },
+      {
+        "name": "test_curved_uv",
+        "patches": 532,
+        "area": 2264.183100999066,
+        "numeric_comparisons": 92,
+        "exact_comparisons": 92,
+        "maximum_scaled_difference": 0,
+        "output": "build/validation/step/test_curved_uv"
+      },
+      {
+        "name": "UV_curved_bezier",
+        "patches": 416,
+        "area": 175.9683330482373,
+        "numeric_comparisons": 92,
+        "exact_comparisons": 92,
+        "maximum_scaled_difference": 0,
+        "output": "build/validation/step/UV_curved_bezier"
+      },
+      {
+        "name": "torus_ellipse",
+        "patches": 180,
+        "area": 15217.220515747853,
+        "numeric_comparisons": 92,
+        "exact_comparisons": 92,
+        "maximum_scaled_difference": 0,
+        "output": "build/validation/step/torus_ellipse"
+      }
+    ]
+  },
+  "matlab_smoke": {
+    "passed": true,
+    "coverage": [
+      "mesh profiles",
+      "CAD-edge minimum sizing",
+      "uniform refinement",
+      "RV vertex convention",
+      "srcvals",
+      "GO3 round trip",
+      "scaffold and edge export",
+      "geometry package loading",
+      "edge viewer and scaffold diagnostics"
+    ],
+    "log": "build/validation/step/matlab-new.log"
+  },
+  "application_relocation": {
+    "native_cli": true,
+    "matlab_mex": true,
+    "prefix": "build/step-relocated",
+    "dependency_prefix_fixed": "build/deps/cad/install",
+    "matlab_log": "build/validation/step/relocated-matlab.log"
+  },
+  "runtime_libraries": {
+    "original_and_relocated_cli_verified": true,
+    "core_basename": "libsurfsmooth3d_step_core",
+    "old_astra_or_python_framework_libraries_loaded": false,
+    "audit": "build/validation/step/runtime-library-audit.json"
+  },
+  "limits": [
+    "This validates extraction parity, not improved geometric accuracy. Existing torus convergence behavior is unchanged.",
+    "Fresh runtime/build verification was performed on macOS arm64 only.",
+    "The numerical native component and original metadata remain version 3.0.0.",
+    "Relocation keeps the newly built CAD dependency prefix fixed; moving that dependency prefix requires rebuilding against its new path.",
+    "The broad historical V3 convergence report is archived reference evidence; the full convergence sweep was not rerun for extraction. All six frozen operation types and five postfragment retention operations were rerun on the shipped UV_curved_bezier fixture."
+  ],
+  "frozen_operations": {
+    "passed": true,
+    "fixture": "tests/step/fixtures/occ_operations",
+    "operations": [
+      {
+        "operation": "cad-measurements",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "332622a7e9f6cea3d7d8569e6eb090f06f22912ff7f114b0bfe204fb6f20edae"
+      },
+      {
+        "operation": "helper-curves",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "04371072756cfea6e6abaa4b378b3b0299fb2874edaa447419cbe6b529d4af17"
+      },
+      {
+        "operation": "edge-samples",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "fde7bb3d29a858d939feb0c51c65b05b7ce0ec3707c9d190dfdaa1ac5ad32309"
+      },
+      {
+        "operation": "feature-samples",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "8db9652d2516a96181f8e461376a3d602eeefd745cc8f04e07ea77cfab030671"
+      },
+      {
+        "operation": "feature-nodes",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "1e77cab55afeaefb8b5146bf84108643b1946d3e70e13d2a4ecd9717bfb8c46b"
+      },
+      {
+        "operation": "project-nodes",
+        "old_v3_equals_new": true,
+        "equals_archived_expected": true,
+        "output_sha256": "3cb79ffeeddeb4536846e89e7eb84fde9661d3f1cee5d17a7da9bf4c1f4c19c3"
+      }
+    ],
+    "checks": [
+      "fresh helper equals archived response byte for byte",
+      "frozen typed evaluator equals archived response byte for byte",
+      "newly computed face map equals fixed mapping",
+      "fresh current old-V3 helper output equals new helper byte for byte"
+    ],
+    "log": "build/validation/step/frozen-v3-parity/summary.json"
+  },
+  "postfragment_retention": {
+    "passed": true,
+    "checks": [
+      {
+        "operations_byte_identical": true,
+        "brep_byte_identical": false,
+        "measurements_equal": true,
+        "helpers": 5,
+        "operation": "edge-samples"
+      },
+      {
+        "operations_byte_identical": true,
+        "brep_byte_identical": false,
+        "measurements_equal": true,
+        "helpers": 5,
+        "operation": "feature-nodes"
+      },
+      {
+        "operations_byte_identical": true,
+        "brep_byte_identical": false,
+        "measurements_equal": true,
+        "helpers": 5,
+        "operation": "feature-samples"
+      },
+      {
+        "operations_byte_identical": true,
+        "brep_byte_identical": false,
+        "measurements_equal": true,
+        "helpers": 5,
+        "operation": "helper-curves"
+      },
+      {
+        "operations_byte_identical": true,
+        "brep_byte_identical": false,
+        "measurements_equal": true,
+        "helpers": 5,
+        "operation": "project-nodes"
+      }
+    ],
+    "artifacts": "build/step/retention-results",
+    "invariant": "Numerical operation output bytes and CAD measurements unchanged after helper fragmentation. BREP serialization changes are recorded: in this fixture Gmsh adds a p-curve representation, so byte-identical BREP serialization is not the invariant."
+  }
+}

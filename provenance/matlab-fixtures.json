@@ -1,0 +1,60 @@
+[
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p4_mf0p10000_rl0/surface.go3",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/surface.go3",
+    "sha256": "3602db4731098023b87978de72feee0370c8f932495f7d892c67574c82cd3358"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p4_mf0p10000_rl0/scaffold.gidmsh",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/scaffold.gidmsh",
+    "sha256": "5bf5b92c47a7119111bd518c538a783bac3abca18331b9bd6192e446acd660a3"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p4_mf0p10000_rl0/edges_gll.txt",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/edges_gll.txt",
+    "sha256": "0e4e42b3d721e0d3796934736c7a0044a91877e4acc3b2d658e9cebb03c54f31"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p4_mf0p10000_rl0/metadata.txt",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/metadata.txt",
+    "sha256": "f5a27fbef4998291859e8a9b9c022bc7621cb05f2a06d66efd757bffb8a70697"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p8_mf0p10000_rl1/surface.go3",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p8_mf0p10000_rl1/surface.go3",
+    "sha256": "724eb053c05a08b97ef0b74522fffdfd63be96ad4e208b9cc69056eb241fe1a0"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p8_mf0p10000_rl1/scaffold.gidmsh",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p8_mf0p10000_rl1/scaffold.gidmsh",
+    "sha256": "5bf5b92c47a7119111bd518c538a783bac3abca18331b9bd6192e446acd660a3"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p8_mf0p10000_rl1/edges_gll.txt",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p8_mf0p10000_rl1/edges_gll.txt",
+    "sha256": "0e4e42b3d721e0d3796934736c7a0044a91877e4acc3b2d658e9cebb03c54f31"
+  },
+  {
+    "source": "step_mesher_cpp_matlab/out/convergence_intersection_two_balls/p8_mf0p10000_rl1/metadata.txt",
+    "destination": "tests/fixtures/cad/convergence_intersection_two_balls/p8_mf0p10000_rl1/metadata.txt",
+    "sha256": "32e96f51fa8818ea7f0cf05f4e37c55e0af48f75de2d7b6c7e278a6e1cd36ec9"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+geometries/sphere.m",
+    "procedure": "geometries.sphere(1,2,[0;0;0],8,1); edgepreserve.write_go3",
+    "destination": "tests/fixtures/spheres/sphere_unit_na2_p8.go3",
+    "sha256": "85d2965d4f65069df2581783d6ecbd0a87d672c6c7e9038c2db4643266679cf1"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+geometries/sphere.m",
+    "procedure": "geometries.sphere(1,2,[0;0;0],10,1); edgepreserve.write_go3",
+    "destination": "tests/fixtures/spheres/sphere_unit_na2_p10.go3",
+    "sha256": "1b38c126cf2ca544a9ef97af9d0ff0b8ccf579e8de902fd9ba6c8fb4306df367"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+geometries/sphere.m",
+    "procedure": "geometries.sphere(4,1,[30;-20;10],4,1); edgepreserve.write_go3",
+    "destination": "tests/fixtures/spheres/sphere_offset_na1_p4.go3",
+    "sha256": "7ad45bfd94065b3bf67628203a97073bff0a21d915ae097c082b7f50d9ee8ddf"
+  }
+]

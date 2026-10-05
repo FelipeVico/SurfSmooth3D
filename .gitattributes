@@ -1,0 +1,2 @@
+# Preserve the recorded source/fixture bytes across Git checkouts.
+* -text

@@ -1,0 +1,32 @@
+# Replay recorded operation inputs without changing their numerical content.
+file(MAKE_DIRECTORY "${OUTPUT_DIR}")
+function(run_checked)
+  execute_process(COMMAND ${ARGV} RESULT_VARIABLE result
+    OUTPUT_VARIABLE output ERROR_VARIABLE error)
+  if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Operation failed (${result}): ${error}")
+  endif()
+endfunction()
+function(compare_exact actual expected)
+  execute_process(COMMAND "${CMAKE_COMMAND}" -E compare_files "${actual}" "${expected}"
+    RESULT_VARIABLE result)
+  if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Frozen numerical output changed: ${actual} versus ${expected}")
+  endif()
+endfunction()
+if(OPERATION STREQUAL "cad-measurements")
+  execute_process(COMMAND "${HELPER}" "${STEP_FILE}" 0.000001
+    RESULT_VARIABLE result OUTPUT_FILE "${OUTPUT_DIR}/adapter.txt" ERROR_VARIABLE error)
+  if(NOT result EQUAL 0)
+    message(FATAL_ERROR "CAD measurements failed: ${error}")
+  endif()
+else()
+  run_checked("${HELPER}" "${OPERATION}" "${REQUEST}" "${OUTPUT_DIR}/adapter.txt")
+  run_checked("${FROZEN}" "${OPERATION}" "${REQUEST}" "${MAPPING}" "${OUTPUT_DIR}/typed.txt")
+  run_checked("${FROZEN}" "freeze:${OPERATION}" "${REQUEST}"
+    "${OUTPUT_DIR}/fresh-map.txt" "${OUTPUT_DIR}/freeze.txt")
+  compare_exact("${OUTPUT_DIR}/fresh-map.txt" "${MAPPING}")
+  compare_exact("${OUTPUT_DIR}/typed.txt" "${EXPECTED}")
+  compare_exact("${OUTPUT_DIR}/freeze.txt" "${EXPECTED}")
+endif()
+compare_exact("${OUTPUT_DIR}/adapter.txt" "${EXPECTED}")

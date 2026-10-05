@@ -1,0 +1,134 @@
+{
+  "status": "passed",
+  "same_toolchain_extraction": {
+    "exact": true,
+    "cases": {
+      "source": true,
+      "edges": true,
+      "one_step": true,
+      "two_stage": true,
+      "sigma": true,
+      "uniform_blend": true,
+      "adaptive": true,
+      "adaptive_blend": true,
+      "repeat": true
+    },
+    "go3_files": [
+      "adaptive.go3",
+      "adaptive_blend.go3",
+      "one_step.go3",
+      "two_stage.go3",
+      "uniform_blend.go3"
+    ]
+  },
+  "matlab_and_fortran_bie_readers": {
+    "files": {
+      "adaptive_go3": {
+        "patches": 533,
+        "nodes": 7995,
+        "matlab_exact": true,
+        "native_values_exact": true,
+        "native_coefficient_max_error": 1.7763568394002505e-15,
+        "native_weight_max_error": 5.551115123125783e-17
+      },
+      "adaptive_blend_go3": {
+        "patches": 503,
+        "nodes": 7545,
+        "matlab_exact": true,
+        "native_values_exact": true,
+        "native_coefficient_max_error": 1.7763568394002505e-15,
+        "native_weight_max_error": 5.551115123125783e-17
+      },
+      "one_step_go3": {
+        "patches": 968,
+        "nodes": 14520,
+        "matlab_exact": true,
+        "native_values_exact": true,
+        "native_coefficient_max_error": 2.6645352591003757e-15,
+        "native_weight_max_error": 2.0816681711721685e-17
+      },
+      "two_stage_go3": {
+        "patches": 968,
+        "nodes": 14520,
+        "matlab_exact": true,
+        "native_values_exact": true,
+        "native_coefficient_max_error": 1.7763568394002505e-15,
+        "native_weight_max_error": 1.3877787807814457e-17
+      },
+      "uniform_blend_go3": {
+        "patches": 968,
+        "nodes": 14520,
+        "matlab_exact": true,
+        "native_values_exact": true,
+        "native_coefficient_max_error": 2.6645352591003757e-15,
+        "native_weight_max_error": 2.0816681711721685e-17
+      }
+    }
+  },
+  "bie_only_sphere_solve": {
+    "nodes": 2160,
+    "patches": 48,
+    "relative_error": 4.268298698615065e-07,
+    "residual": 4.537682418174898e-09,
+    "iterations": 5,
+    "surfsmooth3d_on_path": false
+  },
+  "fresh_step_pipeline": {
+    "step_patches": 240,
+    "uniform_exports": 2,
+    "adaptive_patches": 534,
+    "adaptive_converged": true,
+    "blend_patches": 501,
+    "blend_converged": false,
+    "blend_exports": 2,
+    "cad_sources_unchanged": true,
+    "bie_on_path": false
+  },
+  "fresh_step_bie_solve": {
+    "nodes": 8010,
+    "patches": 534,
+    "relative_error": 6.169354866473303e-07,
+    "residual": 3.74232809162845e-08,
+    "iterations": 9,
+    "surfsmooth3d_on_path": false,
+    "source": [
+      0.6384714142634229,
+      -1.4950153647962199,
+      0.14966681598595136
+    ],
+    "targets": [
+      [
+        14.19056758808257,
+        -10.301172485084564,
+        0.5840453252119404
+      ],
+      [
+        -0.5153457618695343,
+        1.1174369096749412,
+        -15.210389805769815
+      ],
+      [
+        0.7483537955522592,
+        1.8368755765819094,
+        2.381136467096735
+      ]
+    ]
+  },
+  "logs": [
+    "build/logs/pipeline-reference.log",
+    "build/logs/pipeline-extracted.log",
+    "build/logs/equivalence-and-readers.log",
+    "build/logs/bie-native-readers.log",
+    "build/logs/installed-pipeline.log",
+    "build/logs/bie-consumer.log",
+    "build/logs/fresh-step-bie-solve.log"
+  ],
+  "tests": [
+    "tests/interop/capture_equivalence.m",
+    "tests/interop/compare_equivalence.m",
+    "tests/interop/bie_read_go3.f90",
+    "tests/interop/test_bie_readers.m",
+    "tests/interop/test_bie_consumer.m",
+    "tests/interop/test_step_to_smoother.m"
+  ]
+}

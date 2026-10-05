@@ -1,0 +1,9 @@
+{
+  "generator": "MWrap v1.2",
+  "generated_files": [
+    "surfsmooth3d_routs.c",
+    "+surfsmooth3d/multiscale_mesher.m",
+    "+surfsmooth3d/multiscale_mesher_sigma_eval.m"
+  ],
+  "all_byte_identical": true
+}

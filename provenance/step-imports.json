@@ -1,0 +1,266 @@
+[
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/occ_context_probe.hpp",
+    "destination": "step_mesher/cpp/tests/occ_context_probe.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/test_occ_context.cpp",
+    "destination": "step_mesher/cpp/tests/test_occ_context.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/test_occ_import_equivalence.cpp",
+    "destination": "step_mesher/cpp/tests/test_occ_import_equivalence.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/native_contract.cpp",
+    "destination": "step_mesher/cpp/tests/native_contract.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/smoke.cpp",
+    "destination": "step_mesher/cpp/tests/smoke.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/occ_context_probe.cpp",
+    "destination": "step_mesher/cpp/tests/occ_context_probe.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/test_occ_frozen.cpp",
+    "destination": "step_mesher/cpp/tests/test_occ_frozen.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/test_occ_retention.cpp",
+    "destination": "step_mesher/cpp/tests/test_occ_retention.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/tests/occ_context_probe_mex.cpp",
+    "destination": "step_mesher/cpp/tests/occ_context_probe_mex.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/sample_nodes.cpp",
+    "destination": "step_mesher/cpp/src/sample_nodes.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/mesher.cpp",
+    "destination": "step_mesher/cpp/src/mesher.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/occ_info.cpp",
+    "destination": "step_mesher/cpp/src/occ_info.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/occ_operation.hpp",
+    "destination": "step_mesher/cpp/src/occ_operation.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/cli.cpp",
+    "destination": "step_mesher/cpp/src/cli.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/src/occ_context.cpp",
+    "destination": "step_mesher/cpp/src/occ_context.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/include/step_mesher/occ_context.hpp",
+    "destination": "step_mesher/cpp/include/step_mesher/occ_context.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/include/step_mesher/options.hpp",
+    "destination": "step_mesher/cpp/include/step_mesher/options.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/include/step_mesher/mesh_result.hpp",
+    "destination": "step_mesher/cpp/include/step_mesher/mesh_result.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/include/step_mesher/sample_nodes.hpp",
+    "destination": "step_mesher/cpp/include/step_mesher/sample_nodes.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cpp/include/step_mesher/mesher.hpp",
+    "destination": "step_mesher/cpp/include/step_mesher/mesher.hpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/mex/step_mesher_mex.cpp",
+    "destination": "step_mesher/mex/step_mesher_mex.cpp"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/cmake/FindGmsh.cmake",
+    "destination": "step_mesher/cmake/FindGmsh.cmake"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/tools/build_native_dependencies.py",
+    "destination": "step_mesher/tools/build_native_dependencies.py"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/docs/V3_NATIVE_IDENTITY_MIGRATION.md",
+    "destination": "step_mesher/docs/V3_NATIVE_IDENTITY_MIGRATION.md"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/CMakeLists.txt",
+    "destination": "step_mesher/CMakeLists.txt"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/README.md",
+    "destination": "step_mesher/README.md"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/dependencies.lock.json",
+    "destination": "step_mesher/dependencies.lock.json"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/export_geom_package.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/export_geom_package.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/to_surfer.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/to_surfer.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_projection_error.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_projection_error.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/to_srcvals.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/to_srcvals.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/load_geom_package.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/load_geom_package.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/export_edges_gll.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/export_edges_gll.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/mesh_profile_choices.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/mesh_profile_choices.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_coarse_triangle_error.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_coarse_triangle_error.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_geom_package.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_geom_package.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_scaffold.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_scaffold.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/export_go3.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/export_go3.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_scaffold_quality.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_scaffold_quality.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/apply_mesh_profile_choice.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/apply_mesh_profile_choice.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/validate_area_flux.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/validate_area_flux.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_projected_nodes.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_projected_nodes.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/mesh_step.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/mesh_step.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/plot_surface.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/plot_surface.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/export_xyzw.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/export_xyzw.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/load_edges_gll.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/load_edges_gll.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/export_gidmsh.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/export_gidmsh.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/matlab/+stepmesher/private/default_options.m",
+    "destination": "matlab/+surfsmooth3d/+stepmesher/private/default_options.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/driver_view_geom_package.m",
+    "destination": "examples/step/driver_view_geom_package.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/driver_view_step_file.m",
+    "destination": "examples/step/driver_view_step_file.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/run_step_mesher.m",
+    "destination": "examples/step/run_step_mesher.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/run_convergence_study.m",
+    "destination": "examples/step/run_convergence_study.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/torus_ellipse.step",
+    "destination": "step_mesher/examples/step_files/torus_ellipse.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/test_geometry_1.step",
+    "destination": "step_mesher/examples/step_files/test_geometry_1.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/UV_curved_bezier.step",
+    "destination": "step_mesher/examples/step_files/UV_curved_bezier.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/test_curved_uv.step",
+    "destination": "step_mesher/examples/step_files/test_curved_uv.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/cylinder_bezier_v2.step",
+    "destination": "step_mesher/examples/step_files/cylinder_bezier_v2.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/Multiscale_step.step",
+    "destination": "step_mesher/examples/step_files/Multiscale_step.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/intersection_two_balls.step",
+    "destination": "step_mesher/examples/step_files/intersection_two_balls.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/piecewise_bezier_cap.step",
+    "destination": "step_mesher/examples/step_files/piecewise_bezier_cap.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/spheres_intersect.step",
+    "destination": "step_mesher/examples/step_files/spheres_intersect.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/Multi_res.step",
+    "destination": "step_mesher/examples/step_files/Multi_res.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/test_geometry_manas.step",
+    "destination": "step_mesher/examples/step_files/test_geometry_manas.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/examples/step_files/test_geometry_2.step",
+    "destination": "step_mesher/examples/step_files/test_geometry_2.step"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/tests/matlab/regression_sweep_examples.m",
+    "destination": "tests/step/regression_sweep_examples.m"
+  },
+  {
+    "source": "step_mesher_cpp_matlab_astra_v3/tests/matlab/smoke_mesh_step.m",
+    "destination": "tests/step/smoke_mesh_step.m"
+  }
+]

@@ -1,0 +1,4213 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 02fcf7c..1361c87 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,98 +1,88 @@
+ cmake_minimum_required(VERSION 3.20)
+-
+-project(step_mesher_cpp_matlab VERSION 0.1.0 LANGUAGES CXX)
+-
++project(step_mesher_cpp_matlab VERSION 3.0.0 LANGUAGES CXX)
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS OFF)
+-
++set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+ option(STEP_MESHER_BUILD_MEX "Build MATLAB MEX gateway" ON)
+-option(STEP_MESHER_BUILD_TESTS "Build C++ smoke tests" ON)
+-
++option(STEP_MESHER_BUILD_TESTS "Build native tests" ON)
++option(STEP_MESHER_SANITIZERS "Instrument the mesher with ASan and UBSan" OFF)
++set(STEP_MESHER_DEPENDENCY_PREFIX "" CACHE PATH "V3's independent common Gmsh/OCCT installation")
++if(NOT STEP_MESHER_DEPENDENCY_PREFIX)
++  message(FATAL_ERROR "Set STEP_MESHER_DEPENDENCY_PREFIX to the independent Gmsh 4.12.2 / OCCT 7.9.3 installation. The Python-framework Gmsh binary is incompatible with native sharing.")
++endif()
++get_filename_component(STEP_MESHER_DEPENDENCY_PREFIX "${STEP_MESHER_DEPENDENCY_PREFIX}" REALPATH)
++set(GMSH_INCLUDE_DIR "${STEP_MESHER_DEPENDENCY_PREFIX}/include" CACHE PATH "Gmsh header" FORCE)
++find_library(GMSH_LIBRARY NAMES gmsh PATHS "${STEP_MESHER_DEPENDENCY_PREFIX}/lib" NO_DEFAULT_PATH REQUIRED)
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+ find_package(Gmsh REQUIRED)
+-find_package(OpenCASCADE CONFIG QUIET)
+-
+-add_library(step_mesher_core
+-  cpp/src/mesher.cpp
+-  cpp/src/sample_nodes.cpp
+-)
+-target_include_directories(step_mesher_core
+-  PUBLIC
+-    "${CMAKE_CURRENT_SOURCE_DIR}/cpp/include"
+-)
+-target_link_libraries(step_mesher_core PUBLIC Gmsh::Gmsh)
+-
+-add_executable(step_mesher_cli cpp/src/cli.cpp)
+-target_link_libraries(step_mesher_cli PRIVATE step_mesher_core)
+-
+-if(OpenCASCADE_FOUND)
+-  add_executable(step_mesher_occ_info cpp/src/occ_info.cpp)
+-  target_include_directories(step_mesher_occ_info PRIVATE
+-    "${OpenCASCADE_INCLUDE_DIR}"
+-  )
+-  target_link_libraries(step_mesher_occ_info PRIVATE
+-    TKernel
+-    TKMath
+-    TKG2d
+-    TKG3d
+-    TKGeomBase
+-    TKBRep
+-    TKGeomAlgo
+-    TKTopAlgo
+-    TKXSBase
+-    TKDESTEP
+-  )
+-  set_target_properties(step_mesher_occ_info PROPERTIES
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/matlab/+stepmesher/private"
+-  )
++find_package(OpenCASCADE 7.9.3 EXACT CONFIG REQUIRED PATHS "${STEP_MESHER_DEPENDENCY_PREFIX}/lib/cmake/opencascade" "${STEP_MESHER_DEPENDENCY_PREFIX}/cmake" NO_DEFAULT_PATH)
++foreach(_dep IN ITEMS "${GMSH_LIBRARY}" "${OpenCASCADE_INCLUDE_DIR}")
++  get_filename_component(_real "${_dep}" REALPATH)
++  string(FIND "${_real}/" "${STEP_MESHER_DEPENDENCY_PREFIX}/" _under)
++  if(NOT _under EQUAL 0)
++    message(FATAL_ERROR "Native pointer ABI requires the selected shared prefix: ${_real}")
++  endif()
++endforeach()
++set(_occ_libraries TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep TKGeomAlgo TKTopAlgo TKXSBase TKDESTEP)
++set(_runtime_rpath "")
++if(APPLE)
++  list(APPEND _runtime_rpath "@loader_path" "@loader_path/../lib" "@loader_path/../../../lib")
+ else()
+-  message(WARNING "OpenCASCADE was not found; exact OCC bbox/area helper will not be built")
++  list(APPEND _runtime_rpath "$ORIGIN" "$ORIGIN/../lib" "$ORIGIN/../../../lib")
+ endif()
+-
+-if(APPLE)
+-  set_target_properties(step_mesher_core step_mesher_cli PROPERTIES
+-    BUILD_RPATH "${GMSH_LIBRARY_DIR}"
+-    INSTALL_RPATH "${GMSH_LIBRARY_DIR}"
+-  )
+-  if(TARGET step_mesher_occ_info)
+-    set_target_properties(step_mesher_occ_info PROPERTIES
+-      BUILD_RPATH "${OpenCASCADE_LIBRARY_DIR}"
+-      INSTALL_RPATH "${OpenCASCADE_LIBRARY_DIR}"
+-    )
+-  endif()
++list(APPEND _runtime_rpath "${STEP_MESHER_DEPENDENCY_PREFIX}/lib" "${CMAKE_INSTALL_PREFIX}/lib")
++set(CMAKE_BUILD_RPATH "${CMAKE_BINARY_DIR}/lib;${STEP_MESHER_DEPENDENCY_PREFIX}/lib")
++set(CMAKE_INSTALL_RPATH "${_runtime_rpath}")
++add_library(step_mesher_core SHARED cpp/src/mesher.cpp cpp/src/sample_nodes.cpp cpp/src/occ_context.cpp)
++target_include_directories(step_mesher_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/cpp/include" PRIVATE "${OpenCASCADE_INCLUDE_DIR}")
++target_link_libraries(step_mesher_core PUBLIC Gmsh::Gmsh PRIVATE ${_occ_libraries} ${CMAKE_DL_LIBS})
++set_target_properties(step_mesher_core PROPERTIES OUTPUT_NAME step_mesher_v3_core VERSION 3.0.0 SOVERSION 3 LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
++target_compile_definitions(step_mesher_core PRIVATE STEP_MESHER_DEPENDENCY_PREFIX="${STEP_MESHER_DEPENDENCY_PREFIX}" STEP_MESHER_RUNTIME_VERSION="${PROJECT_VERSION}")
++if(STEP_MESHER_SANITIZERS)
++  target_compile_options(step_mesher_core PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
++  target_link_options(step_mesher_core PUBLIC -fsanitize=address,undefined)
+ endif()
+-
++add_executable(step_mesher_cli cpp/src/cli.cpp)
++target_link_libraries(step_mesher_cli PRIVATE step_mesher_core)
++# Keep the package together; configuration/build never replaces source binaries.
++file(GLOB_RECURSE _matlab_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/matlab" "${CMAKE_CURRENT_SOURCE_DIR}/matlab/*.m")
++foreach(_file IN LISTS _matlab_files)
++  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/matlab/${_file}" "${CMAKE_BINARY_DIR}/matlab/${_file}" COPYONLY)
++endforeach()
++add_executable(step_mesher_occ_info cpp/src/occ_info.cpp)
++target_link_libraries(step_mesher_occ_info PRIVATE step_mesher_core)
++set_target_properties(step_mesher_occ_info PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/matlab/+stepmesher/private")
+ if(STEP_MESHER_BUILD_MEX)
+-  find_package(Matlab COMPONENTS MEX_COMPILER MX_LIBRARY)
+-  if(Matlab_FOUND)
+-    matlab_add_mex(
+-      NAME step_mesher_mex
+-      SRC mex/step_mesher_mex.cpp
+-      LINK_TO step_mesher_core
+-    )
+-    target_include_directories(step_mesher_mex PRIVATE
+-      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/include"
+-    )
+-    set_target_properties(step_mesher_mex PROPERTIES
+-      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/matlab/+stepmesher/private"
+-      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/matlab/+stepmesher/private"
+-    )
+-    if(APPLE)
+-      set_target_properties(step_mesher_mex PROPERTIES
+-        BUILD_RPATH "${GMSH_LIBRARY_DIR}"
+-        INSTALL_RPATH "${GMSH_LIBRARY_DIR}"
+-      )
+-    endif()
+-  else()
+-    message(WARNING "MATLAB was not found; MEX target will not be built")
+-  endif()
++  find_package(Matlab REQUIRED COMPONENTS MEX_COMPILER MX_LIBRARY)
++  matlab_add_mex(NAME step_mesher_mex SRC mex/step_mesher_mex.cpp LINK_TO step_mesher_core)
++  set_target_properties(step_mesher_mex PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/matlab/+stepmesher/private" RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/matlab/+stepmesher/private")
++  install(TARGETS step_mesher_mex LIBRARY DESTINATION matlab/+stepmesher/private RUNTIME DESTINATION matlab/+stepmesher/private)
+ endif()
+-
++install(TARGETS step_mesher_core step_mesher_cli LIBRARY DESTINATION lib RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)
++install(TARGETS step_mesher_occ_info RUNTIME DESTINATION matlab/+stepmesher/private)
++install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/matlab/" DESTINATION matlab FILES_MATCHING PATTERN "*.m")
++install(DIRECTORY cpp/include/ DESTINATION include)
+ if(STEP_MESHER_BUILD_TESTS)
+   enable_testing()
+   add_executable(step_mesher_smoke cpp/tests/smoke.cpp)
+   target_link_libraries(step_mesher_smoke PRIVATE step_mesher_core)
+-  add_test(NAME cpp_smoke_import COMMAND step_mesher_smoke
+-    "${CMAKE_CURRENT_SOURCE_DIR}/examples/step_files/test_geometry_1.step")
++  add_test(NAME cpp_smoke_import COMMAND step_mesher_smoke "${CMAKE_CURRENT_SOURCE_DIR}/examples/step_files/test_geometry_1.step")
++  add_executable(test_occ_frozen cpp/tests/test_occ_frozen.cpp)
++  target_link_libraries(test_occ_frozen PRIVATE step_mesher_core)
++  add_executable(native_contract cpp/tests/native_contract.cpp)
++  target_link_libraries(native_contract PRIVATE step_mesher_core)
++  add_test(NAME native_contract COMMAND native_contract "${CMAKE_CURRENT_SOURCE_DIR}/examples/step_files/test_geometry_1.step" "$<TARGET_FILE:step_mesher_occ_info>")
++  add_executable(test_occ_context cpp/tests/test_occ_context.cpp cpp/tests/occ_context_probe.cpp)
++  add_executable(test_occ_import_equivalence cpp/tests/test_occ_import_equivalence.cpp)
++  target_link_libraries(test_occ_import_equivalence PRIVATE step_mesher_core)
++  add_executable(test_occ_retention cpp/tests/test_occ_retention.cpp)
++  target_link_libraries(test_occ_retention PRIVATE step_mesher_core)
++  target_include_directories(test_occ_context PRIVATE "${OpenCASCADE_INCLUDE_DIR}")
++  target_link_libraries(test_occ_context PRIVATE step_mesher_core ${_occ_libraries})
++  add_test(NAME occ_context COMMAND test_occ_context "${CMAKE_CURRENT_SOURCE_DIR}/examples/step_files/test_geometry_1.step")
++  if(STEP_MESHER_BUILD_MEX)
++    matlab_add_mex(NAME occ_context_probe SRC cpp/tests/occ_context_probe_mex.cpp cpp/tests/occ_context_probe.cpp LINK_TO step_mesher_core ${_occ_libraries})
++    target_include_directories(occ_context_probe PRIVATE "${OpenCASCADE_INCLUDE_DIR}")
++  endif()
+ endif()
+diff --git a/README.md b/README.md
+index 0936da4..7168fbc 100644
+--- a/README.md
++++ b/README.md
+@@ -1,194 +1,149 @@
+-# step_mesher_cpp_matlab
+-
+-C++/MATLAB migration of `step_mesher`.
+-
+-This repository is the no-Python-runtime target. The current Python
+-`step_mesher` repository remains the reference implementation for parity
+-testing while the C++/MATLAB implementation matures.
+-
+-## Current Status
+-
+-This first implementation provides a working vertical slice:
+-
+-- C++ core library `step_mesher_core`
+-- `step_mesher_cli` command-line driver
+-- MATLAB MEX gateway source, `step_mesher_mex`
+-- MATLAB package namespace `+stepmesher`
+-- STEP import and CAD surface evaluation through the Gmsh C++ API with its
+-  OpenCASCADE backend
+-- CAD boundary-curve projection and edge blending on scaffold triangles
+-- triangular RV patch output for MATLAB (`iptype = 1`)
+-- MATLAB conversion to `srcvals`, `surfer`, `xyzw`, `.go3`, `.gidmsh`,
+-  high-order GLL edge-panel packages, and area/flux diagnostics
+-
+-Important limitation: direct OpenCascade C++ calls and the full Python Step 1
+-continuity-helper fragmentation / Step 1b Newton repair are not fully ported
+-yet. The current implementation matches the reference data contract much more
+-closely than the initial scaffold, but examples whose accuracy depends on
+-internal continuity-helper curves, especially `piecewise_bezier_cap.step`, are
+-still not full parity with the Python reference.
+-
+-## Build
+-
+-On this development machine, Gmsh is available through the Python framework:
+-
+-- header: `/Library/Frameworks/Python.framework/Versions/3.12/include/gmsh.h`
+-- library: `/Library/Frameworks/Python.framework/Versions/3.12/lib/libgmsh.4.12.dylib`
+-
+-Configure and build:
++# STEP mesher V3: retained OCC geometry
++
++V3 starts from the original `step_mesher_cpp_matlab` implementation. Its change
++is CAD ownership and face identity: one C++ OCC context reads STEP, retains its
++shape, and imports that shape into Gmsh with `importShapesNativePointer`.
++Reimporting each retained face resolves its existing Gmsh tag without adding
++entities. Face identity uses topology and location (`IsSame`); orientation is
++stored separately. Different trims of one support are distinct faces.
++
++The numerical algorithm remains the original algorithm. This includes the
++sampled/clipped continuity helpers, helper splines and Gmsh fragmentation,
++Newton equations and fallbacks, GLL interpolation, blending, support projection,
++manual refinement, and MATLAB polynomial processing. V3 does not incorporate
++V2's repair policies, partitioning, projectors, native VR implementation,
++automatic refinement, or additional accuracy checks.
++
++## Build and dependency policy
++
++The native ABI requires **Gmsh 4.12.2 and OCCT 7.9.3 built together** with a
++matching architecture, compiler ABI, and C++ runtime. The supplied installation
++uses this repository's independent `build/native-deps/install` prefix. Neither
++the Python-framework Gmsh library nor a library in another Astra folder is a
++supported native-sharing configuration.
++
++For an independent dependency rebuild, place the verified archives listed in
++`dependencies.lock.json` under `build/native-deps/downloads`, then run
++`python3 tools/build_native_dependencies.py`. The bootstrap is offline by
++default; `--download` explicitly enables missing-archive downloads.
+ 
+ ```sh
+-cmake -S . -B build -DSTEP_MESHER_BUILD_MEX=ON \
++cmake -S . -B build/native-v3-build \
++  -DSTEP_MESHER_DEPENDENCY_PREFIX="$PWD/build/native-deps/install" \
++  -DCMAKE_BUILD_TYPE=Release \
++  -DCMAKE_INSTALL_PREFIX="$PWD/build/native-v3" \
+   -DMatlab_ROOT_DIR=/Applications/MATLAB_R2026a.app
+-cmake --build build
+-ctest --test-dir build --output-on-failure
++cmake --build build/native-v3-build --parallel 4
++ctest --test-dir build/native-v3-build --output-on-failure
++cmake --install build/native-v3-build
+ ```
+ 
+-If Gmsh lives elsewhere, pass:
++Set `STEP_MESHER_BUILD_MEX=OFF` for a native-only build. For development sanitizer
++checks, also set `STEP_MESHER_SANITIZERS=ON`. Generated libraries, executables,
++and the complete staged MATLAB package stay under the build directory; CMake
++does not overwrite source-package binaries. The installed package is under
++`build/native-v3/matlab`. Publish the complete tested MATLAB package together
++with its matching runtime; moving only the MEX is insufficient.
+ 
+-```sh
+-cmake -S . -B build \
+-  -DGMSH_INCLUDE_DIR=/path/to/include \
+-  -DGMSH_LIBRARY=/path/to/libgmsh.dylib
+-```
+-
+-## CLI
+-
+-```sh
+-./build/step_mesher_cli mesh \
+-  --step examples/step_files/test_geometry_1.step \
+-  --order 8 \
+-  --mesh-fraction 0.10 \
+-  --refinement 0 \
+-  --edge-order 16 \
+-  --profile rigid \
+-  --out out/test_geometry_1
+-```
+-
+-The CLI writes `meta.json`, `xyz.csv`, `scaffold_nodes.csv`, and
+-`scaffold_triangles.csv`.
+-
+-The CLI currently uses an equispaced triangle-node fallback because the true
+-RV nodes live in the fmm3dbie MATLAB `koorn` package. Use MATLAB
+-`stepmesher.export_xyzw` or `stepmesher.export_go3` for RV-compatible output.
+-Use `stepmesher.export_gidmsh` to write the flat scaffold mesh expected by
+-the fmm3dbie surface smoother as `ifiletype = 3`. Use
+-`stepmesher.export_geom_package` to write a folder containing
+-`surface.go3`, `scaffold.gidmsh`, `edges_gll.txt`, and `metadata.txt`.
+-The edge file stores one top-level record per CAD edge, with that edge
+-represented by one or more GLL panels along the curve.
++The core checks the actual loaded Gmsh/OCC library locations and versions before
++passing native pointers. Unsupported externally enabled OCC healing/scaling or
++incompatible target units are rejected rather than silently bypassed by native
++import. The selected OCC reader settings are scoped and restored between jobs.
+ 
+ ## MATLAB
+ 
+-Add paths:
++The ordinary example driver remains `examples/run_step_mesher.m`. Its selected
++STEP file and meshing settings are preserved. It uses this repository's
++`matlab` package, which is updated only at verified publication. For a fresh
++build before publication, select the staged package explicitly:
+ 
+ ```matlab
+-addpath('/path/to/step_mesher_cpp_matlab/matlab')
+-addpath('/path/to/fmm3dbie/matlab')
+-```
+-
+-Run:
+-
+-```matlab
+-opts = struct('order', 8, 'mesh_fraction', 0.10, ...
+-    'refinement_level', 0, 'edge_gll_order', 16, ...
+-    'mesh_profile', 'rigid');
+-
+-mesh = stepmesher.mesh_step('examples/step_files/test_geometry_1.step', opts);
+-[srcvals, norders, iptype, meta] = stepmesher.to_srcvals(mesh);
+-S = stepmesher.to_surfer(mesh);
+-payload = stepmesher.export_xyzw(mesh, 'test_geometry_1_xyzw.txt');
+-go3 = stepmesher.export_go3(mesh, 'test_geometry_1.go3');
+-gidmsh = stepmesher.export_gidmsh(mesh, 'test_geometry_1.gidmsh');
+-pkg = stepmesher.export_geom_package(mesh, 'test_geometry_1_package');
++addpath('/path/to/step_mesher_cpp_matlab_astra_v3/build/native-v3/matlab');
++addpath('/path/to/fmm3dbie/matlab');
++opts = struct('order',8, 'edge_gll_order',8, ...
++    'mesh_fraction',0.05, 'refinement_level',0, 'mesh_profile','rigid');
++mesh = stepmesher.mesh_step('examples/step_files/torus_ellipse.step',opts);
++[srcvals,norders,iptype,meta] = stepmesher.to_srcvals(mesh);
+ stats = stepmesher.validate_area_flux(mesh);
++pkg = stepmesher.export_geom_package(mesh,'my_torus_package');
+ ```
+ 
+-For a notebook-style entry point, run:
+-
+-```matlab
+-run('examples/run_step_mesher.m')
+-```
+-
+-For a convergence-study driver in the same style as the Python notebook:
+-
+-```matlab
+-run('examples/run_convergence_study.m')
+-```
+-
+-The convergence CSV includes both CAD-reference area errors and
+-self-convergence errors against the finest/highest-order run:
+-
+-- `rel_area_error`: `abs(numerical_area - cad_area) / cad_area`
+-- `rel_area_error_vs_finest_global`: `abs(numerical_area - area_ref_global) / abs(area_ref_global)`
+-
+-The driver also writes a per-face convergence CSV with
+-`self_consistency_abs_error` and `self_consistency_rel_error`.
++Start a fresh MATLAB process after replacing an installed package so a cached
++MEX cannot retain the previous runtime. A native V3 result reports
++`mesh.meta.runtime_version = '3.0.0'` and
++`mesh.meta.cad_identity = 'native_occ_topology_v1'`.
++
++MATLAB continues to obtain VR nodes and polynomial operators from
++`koorn`/fmm3dbie. `to_srcvals`, `to_surfer`, area/flux diagnostics, plotting,
++XYZW, GO3, GiD and GLL-edge package writers/readers retain their original
++implementation and formats. The reference convention remains
++`X(u,v) = (1-u-v)*P1 + u*P2 + v*P3`.
++
++The ordinary driver explicitly selects **p8/GLL8**. The lower-level C++ and
++MATLAB option defaults remain **p8/GLL16**. Omitted edge order does not inherit
++geometry order. Refinement remains controlled by `refinement_level`.
++
++MATLAB's default helper selection enables the original OCC calculations, now
++called directly in process. No helper subprocess, request files, or repeated
++STEP imports are used by the mesher. At the C++/CLI boundary, an empty selection
++or a nonexistent helper path retains the old Gmsh numerical path. The unchanged
++MATLAB defaults treat an empty option as omitted and select the bundled helper;
++a nonempty nonexistent path still selects the legacy fallback. Selecting the matching bundled
++`step_mesher_occ_info` enables the direct OCC path; arbitrary third-party
++helper executables are explicitly unsupported. The standalone bundled adapter
++remains available for compatibility and differential tests.
+ 
+-The generated figures are saved under `out/convergence_<step-name>/figures`.
+-They include Python-notebook-style log-log plots versus `h`/`n_tri` and
+-semilogy plots versus polynomial order:
+-
+-- `area_rel_occ_vs_h`
+-- `area_rel_occ_vs_ntri`
+-- `area_self_consistency_global_vs_h`
+-- `area_rel_occ_vs_order`
+-- `area_self_consistency_global_vs_order`
+-- `perface_self_consistency_vs_h`
+-- `perface_self_consistency_vs_order`
+-
+-For a regression sweep over all bundled examples:
++## CLI
+ 
+-```matlab
+-addpath('/path/to/step_mesher_cpp_matlab/tests/matlab')
+-results = regression_sweep_examples('/path/to/step_mesher_cpp_matlab', ...
+-    '/path/to/fmm3dbie/matlab', true);
++```sh
++./build/native-v3/bin/step_mesher_cli mesh \
++  --step examples/step_files/test_geometry_1.step \
++  --order 8 --edge-order 16 --mesh-fraction 0.10 \
++  --refinement 0 --profile rigid --out out/cli_example
+ ```
+ 
+-## Data Contract
++The CLI keeps its original **equispaced diagnostic sampling**, raw CSV outputs,
++and default Gmsh numerical path. To select the original OCC computations, add:
+ 
+-The MATLAB mesh struct contains:
+-
+-- `xyz`: `3 x total_nodes` projected node coordinates
+-- `nodes_per_patch`: scalar
+-- `npatches`: scalar
+-- `norder`: scalar
+-- `iptype`: scalar, currently `1`
+-- `tri_face_tags`: original Gmsh/OCC face tag per patch
+-- `parent_coarse_tri`: 1-based scaffold triangle id per patch
+-- `proj_dist`: projection distance per node
+-- `scaffold_nodes`: `3 x nscaffold_nodes`
+-- `scaffold_triangles`: `3 x nscaffold_triangles`, local 1-based node ids
+-- `scaffold_node_tags`: original Gmsh node tags
+-- `scaffold_triangle_node_tags`: original Gmsh tags for triangle vertices
+-- `scaffold_face_tags`: face tag per scaffold triangle
+-- `meta`: backend, settings, CAD area, mesh size, and projection metrics
+-
+-`stepmesher.to_srcvals` computes derivatives and normals in MATLAB:
+-
+-```matlab
+-uv = koorn.rv_nodes(order);
+-A = koorn.vals2coefs(order, uv);
+-[~, Du, Dv] = koorn.ders(order, uv);
+-coef = R * A.';
+-du = coef * Du;
+-dv = coef * Dv;
+-n = normalize(cross(du, dv));
+-srcvals = [r; du; dv; n];
++```sh
++--occ-info-exe "$PWD/build/native-v3/matlab/+stepmesher/private/step_mesher_occ_info"
+ ```
+ 
+-The triangular RV coordinates use the fmm3dbie/koorn convention
+-`x(u,v) = (1-u-v)*P1 + u*P2 + v*P3`. C++ sampling, `.go3` export, and
+-MATLAB reconstruction all use this same convention.
+-
+-## V1 Parity Work Remaining
+-
+-- Port direct OpenCascade topology descriptors and repair settings.
+-- Port Step 1 helper-curve handling and closed/periodic face guards.
+-- Port Step 1b precise node correction.
+-- Replace the current Gmsh curve-projection edge recovery with the full
+-  Python Step 2 GLL edge recovery and 4x4 Newton solve where applicable.
+-- Port Step 3 Python refinement details exactly.
+-- Port Step 4 support-surface projection tolerances and diagnostics.
+-- Add parity tests against the Python reference output for all required
+-  examples.
++This migration does not turn CLI equispaced samples into VR data. Use the
++existing MATLAB workflow for VR geometry exports. The caller-supplied-node
++C++ interface remains available for comparisons on identical VR coordinates.
++
++## Identity after fragmentation
++
++Original source labels identify retained support faces. Gmsh fragmentation can
++delete an original entity and produce several current faces. Its returned
++ancestry map connects each current face to its original support. Gmsh numerical
++operations use current live tags; extracted OCC calculations use retained
++original supports. Conflicting or missing ancestry is an identity error.
++
++Existing `tri_face_tags`, `scaffold_face_tags`, and edge-adjacent-face fields
++remain source grouping labels. They must not be used as live Gmsh handles.
++`mesh.meta` additionally records `cad_identity`, `occ_evaluation`,
++`native_identity_faces`, `native_identity_occurrences`, `runtime_version`,
++`gmsh_version`, and `occt_version`.
++
++## Unchanged limitations
++
++- The separate `same_support` heuristic and distance-based original-edge
++  selection remain unchanged. Exact face identity does not eliminate these
++  geometric searches or correct their existing limitations.
++- The existing `occt_precision`, `occt_maxprecision`, `sameparameter`, and
++  `surfacecurve_mode` options remain parsed/reported but have no effect on the
++  old reader routines. Activating them would change the numerical baseline.
++- The edge-length filter retains the old six-decimal `std::to_string` conversion
++  of `cad_edge_tol_fraction` before OCC calculations.
++- Existing numerical fallbacks, projection counters, sampled continuity
++  helpers and solver tolerances remain unchanged. Successful construction is
++  not a certificate of polynomial-to-CAD accuracy or watertightness.
++- The original Gmsh session lifecycle clears models. Do not share a Gmsh model
++  with a mesher invocation; mesher calls are serialized within the native core.
++- CAD area and refinement self-convergence remain the original diagnostics;
++  neither makes the old mesh an independent exact geometry reference.
++
++The migration report in `docs/V3_NATIVE_IDENTITY_MIGRATION.md` records baseline
++provenance, numerical comparisons, test results, and any incomplete gates.
+diff --git a/cpp/include/step_mesher/mesh_result.hpp b/cpp/include/step_mesher/mesh_result.hpp
+index 2854598..9a81126 100644
+--- a/cpp/include/step_mesher/mesh_result.hpp
++++ b/cpp/include/step_mesher/mesh_result.hpp
+@@ -6,6 +6,13 @@
+ namespace stepmesher {
+ 
+ struct MeshResult {
++  int native_identity_faces = 0;
++  int native_identity_occurrences = 0;
++  std::string cad_identity = "native_occ_topology_v1";
++  std::string occ_evaluation;
++  std::string runtime_version = "3.0.0";
++  std::string gmsh_version = "4.12.2";
++  std::string occt_version = "7.9.3";
+   int order = 0;
+   int iptype = 1;
+   int nodes_per_patch = 0;
+@@ -26,12 +33,23 @@ struct MeshResult {
+   int edge_nodes_per_panel = 0;
+   int ncad_edges = 0;
+   int npanels_total = 0;
++  int bad_min_angle_count = 0;
++  int bad_edge_ratio_count = 0;
++  int worst_quality_triangle = 0;
+ 
+   double bbox_diag = 0.0;
+   double mesh_size = 0.0;
++  double hmin_effective = 0.0;
++  double hmax_effective = 0.0;
+   double cad_area = 0.0;
++  double min_raw_cad_edge_length = 0.0;
++  double min_meaningful_cad_edge_length = 0.0;
+   double max_projection_distance = 0.0;
+   double mean_projection_distance = 0.0;
++  double min_scaffold_angle_deg = 0.0;
++  double max_scaffold_edge_ratio = 0.0;
++  int cad_edge_count = 0;
++  int meaningful_cad_edge_count = 0;
+ 
+   std::string step_file;
+   std::string mesh_profile;
+@@ -53,6 +71,9 @@ struct MeshResult {
+   std::vector<int> scaffold_triangles;   // local node ids, 3 x nscaffold_triangles
+   std::vector<int> scaffold_triangle_node_tags; // original Gmsh tags
+   std::vector<int> scaffold_face_tags;   // 1 x nscaffold_triangles
++  std::vector<double> scaffold_min_angle_deg; // 1 x nscaffold_triangles
++  std::vector<double> scaffold_edge_ratio;    // 1 x nscaffold_triangles
++  std::vector<double> scaffold_triangle_area; // 1 x nscaffold_triangles
+ 
+   // High-order CAD edges with piecewise GLL panels, also MATLAB-facing.
+   std::vector<double> edge_gll_nodes;     // 1 x edge_nodes_per_panel
+diff --git a/cpp/include/step_mesher/options.hpp b/cpp/include/step_mesher/options.hpp
+index 84081db..2bff648 100644
+--- a/cpp/include/step_mesher/options.hpp
++++ b/cpp/include/step_mesher/options.hpp
+@@ -10,6 +10,18 @@ struct MeshOptions {
+   int refinement_level = 0;
+   int edge_gll_order = 16;
+   std::string mesh_profile = "rigid";
++  int curvature_points = 50;
++  std::string hmin_mode = "fraction";
++  double hmin_fraction = 0.01;
++  double hmin_edge_scale = 0.25;
++  double cad_edge_tol_fraction = 1.0e-6;
++  double hmax_fraction = 0.10;
++  bool mesh_size_extend_from_boundary = true;
++  std::string gmsh_algorithm = "frontal_delaunay";
++  bool optimize = true;
++  double min_angle_deg = 15.0;
++  double max_edge_ratio = 6.0;
++  bool enforce_quality = false;
+   double occt_precision = 1.0e-6;
+   double occt_maxprecision = 1.0e-6;
+   std::string occ_info_exe;
+diff --git a/cpp/src/cli.cpp b/cpp/src/cli.cpp
+index a15db69..d18a13f 100644
+--- a/cpp/src/cli.cpp
++++ b/cpp/src/cli.cpp
+@@ -14,7 +14,10 @@ void usage() {
+       << "Usage:\n"
+       << "  step_mesher_cli mesh --step file.step --order 8 "
+          "--mesh-fraction 0.10 --refinement 0 --edge-order 16 "
+-         "--profile rigid --occ-info-exe helper --out outdir\n";
++         "--profile rigid --occ-info-exe helper --out outdir\n"
++      << "  Curvature options include --curvature-points, --hmin-fraction, "
++         "--hmin-mode, --hmin-edge-scale, --cad-edge-tol-fraction, "
++         "--hmax-fraction, and --no-mesh-size-extend-from-boundary.\n";
+ }
+ 
+ std::string next_arg(int &i, int argc, char **argv, const std::string &name) {
+@@ -31,6 +34,14 @@ void write_meta(const std::filesystem::path &path,
+   std::ofstream f(path);
+   f << std::setprecision(17);
+   f << "{\n";
++  f << "  \"cad_identity\": \"" << mesh.cad_identity << "\",\n";
++  f << "  \"occ_evaluation\": \"" << mesh.occ_evaluation << "\",\n";
++  f << "  \"runtime_version\": \"" << mesh.runtime_version << "\",\n";
++  f << "  \"gmsh_version\": \"" << mesh.gmsh_version << "\",\n";
++  f << "  \"occt_version\": \"" << mesh.occt_version << "\",\n";
++  f << "  \"native_identity_faces\": " << mesh.native_identity_faces << ",\n";
++  f << "  \"native_identity_occurrences\": " << mesh.native_identity_occurrences << ",\n";
++
+   f << "  \"backend\": \"" << mesh.backend << "\",\n";
+   f << "  \"step_file\": \"" << mesh.step_file << "\",\n";
+   f << "  \"order\": " << mesh.order << ",\n";
+@@ -39,6 +50,22 @@ void write_meta(const std::filesystem::path &path,
+   f << "  \"refinement_level\": " << opts.refinement_level << ",\n";
+   f << "  \"edge_gll_order\": " << opts.edge_gll_order << ",\n";
+   f << "  \"mesh_profile\": \"" << opts.mesh_profile << "\",\n";
++  f << "  \"curvature_points\": " << opts.curvature_points << ",\n";
++  f << "  \"hmin_mode\": \"" << opts.hmin_mode << "\",\n";
++  f << "  \"hmin_fraction\": " << opts.hmin_fraction << ",\n";
++  f << "  \"hmin_edge_scale\": " << opts.hmin_edge_scale << ",\n";
++  f << "  \"cad_edge_tol_fraction\": " << opts.cad_edge_tol_fraction << ",\n";
++  f << "  \"hmax_fraction\": " << opts.hmax_fraction << ",\n";
++  f << "  \"hmin_effective\": " << mesh.hmin_effective << ",\n";
++  f << "  \"hmax_effective\": " << mesh.hmax_effective << ",\n";
++  f << "  \"mesh_size_extend_from_boundary\": "
++    << (opts.mesh_size_extend_from_boundary ? "true" : "false") << ",\n";
++  f << "  \"gmsh_algorithm\": \"" << opts.gmsh_algorithm << "\",\n";
++  f << "  \"optimize\": " << (opts.optimize ? "true" : "false") << ",\n";
++  f << "  \"min_angle_deg\": " << opts.min_angle_deg << ",\n";
++  f << "  \"max_edge_ratio\": " << opts.max_edge_ratio << ",\n";
++  f << "  \"enforce_quality\": "
++    << (opts.enforce_quality ? "true" : "false") << ",\n";
+   f << "  \"occ_info_exe\": \"" << opts.occ_info_exe << "\",\n";
+   f << "  \"sample_rule\": \"equispaced_cli_fallback\",\n";
+   f << "  \"nodes_per_patch\": " << mesh.nodes_per_patch << ",\n";
+@@ -47,12 +74,27 @@ void write_meta(const std::filesystem::path &path,
+   f << "  \"nscaffold_triangles\": " << mesh.nscaffold_triangles << ",\n";
+   f << "  \"bbox_diag\": " << mesh.bbox_diag << ",\n";
+   f << "  \"mesh_size\": " << mesh.mesh_size << ",\n";
++  f << "  \"min_raw_cad_edge_length\": " << mesh.min_raw_cad_edge_length
++    << ",\n";
++  f << "  \"min_meaningful_cad_edge_length\": "
++    << mesh.min_meaningful_cad_edge_length << ",\n";
++  f << "  \"cad_edge_count\": " << mesh.cad_edge_count << ",\n";
++  f << "  \"meaningful_cad_edge_count\": " << mesh.meaningful_cad_edge_count
++    << ",\n";
+   f << "  \"cad_area\": " << mesh.cad_area << ",\n";
+   f << "  \"max_projection_distance\": " << mesh.max_projection_distance
+     << ",\n";
+   f << "  \"mean_projection_distance\": " << mesh.mean_projection_distance
+     << ",\n";
+   f << "  \"projection_failures\": " << mesh.projection_failures << ",\n";
++  f << "  \"min_scaffold_angle_deg\": " << mesh.min_scaffold_angle_deg
++    << ",\n";
++  f << "  \"max_scaffold_edge_ratio\": " << mesh.max_scaffold_edge_ratio
++    << ",\n";
++  f << "  \"bad_min_angle_count\": " << mesh.bad_min_angle_count << ",\n";
++  f << "  \"bad_edge_ratio_count\": " << mesh.bad_edge_ratio_count << ",\n";
++  f << "  \"worst_quality_triangle\": " << mesh.worst_quality_triangle
++    << ",\n";
+   f << "  \"step1b_edge_newton_success\": "
+     << mesh.step1b_edge_newton_success << ",\n";
+   f << "  \"step1b_edge_curve_projection_success\": "
+@@ -102,7 +144,8 @@ void write_scaffold_csv(const std::filesystem::path &nodes_path,
+   }
+ 
+   std::ofstream tf(tri_path);
+-  tf << "triangle,node1,node2,node3,node1_tag,node2_tag,node3_tag,face_tag\n";
++  tf << "triangle,node1,node2,node3,node1_tag,node2_tag,node3_tag,"
++        "face_tag,min_angle_deg,edge_ratio,area\n";
+   for (int i = 0; i < mesh.nscaffold_triangles; ++i) {
+     tf << i + 1 << "," << mesh.scaffold_triangles[3 * i] << ","
+        << mesh.scaffold_triangles[3 * i + 1] << ","
+@@ -110,7 +153,10 @@ void write_scaffold_csv(const std::filesystem::path &nodes_path,
+        << mesh.scaffold_triangle_node_tags[3 * i] << ","
+        << mesh.scaffold_triangle_node_tags[3 * i + 1] << ","
+        << mesh.scaffold_triangle_node_tags[3 * i + 2] << ","
+-       << mesh.scaffold_face_tags[i] << "\n";
++       << mesh.scaffold_face_tags[i] << ","
++       << mesh.scaffold_min_angle_deg[i] << ","
++       << mesh.scaffold_edge_ratio[i] << ","
++       << mesh.scaffold_triangle_area[i] << "\n";
+   }
+ }
+ 
+@@ -141,6 +187,33 @@ int main(int argc, char **argv) {
+         opts.edge_gll_order = std::stoi(next_arg(i, argc, argv, arg));
+       } else if (arg == "--profile") {
+         opts.mesh_profile = next_arg(i, argc, argv, arg);
++      } else if (arg == "--curvature-points") {
++        opts.curvature_points = std::stoi(next_arg(i, argc, argv, arg));
++      } else if (arg == "--hmin-mode") {
++        opts.hmin_mode = next_arg(i, argc, argv, arg);
++      } else if (arg == "--hmin-fraction") {
++        opts.hmin_fraction = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--hmin-edge-scale") {
++        opts.hmin_edge_scale = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--cad-edge-tol-fraction") {
++        opts.cad_edge_tol_fraction = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--hmax-fraction") {
++        opts.hmax_fraction = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--mesh-size-extend-from-boundary") {
++        opts.mesh_size_extend_from_boundary =
++            std::stod(next_arg(i, argc, argv, arg)) != 0.0;
++      } else if (arg == "--no-mesh-size-extend-from-boundary") {
++        opts.mesh_size_extend_from_boundary = false;
++      } else if (arg == "--gmsh-algorithm") {
++        opts.gmsh_algorithm = next_arg(i, argc, argv, arg);
++      } else if (arg == "--no-optimize") {
++        opts.optimize = false;
++      } else if (arg == "--min-angle") {
++        opts.min_angle_deg = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--max-edge-ratio") {
++        opts.max_edge_ratio = std::stod(next_arg(i, argc, argv, arg));
++      } else if (arg == "--enforce-quality") {
++        opts.enforce_quality = true;
+       } else if (arg == "--occ-info-exe") {
+         opts.occ_info_exe = next_arg(i, argc, argv, arg);
+       } else if (arg == "--out") {
+diff --git a/cpp/src/mesher.cpp b/cpp/src/mesher.cpp
+index d0f99e3..18e7568 100644
+--- a/cpp/src/mesher.cpp
++++ b/cpp/src/mesher.cpp
+@@ -1,4 +1,11 @@
+ #include "step_mesher/mesher.hpp"
++#include "step_mesher/occ_context.hpp"
++#include "occ_operation.hpp"
++#include <memory>
++#include <mutex>
++#include <dlfcn.h>
++#include <Standard.hxx>
++#include <Standard_Version.hxx>
+ 
+ #include <gmsh.h>
+ 
+@@ -58,6 +65,11 @@ struct OccInfo {
+   bool ok = false;
+   double tight_bbox_diag = std::numeric_limits<double>::quiet_NaN();
+   double surface_area = std::numeric_limits<double>::quiet_NaN();
++  double min_raw_cad_edge_length = std::numeric_limits<double>::quiet_NaN();
++  double min_meaningful_cad_edge_length =
++      std::numeric_limits<double>::quiet_NaN();
++  int cad_edge_count = 0;
++  int meaningful_cad_edge_count = 0;
+ };
+ 
+ struct OccEdgeHelperResult {
+@@ -81,10 +93,10 @@ struct OccFeatureNodeHelperResult {
+   int fallback_points = 0;
+ };
+ 
+-struct GmshFaceDesc {
+-  int tag = 0;
+-  std::array<double, 6> bbox{};
+-  double area = std::numeric_limits<double>::quiet_NaN();
++struct TriangleQuality {
++  double min_angle_deg = 0.0;
++  double edge_ratio = std::numeric_limits<double>::infinity();
++  double area = 0.0;
+ };
+ 
+ struct ContinuityHelperCurve {
+@@ -174,6 +186,10 @@ double norm(const Vec3 &a) {
+   return std::sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+ }
+ 
++double clamp_unit(double x) {
++  return std::max(-1.0, std::min(1.0, x));
++}
++
+ bool is_finite(const Vec3 &a) {
+   return std::isfinite(a[0]) && std::isfinite(a[1]) && std::isfinite(a[2]);
+ }
+@@ -209,155 +225,146 @@ Vec3 add(const Vec3 &a, const Vec3 &b) {
+   return {a[0] + b[0], a[1] + b[1], a[2] + b[2]};
+ }
+ 
++TriangleQuality compute_triangle_quality(const Vec3 &p0, const Vec3 &p1,
++                                         const Vec3 &p2) {
++  TriangleQuality q;
++  const Vec3 e01 = subtract(p1, p0);
++  const Vec3 e12 = subtract(p2, p1);
++  const Vec3 e20 = subtract(p0, p2);
++  const double l01 = norm(e01);
++  const double l12 = norm(e12);
++  const double l20 = norm(e20);
++  const double lmin = std::min({l01, l12, l20});
++  const double lmax = std::max({l01, l12, l20});
++  q.edge_ratio = lmin > 0.0 ? lmax / lmin
++                            : std::numeric_limits<double>::infinity();
++  q.area = 0.5 * norm(cross(e01, subtract(p2, p0)));
++  if (l01 > 0.0 && l12 > 0.0 && l20 > 0.0) {
++    constexpr double rad_to_deg = 57.2957795130823208768;
++    const double a0 =
++        std::acos(clamp_unit(dot(e01, subtract(p2, p0)) / (l01 * l20))) *
++        rad_to_deg;
++    const double a1 =
++        std::acos(clamp_unit(dot(subtract(p0, p1), e12) / (l01 * l12))) *
++        rad_to_deg;
++    const double a2 =
++        std::acos(clamp_unit(dot(subtract(p0, p2), subtract(p1, p2)) /
++                             (l20 * l12))) *
++        rad_to_deg;
++    q.min_angle_deg = std::min({a0, a1, a2});
++  }
++  return q;
++}
++
+ Vec3 scale(const Vec3 &a, double s) {
+   return {s * a[0], s * a[1], s * a[2]};
+ }
+ 
+-std::string shell_quote(const std::string &value) {
+-  std::string out = "'";
+-  for (char ch : value) {
+-    if (ch == '\'') {
+-      out += "'\\''";
+-    } else {
+-      out += ch;
+-    }
+-  }
+-  out += "'";
+-  return out;
+-}
++// The six former subprocess calls now use the retained native CAD context.
++// Numerical choices and the historical enabled/disabled split are preserved.
++std::mutex cad_process_mutex;
+ 
+-OccInfo load_occ_info_external(const std::string &step_file,
+-                               const std::string &occ_info_exe) {
+-  OccInfo info;
+-  if (occ_info_exe.empty()) {
+-    return info;
++void verify_native_runtime() {
++  const std::filesystem::path expected =
++      std::filesystem::canonical(STEP_MESHER_DEPENDENCY_PREFIX) / "lib";
++  const std::pair<const char *, const void *> libraries[] = {
++    {"Gmsh", reinterpret_cast<const void *>(&gmsh::initialize)},
++    {"OCCT", reinterpret_cast<const void *>(&Standard::Allocate)}
++  };
++  for (const auto &library : libraries) {
++    Dl_info loaded{};
++    if (!dladdr(library.second, &loaded) || !loaded.dli_fname ||
++        std::filesystem::canonical(loaded.dli_fname).parent_path() != expected)
++      throw std::runtime_error(std::string("[native_runtime] ") + library.first +
++          " did not load from V3's common dependency installation");
+   }
++  std::string version;
++  gmsh::option::getString("General.Version", version);
++  if (version != "4.12.2" || std::string(OCC_VERSION_COMPLETE) != "7.9.3")
++    throw std::runtime_error("[native_runtime] Expected Gmsh 4.12.2 / OCCT 7.9.3");
++}
+ 
++bool same_file_contents(const std::filesystem::path &a,
++                        const std::filesystem::path &b) {
+   std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return info;
+-  }
+-
+-  const std::string command =
+-      shell_quote(occ_info_exe) + " " + shell_quote(step_file);
+-  FILE *pipe = popen(command.c_str(), "r");
+-  if (pipe == nullptr) {
+-    return info;
+-  }
+-
+-  std::string output;
+-  char buffer[256];
+-  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+-    output += buffer;
+-  }
+-  const int status = pclose(pipe);
+-  if (status != 0) {
+-    return info;
++  if (!std::filesystem::is_regular_file(b, ec) ||
++      std::filesystem::file_size(a, ec) != std::filesystem::file_size(b, ec))
++    return false;
++  if (std::filesystem::equivalent(a, b, ec)) return true;
++  std::ifstream x(a, std::ios::binary), y(b, std::ios::binary);
++  char xb[16384], yb[16384];
++  while (x && y) {
++    x.read(xb, sizeof(xb)); y.read(yb, sizeof(yb));
++    if (x.gcount() != y.gcount() ||
++        !std::equal(xb, xb + x.gcount(), yb)) return false;
+   }
++  return x.eof() && y.eof();
++}
+ 
+-  std::istringstream stream(output);
+-  std::string marker;
+-  stream >> marker;
+-  if (marker == "OK") {
+-    stream >> info.tight_bbox_diag >> info.surface_area;
+-  } else {
+-    std::istringstream numeric(output);
+-    numeric >> info.tight_bbox_diag >> info.surface_area;
+-  }
++bool use_occ_computations(const std::string &helper) {
++  if (helper.empty()) return false;
++  std::error_code ec;
++  if (!std::filesystem::exists(helper, ec)) return false;
++  Dl_info loaded{};
++  if (!dladdr(reinterpret_cast<void *>(&use_occ_computations), &loaded) ||
++      !loaded.dli_fname)
++    throw std::runtime_error("[native_runtime] Cannot locate the loaded v3 core");
++  auto libdir = std::filesystem::canonical(loaded.dli_fname).parent_path();
++  const auto bundled = libdir.parent_path() /
++      "matlab/+stepmesher/private/step_mesher_occ_info";
++  if (!same_file_contents(helper, bundled))
++    throw std::runtime_error("[unsupported_occ_helper] Use this v3 runtime's bundled step_mesher_occ_info; custom helpers are not executed: " + helper);
++  return true;
++}
+ 
++OccInfo load_occ_info(occ::Context &cad, bool enabled,
++                      double cad_edge_tol_fraction) {
++  OccInfo info;
++  if (!enabled) return info;
++  // The external helper received this argument with six decimal places.
++  const double compatibility_fraction = std::stod(std::to_string(cad_edge_tol_fraction));
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.measurements(compatibility_fraction); });
++  if (!operation) return info;
++  const auto &measured = *operation;
++  info.tight_bbox_diag = measured.diag;
++  info.surface_area = measured.area;
++  info.min_raw_cad_edge_length = measured.min_raw_edge;
++  info.min_meaningful_cad_edge_length = measured.min_meaningful_edge;
++  info.cad_edge_count = static_cast<int>(measured.n_edges);
++  info.meaningful_cad_edge_count = measured.n_meaningful;
+   info.ok = std::isfinite(info.tight_bbox_diag) && info.tight_bbox_diag > 0.0 &&
+             std::isfinite(info.surface_area) && info.surface_area > 0.0;
+   return info;
+ }
+ 
+-std::filesystem::path unique_temp_path(const std::string &stem,
+-                                       const std::string &suffix) {
+-  const auto tick = std::chrono::high_resolution_clock::now()
+-                        .time_since_epoch()
+-                        .count();
+-  return std::filesystem::temp_directory_path() /
+-         (stem + "_" + std::to_string(tick) + suffix);
+-}
+-
+-std::vector<GmshFaceDesc> collect_gmsh_face_descs(
+-    const std::vector<int> &face_tags) {
+-  std::vector<GmshFaceDesc> descs;
+-  descs.reserve(face_tags.size());
+-  for (int face_tag : face_tags) {
+-    GmshFaceDesc desc;
+-    desc.tag = face_tag;
+-    double x0 = 0.0;
+-    double y0 = 0.0;
+-    double z0 = 0.0;
+-    double x1 = 0.0;
+-    double y1 = 0.0;
+-    double z1 = 0.0;
+-    gmsh::model::getBoundingBox(2, face_tag, x0, y0, z0, x1, y1, z1);
+-    desc.bbox = {x0, y0, z0, x1, y1, z1};
+-    try {
+-      gmsh::model::occ::getMass(2, face_tag, desc.area);
+-    } catch (...) {
+-      desc.area = std::numeric_limits<double>::quiet_NaN();
+-    }
+-    descs.push_back(desc);
+-  }
+-  return descs;
+-}
+-
+-void write_face_descs(std::ofstream &out,
+-                      const std::vector<GmshFaceDesc> &face_descs) {
+-  out << face_descs.size() << "\n";
+-  for (const GmshFaceDesc &face : face_descs) {
+-    out << face.tag << " " << face.bbox[0] << " " << face.bbox[1] << " "
+-        << face.bbox[2] << " " << face.bbox[3] << " " << face.bbox[4]
+-        << " " << face.bbox[5] << " " << face.area << "\n";
++bool store_line_samples(const std::vector<occ::LineSamples> &lines,
++                        std::size_t count, EdgeSampleMap &out) {
++  for (const auto &line : lines) {
++    if (line.points.size() != count ||
++        !std::all_of(line.points.begin(), line.points.end(), is_finite)) return false;
++    out[EdgeKey{line.a,line.b}] = line.points;
++    std::vector<Vec3> reversed = line.points;
++    std::reverse(reversed.begin(), reversed.end());
++    out[EdgeKey{line.b,line.a}] = std::move(reversed);
+   }
++  return true;
+ }
+ 
+-bool write_occ_edge_request(
+-    const std::filesystem::path &path, const std::string &step_file,
+-    const std::vector<GmshFaceDesc> &face_descs,
++OccEdgeHelperResult load_occ_edge_samples(
++    occ::Context &cad, bool enabled,
+     const std::vector<double> &edge_nodes, const CurveFaceMap &curve_faces,
+     const std::unordered_map<std::size_t, NodeRecord> &node_map,
+     const FeatureCurveMap &feature_curves) {
+-  std::ofstream out(path);
+-  if (!out) {
+-    return false;
+-  }
+-
+-  out << "STEP_MESHER_OCC_EDGES_V1\n";
+-  out << step_file << "\n";
+-  out << edge_nodes.size() << "\n";
+-  out.precision(17);
+-  for (double a : edge_nodes) {
+-    out << a << "\n";
+-  }
+-
+-  write_face_descs(out, face_descs);
+-
+-  out << node_map.size() << "\n";
+-  for (const auto &entry : node_map) {
+-    out << entry.first << " " << entry.second.xyz[0] << " "
+-        << entry.second.xyz[1] << " " << entry.second.xyz[2] << "\n";
+-  }
+-
+-  std::vector<int> true_curve_tags;
+-  for (const auto &entry : curve_faces) {
+-    if (feature_curves.find(entry.first) == feature_curves.end()) {
+-      true_curve_tags.push_back(entry.first);
+-    }
+-  }
+-  out << true_curve_tags.size() << "\n";
+-  for (int curve_tag : true_curve_tags) {
+-    const auto &faces = curve_faces.at(curve_tag);
+-    out << curve_tag << " " << faces.size();
+-    for (int face_tag : faces) {
+-      out << " " << face_tag;
+-    }
+-    out << "\n";
+-  }
+-
+-  std::vector<std::array<std::size_t, 3>> lines;
++  OccEdgeHelperResult result;
++  if (!enabled) return result;
++  occ::EdgeRequest request;
++  request.edge_nodes = edge_nodes;
++  for (const auto &entry : node_map) request.nodes[entry.first] = entry.second.xyz;
++  for (const auto &entry : curve_faces)
++    if (feature_curves.find(entry.first) == feature_curves.end())
++      request.curve_faces[entry.first] = entry.second;
++  std::vector<occ::Line> lines;
+   gmsh::vectorpair curves;
+   gmsh::model::getEntities(curves, 1);
+   for (const auto &curve : curves) {
+@@ -390,90 +397,55 @@ bool write_occ_edge_request(
+       for (std::size_t elem = 0; elem < num_elements; ++elem) {
+         lines.push_back({tags[elem * static_cast<std::size_t>(num_nodes)],
+                          tags[elem * static_cast<std::size_t>(num_nodes) + 1],
+-                         static_cast<std::size_t>(curve_tag)});
++                         curve_tag});
+       }
+     }
+   }
+ 
+-  out << lines.size() << "\n";
+-  for (const auto &line : lines) {
+-    out << line[0] << " " << line[1] << " " << line[2] << "\n";
+-  }
+-
+-  return static_cast<bool>(out);
+-}
+-
+-bool write_occ_project_request(const std::filesystem::path &path,
+-                               const std::string &step_file,
+-                               const std::vector<GmshFaceDesc> &face_descs,
+-                               const std::vector<Vec3> &candidate_xyz,
+-                               const std::vector<int> &candidate_face_tags) {
+-  if (candidate_xyz.size() != candidate_face_tags.size()) {
+-    return false;
+-  }
+-
+-  std::ofstream out(path);
+-  if (!out) {
+-    return false;
+-  }
+-
+-  out << "STEP_MESHER_OCC_PROJECT_V1\n";
+-  out << step_file << "\n";
+-  out.precision(17);
+-
+-  write_face_descs(out, face_descs);
+-
+-  out << candidate_xyz.size() << "\n";
+-  for (std::size_t i = 0; i < candidate_xyz.size(); ++i) {
+-    const Vec3 &p = candidate_xyz[i];
+-    out << candidate_face_tags[i] << " " << p[0] << " " << p[1] << " "
+-        << p[2] << "\n";
+-  }
+-
+-  return static_cast<bool>(out);
++  request.lines = std::move(lines);
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.edge_samples(request); });
++  if (!operation) return result;
++  const auto &sampled = *operation;
++  if (sampled.lines.empty()) return result;
++  result.newton_success = sampled.n_newton;
++  result.curve_projection_success = sampled.n_curve;
++  result.fallback_points = sampled.n_fallback;
++  if (!store_line_samples(sampled.lines, edge_nodes.size(), result.edge_samples))
++    return OccEdgeHelperResult{};
++  result.ok = true;
++  return result;
+ }
+ 
+-bool write_occ_helper_request(const std::filesystem::path &path,
+-                              const std::string &step_file,
+-                              double target_spacing,
+-                              const std::vector<GmshFaceDesc> &face_descs) {
+-  std::ofstream out(path);
+-  if (!out) {
+-    return false;
++OccContinuityHelperResult load_occ_helper_curves(
++    occ::Context &cad, bool enabled, double target_spacing,
++    const std::vector<int> &source_tags) {
++  OccContinuityHelperResult result;
++  if (!enabled || source_tags.empty()) return result;
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.helper_curves(target_spacing, source_tags); });
++  if (!operation) return result;
++  const auto &helpers = *operation;
++  result.break_count = helpers.break_count;
++  for (const auto &curve : helpers.curves) {
++    if (curve.points.size() < 2 ||
++        !std::all_of(curve.points.begin(), curve.points.end(), is_finite))
++      return OccContinuityHelperResult{};
++    result.curves.push_back({curve.face_tag, curve.axis, curve.param, curve.points});
+   }
+-  out << "STEP_MESHER_OCC_HELPER_CURVES_V1\n";
+-  out << step_file << "\n";
+-  out.precision(17);
+-  out << target_spacing << "\n";
+-  write_face_descs(out, face_descs);
+-  return static_cast<bool>(out);
++  result.ok = true;
++  return result;
+ }
+ 
+-bool write_occ_feature_request(
+-    const std::filesystem::path &path, const std::string &step_file,
+-    const std::vector<GmshFaceDesc> &face_descs,
+-    const std::vector<double> &edge_nodes,
++OccEdgeHelperResult load_occ_feature_samples(
++    occ::Context &cad, bool enabled, const std::vector<double> &edge_nodes,
+     const std::unordered_map<std::size_t, NodeRecord> &node_map,
+     const FeatureCurveMap &feature_curves) {
+-  std::ofstream out(path);
+-  if (!out) {
+-    return false;
+-  }
+-  out << "STEP_MESHER_OCC_FEATURE_EDGES_V1\n";
+-  out << step_file << "\n";
+-  out << edge_nodes.size() << "\n";
+-  out.precision(17);
+-  for (double a : edge_nodes) {
+-    out << a << "\n";
+-  }
+-  write_face_descs(out, face_descs);
+-
+-  out << node_map.size() << "\n";
+-  for (const auto &entry : node_map) {
+-    out << entry.first << " " << entry.second.xyz[0] << " "
+-        << entry.second.xyz[1] << " " << entry.second.xyz[2] << "\n";
+-  }
+-
++  OccEdgeHelperResult result;
++  if (!enabled || feature_curves.empty()) return result;
++  occ::FeatureRequest request;
++  request.edge_nodes = edge_nodes;
++  for (const auto &entry : node_map) request.nodes[entry.first] = entry.second.xyz;
+   struct FeatureSegment {
+     std::size_t a = 0;
+     std::size_t b = 0;
+@@ -512,435 +484,73 @@ bool write_occ_feature_request(
+     }
+   }
+ 
+-  out << segments.size() << "\n";
+-  for (const FeatureSegment &segment : segments) {
+-    out << segment.a << " " << segment.b << " "
+-        << segment.info.original_face_tag << " " << segment.info.axis << " "
+-        << segment.info.param << "\n";
+-  }
+-
+-  return static_cast<bool>(out);
+-}
+-
+-bool write_occ_feature_node_request(
+-    const std::filesystem::path &path, const std::string &step_file,
+-    const std::vector<GmshFaceDesc> &face_descs,
+-    const std::unordered_map<std::size_t, Vec3> &raw_nodes,
+-    const FeatureNodeConstraintMap &constraints) {
+-  std::ofstream out(path);
+-  if (!out) {
+-    return false;
+-  }
+-  out << "STEP_MESHER_OCC_FEATURE_NODES_V1\n";
+-  out << step_file << "\n";
+-  out.precision(17);
+-  write_face_descs(out, face_descs);
+-
+-  std::size_t valid_count = 0;
+-  for (const auto &entry : constraints) {
+-    if (raw_nodes.find(entry.first) != raw_nodes.end() &&
+-        !entry.second.empty()) {
+-      ++valid_count;
+-    }
+-  }
+-
+-  out << valid_count << "\n";
+-  for (const auto &entry : constraints) {
+-    const auto node_it = raw_nodes.find(entry.first);
+-    if (node_it == raw_nodes.end() || entry.second.empty()) {
+-      continue;
+-    }
+-    const Vec3 &p = node_it->second;
+-    out << entry.first << " " << p[0] << " " << p[1] << " " << p[2]
+-        << " " << entry.second.size() << "\n";
+-    for (const FeatureNodeConstraint &constraint : entry.second) {
+-      out << constraint.original_face_tag << " " << constraint.axis << " "
+-          << constraint.param << "\n";
+-    }
+-  }
+-
+-  return static_cast<bool>(out);
+-}
+-
+-OccEdgeHelperResult load_occ_edge_samples_external(
+-    const std::string &step_file, const std::string &occ_info_exe,
+-    const std::vector<GmshFaceDesc> &face_descs,
+-    const std::vector<double> &edge_nodes, const CurveFaceMap &curve_faces,
+-    const std::unordered_map<std::size_t, NodeRecord> &node_map,
+-    const FeatureCurveMap &feature_curves) {
+-  OccEdgeHelperResult result;
+-  if (occ_info_exe.empty()) {
+-    return result;
+-  }
+-  std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return result;
+-  }
+-
+-  const auto input_path = unique_temp_path("step_mesher_occ_edges", ".txt");
+-  const auto output_path = unique_temp_path("step_mesher_occ_edges", ".out");
+-  if (!write_occ_edge_request(input_path, step_file, face_descs, edge_nodes,
+-                              curve_faces, node_map, feature_curves)) {
+-    return result;
+-  }
+-
+-  const std::string command = shell_quote(occ_info_exe) + " edge-samples " +
+-                              shell_quote(input_path.string()) + " " +
+-                              shell_quote(output_path.string());
+-  const int status = std::system(command.c_str());
+-  const bool keep_edge_io = std::getenv("STEP_MESHER_KEEP_OCC_EDGE_IO") != nullptr;
+-  if (!keep_edge_io) {
+-    std::filesystem::remove(input_path, ec);
+-  }
+-  if (status != 0) {
+-    if (!keep_edge_io) {
+-      std::filesystem::remove(output_path, ec);
+-    }
+-    return result;
+-  }
+-
+-  std::ifstream in(output_path);
+-  if (!keep_edge_io) {
+-    std::filesystem::remove(output_path, ec);
+-  }
+-  if (!in) {
+-    return result;
+-  }
+-
+-  std::string marker;
+-  std::size_t edge_count = 0;
+-  in >> marker;
+-  if (marker != "OK") {
+-    return result;
+-  }
+-  in >> edge_count >> result.newton_success >>
+-      result.curve_projection_success >> result.fallback_points;
+-  if (!in || edge_count == 0) {
+-    return result;
+-  }
+-
+-  for (std::size_t e = 0; e < edge_count; ++e) {
+-    std::size_t tag0 = 0;
+-    std::size_t tag1 = 0;
+-    std::size_t npts = 0;
+-    in >> tag0 >> tag1 >> npts;
+-    if (!in || npts != edge_nodes.size()) {
+-      return OccEdgeHelperResult{};
+-    }
+-    std::vector<Vec3> samples;
+-    samples.reserve(npts);
+-    for (std::size_t i = 0; i < npts; ++i) {
+-      Vec3 p{};
+-      in >> p[0] >> p[1] >> p[2];
+-      if (!in || !is_finite(p)) {
+-        return OccEdgeHelperResult{};
+-      }
+-      samples.push_back(p);
+-    }
+-    result.edge_samples[EdgeKey{tag0, tag1}] = samples;
+-    std::vector<Vec3> reversed = samples;
+-    std::reverse(reversed.begin(), reversed.end());
+-    result.edge_samples[EdgeKey{tag1, tag0}] = reversed;
+-  }
+-
+-  result.ok = true;
+-  return result;
+-}
+-
+-OccContinuityHelperResult load_occ_helper_curves_external(
+-    const std::string &step_file, const std::string &occ_info_exe,
+-    double target_spacing, const std::vector<GmshFaceDesc> &face_descs) {
+-  OccContinuityHelperResult result;
+-  if (occ_info_exe.empty() || face_descs.empty()) {
+-    return result;
+-  }
+-  std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return result;
+-  }
+-
+-  const auto input_path = unique_temp_path("step_mesher_occ_helpers", ".txt");
+-  const auto output_path = unique_temp_path("step_mesher_occ_helpers", ".out");
+-  if (!write_occ_helper_request(input_path, step_file, target_spacing,
+-                                face_descs)) {
+-    return result;
+-  }
+-
+-  const std::string command = shell_quote(occ_info_exe) + " helper-curves " +
+-                              shell_quote(input_path.string()) + " " +
+-                              shell_quote(output_path.string());
+-  const int status = std::system(command.c_str());
+-  const bool keep_io =
+-      std::getenv("STEP_MESHER_KEEP_OCC_HELPER_IO") != nullptr;
+-  if (!keep_io) {
+-    std::filesystem::remove(input_path, ec);
+-  }
+-  if (status != 0) {
+-    if (!keep_io) {
+-      std::filesystem::remove(output_path, ec);
+-    }
+-    return result;
+-  }
+-
+-  std::ifstream in(output_path);
+-  if (!keep_io) {
+-    std::filesystem::remove(output_path, ec);
+-  }
+-  if (!in) {
+-    return result;
+-  }
+-
+-  std::string marker;
+-  std::size_t ncurves = 0;
+-  in >> marker >> ncurves >> result.break_count;
+-  if (marker != "OK") {
+-    return OccContinuityHelperResult{};
+-  }
+-
+-  result.curves.reserve(ncurves);
+-  for (std::size_t i = 0; i < ncurves; ++i) {
+-    ContinuityHelperCurve curve;
+-    std::size_t npts = 0;
+-    in >> curve.original_face_tag >> curve.axis >> curve.param >> npts;
+-    if (!in || npts < 2) {
+-      return OccContinuityHelperResult{};
+-    }
+-    curve.points.reserve(npts);
+-    for (std::size_t j = 0; j < npts; ++j) {
+-      Vec3 p{};
+-      in >> p[0] >> p[1] >> p[2];
+-      if (!in || !is_finite(p)) {
+-        return OccContinuityHelperResult{};
+-      }
+-      curve.points.push_back(p);
+-    }
+-    result.curves.push_back(std::move(curve));
+-  }
+-
+-  result.ok = true;
+-  return result;
+-}
+-
+-OccEdgeHelperResult load_occ_feature_samples_external(
+-    const std::string &step_file, const std::string &occ_info_exe,
+-    const std::vector<GmshFaceDesc> &face_descs,
+-    const std::vector<double> &edge_nodes,
+-    const std::unordered_map<std::size_t, NodeRecord> &node_map,
+-    const FeatureCurveMap &feature_curves) {
+-  OccEdgeHelperResult result;
+-  if (occ_info_exe.empty() || feature_curves.empty()) {
+-    return result;
+-  }
+-  std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return result;
+-  }
+-
+-  const auto input_path = unique_temp_path("step_mesher_occ_features", ".txt");
+-  const auto output_path = unique_temp_path("step_mesher_occ_features", ".out");
+-  if (!write_occ_feature_request(input_path, step_file, face_descs, edge_nodes,
+-                                 node_map, feature_curves)) {
+-    return result;
+-  }
+-
+-  const std::string command = shell_quote(occ_info_exe) + " feature-samples " +
+-                              shell_quote(input_path.string()) + " " +
+-                              shell_quote(output_path.string());
+-  const int status = std::system(command.c_str());
+-  const bool keep_io =
+-      std::getenv("STEP_MESHER_KEEP_OCC_FEATURE_IO") != nullptr;
+-  if (!keep_io) {
+-    std::filesystem::remove(input_path, ec);
+-  }
+-  if (status != 0) {
+-    if (!keep_io) {
+-      std::filesystem::remove(output_path, ec);
+-    }
+-    return result;
+-  }
+-
+-  std::ifstream in(output_path);
+-  if (!keep_io) {
+-    std::filesystem::remove(output_path, ec);
+-  }
+-  if (!in) {
+-    return result;
+-  }
+-
+-  std::string marker;
+-  std::size_t edge_count = 0;
+-  in >> marker >> edge_count >> result.fallback_points;
+-  if (marker != "OK") {
++  for (const auto &segment : segments)
++    request.lines.push_back({segment.a, segment.b, segment.info.original_face_tag,
++                             segment.info.axis, segment.info.param});
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.feature_samples(request); });
++  if (!operation) return result;
++  const auto &sampled = *operation;
++  result.fallback_points = sampled.n_fallback;
++  if (!store_line_samples(sampled.lines, edge_nodes.size(), result.edge_samples))
+     return OccEdgeHelperResult{};
+-  }
+-
+-  for (std::size_t e = 0; e < edge_count; ++e) {
+-    std::size_t tag0 = 0;
+-    std::size_t tag1 = 0;
+-    std::size_t npts = 0;
+-    in >> tag0 >> tag1 >> npts;
+-    if (!in || npts != edge_nodes.size()) {
+-      return OccEdgeHelperResult{};
+-    }
+-    std::vector<Vec3> samples;
+-    samples.reserve(npts);
+-    for (std::size_t i = 0; i < npts; ++i) {
+-      Vec3 p{};
+-      in >> p[0] >> p[1] >> p[2];
+-      if (!in || !is_finite(p)) {
+-        return OccEdgeHelperResult{};
+-      }
+-      samples.push_back(p);
+-    }
+-    result.edge_samples[EdgeKey{tag0, tag1}] = samples;
+-    std::vector<Vec3> reversed = samples;
+-    std::reverse(reversed.begin(), reversed.end());
+-    result.edge_samples[EdgeKey{tag1, tag0}] = reversed;
+-  }
+-
+   result.ok = true;
+   return result;
+ }
+ 
+-OccFeatureNodeHelperResult load_occ_feature_nodes_external(
+-    const std::string &step_file, const std::string &occ_info_exe,
+-    const std::vector<GmshFaceDesc> &face_descs,
++OccFeatureNodeHelperResult load_occ_feature_nodes(
++    occ::Context &cad, bool enabled,
+     const std::unordered_map<std::size_t, Vec3> &raw_nodes,
+     const FeatureNodeConstraintMap &constraints) {
+   OccFeatureNodeHelperResult result;
+-  if (occ_info_exe.empty() || constraints.empty()) {
+-    return result;
+-  }
+-  std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return result;
+-  }
+-
+-  const auto input_path = unique_temp_path("step_mesher_occ_feature_nodes", ".txt");
+-  const auto output_path = unique_temp_path("step_mesher_occ_feature_nodes", ".out");
+-  if (!write_occ_feature_node_request(input_path, step_file, face_descs,
+-                                      raw_nodes, constraints)) {
+-    return result;
+-  }
+-
+-  const std::string command = shell_quote(occ_info_exe) + " feature-nodes " +
+-                              shell_quote(input_path.string()) + " " +
+-                              shell_quote(output_path.string());
+-  const int status = std::system(command.c_str());
+-  const bool keep_io =
+-      std::getenv("STEP_MESHER_KEEP_OCC_FEATURE_NODE_IO") != nullptr;
+-  if (!keep_io) {
+-    std::filesystem::remove(input_path, ec);
+-  }
+-  if (status != 0) {
+-    if (!keep_io) {
+-      std::filesystem::remove(output_path, ec);
+-    }
+-    return result;
+-  }
+-
+-  std::ifstream in(output_path);
+-  if (!keep_io) {
+-    std::filesystem::remove(output_path, ec);
+-  }
+-  if (!in) {
+-    return result;
+-  }
+-
+-  std::string marker;
+-  std::size_t node_count = 0;
+-  in >> marker >> node_count >> result.fallback_points;
+-  if (marker != "OK") {
+-    return OccFeatureNodeHelperResult{};
+-  }
+-
+-  result.nodes.reserve(node_count);
+-  for (std::size_t i = 0; i < node_count; ++i) {
+-    std::size_t tag = 0;
+-    Vec3 p{};
+-    double dist = 0.0;
+-    in >> tag >> p[0] >> p[1] >> p[2] >> dist;
+-    if (!in || !is_finite(p) || !std::isfinite(dist)) {
++  if (!enabled || constraints.empty()) return result;
++  std::vector<occ::FeatureNode> request;
++  for (const auto &entry : constraints) {
++    const auto it = raw_nodes.find(entry.first);
++    if (it == raw_nodes.end() || entry.second.empty()) continue;
++    occ::FeatureNode node;
++    node.tag = entry.first; node.x = it->second;
++    for (const auto &constraint : entry.second)
++      node.constraints.push_back({constraint.original_face_tag, constraint.axis,
++                                 constraint.param});
++    request.push_back(std::move(node));
++  }
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.feature_nodes(request); });
++  if (!operation) return result;
++  const auto &corrected = *operation;
++  result.fallback_points = corrected.n_fallback;
++  for (const auto &node : corrected.nodes) {
++    if (!is_finite(node.x) || !std::isfinite(node.distance))
+       return OccFeatureNodeHelperResult{};
+-    }
+-    result.nodes[tag] = p;
++    result.nodes[node.tag] = node.x;
+   }
+-
+   result.ok = true;
+   return result;
+ }
+ 
+-OccProjectHelperResult load_occ_projected_nodes_external(
+-    const std::string &step_file, const std::string &occ_info_exe,
+-    const std::vector<GmshFaceDesc> &face_descs,
+-    const std::vector<Vec3> &candidate_xyz,
++OccProjectHelperResult load_occ_projected_nodes(
++    occ::Context &cad, bool enabled, const std::vector<Vec3> &candidate_xyz,
+     const std::vector<int> &candidate_face_tags) {
+   OccProjectHelperResult result;
+-  if (candidate_xyz.empty()) {
+-    result.ok = true;
+-    return result;
+-  }
+-  if (occ_info_exe.empty()) {
+-    return result;
+-  }
+-  std::error_code ec;
+-  if (!std::filesystem::exists(occ_info_exe, ec)) {
+-    return result;
+-  }
+-
+-  const auto input_path = unique_temp_path("step_mesher_occ_project", ".txt");
+-  const auto output_path = unique_temp_path("step_mesher_occ_project", ".out");
+-  if (!write_occ_project_request(input_path, step_file, face_descs, candidate_xyz,
+-                                 candidate_face_tags)) {
+-    return result;
+-  }
+-
+-  const std::string command = shell_quote(occ_info_exe) + " project-nodes " +
+-                              shell_quote(input_path.string()) + " " +
+-                              shell_quote(output_path.string());
+-  const int status = std::system(command.c_str());
+-  const bool keep_project_io =
+-      std::getenv("STEP_MESHER_KEEP_OCC_PROJECT_IO") != nullptr;
+-  if (!keep_project_io) {
+-    std::filesystem::remove(input_path, ec);
+-  }
+-  if (status != 0) {
+-    if (!keep_project_io) {
+-      std::filesystem::remove(output_path, ec);
+-    }
+-    return result;
+-  }
+-
+-  std::ifstream in(output_path);
+-  if (!keep_project_io) {
+-    std::filesystem::remove(output_path, ec);
+-  }
+-  if (!in) {
+-    return result;
+-  }
+-
+-  std::string marker;
+-  std::size_t node_count = 0;
+-  in >> marker >> node_count >> result.fallback_points;
+-  if (marker != "OK" || node_count != candidate_xyz.size()) {
+-    return OccProjectHelperResult{};
++  if (candidate_xyz.empty()) { result.ok = true; return result; }
++  if (!enabled) return result;
++  if (candidate_xyz.size() != candidate_face_tags.size()) return result;
++  std::vector<occ::ProjectNode> request;
++  request.reserve(candidate_xyz.size());
++  for (std::size_t i = 0; i < candidate_xyz.size(); ++i)
++    request.push_back({candidate_face_tags[i], candidate_xyz[i]});
++  const auto operation = detail::call_legacy_occ_operation(
++      [&] { return cad.project_nodes(request); });
++  if (!operation) return result;
++  const auto &projected = *operation;
++  result.fallback_points = projected.n_fallback;
++  if (projected.nodes.size() != candidate_xyz.size()) return OccProjectHelperResult{};
++  result.xyz.reserve(projected.nodes.size()); result.dist.reserve(projected.nodes.size());
++  for (const auto &node : projected.nodes) {
++    if (!is_finite(node.x) || !std::isfinite(node.distance)) return OccProjectHelperResult{};
++    result.xyz.push_back(node.x); result.dist.push_back(node.distance);
+   }
+-
+-  result.xyz.reserve(node_count);
+-  result.dist.reserve(node_count);
+-  for (std::size_t i = 0; i < node_count; ++i) {
+-    Vec3 p{};
+-    double dist = 0.0;
+-    double u = 0.0;
+-    double v = 0.0;
+-    in >> p[0] >> p[1] >> p[2] >> dist >> u >> v;
+-    if (!in || !is_finite(p) || !std::isfinite(dist)) {
+-      return OccProjectHelperResult{};
+-    }
+-    result.xyz.push_back(p);
+-    result.dist.push_back(dist);
+-  }
+-
+   result.ok = true;
+   return result;
+ }
+@@ -2123,8 +1733,7 @@ bool feature_node_should_use_constraint(std::size_t node_tag, int dim,
+ std::unordered_map<std::size_t, NodeRecord>
+ get_node_map(MeshResult &result, const CurveFaceMap &curve_faces,
+              const FeatureCurveMap &feature_curves,
+-             const std::string &step_file, const std::string &occ_info_exe,
+-             const std::vector<GmshFaceDesc> &face_descs) {
++             occ::Context &cad, bool use_occ) {
+   std::vector<std::size_t> node_tags;
+   std::vector<double> coords;
+   std::vector<double> params;
+@@ -2138,8 +1747,8 @@ get_node_map(MeshResult &result, const CurveFaceMap &curve_faces,
+   }
+   const FeatureNodeConstraintMap feature_node_constraints =
+       collect_feature_node_constraints(feature_curves);
+-  const auto feature_node_helper = load_occ_feature_nodes_external(
+-      step_file, occ_info_exe, face_descs, raw_nodes, feature_node_constraints);
++  const auto feature_node_helper = load_occ_feature_nodes(
++      cad, use_occ, raw_nodes, feature_node_constraints);
+ 
+   std::unordered_map<std::size_t, NodeRecord> nodes;
+   nodes.reserve(node_tags.size());
+@@ -2398,17 +2007,16 @@ int add_helper_curve_to_gmsh(const std::vector<Vec3> &raw_points) {
+ }
+ 
+ FragmentationInfo apply_continuity_fragmentation(
+-    const std::string &step_file, const MeshOptions &options,
+-    double mesh_size, const std::vector<int> &original_face_tags,
+-    const std::vector<GmshFaceDesc> &original_face_descs) {
++    occ::Context &cad, bool use_occ,
++    double mesh_size, const std::vector<int> &original_face_tags) {
+   FragmentationInfo info;
+   for (int face_tag : original_face_tags) {
+     info.current_face_to_original_face[face_tag] = face_tag;
+   }
+ 
+   const double helper_spacing = std::max(1.0e-10, 0.75 * mesh_size);
+-  auto helper = load_occ_helper_curves_external(
+-      step_file, options.occ_info_exe, helper_spacing, original_face_descs);
++  auto helper = load_occ_helper_curves(
++      cad, use_occ, helper_spacing, original_face_tags);
+   if (!helper.ok || helper.curves.empty()) {
+     if (helper.ok) {
+       info.continuity_break_count = helper.break_count;
+@@ -2463,8 +2071,10 @@ FragmentationInfo apply_continuity_fragmentation(
+     for (const auto &dim_tag : out_dim_tags_map[i]) {
+       if (dim_tag.first == 2) {
+         fragment_faces.push_back(dim_tag.second);
+-        info.current_face_to_original_face[dim_tag.second] =
+-            original_face_tags[i];
++        const auto inserted = info.current_face_to_original_face.emplace(
++            dim_tag.second, original_face_tags[i]);
++        if (!inserted.second && inserted.first->second != original_face_tags[i])
++          throw std::runtime_error("[native_identity] Fragment has distinct original parents: face " + std::to_string(dim_tag.second));
+       }
+     }
+     if (fragment_faces.size() != 1 ||
+@@ -2526,7 +2136,71 @@ FragmentationInfo apply_continuity_fragmentation(
+   return info;
+ }
+ 
+-void configure_meshing(double mesh_size, const MeshOptions &options) {
++double gmsh_algorithm_id(const std::string &name) {
++  if (name == "frontal_delaunay") {
++    return 6.0;
++  }
++  if (name == "delaunay") {
++    return 5.0;
++  }
++  if (name == "meshadapt") {
++    return 1.0;
++  }
++  if (name == "automatic") {
++    return 2.0;
++  }
++  throw std::invalid_argument("Unknown gmsh_algorithm: " + name);
++}
++
++void validate_mesh_options(const MeshOptions &options) {
++  if (options.mesh_profile == "curvature") {
++    if (options.curvature_points <= 0) {
++      throw std::invalid_argument("curvature_points must be positive");
++    }
++    if (options.hmin_mode != "fraction" && options.hmin_mode != "cad_edge") {
++      throw std::invalid_argument("hmin_mode must be 'fraction' or 'cad_edge'");
++    }
++    if (!(options.hmin_fraction > 0.0) || !(options.hmax_fraction > 0.0)) {
++      throw std::invalid_argument("hmin_fraction and hmax_fraction must be positive");
++    }
++    if (!(options.hmin_edge_scale > 0.0)) {
++      throw std::invalid_argument("hmin_edge_scale must be positive");
++    }
++    if (!(options.cad_edge_tol_fraction >= 0.0)) {
++      throw std::invalid_argument("cad_edge_tol_fraction must be nonnegative");
++    }
++    if (options.hmin_fraction > options.hmax_fraction) {
++      throw std::invalid_argument("hmin_fraction must be <= hmax_fraction");
++    }
++    (void)gmsh_algorithm_id(options.gmsh_algorithm);
++  }
++  if (!(options.min_angle_deg > 0.0) || !(options.min_angle_deg < 60.0)) {
++    throw std::invalid_argument("min_angle_deg must be between 0 and 60");
++  }
++  if (!(options.max_edge_ratio >= 1.0)) {
++    throw std::invalid_argument("max_edge_ratio must be >= 1");
++  }
++}
++
++double effective_hmin(double bbox_diag, const MeshOptions &options,
++                      const OccInfo &occ) {
++  if (options.hmin_mode == "fraction") {
++    return options.hmin_fraction * bbox_diag;
++  }
++  if (!occ.ok ||
++      !std::isfinite(occ.min_meaningful_cad_edge_length) ||
++      occ.min_meaningful_cad_edge_length <= 0.0 ||
++      occ.meaningful_cad_edge_count <= 0) {
++    throw std::runtime_error(
++        "hmin_mode='cad_edge' requested, but no meaningful CAD edge length "
++        "was available from OCC. Try hmin_mode='fraction' or relax "
++        "cad_edge_tol_fraction.");
++  }
++  return options.hmin_edge_scale * occ.min_meaningful_cad_edge_length;
++}
++
++void configure_meshing(double mesh_size, double hmin, double hmax,
++                       const MeshOptions &options) {
+   set_option_if_available("Mesh.CharacteristicLengthMin", mesh_size);
+   set_option_if_available("Mesh.CharacteristicLengthMax", mesh_size);
+   set_option_if_available("Mesh.ElementOrder", 1.0);
+@@ -2543,6 +2217,18 @@ void configure_meshing(double mesh_size, const MeshOptions &options) {
+     set_option_if_available("Mesh.Algorithm", 5.0);
+   } else if (options.mesh_profile == "robust") {
+     set_option_if_available("Mesh.Algorithm", 2.0);
++  } else if (options.mesh_profile == "curvature") {
++    set_option_if_available("Mesh.CharacteristicLengthMin", hmin);
++    set_option_if_available("Mesh.CharacteristicLengthMax", hmax);
++    set_option_if_available("Mesh.MeshSizeFromPoints", 1.0);
++    set_option_if_available("Mesh.MeshSizeFromCurvature",
++                            static_cast<double>(options.curvature_points));
++    set_option_if_available("Mesh.MeshSizeExtendFromBoundary",
++                            options.mesh_size_extend_from_boundary ? 1.0
++                                                                   : 0.0);
++    set_option_if_available("Mesh.Algorithm",
++                            gmsh_algorithm_id(options.gmsh_algorithm));
++    set_option_if_available("Mesh.Optimize", options.optimize ? 1.0 : 0.0);
+   }
+ }
+ 
+@@ -2556,8 +2242,16 @@ MeshResult mesh_step_file(const std::string &step_file,
+           2 * static_cast<std::size_t>(sample_nodes.nodes_per_patch)) {
+     throw std::invalid_argument("sample_nodes must contain a 2 x N uv array");
+   }
++  validate_mesh_options(options);
+ 
++  std::lock_guard<std::mutex> cad_lock(cad_process_mutex);
++  // Destroy Gmsh bindings before releasing the retained shape.
++  std::unique_ptr<occ::Context> retained;
+   GmshSession session(options.verbose);
++  verify_native_runtime();
++  const bool use_occ = use_occ_computations(options.occ_info_exe);
++  retained = std::make_unique<occ::Context>(step_file);
++  auto &cad = *retained;
+   MeshResult result;
+   result.step_file = step_file;
+   result.order = options.order;
+@@ -2565,11 +2259,13 @@ MeshResult mesh_step_file(const std::string &step_file,
+   result.mesh_profile = options.mesh_profile;
+   result.sample_rule = "caller_provided";
+ 
+-  const OccInfo occ = load_occ_info_external(step_file, options.occ_info_exe);
++  const OccInfo occ = load_occ_info(cad, use_occ, options.cad_edge_tol_fraction);
+ 
+   gmsh::model::add("step_mesher_cpp_matlab");
+-  gmsh::vectorpair imported;
+-  gmsh::model::occ::importShapes(step_file, imported, true, "step");
++  const auto bound_face_tags = cad.bind_native();
++  result.native_identity_faces = static_cast<int>(bound_face_tags.size());
++  result.native_identity_occurrences = static_cast<int>(cad.face_occurrences().size());
++  result.occ_evaluation = use_occ ? "original_occ_in_process" : "original_gmsh";
+   gmsh::model::occ::synchronize();
+ 
+   gmsh::vectorpair volumes;
+@@ -2589,7 +2285,8 @@ MeshResult mesh_step_file(const std::string &step_file,
+   for (const auto &face : faces) {
+     original_face_tags.push_back(face.second);
+   }
+-  const auto original_face_descs = collect_gmsh_face_descs(original_face_tags);
++  if (original_face_tags.size() != bound_face_tags.size())
++    throw std::runtime_error("[native_identity] Surface coverage changed after volume removal");
+ 
+   double xmin = 0.0;
+   double ymin = 0.0;
+@@ -2612,15 +2309,37 @@ MeshResult mesh_step_file(const std::string &step_file,
+                                 : gmsh_bbox_diag);
+   result.mesh_size = std::max(options.mesh_fraction * result.bbox_diag,
+                               std::numeric_limits<double>::epsilon());
++  result.min_raw_cad_edge_length = occ.min_raw_cad_edge_length;
++  result.min_meaningful_cad_edge_length =
++      occ.min_meaningful_cad_edge_length;
++  result.cad_edge_count = occ.cad_edge_count;
++  result.meaningful_cad_edge_count = occ.meaningful_cad_edge_count;
++  result.hmin_effective = result.mesh_size;
++  result.hmax_effective = result.mesh_size;
++  if (options.mesh_profile == "curvature") {
++    result.hmin_effective = effective_hmin(result.bbox_diag, options, occ);
++    result.hmax_effective = options.hmax_fraction * result.bbox_diag;
++    if (!(result.hmin_effective > 0.0) ||
++        !(result.hmax_effective > 0.0) ||
++        !std::isfinite(result.hmin_effective) ||
++        !std::isfinite(result.hmax_effective)) {
++      throw std::runtime_error("computed non-finite curvature mesh size bound");
++    }
++    if (result.hmin_effective > result.hmax_effective) {
++      throw std::runtime_error(
++          "computed hmin is larger than hmax. Increase hmax_fraction, "
++          "reduce hmin_edge_scale, or relax cad_edge_tol_fraction.");
++    }
++  }
+ 
+   const auto fragmentation = apply_continuity_fragmentation(
+-      step_file, options, result.mesh_size, original_face_tags,
+-      original_face_descs);
++      cad, use_occ, result.mesh_size, original_face_tags);
+   result.continuity_break_count = fragmentation.continuity_break_count;
+   result.continuity_helper_curve_count = fragmentation.helper_curve_count;
+   result.fragmented_face_count = fragmentation.fragmented_face_count;
+ 
+-  configure_meshing(result.mesh_size, options);
++  configure_meshing(result.mesh_size, result.hmin_effective,
++                    result.hmax_effective, options);
+   gmsh::model::mesh::generate(2);
+ 
+   result.cad_area = occ.ok && std::isfinite(occ.surface_area) &&
+@@ -2630,16 +2349,22 @@ MeshResult mesh_step_file(const std::string &step_file,
+   gmsh::model::getEntities(faces, 2);
+   const auto curve_faces =
+       build_curve_face_map_from_mesh(fragmentation.current_face_to_original_face);
++  std::unordered_map<int, int> live_faces;
++  for (const auto &face : faces) {
++    if (fragmentation.current_face_to_original_face.count(face.second) != 1)
++      throw std::runtime_error("[native_identity] Missing source ancestry for current face " + std::to_string(face.second));
++    live_faces.emplace(face.second, face.second);
++  }
++  const auto current_curve_faces = build_curve_face_map_from_mesh(live_faces);
+   const auto node_map = get_node_map(
+-      result, curve_faces, fragmentation.feature_curves, step_file,
+-      options.occ_info_exe, original_face_descs);
++      result, current_curve_faces, fragmentation.feature_curves, cad, use_occ);
+   const auto ref_tris = refined_reference_triangles(options.refinement_level);
+   const auto edge_nodes = legendre_gauss_lobatto_nodes(options.edge_gll_order);
+   const auto edge_weights = barycentric_weights(edge_nodes);
+   const auto edge_quad_weights =
+       legendre_gauss_lobatto_quadrature_weights(edge_nodes);
+-  auto edge_helper = load_occ_edge_samples_external(
+-      step_file, options.occ_info_exe, original_face_descs, edge_nodes,
++  auto edge_helper = load_occ_edge_samples(
++      cad, use_occ, edge_nodes,
+       curve_faces, node_map, fragmentation.feature_curves);
+   EdgeSampleMap edge_samples;
+   if (edge_helper.ok) {
+@@ -2649,12 +2374,12 @@ MeshResult mesh_step_file(const std::string &step_file,
+         edge_helper.curve_projection_success;
+     result.edge_fallback_points = edge_helper.fallback_points;
+   } else {
+-    edge_samples = build_edge_samples(node_map, edge_nodes, curve_faces,
++    edge_samples = build_edge_samples(node_map, edge_nodes, current_curve_faces,
+                                       fragmentation.feature_curves, result);
+   }
+ 
+-  auto feature_helper = load_occ_feature_samples_external(
+-      step_file, options.occ_info_exe, original_face_descs, edge_nodes,
++  auto feature_helper = load_occ_feature_samples(
++      cad, use_occ, edge_nodes,
+       node_map, fragmentation.feature_curves);
+   if (feature_helper.ok) {
+     result.feature_edge_fallback_points = feature_helper.fallback_points;
+@@ -2667,6 +2392,7 @@ MeshResult mesh_step_file(const std::string &step_file,
+ 
+   std::vector<Vec3> candidate_xyz;
+   std::vector<int> candidate_face_tags;
++  std::vector<int> candidate_current_face_tags;
+   int coarse_tri_index = 0;
+ 
+   for (const auto &face : faces) {
+@@ -2738,6 +2464,23 @@ MeshResult mesh_step_file(const std::string &step_file,
+         result.scaffold_triangle_node_tags.push_back(static_cast<int>(tag1));
+         result.scaffold_triangle_node_tags.push_back(static_cast<int>(tag2));
+         result.scaffold_face_tags.push_back(face_tag);
++        const TriangleQuality quality = compute_triangle_quality(p0, p1, p2);
++        result.scaffold_min_angle_deg.push_back(quality.min_angle_deg);
++        result.scaffold_edge_ratio.push_back(quality.edge_ratio);
++        result.scaffold_triangle_area.push_back(quality.area);
++        if (coarse_tri_index == 1 ||
++            quality.min_angle_deg < result.min_scaffold_angle_deg) {
++          result.min_scaffold_angle_deg = quality.min_angle_deg;
++          result.worst_quality_triangle = coarse_tri_index;
++        }
++        result.max_scaffold_edge_ratio =
++            std::max(result.max_scaffold_edge_ratio, quality.edge_ratio);
++        if (quality.min_angle_deg < options.min_angle_deg) {
++          ++result.bad_min_angle_count;
++        }
++        if (quality.edge_ratio > options.max_edge_ratio) {
++          ++result.bad_edge_ratio_count;
++        }
+ 
+         for (const auto &subtri : ref_tris) {
+           result.tri_face_tags.push_back(face_tag);
+@@ -2757,16 +2500,33 @@ MeshResult mesh_step_file(const std::string &step_file,
+                 edge23, edge31);
+             candidate_xyz.push_back(candidate_point);
+             candidate_face_tags.push_back(face_tag);
++            candidate_current_face_tags.push_back(current_face_tag);
+           }
+         }
+       }
+     }
+   }
+ 
++  result.nscaffold_triangles =
++      static_cast<int>(result.scaffold_face_tags.size());
++  if (options.enforce_quality &&
++      (result.bad_min_angle_count > 0 || result.bad_edge_ratio_count > 0)) {
++    std::ostringstream msg;
++    msg << "Scaffold mesh quality check failed: "
++        << result.bad_min_angle_count << " triangles below min_angle_deg="
++        << options.min_angle_deg << ", " << result.bad_edge_ratio_count
++        << " triangles above max_edge_ratio=" << options.max_edge_ratio
++        << ". Worst triangle id " << result.worst_quality_triangle
++        << " has min angle " << result.min_scaffold_angle_deg
++        << " deg; max edge ratio is " << result.max_scaffold_edge_ratio
++        << ".";
++    throw std::runtime_error(msg.str());
++  }
++
+   double sum_projection_distance = 0.0;
+   int projection_count = 0;
+-  auto projected = load_occ_projected_nodes_external(
+-      step_file, options.occ_info_exe, original_face_descs, candidate_xyz,
++  auto projected = load_occ_projected_nodes(
++      cad, use_occ, candidate_xyz,
+       candidate_face_tags);
+   if (projected.ok) {
+     result.projection_failures = projected.fallback_points;
+@@ -2784,11 +2544,11 @@ MeshResult mesh_step_file(const std::string &step_file,
+       Vec3 projected_xyz = candidate_xyz[i];
+       Vec2 surf_uv{};
+       bool projected_ok = closest_point_on_surface(
+-          candidate_face_tags[i], candidate_xyz[i], projected_xyz, surf_uv);
++          candidate_current_face_tags[i], candidate_xyz[i], projected_xyz, surf_uv);
+       if (!projected_ok) {
+-        projected_ok = surface_uv_from_xyz(candidate_face_tags[i],
++        projected_ok = surface_uv_from_xyz(candidate_current_face_tags[i],
+                                            candidate_xyz[i], surf_uv) &&
+-                       xyz_from_surface_uv(candidate_face_tags[i], surf_uv,
++                       xyz_from_surface_uv(candidate_current_face_tags[i], surf_uv,
+                                            projected_xyz);
+       }
+       if (!projected_ok) {
+@@ -2807,8 +2567,6 @@ MeshResult mesh_step_file(const std::string &step_file,
+   }
+ 
+   result.npatches = static_cast<int>(result.tri_face_tags.size());
+-  result.nscaffold_triangles =
+-      static_cast<int>(result.scaffold_face_tags.size());
+   result.mean_projection_distance =
+       projection_count > 0 ? sum_projection_distance / projection_count : 0.0;
+   return result;
+diff --git a/cpp/src/occ_info.cpp b/cpp/src/occ_info.cpp
+index 589ff87..babaf6c 100644
+--- a/cpp/src/occ_info.cpp
++++ b/cpp/src/occ_info.cpp
+@@ -1,30 +1,4 @@
+-#include <BRepAdaptor_Curve.hxx>
+-#include <BRepAdaptor_Surface.hxx>
+-#include <BRepBndLib.hxx>
+-#include <BRepGProp.hxx>
+-#include <BRep_Tool.hxx>
+-#include <BRepTopAdaptor_FClass2d.hxx>
+-#include <Bnd_Box.hxx>
+-#include <Extrema_ExtPC.hxx>
+-#include <GeomAbs_Shape.hxx>
+-#include <GProp_GProps.hxx>
+-#include <Geom_Surface.hxx>
+-#include <GeomAPI_ProjectPointOnSurf.hxx>
+-#include <IFSelect_ReturnStatus.hxx>
+-#include <STEPControl_Reader.hxx>
+-#include <Standard_Handle.hxx>
+-#include <TColStd_Array1OfReal.hxx>
+-#include <TopAbs.hxx>
+-#include <TopExp.hxx>
+-#include <TopExp_Explorer.hxx>
+-#include <TopTools_IndexedMapOfShape.hxx>
+-#include <TopoDS.hxx>
+-#include <TopoDS_Edge.hxx>
+-#include <TopoDS_Face.hxx>
+-#include <TopoDS_Shape.hxx>
+-#include <gp_Pnt.hxx>
+-#include <gp_Pnt2d.hxx>
+-#include <gp_Vec.hxx>
++#include "step_mesher/occ_context.hpp"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -41,156 +15,25 @@
+ #include <unordered_map>
+ #include <vector>
+ 
+-namespace {
+-
+-using Vec3 = std::array<double, 3>;
+-using Vec2 = std::array<double, 2>;
+-
+-struct FaceDesc {
+-  int tag = 0;
+-  std::array<double, 6> bbox{};
+-  Vec3 center{};
+-  Vec3 size{};
+-  double diag = 0.0;
+-  double area = 0.0;
+-};
+-
+-struct Node {
+-  std::size_t tag = 0;
+-  Vec3 x{};
+-};
+-
+-struct Line {
+-  std::size_t a = 0;
+-  std::size_t b = 0;
+-  int curve = 0;
+-};
+-
+-struct Request {
+-  std::string step_file;
+-  std::vector<double> edge_nodes;
+-  std::vector<FaceDesc> gm_faces;
+-  std::unordered_map<std::size_t, Vec3> nodes;
+-  std::unordered_map<int, std::vector<int>> curve_faces;
+-  std::vector<Line> lines;
+-};
+-
+-struct ProjectNode {
+-  int face_tag = 0;
+-  Vec3 x{};
+-};
+-
+-struct ProjectRequest {
+-  std::string step_file;
+-  std::vector<FaceDesc> gm_faces;
+-  std::vector<ProjectNode> nodes;
+-};
+-
+-struct HelperRequest {
+-  std::string step_file;
+-  double target_spacing = 0.0;
+-  std::vector<FaceDesc> gm_faces;
+-};
+-
+-struct HelperCurve {
+-  int face_tag = 0;
+-  int axis = -1;
+-  double param = std::numeric_limits<double>::quiet_NaN();
+-  std::vector<Vec3> points;
+-};
+-
+-struct FeatureLine {
+-  std::size_t a = 0;
+-  std::size_t b = 0;
+-  int face_tag = 0;
+-  int axis = -1;
+-  double param = std::numeric_limits<double>::quiet_NaN();
+-};
+ 
+-struct FeatureRequest {
+-  std::string step_file;
+-  std::vector<double> edge_nodes;
+-  std::vector<FaceDesc> gm_faces;
+-  std::unordered_map<std::size_t, Vec3> nodes;
+-  std::vector<FeatureLine> lines;
+-};
+-
+-struct FeatureNodeConstraint {
+-  int face_tag = 0;
+-  int axis = -1;
+-  double param = std::numeric_limits<double>::quiet_NaN();
+-};
+-
+-struct FeatureNode {
+-  std::size_t tag = 0;
+-  Vec3 x{};
+-  std::vector<FeatureNodeConstraint> constraints;
+-};
+-
+-struct FeatureNodeRequest {
+-  std::string step_file;
+-  std::vector<FaceDesc> gm_faces;
+-  std::vector<FeatureNode> nodes;
+-};
+-
+-struct OccFace {
+-  TopoDS_Face face;
+-  FaceDesc desc;
+-};
+-
+-struct OccEdge {
+-  TopoDS_Edge edge;
+-  bool degenerated = false;
+-  std::vector<int> face_ids;
+-};
+-
+-struct SurfaceEval {
+-  Vec3 x{};
+-  Vec3 xu{};
+-  Vec3 xv{};
+-  Vec3 xuu{};
+-  Vec3 xvv{};
+-  Vec3 xuv{};
+-};
++namespace {
++using namespace stepmesher::occ;
++using FaceDesc = FaceDescriptor;
++struct Node { std::size_t tag = 0; Vec3 x{}; };
++struct Request : EdgeRequest { std::string step_file; std::vector<FaceDesc> gm_faces; };
++struct ProjectRequest { std::string step_file; std::vector<FaceDesc> gm_faces; std::vector<ProjectNode> nodes; };
++struct HelperRequest { std::string step_file; double target_spacing = 0.0; std::vector<FaceDesc> gm_faces; };
++struct AdapterFeatureRequest : FeatureRequest { std::string step_file; std::vector<FaceDesc> gm_faces; };
++struct FeatureNodeRequest { std::string step_file; std::vector<FaceDesc> gm_faces; std::vector<FeatureNode> nodes; };
+ 
+ double norm(const Vec3 &a) {
+   return std::sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+ }
+ 
+-double dot(const Vec3 &a, const Vec3 &b) {
+-  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+-}
+-
+-Vec3 cross(const Vec3 &a, const Vec3 &b) {
+-  return {a[1] * b[2] - a[2] * b[1],
+-          a[2] * b[0] - a[0] * b[2],
+-          a[0] * b[1] - a[1] * b[0]};
+-}
+-
+-Vec3 add(const Vec3 &a, const Vec3 &b) {
+-  return {a[0] + b[0], a[1] + b[1], a[2] + b[2]};
+-}
+-
+ Vec3 subtract(const Vec3 &a, const Vec3 &b) {
+   return {a[0] - b[0], a[1] - b[1], a[2] - b[2]};
+ }
+ 
+-Vec3 scale(const Vec3 &a, double s) {
+-  return {s * a[0], s * a[1], s * a[2]};
+-}
+-
+-Vec3 pnt_to_vec(const gp_Pnt &p) {
+-  return {p.X(), p.Y(), p.Z()};
+-}
+-
+-Vec3 vec_to_vec(const gp_Vec &v) {
+-  return {v.X(), v.Y(), v.Z()};
+-}
+-
+-bool finite(const Vec3 &a) {
+-  return std::isfinite(a[0]) && std::isfinite(a[1]) && std::isfinite(a[2]);
+-}
+-
+ FaceDesc make_desc(const std::array<double, 6> &bbox, double area, int tag) {
+   FaceDesc d;
+   d.tag = tag;
+@@ -203,51 +46,6 @@ FaceDesc make_desc(const std::array<double, 6> &bbox, double area, int tag) {
+   return d;
+ }
+ 
+-FaceDesc face_desc_occ(const TopoDS_Face &face, int tag) {
+-  Bnd_Box box;
+-  BRepBndLib::Add(face, box);
+-  Standard_Real x0 = 0.0;
+-  Standard_Real y0 = 0.0;
+-  Standard_Real z0 = 0.0;
+-  Standard_Real x1 = 0.0;
+-  Standard_Real y1 = 0.0;
+-  Standard_Real z1 = 0.0;
+-  box.Get(x0, y0, z0, x1, y1, z1);
+-
+-  GProp_GProps props;
+-  BRepGProp::SurfaceProperties(face, props, 1.0e-9);
+-  return make_desc({x0, y0, z0, x1, y1, z1}, props.Mass(), tag);
+-}
+-
+-double bbox_diag(const TopoDS_Shape &shape) {
+-  Bnd_Box box;
+-  BRepBndLib::AddOptimal(shape, box, Standard_False, Standard_False);
+-
+-  Standard_Real x0 = 0.0;
+-  Standard_Real y0 = 0.0;
+-  Standard_Real z0 = 0.0;
+-  Standard_Real x1 = 0.0;
+-  Standard_Real y1 = 0.0;
+-  Standard_Real z1 = 0.0;
+-  box.Get(x0, y0, z0, x1, y1, z1);
+-
+-  return norm(Vec3{x1 - x0, y1 - y0, z1 - z0});
+-}
+-
+-TopoDS_Shape read_step(const std::string &step_file) {
+-  STEPControl_Reader reader;
+-  const IFSelect_ReturnStatus status = reader.ReadFile(step_file.c_str());
+-  if (status != IFSelect_RetDone) {
+-    throw std::runtime_error("could not read STEP file");
+-  }
+-  reader.TransferRoots();
+-  TopoDS_Shape shape = reader.OneShape();
+-  if (shape.IsNull()) {
+-    throw std::runtime_error("STEP file produced an empty shape");
+-  }
+-  return shape;
+-}
+-
+ Request read_request(const std::string &path) {
+   std::ifstream in(path);
+   if (!in) {
+@@ -390,7 +188,7 @@ HelperRequest read_helper_request(const std::string &path) {
+   return req;
+ }
+ 
+-FeatureRequest read_feature_request(const std::string &path) {
++AdapterFeatureRequest read_feature_request(const std::string &path) {
+   std::ifstream in(path);
+   if (!in) {
+     throw std::runtime_error("could not open OCC feature-edge request");
+@@ -402,7 +200,7 @@ FeatureRequest read_feature_request(const std::string &path) {
+     throw std::runtime_error("bad OCC feature-edge request marker");
+   }
+ 
+-  FeatureRequest req;
++  AdapterFeatureRequest req;
+   std::getline(in, req.step_file);
+ 
+   std::size_t n = 0;
+@@ -488,14 +286,14 @@ double desc_cost(const FaceDesc &g, const FaceDesc &o, double model_diag,
+ }
+ 
+ std::unordered_map<int, int> map_faces(const std::vector<FaceDesc> &gm_faces,
+-                                       const std::vector<OccFace> &occ_faces,
++                                       const std::vector<FaceDesc> &occ_faces,
+                                        double model_diag) {
+   double area_scale = 1.0;
+   for (const auto &f : gm_faces) {
+     area_scale = std::max(area_scale, std::abs(f.area));
+   }
+   for (const auto &f : occ_faces) {
+-    area_scale = std::max(area_scale, std::abs(f.desc.area));
++    area_scale = std::max(area_scale, std::abs(f.area));
+   }
+ 
+   std::unordered_map<int, int> out;
+@@ -508,7 +306,7 @@ std::unordered_map<int, int> map_faces(const std::vector<FaceDesc> &gm_faces,
+         continue;
+       }
+       const double c =
+-          desc_cost(gm_face, occ_faces[j].desc, model_diag, area_scale);
++          desc_cost(gm_face, occ_faces[j], model_diag, area_scale);
+       if (c < best) {
+         best = c;
+         best_idx = static_cast<int>(j);
+@@ -517,7 +315,7 @@ std::unordered_map<int, int> map_faces(const std::vector<FaceDesc> &gm_faces,
+     if (best_idx < 0) {
+       for (std::size_t j = 0; j < occ_faces.size(); ++j) {
+         const double c =
+-            desc_cost(gm_face, occ_faces[j].desc, model_diag, area_scale);
++            desc_cost(gm_face, occ_faces[j], model_diag, area_scale);
+         if (c < best) {
+           best = c;
+           best_idx = static_cast<int>(j);
+@@ -532,1115 +330,79 @@ std::unordered_map<int, int> map_faces(const std::vector<FaceDesc> &gm_faces,
+   return out;
+ }
+ 
+-std::vector<OccFace> collect_faces(const TopoDS_Shape &shape) {
+-  std::vector<OccFace> faces;
+-  int idx = 0;
+-  for (TopExp_Explorer exp(shape, TopAbs_FACE); exp.More(); exp.Next()) {
+-    TopoDS_Face face = TopoDS::Face(exp.Current());
+-    faces.push_back({face, face_desc_occ(face, idx)});
+-    ++idx;
+-  }
+-  return faces;
+-}
+-
+-std::vector<OccEdge> collect_edges(const TopoDS_Shape &shape) {
+-  TopTools_IndexedMapOfShape face_map;
+-  TopTools_IndexedMapOfShape edge_map;
+-  TopExp::MapShapes(shape, TopAbs_FACE, face_map);
+-  TopExp::MapShapes(shape, TopAbs_EDGE, edge_map);
+-
+-  std::vector<std::vector<int>> edge_faces(edge_map.Extent() + 1);
+-  for (int fi = 1; fi <= face_map.Extent(); ++fi) {
+-    TopoDS_Face face = TopoDS::Face(face_map.FindKey(fi));
+-    for (TopExp_Explorer exp(face, TopAbs_EDGE); exp.More(); exp.Next()) {
+-      TopoDS_Edge edge = TopoDS::Edge(exp.Current());
+-      const int ei = edge_map.FindIndex(edge);
+-      if (ei > 0) {
+-        edge_faces[static_cast<std::size_t>(ei)].push_back(fi - 1);
+-      }
+-    }
+-  }
+-
+-  std::vector<OccEdge> edges;
+-  for (int ei = 1; ei <= edge_map.Extent(); ++ei) {
+-    TopoDS_Edge edge = TopoDS::Edge(edge_map.FindKey(ei));
+-    bool deg = false;
+-    try {
+-      deg = BRep_Tool::Degenerated(edge);
+-    } catch (...) {
+-    }
+-    auto faces = edge_faces[static_cast<std::size_t>(ei)];
+-    std::sort(faces.begin(), faces.end());
+-    faces.erase(std::unique(faces.begin(), faces.end()), faces.end());
+-    edges.push_back({edge, deg, faces});
+-  }
+-  return edges;
+-}
+-
+-bool project_curve(const Vec3 &x, const TopoDS_Edge &edge, Vec3 &out) {
+-  try {
+-    BRepAdaptor_Curve curve(edge);
+-    gp_Pnt p(x[0], x[1], x[2]);
+-    Extrema_ExtPC ext(p, curve);
+-    if (!ext.IsDone() || ext.NbExt() <= 0) {
+-      return false;
+-    }
+-    double best = std::numeric_limits<double>::infinity();
+-    gp_Pnt best_p;
+-    for (int k = 1; k <= ext.NbExt(); ++k) {
+-      const double d2 = ext.SquareDistance(k);
+-      if (d2 < best) {
+-        best = d2;
+-        best_p = ext.Point(k).Value();
+-      }
+-    }
+-    out = pnt_to_vec(best_p);
+-    return finite(out);
+-  } catch (...) {
+-    return false;
+-  }
+-}
+-
+-double point_curve_distance(const Vec3 &x, const TopoDS_Edge &edge) {
+-  Vec3 out{};
+-  if (!project_curve(x, edge, out)) {
+-    return std::numeric_limits<double>::infinity();
+-  }
+-  return norm(subtract(x, out));
+-}
+-
+-int best_occ_edge_for_curve(
+-    int curve_tag, const Request &req, const std::vector<OccEdge> &edges,
+-    const std::vector<int> &preferred_faces) {
+-  std::vector<Vec3> samples;
+-  for (const auto &line : req.lines) {
+-    if (line.curve != curve_tag) {
+-      continue;
+-    }
+-    const auto a = req.nodes.find(line.a);
+-    const auto b = req.nodes.find(line.b);
+-    if (a != req.nodes.end()) {
+-      samples.push_back(a->second);
+-    }
+-    if (b != req.nodes.end()) {
+-      samples.push_back(b->second);
+-    }
+-    if (samples.size() >= 10) {
+-      break;
+-    }
+-  }
+-  if (samples.empty()) {
+-    return -1;
+-  }
+-
+-  std::set<int> preferred(preferred_faces.begin(), preferred_faces.end());
+-  double best_score = std::numeric_limits<double>::infinity();
+-  int best_idx = -1;
+-  int best_overlap = -1;
+-  for (std::size_t i = 0; i < edges.size(); ++i) {
+-    if (edges[i].degenerated) {
+-      continue;
+-    }
+-    double mean = 0.0;
+-    int count = 0;
+-    for (const Vec3 &p : samples) {
+-      const double d = point_curve_distance(p, edges[i].edge);
+-      if (std::isfinite(d)) {
+-        mean += d;
+-        ++count;
+-      }
+-    }
+-    if (count == 0) {
+-      continue;
+-    }
+-    mean /= static_cast<double>(count);
+-    int overlap = 0;
+-    for (int f : edges[i].face_ids) {
+-      if (preferred.count(f) != 0) {
+-        ++overlap;
+-      }
+-    }
+-    if (mean < best_score ||
+-        (std::abs(mean - best_score) <= 1.0e-14 &&
+-         overlap > best_overlap)) {
+-      best_score = mean;
+-      best_idx = static_cast<int>(i);
+-      best_overlap = overlap;
+-    }
+-  }
+-  return best_idx;
+-}
+-
+-int surface_kind(const TopoDS_Face &face) {
+-  try {
+-    BRepAdaptor_Surface s(face, Standard_False);
+-    return static_cast<int>(s.GetType());
+-  } catch (...) {
+-    return -1;
+-  }
+-}
+-
+-bool same_support(const TopoDS_Face &a, const TopoDS_Face &b) {
+-  const int ka = surface_kind(a);
+-  const int kb = surface_kind(b);
+-  if (ka < 0 || ka != kb) {
+-    return false;
+-  }
+-  try {
+-    BRepAdaptor_Surface sa(a, Standard_False);
+-    BRepAdaptor_Surface sb(b, Standard_False);
+-    if (ka == 0) {
+-      const auto pa = sa.Plane();
+-      const auto pb = sb.Plane();
+-      const Vec3 na{pa.Axis().Direction().X(), pa.Axis().Direction().Y(),
+-                    pa.Axis().Direction().Z()};
+-      const Vec3 nb{pb.Axis().Direction().X(), pb.Axis().Direction().Y(),
+-                    pb.Axis().Direction().Z()};
+-      return norm(cross(na, nb)) < 1.0e-10;
+-    }
+-    if (ka == 1) {
+-      const auto ca = sa.Cylinder();
+-      const auto cb = sb.Cylinder();
+-      return std::abs(ca.Radius() - cb.Radius()) < 1.0e-8;
+-    }
+-    if (ka == 3) {
+-      const auto spa = sa.Sphere();
+-      const auto spb = sb.Sphere();
+-      return std::abs(spa.Radius() - spb.Radius()) < 1.0e-8;
+-    }
+-  } catch (...) {
+-  }
+-  return false;
+-}
+-
+-std::vector<int> dedup_support_faces(const std::vector<int> &face_ids,
+-                                     const std::vector<OccFace> &faces) {
+-  std::vector<int> out;
+-  for (int id : face_ids) {
+-    if (id < 0 || id >= static_cast<int>(faces.size())) {
+-      continue;
+-    }
+-    bool duplicate = false;
+-    for (int prev : out) {
+-      if (same_support(faces[static_cast<std::size_t>(id)].face,
+-                       faces[static_cast<std::size_t>(prev)].face)) {
+-        duplicate = true;
+-        break;
+-      }
+-    }
+-    if (!duplicate) {
+-      out.push_back(id);
+-    }
+-  }
+-  return out;
+-}
+-
+-bool project_surface(const TopoDS_Face &face, const Vec3 &x, Vec2 &uv,
+-                     Vec3 &out) {
+-  try {
+-    Handle(Geom_Surface) surf = BRep_Tool::Surface(face);
+-    if (surf.IsNull()) {
+-      return false;
+-    }
+-    BRepAdaptor_Surface adapt(face, Standard_False);
+-    gp_Pnt p(x[0], x[1], x[2]);
+-    GeomAPI_ProjectPointOnSurf proj;
+-    const double u0 = adapt.FirstUParameter();
+-    const double u1 = adapt.LastUParameter();
+-    const double v0 = adapt.FirstVParameter();
+-    const double v1 = adapt.LastVParameter();
+-    if (std::isfinite(u0) && std::isfinite(u1) && std::isfinite(v0) &&
+-        std::isfinite(v1) && std::abs(u1 - u0) > 1.0e-30 &&
+-        std::abs(v1 - v0) > 1.0e-30 && std::abs(u0) < 1.0e50 &&
+-        std::abs(u1) < 1.0e50 && std::abs(v0) < 1.0e50 &&
+-        std::abs(v1) < 1.0e50) {
+-      proj.Init(p, surf, u0, u1, v0, v1);
+-    } else {
+-      proj.Init(p, surf);
+-    }
+-    if (!proj.IsDone() || proj.NbPoints() <= 0) {
+-      return false;
+-    }
+-    Standard_Real u = 0.0;
+-    Standard_Real v = 0.0;
+-    proj.LowerDistanceParameters(u, v);
+-    uv = {u, v};
+-    out = pnt_to_vec(proj.NearestPoint());
+-    return finite(out);
+-  } catch (...) {
+-    return false;
+-  }
+-}
+-
+-Vec3 surface_point(BRepAdaptor_Surface &surface, double u, double v) {
+-  gp_Pnt p = surface.Value(u, v);
+-  return pnt_to_vec(p);
+-}
+-
+-std::vector<double> continuity_breaks(BRepAdaptor_Surface &surface,
+-                                      bool u_direction) {
+-  int n_intervals = 0;
+-  if (u_direction) {
+-    n_intervals = surface.NbUIntervals(GeomAbs_CN);
+-  } else {
+-    n_intervals = surface.NbVIntervals(GeomAbs_CN);
+-  }
+-  if (n_intervals <= 1) {
+-    return {};
+-  }
+-
+-  TColStd_Array1OfReal intervals(1, n_intervals + 1);
+-  if (u_direction) {
+-    surface.UIntervals(intervals, GeomAbs_CN);
+-  } else {
+-    surface.VIntervals(intervals, GeomAbs_CN);
+-  }
+-
+-  std::vector<double> values;
+-  values.reserve(static_cast<std::size_t>(n_intervals + 1));
+-  for (Standard_Integer i = intervals.Lower(); i <= intervals.Upper(); ++i) {
+-    values.push_back(intervals.Value(i));
+-  }
+-  if (values.size() <= 2) {
+-    return {};
+-  }
+-
+-  const double first = values.front();
+-  const double last = values.back();
+-  const double tol =
+-      1.0e-12 * std::max({1.0, std::abs(first), std::abs(last)});
+-
+-  std::vector<double> out;
+-  for (std::size_t i = 1; i + 1 < values.size(); ++i) {
+-    const double val = values[i];
+-    if (std::abs(val - first) <= tol || std::abs(val - last) <= tol) {
+-      continue;
+-    }
+-    if (!out.empty() && std::abs(val - out.back()) <= tol) {
+-      continue;
+-    }
+-    out.push_back(val);
+-  }
+-  return out;
+-}
+-
+-double polyline_length(const std::vector<Vec3> &points) {
+-  if (points.size() < 2) {
+-    return 0.0;
+-  }
+-  double length = 0.0;
+-  for (std::size_t i = 1; i < points.size(); ++i) {
+-    length += norm(subtract(points[i], points[i - 1]));
+-  }
+-  return length;
+-}
+-
+-std::vector<Vec3> deduplicate_points(const std::vector<Vec3> &points,
+-                                     double tol) {
+-  std::vector<Vec3> out;
+-  for (const Vec3 &p : points) {
+-    if (out.empty() || norm(subtract(p, out.back())) > tol) {
+-      out.push_back(p);
+-    }
+-  }
+-  return out;
+-}
+-
+-std::vector<Vec3>
+-resample_polyline_by_spacing(const std::vector<Vec3> &points,
+-                             double target_spacing, int min_points,
+-                             const std::vector<Vec3> &protected_points) {
+-  if (points.size() <= static_cast<std::size_t>(min_points) ||
+-      target_spacing <= 0.0) {
+-    return points;
+-  }
+-
+-  std::vector<double> seg_lengths;
+-  seg_lengths.reserve(points.size() - 1);
+-  std::vector<double> cumulative(points.size(), 0.0);
+-  for (std::size_t i = 1; i < points.size(); ++i) {
+-    const double len = norm(subtract(points[i], points[i - 1]));
+-    seg_lengths.push_back(len);
+-    cumulative[i] = cumulative[i - 1] + len;
+-  }
+-
+-  const double total_length = cumulative.back();
+-  if (total_length <= 1.0e-14) {
+-    return points;
+-  }
+-
+-  int n_target = static_cast<int>(std::ceil(total_length / target_spacing)) + 1;
+-  n_target = std::max(min_points,
+-                      std::min(n_target, static_cast<int>(points.size())));
+-  if (n_target >= static_cast<int>(points.size())) {
+-    return points;
+-  }
+-
+-  std::vector<double> protected_s;
+-  const double projection_tol = std::max(1.0e-8, 1.0e-3 * total_length);
+-  for (const Vec3 &protected_point : protected_points) {
+-    double best_dist = std::numeric_limits<double>::infinity();
+-    double best_s = std::numeric_limits<double>::quiet_NaN();
+-    for (std::size_t k = 0; k + 1 < points.size(); ++k) {
+-      const Vec3 ab = subtract(points[k + 1], points[k]);
+-      const double denom = dot(ab, ab);
+-      double alpha = 0.0;
+-      Vec3 q = points[k];
+-      if (denom > 1.0e-30) {
+-        alpha = dot(subtract(protected_point, points[k]), ab) / denom;
+-        alpha = std::max(0.0, std::min(1.0, alpha));
+-        q = add(points[k], scale(ab, alpha));
+-      }
+-      const double dist = norm(subtract(protected_point, q));
+-      if (dist < best_dist) {
+-        best_dist = dist;
+-        best_s = cumulative[k] + alpha * seg_lengths[k];
+-      }
+-    }
+-    if (std::isfinite(best_s) && best_dist <= projection_tol &&
+-        best_s > 1.0e-12 && best_s < total_length - 1.0e-12) {
+-      protected_s.push_back(best_s);
+-    }
+-  }
+-
+-  std::vector<double> targets{0.0, total_length};
+-  targets.insert(targets.end(), protected_s.begin(), protected_s.end());
+-  const double keep_distance = 0.35 * target_spacing;
+-  for (int i = 1; i + 1 < n_target; ++i) {
+-    const double s = total_length * static_cast<double>(i) /
+-                     static_cast<double>(n_target - 1);
+-    bool near_protected = false;
+-    for (double ps : protected_s) {
+-      if (std::abs(s - ps) < keep_distance) {
+-        near_protected = true;
+-        break;
+-      }
+-    }
+-    if (!near_protected) {
+-      targets.push_back(s);
+-    }
+-  }
+-
+-  std::sort(targets.begin(), targets.end());
+-  std::vector<double> filtered;
+-  const double min_sep = std::max(1.0e-12, 0.1 * target_spacing);
+-  for (double s : targets) {
+-    if (filtered.empty() || s - filtered.back() >= min_sep ||
+-        std::abs(s - total_length) <= 1.0e-12) {
+-      filtered.push_back(s);
+-    }
+-  }
+-
+-  std::vector<Vec3> out;
+-  out.reserve(filtered.size());
+-  std::size_t seg_idx = 0;
+-  for (double s : filtered) {
+-    while (seg_idx + 1 < cumulative.size() - 1 &&
+-           cumulative[seg_idx + 1] < s) {
+-      ++seg_idx;
+-    }
+-    const double denom = seg_lengths[seg_idx];
+-    if (denom <= 1.0e-14) {
+-      out.push_back(points[seg_idx]);
+-    } else {
+-      const double alpha = (s - cumulative[seg_idx]) / denom;
+-      out.push_back(
+-          add(scale(points[seg_idx], 1.0 - alpha),
+-              scale(points[seg_idx + 1], alpha)));
+-    }
+-  }
+-  return out;
+-}
+-
+-std::vector<std::vector<Vec3>>
+-sample_iso_segments(const TopoDS_Face &face, BRepAdaptor_Surface &surface,
+-                    BRepTopAdaptor_FClass2d &classifier, bool const_u,
+-                    double const_val, int n_samples) {
+-  const double umin = surface.FirstUParameter();
+-  const double umax = surface.LastUParameter();
+-  const double vmin = surface.FirstVParameter();
+-  const double vmax = surface.LastVParameter();
+-  if (!std::isfinite(umin) || !std::isfinite(umax) || !std::isfinite(vmin) ||
+-      !std::isfinite(vmax)) {
+-    return {};
+-  }
+-
+-  const double t0 = const_u ? vmin : umin;
+-  const double t1 = const_u ? vmax : umax;
+-  if (std::abs(t1 - t0) <= 1.0e-15) {
+-    return {};
+-  }
+-
+-  std::vector<std::vector<Vec3>> segments;
+-  std::vector<Vec3> current;
+-  const double point_tol = 1.0e-11;
+-  const int n = std::max(3, n_samples);
+-  for (int i = 0; i < n; ++i) {
+-    const double alpha = static_cast<double>(i) / static_cast<double>(n - 1);
+-    const double t = (1.0 - alpha) * t0 + alpha * t1;
+-    const double u = const_u ? const_val : t;
+-    const double v = const_u ? t : const_val;
+-    const TopAbs_State state =
+-        classifier.Perform(gp_Pnt2d(u, v), Standard_True);
+-    const bool inside = state == TopAbs_IN || state == TopAbs_ON;
+-    if (inside) {
+-      const Vec3 p = surface_point(surface, u, v);
+-      if (!current.empty() && norm(subtract(p, current.back())) <= point_tol) {
+-        continue;
+-      }
+-      current.push_back(p);
+-    } else {
+-      if (current.size() >= 2) {
+-        segments.push_back(current);
+-      }
+-      current.clear();
+-    }
+-  }
+-  if (current.size() >= 2) {
+-    segments.push_back(current);
+-  }
+-  (void)face;
+-  return segments;
+-}
+-
+-std::vector<HelperCurve> build_face_helper_curves(const TopoDS_Face &face,
+-                                                  int face_tag,
+-                                                  double target_spacing,
+-                                                  int &break_count) {
+-  BRepAdaptor_Surface surface(face, Standard_True);
+-  try {
+-    if ((surface.IsUPeriodic() && surface.IsVPeriodic()) ||
+-        (surface.IsUClosed() && surface.IsVClosed())) {
+-      return {};
+-    }
+-  } catch (...) {
+-  }
+-
+-  const double tol = std::max(surface.Tolerance(), 1.0e-9);
+-  BRepTopAdaptor_FClass2d classifier(face, tol);
+-
+-  const auto u_breaks = continuity_breaks(surface, true);
+-  const auto v_breaks = continuity_breaks(surface, false);
+-  break_count += static_cast<int>(u_breaks.size() + v_breaks.size());
+-  if (u_breaks.empty() && v_breaks.empty()) {
+-    return {};
+-  }
+-
+-  const int n_u_intervals = std::max(1, surface.NbUIntervals(GeomAbs_CN));
+-  const int n_v_intervals = std::max(1, surface.NbVIntervals(GeomAbs_CN));
+-
+-  std::vector<HelperCurve> helpers;
+-  const auto add_segments = [&](const std::vector<std::vector<Vec3>> &segments,
+-                                const std::vector<Vec3> &protected_points,
+-                                int axis, double param) {
+-    for (const auto &segment : segments) {
+-      std::vector<Vec3> sampled = segment;
+-      if (target_spacing > 0.0) {
+-        sampled = resample_polyline_by_spacing(segment, target_spacing, 5,
+-                                               protected_points);
+-      }
+-      sampled = deduplicate_points(sampled, 1.0e-11);
+-      if (sampled.size() >= 2 && polyline_length(sampled) > 1.0e-12) {
+-        helpers.push_back({face_tag, axis, param, sampled});
+-      }
+-    }
+-  };
+-
+-  for (double u0 : u_breaks) {
+-    std::vector<Vec3> protected_points;
+-    for (double v0 : v_breaks) {
+-      protected_points.push_back(surface_point(surface, u0, v0));
+-    }
+-    add_segments(sample_iso_segments(face, surface, classifier, true, u0,
+-                                     std::max(49, 12 * n_v_intervals + 1)),
+-                 protected_points, 0, u0);
+-  }
+-  for (double v0 : v_breaks) {
+-    std::vector<Vec3> protected_points;
+-    for (double u0 : u_breaks) {
+-      protected_points.push_back(surface_point(surface, u0, v0));
+-    }
+-    add_segments(sample_iso_segments(face, surface, classifier, false, v0,
+-                                     std::max(49, 12 * n_u_intervals + 1)),
+-                 protected_points, 1, v0);
+-  }
+-  return helpers;
+-}
+-
+-bool surface_eval(const TopoDS_Face &face, const Vec2 &uv, SurfaceEval &e) {
+-  try {
+-    BRepAdaptor_Surface s(face, Standard_False);
+-    gp_Pnt p;
+-    gp_Vec du;
+-    gp_Vec dv;
+-    gp_Vec duu;
+-    gp_Vec dvv;
+-    gp_Vec duv;
+-    s.D2(uv[0], uv[1], p, du, dv, duu, dvv, duv);
+-    e.x = pnt_to_vec(p);
+-    e.xu = vec_to_vec(du);
+-    e.xv = vec_to_vec(dv);
+-    e.xuu = vec_to_vec(duu);
+-    e.xvv = vec_to_vec(dvv);
+-    e.xuv = vec_to_vec(duv);
+-    return finite(e.x) && finite(e.xu) && finite(e.xv);
+-  } catch (...) {
+-    return false;
+-  }
+-}
+-
+-bool solve4(double a[4][4], double b[4], double x[4]) {
+-  double aug[4][5]{};
+-  for (int i = 0; i < 4; ++i) {
+-    for (int j = 0; j < 4; ++j) {
+-      aug[i][j] = a[i][j];
+-    }
+-    aug[i][4] = b[i];
+-  }
+-  for (int c = 0; c < 4; ++c) {
+-    int piv = c;
+-    double pabs = std::abs(aug[c][c]);
+-    for (int r = c + 1; r < 4; ++r) {
+-      if (std::abs(aug[r][c]) > pabs) {
+-        piv = r;
+-        pabs = std::abs(aug[r][c]);
+-      }
+-    }
+-    if (pabs < 1.0e-30 || !std::isfinite(pabs)) {
+-      return false;
+-    }
+-    if (piv != c) {
+-      for (int j = c; j < 5; ++j) {
+-        std::swap(aug[c][j], aug[piv][j]);
+-      }
+-    }
+-    const double diag = aug[c][c];
+-    for (int j = c; j < 5; ++j) {
+-      aug[c][j] /= diag;
+-    }
+-    for (int r = 0; r < 4; ++r) {
+-      if (r == c) {
+-        continue;
+-      }
+-      const double f = aug[r][c];
+-      for (int j = c; j < 5; ++j) {
+-        aug[r][j] -= f * aug[c][j];
+-      }
+-    }
+-  }
+-  for (int i = 0; i < 4; ++i) {
+-    x[i] = aug[i][4];
+-    if (!std::isfinite(x[i])) {
+-      return false;
+-    }
+-  }
+-  return true;
+-}
+-
+-int normal_rank(const TopoDS_Face &f1, const TopoDS_Face &f2, const Vec3 &x) {
+-  Vec2 uv1{};
+-  Vec2 uv2{};
+-  Vec3 p{};
+-  SurfaceEval e1;
+-  SurfaceEval e2;
+-  if (!project_surface(f1, x, uv1, p) || !project_surface(f2, x, uv2, p) ||
+-      !surface_eval(f1, uv1, e1) || !surface_eval(f2, uv2, e2)) {
+-    return 0;
+-  }
+-  Vec3 n1 = cross(e1.xu, e1.xv);
+-  Vec3 n2 = cross(e2.xu, e2.xv);
+-  const double n1n = norm(n1);
+-  const double n2n = norm(n2);
+-  if (n1n < 1.0e-14 || n2n < 1.0e-14) {
+-    return 0;
+-  }
+-  n1 = scale(n1, 1.0 / n1n);
+-  n2 = scale(n2, 1.0 / n2n);
+-  return norm(cross(n1, n2)) > 1.0e-8 ? 2 : 1;
++Context context_for_adapter(const std::string &step_file, const std::vector<FaceDesc> &descriptors) {
++  Context context(step_file);
++  const auto measurements = context.measurements(1e-6);
++  context.bind_adapter_face_indices(map_faces(descriptors, context.adapter_face_descriptors(), measurements.diag));
++  return context;
+ }
+-
+-bool edge_newton(const TopoDS_Face &f1, const TopoDS_Face &f2, const Vec3 &x0,
+-                 Vec3 &out, double tol = 1.0e-14, int maxiter = 25) {
+-  Vec2 uv1{};
+-  Vec2 uv2{};
+-  Vec3 p1{};
+-  Vec3 p2{};
+-  if (!project_surface(f1, x0, uv1, p1) || !project_surface(f2, x0, uv2, p2)) {
+-    return false;
+-  }
+-  double y[4]{uv1[0], uv1[1], uv2[0], uv2[1]};
+-  SurfaceEval e1;
+-  SurfaceEval e2;
+-  for (int iter = 0; iter < maxiter; ++iter) {
+-    if (!surface_eval(f1, {y[0], y[1]}, e1) ||
+-        !surface_eval(f2, {y[2], y[3]}, e2)) {
+-      return false;
+-    }
+-    const Vec3 n1 = cross(e1.xu, e1.xv);
+-    const Vec3 n2 = cross(e2.xu, e2.xv);
+-    const Vec3 t = cross(n1, n2);
+-    const Vec3 dn1_du = add(cross(e1.xuu, e1.xv), cross(e1.xu, e1.xuv));
+-    const Vec3 dn1_dv = add(cross(e1.xuv, e1.xv), cross(e1.xu, e1.xvv));
+-    const Vec3 dn2_du = add(cross(e2.xuu, e2.xv), cross(e2.xu, e2.xuv));
+-    const Vec3 dn2_dv = add(cross(e2.xuv, e2.xv), cross(e2.xu, e2.xvv));
+-    const Vec3 dt_du1 = cross(dn1_du, n2);
+-    const Vec3 dt_dv1 = cross(dn1_dv, n2);
+-    const Vec3 dt_du2 = cross(n1, dn2_du);
+-    const Vec3 dt_dv2 = cross(n1, dn2_dv);
+-    const Vec3 d = subtract(e1.x, x0);
+-    const Vec3 xdiff = subtract(e1.x, e2.x);
+-    double r[4]{xdiff[0], xdiff[1], xdiff[2], dot(d, t)};
+-    double jac[4][4]{};
+-    for (int k = 0; k < 3; ++k) {
+-      jac[k][0] = e1.xu[k];
+-      jac[k][1] = e1.xv[k];
+-      jac[k][2] = -e2.xu[k];
+-      jac[k][3] = -e2.xv[k];
+-    }
+-    jac[3][0] = dot(e1.xu, t) + dot(d, dt_du1);
+-    jac[3][1] = dot(e1.xv, t) + dot(d, dt_dv1);
+-    jac[3][2] = dot(d, dt_du2);
+-    jac[3][3] = dot(d, dt_dv2);
+-    double rhs[4]{-r[0], -r[1], -r[2], -r[3]};
+-    double dy[4]{};
+-    if (!solve4(jac, rhs, dy)) {
+-      return false;
+-    }
+-    double step = 0.0;
+-    for (double v : dy) {
+-      step += v * v;
+-    }
+-    step = std::sqrt(step);
+-    if (step > 2.0) {
+-      for (double &v : dy) {
+-        v *= 2.0 / step;
+-      }
+-      step = 2.0;
+-    }
+-    for (int k = 0; k < 4; ++k) {
+-      y[k] += dy[k];
+-      if (!std::isfinite(y[k])) {
+-        return false;
+-      }
+-    }
+-    double res = 0.0;
+-    for (double v : r) {
+-      res += v * v;
+-    }
+-    if (std::sqrt(res) < tol && step < tol) {
+-      break;
+-    }
+-  }
+-  if (!surface_eval(f1, {y[0], y[1]}, e1) ||
+-      !surface_eval(f2, {y[2], y[3]}, e2)) {
+-    return false;
+-  }
+-  if (norm(subtract(e1.x, e2.x)) > 1.0e-8) {
+-    return false;
++void write_lines(std::ostream &out, const std::vector<LineSamples> &lines) {
++  for (const auto &line : lines) {
++    out << line.a << " " << line.b << " " << line.points.size();
++    for (const auto &p : line.points) out << " " << p[0] << " " << p[1] << " " << p[2];
++    out << "\n";
+   }
+-  out = scale(add(e1.x, e2.x), 0.5);
+-  return finite(out);
+-}
+-
+-Vec3 blend(const Vec3 &a, const Vec3 &b, double t) {
+-  return {(1.0 - t) * a[0] + t * b[0],
+-          (1.0 - t) * a[1] + t * b[1],
+-          (1.0 - t) * a[2] + t * b[2]};
+ }
+-
+-void write_edge_samples(const Request &req, const std::string &out_path) {
+-  const TopoDS_Shape shape = read_step(req.step_file);
+-  const auto occ_faces = collect_faces(shape);
+-  const auto occ_edges = collect_edges(shape);
+-  const auto gm_to_occ = map_faces(req.gm_faces, occ_faces, bbox_diag(shape));
+-
+-  std::unordered_map<int, std::vector<int>> curve_occ_faces;
+-  for (const auto &entry : req.curve_faces) {
+-    std::vector<int> ids;
+-    for (int gm_face : entry.second) {
+-      const auto it = gm_to_occ.find(gm_face);
+-      if (it != gm_to_occ.end()) {
+-        ids.push_back(it->second);
+-      }
+-    }
+-    std::sort(ids.begin(), ids.end());
+-    ids.erase(std::unique(ids.begin(), ids.end()), ids.end());
+-    curve_occ_faces[entry.first] = dedup_support_faces(ids, occ_faces);
+-  }
+-
+-  std::unordered_map<int, int> curve_best_edge;
+-  for (const auto &entry : curve_occ_faces) {
+-    curve_best_edge[entry.first] =
+-        best_occ_edge_for_curve(entry.first, req, occ_edges, entry.second);
+-  }
+-
+-  int n_newton = 0;
+-  int n_curve = 0;
+-  int n_fallback = 0;
+-  std::ostringstream body;
+-  body << std::setprecision(17);
+-
+-  for (const auto &line : req.lines) {
+-    const auto a_it = req.nodes.find(line.a);
+-    const auto b_it = req.nodes.find(line.b);
+-    if (a_it == req.nodes.end() || b_it == req.nodes.end()) {
+-      throw std::runtime_error("line endpoint missing from node table");
+-    }
+-    const Vec3 p0 = a_it->second;
+-    const Vec3 p1 = b_it->second;
+-    const int edge_idx = curve_best_edge[line.curve];
+-    const TopoDS_Edge *edge =
+-        edge_idx >= 0 ? &occ_edges[static_cast<std::size_t>(edge_idx)].edge
+-                      : nullptr;
+-    const auto faces = curve_occ_faces[line.curve];
+-    const TopoDS_Face *f1 =
+-        faces.size() == 2 ? &occ_faces[static_cast<std::size_t>(faces[0])].face
+-                          : nullptr;
+-    const TopoDS_Face *f2 =
+-        faces.size() == 2 ? &occ_faces[static_cast<std::size_t>(faces[1])].face
+-                          : nullptr;
+-
+-    std::vector<Vec3> samples;
+-    samples.reserve(req.edge_nodes.size());
+-    for (double a : req.edge_nodes) {
+-      if (std::abs(a) < 1.0e-15) {
+-        samples.push_back(p0);
+-        continue;
+-      }
+-      if (std::abs(a - 1.0) < 1.0e-15) {
+-        samples.push_back(p1);
+-        continue;
+-      }
+-      const Vec3 seed = blend(p0, p1, a);
+-      Vec3 on_curve = seed;
+-      bool projected = false;
+-      if (edge != nullptr && project_curve(seed, *edge, on_curve)) {
+-        projected = true;
+-        ++n_curve;
+-      } else {
+-        ++n_fallback;
+-      }
+-      Vec3 final = on_curve;
+-      if (f1 != nullptr && f2 != nullptr &&
+-          normal_rank(*f1, *f2, on_curve) >= 2) {
+-        Vec3 newton{};
+-        if (edge_newton(*f1, *f2, on_curve, newton) &&
+-            norm(subtract(newton, seed)) <=
+-                std::max(1.0e-8, 0.75 * norm(subtract(p1, p0)))) {
+-          final = newton;
+-          ++n_newton;
+-        }
+-      }
+-      if (!projected && !finite(final)) {
+-        final = seed;
+-      }
+-      samples.push_back(final);
+-    }
+-    body << line.a << " " << line.b << " " << samples.size();
+-    for (const Vec3 &p : samples) {
+-      body << " " << p[0] << " " << p[1] << " " << p[2];
+-    }
+-    body << "\n";
+-  }
+-
+-  std::ofstream out(out_path);
+-  if (!out) {
+-    throw std::runtime_error("could not open OCC edge output");
+-  }
++std::ofstream output_file(const std::string &path) {
++  std::ofstream out(path);
++  if (!out) throw std::runtime_error("could not open OCC output");
+   out << std::setprecision(17);
+-  out << "OK " << req.lines.size() << " " << n_newton << " " << n_curve
+-      << " " << n_fallback << "\n";
+-  out << body.str();
++  return out;
+ }
+-
+-void write_helper_curves(const HelperRequest &req, const std::string &out_path) {
+-  const TopoDS_Shape shape = read_step(req.step_file);
+-  const auto occ_faces = collect_faces(shape);
+-  const auto gm_to_occ = map_faces(req.gm_faces, occ_faces, bbox_diag(shape));
+-
+-  int break_count = 0;
+-  std::vector<HelperCurve> helpers;
+-  for (const FaceDesc &gm_face : req.gm_faces) {
+-    const auto it = gm_to_occ.find(gm_face.tag);
+-    if (it == gm_to_occ.end()) {
+-      continue;
+-    }
+-    const auto occ_idx = static_cast<std::size_t>(it->second);
+-    auto face_helpers = build_face_helper_curves(
+-        occ_faces[occ_idx].face, gm_face.tag, req.target_spacing, break_count);
+-    helpers.insert(helpers.end(), face_helpers.begin(), face_helpers.end());
+-  }
+-
+-  std::ofstream out(out_path);
+-  if (!out) {
+-    throw std::runtime_error("could not open OCC helper-curve output");
+-  }
+-  out << std::setprecision(17);
+-  out << "OK " << helpers.size() << " " << break_count << "\n";
+-  for (const HelperCurve &helper : helpers) {
+-    out << helper.face_tag << " " << helper.axis << " " << helper.param
+-        << " " << helper.points.size();
+-    for (const Vec3 &p : helper.points) {
+-      out << " " << p[0] << " " << p[1] << " " << p[2];
+-    }
++void write_edge_samples(const Request &req, const std::string &path) {
++  auto context = context_for_adapter(req.step_file, req.gm_faces);
++  const auto result = context.edge_samples(req);
++  auto out = output_file(path);
++  out << "OK " << result.lines.size() << " " << result.n_newton << " " << result.n_curve << " " << result.n_fallback << "\n";
++  write_lines(out, result.lines);
++}
++void write_helper_curves(const HelperRequest &req, const std::string &path) {
++  auto context = context_for_adapter(req.step_file, req.gm_faces);
++  std::vector<int> tags;
++  for (const auto &face : req.gm_faces) tags.push_back(face.tag);
++  const auto result = context.helper_curves(req.target_spacing, tags);
++  auto out = output_file(path);
++  out << "OK " << result.curves.size() << " " << result.break_count << "\n";
++  for (const auto &helper : result.curves) {
++    out << helper.face_tag << " " << helper.axis << " " << helper.param << " " << helper.points.size();
++    for (const auto &p : helper.points) out << " " << p[0] << " " << p[1] << " " << p[2];
+     out << "\n";
+   }
+ }
+-
+-double median_value(std::vector<double> values) {
+-  if (values.empty()) {
+-    return std::numeric_limits<double>::quiet_NaN();
+-  }
+-  std::sort(values.begin(), values.end());
+-  const std::size_t mid = values.size() / 2;
+-  if (values.size() % 2 == 1) {
+-    return values[mid];
+-  }
+-  return 0.5 * (values[mid - 1] + values[mid]);
++void write_feature_nodes(const FeatureNodeRequest &req, const std::string &path) {
++  auto context = context_for_adapter(req.step_file, req.gm_faces);
++  const auto result = context.feature_nodes(req.nodes);
++  auto out = output_file(path);
++  out << "OK " << result.nodes.size() << " " << result.n_fallback << "\n";
++  for (const auto &node : result.nodes) out << node.tag << " " << node.x[0] << " " << node.x[1] << " " << node.x[2] << " " << node.distance << "\n";
+ }
+-
+-bool project_feature_node(const FeatureNode &node,
+-                          const std::vector<OccFace> &occ_faces,
+-                          const std::unordered_map<int, int> &gm_to_occ,
+-                          Vec3 &projected) {
+-  const TopoDS_Face *face = nullptr;
+-  for (const FeatureNodeConstraint &constraint : node.constraints) {
+-    const auto face_it = gm_to_occ.find(constraint.face_tag);
+-    if (face_it != gm_to_occ.end()) {
+-      face = &occ_faces[static_cast<std::size_t>(face_it->second)].face;
+-      break;
+-    }
+-  }
+-  if (face == nullptr) {
+-    return false;
+-  }
+-
+-  Vec2 uv{};
+-  Vec3 support_point{};
+-  if (!project_surface(*face, node.x, uv, support_point)) {
+-    return false;
+-  }
+-
+-  std::vector<double> u_values;
+-  std::vector<double> v_values;
+-  for (const FeatureNodeConstraint &constraint : node.constraints) {
+-    if (!std::isfinite(constraint.param)) {
+-      continue;
+-    }
+-    if (constraint.axis == 0) {
+-      u_values.push_back(constraint.param);
+-    } else if (constraint.axis == 1) {
+-      v_values.push_back(constraint.param);
+-    }
+-  }
+-  const double u_med = median_value(u_values);
+-  const double v_med = median_value(v_values);
+-  if (std::isfinite(u_med)) {
+-    uv[0] = u_med;
+-  }
+-  if (std::isfinite(v_med)) {
+-    uv[1] = v_med;
+-  }
+-
+-  try {
+-    BRepAdaptor_Surface surface(*face, Standard_False);
+-    projected = surface_point(surface, uv[0], uv[1]);
+-    return finite(projected);
+-  } catch (...) {
+-    return false;
+-  }
++void write_feature_samples(const AdapterFeatureRequest &req, const std::string &path) {
++  auto context = context_for_adapter(req.step_file, req.gm_faces);
++  const auto result = context.feature_samples(req);
++  auto out = output_file(path);
++  out << "OK " << result.lines.size() << " " << result.n_fallback << "\n";
++  write_lines(out, result.lines);
+ }
+-
+-void write_feature_nodes(const FeatureNodeRequest &req,
+-                         const std::string &out_path) {
+-  const TopoDS_Shape shape = read_step(req.step_file);
+-  const auto occ_faces = collect_faces(shape);
+-  const auto gm_to_occ = map_faces(req.gm_faces, occ_faces, bbox_diag(shape));
+-
+-  int n_fallback = 0;
+-  std::ostringstream body;
+-  body << std::setprecision(17);
+-
+-  for (const FeatureNode &node : req.nodes) {
+-    Vec3 projected = node.x;
+-    bool ok = project_feature_node(node, occ_faces, gm_to_occ, projected);
+-    if (!ok) {
+-      ++n_fallback;
+-      projected = node.x;
+-    }
+-    const double dist = ok ? norm(subtract(projected, node.x)) : 0.0;
+-    body << node.tag << " " << projected[0] << " " << projected[1] << " "
+-         << projected[2] << " " << dist << "\n";
+-  }
+-
+-  std::ofstream out(out_path);
+-  if (!out) {
+-    throw std::runtime_error("could not open OCC feature-node output");
+-  }
+-  out << std::setprecision(17);
+-  out << "OK " << req.nodes.size() << " " << n_fallback << "\n";
+-  out << body.str();
++void write_projected_nodes(const ProjectRequest &req, const std::string &path) {
++  auto context = context_for_adapter(req.step_file, req.gm_faces);
++  const auto result = context.project_nodes(req.nodes);
++  auto out = output_file(path);
++  out << "OK " << result.nodes.size() << " " << result.n_fallback << "\n";
++  for (const auto &node : result.nodes) out << node.x[0] << " " << node.x[1] << " " << node.x[2] << " " << node.distance << " " << node.uv[0] << " " << node.uv[1] << "\n";
+ }
+-
+-void write_feature_samples(const FeatureRequest &req,
+-                           const std::string &out_path) {
+-  const TopoDS_Shape shape = read_step(req.step_file);
+-  const auto occ_faces = collect_faces(shape);
+-  const auto gm_to_occ = map_faces(req.gm_faces, occ_faces, bbox_diag(shape));
+-
+-  int n_fallback = 0;
+-  std::ostringstream body;
+-  body << std::setprecision(17);
+-
+-  for (const FeatureLine &line : req.lines) {
+-    const auto a_it = req.nodes.find(line.a);
+-    const auto b_it = req.nodes.find(line.b);
+-    if (a_it == req.nodes.end() || b_it == req.nodes.end()) {
+-      throw std::runtime_error("feature endpoint missing from node table");
+-    }
+-
+-    Vec3 p0 = a_it->second;
+-    Vec3 p1 = b_it->second;
+-    Vec2 uv0{};
+-    Vec2 uv1{};
+-    const auto face_it = gm_to_occ.find(line.face_tag);
+-    const TopoDS_Face *face = nullptr;
+-    if (face_it != gm_to_occ.end()) {
+-      face = &occ_faces[static_cast<std::size_t>(face_it->second)].face;
+-      Vec3 q0{};
+-      Vec3 q1{};
+-      if (project_surface(*face, p0, uv0, q0)) {
+-        p0 = q0;
+-      }
+-      if (project_surface(*face, p1, uv1, q1)) {
+-        p1 = q1;
+-      }
+-    }
+-
+-    bool use_u_axis = true;
+-    if (line.axis == 0 && std::isfinite(line.param)) {
+-      use_u_axis = true;
+-    } else if (line.axis == 1 && std::isfinite(line.param)) {
+-      use_u_axis = false;
+-    } else {
+-      use_u_axis = std::abs(uv1[0] - uv0[0]) <= std::abs(uv1[1] - uv0[1]);
+-    }
+-
+-    std::vector<Vec3> samples;
+-    samples.reserve(req.edge_nodes.size());
+-    for (double alpha : req.edge_nodes) {
+-      if (std::abs(alpha) < 1.0e-15) {
+-        samples.push_back(p0);
+-        continue;
+-      }
+-      if (std::abs(alpha - 1.0) < 1.0e-15) {
+-        samples.push_back(p1);
+-        continue;
+-      }
+-
+-      Vec3 p = blend(p0, p1, alpha);
+-      bool ok = false;
+-      if (face != nullptr) {
+-        SurfaceEval e{};
+-        Vec2 uv{};
+-        if (use_u_axis) {
+-          uv = {std::isfinite(line.param)
+-                    ? line.param
+-                    : 0.5 * (uv0[0] + uv1[0]),
+-                (1.0 - alpha) * uv0[1] + alpha * uv1[1]};
+-        } else {
+-          uv = {(1.0 - alpha) * uv0[0] + alpha * uv1[0],
+-                std::isfinite(line.param)
+-                    ? line.param
+-                    : 0.5 * (uv0[1] + uv1[1])};
+-        }
+-        if (surface_eval(*face, uv, e) && finite(e.x)) {
+-          p = e.x;
+-          ok = true;
+-        }
+-      }
+-      if (!ok) {
+-        ++n_fallback;
+-      }
+-      samples.push_back(p);
+-    }
+-
+-    body << line.a << " " << line.b << " " << samples.size();
+-    for (const Vec3 &p : samples) {
+-      body << " " << p[0] << " " << p[1] << " " << p[2];
+-    }
+-    body << "\n";
+-  }
+-
+-  std::ofstream out(out_path);
+-  if (!out) {
+-    throw std::runtime_error("could not open OCC feature-edge output");
+-  }
+-  out << std::setprecision(17);
+-  out << "OK " << req.lines.size() << " " << n_fallback << "\n";
+-  out << body.str();
+-}
+-
+-void write_projected_nodes(const ProjectRequest &req,
+-                           const std::string &out_path) {
+-  const TopoDS_Shape shape = read_step(req.step_file);
+-  const auto occ_faces = collect_faces(shape);
+-  const auto gm_to_occ = map_faces(req.gm_faces, occ_faces, bbox_diag(shape));
+-
+-  int n_fallback = 0;
+-  std::ostringstream body;
+-  body << std::setprecision(17);
+-
+-  for (const ProjectNode &node : req.nodes) {
+-    Vec3 projected = node.x;
+-    Vec2 uv{};
+-    bool ok = false;
+-    const auto face_it = gm_to_occ.find(node.face_tag);
+-    if (face_it != gm_to_occ.end()) {
+-      const auto occ_idx = static_cast<std::size_t>(face_it->second);
+-      ok = project_surface(occ_faces[occ_idx].face, node.x, uv, projected);
+-    }
+-    if (!ok) {
+-      ++n_fallback;
+-      uv = {0.0, 0.0};
+-      projected = node.x;
+-    }
+-    const double dist = ok ? norm(subtract(projected, node.x)) : 0.0;
+-    body << projected[0] << " " << projected[1] << " " << projected[2]
+-         << " " << dist << " " << uv[0] << " " << uv[1] << "\n";
+-  }
+-
+-  std::ofstream out(out_path);
+-  if (!out) {
+-    throw std::runtime_error("could not open OCC projection output");
+-  }
+-  out << std::setprecision(17);
+-  out << "OK " << req.nodes.size() << " " << n_fallback << "\n";
+-  out << body.str();
++void write_info(const std::string &step_file, double fraction) {
++  const auto result = Context(step_file).measurements(fraction);
++  std::cout << std::setprecision(17) << "OK " << result.diag << " " << result.area << " " << result.min_raw_edge << " " << result.min_meaningful_edge << " " << result.n_edges << " " << result.n_meaningful << "\n";
+ }
+-
+-void write_info(const std::string &step_file) {
+-  const TopoDS_Shape shape = read_step(step_file);
+-
+-  GProp_GProps props;
+-  BRepGProp::SurfaceProperties(shape, props, 1.0e-9);
+-
+-  const double diag = bbox_diag(shape);
+-  const double area = props.Mass();
+-  if (!std::isfinite(diag) || diag <= 0.0 || !std::isfinite(area) ||
+-      area <= 0.0) {
+-    throw std::runtime_error("non-finite OCC measurements");
+-  }
+-
+-  std::cout << std::setprecision(17) << "OK " << diag << " " << area << "\n";
+-}
+-
+ } // namespace
+-
+ int main(int argc, char **argv) {
+   try {
+     if (argc == 2) {
+-      write_info(argv[1]);
++      write_info(argv[1], 1.0e-6);
++      return 0;
++    }
++    if (argc == 3) {
++      write_info(argv[1], std::stod(argv[2]));
+       return 0;
+     }
+     if (argc == 4 && std::string(argv[1]) == "edge-samples") {
+@@ -1665,6 +427,7 @@ int main(int argc, char **argv) {
+     }
+     std::cerr << "Usage:\n"
+               << "  step_mesher_occ_info file.step\n"
++              << "  step_mesher_occ_info file.step cad_edge_tol_fraction\n"
+               << "  step_mesher_occ_info edge-samples input.txt output.txt\n"
+               << "  step_mesher_occ_info helper-curves input.txt output.txt\n"
+               << "  step_mesher_occ_info feature-samples input.txt output.txt\n"
+diff --git a/examples/driver_view_geom_package.m b/examples/driver_view_geom_package.m
+index b5626d2..f7b026c 100644
+--- a/examples/driver_view_geom_package.m
++++ b/examples/driver_view_geom_package.m
+@@ -41,7 +41,7 @@ end
+ packageFamily = 'convergence_test_curved_uv';
+ 
+ % Package stem
+-% packageStem = 'p4_mf0p10000_rl0';
++packageStem = 'p4_mf0p10000_rl0';
+ % packageStem = 'p4_mf0p10000_rl1';
+ % packageStem = 'p4_mf0p10000_rl2';
+ % packageStem = 'p4_mf0p10000_rl3';
+@@ -51,7 +51,7 @@ packageFamily = 'convergence_test_curved_uv';
+ % packageStem = 'p6_mf0p10000_rl2';
+ % packageStem = 'p6_mf0p10000_rl3';
+ 
+-packageStem = 'p8_mf0p10000_rl0';
++% packageStem = 'p8_mf0p10000_rl0';
+ % packageStem = 'p8_mf0p10000_rl1';
+ % packageStem = 'p8_mf0p10000_rl2';
+ % packageStem = 'p8_mf0p10000_rl3';
+diff --git a/examples/driver_view_step_file.m b/examples/driver_view_step_file.m
+index 765768e..4a95dbe 100644
+--- a/examples/driver_view_step_file.m
++++ b/examples/driver_view_step_file.m
+@@ -36,6 +36,10 @@ stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_curved_uv.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'piecewise_bezier_cap.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'spheres_intersect.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'torus_ellipse.step');
++% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'Multi_res.step');
++
++
++
+ 
+ showFaceLabels = true;
+ showEdgeLabels = true;
+diff --git a/examples/run_convergence_study.m b/examples/run_convergence_study.m
+index 8945c6f..8a58911 100644
+--- a/examples/run_convergence_study.m
++++ b/examples/run_convergence_study.m
+@@ -25,7 +25,7 @@ end
+ 
+ %% User parameters
+ % Choose one STEP file by uncommenting the desired line.
+-% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_1.step');
++%  stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_1.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_2.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_manas.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'UV_curved_bezier.step');
+@@ -34,18 +34,61 @@ end
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'intersection_two_balls.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'piecewise_bezier_cap.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'spheres_intersect.step');
+-% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'torus_ellipse.step');
+-stepFile = fullfile(repoRoot, 'examples', 'step_files', 'Multiscale_step.step');
++stepFile = fullfile(repoRoot, 'examples', 'step_files', 'torus_ellipse.step');
++% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'Multiscale_step.step');
+ 
+ 
+ ORDERS = [4, 6, 8];
+-MESH_FRACTIONS = [0.1];
+-% MESH_FRACTIONS = [0.05];
++%MESH_FRACTIONS = [0.1];
++MESH_FRACTIONS = [0.05];
+ 
+ REFINEMENT_LEVELS = [0, 1, 2, 3];
+ 
++
+ EDGE_GLL_ORDER = max(ORDERS);
+-STEP1_MESH_PROFILE = 'rigid';
++
++
++
++
++
++% Choose one scaffold/adaptivity launch preset for the whole study.
++% To test curvature-based Gmsh sizing, change this to 'curvature_balanced'.
++% Other useful choices are 'curvature_coarse',
++% 'curvature_balanced_local', 'curvature_balanced_local_cadedge',
++% 'curvature_balanced_wide', 'curvature_fine', and 'curvature_guarded'.
++% The full menu is printed when the driver starts.
++STEP1_MESH_PROFILE_CHOICE = 'rigid';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced_local';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced_local_cadedge';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced_wide';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_fine';
++% STEP1_MESH_PROFILE_CHOICE = 'curvature_guarded';
++
++% Optional curvature-profile overrides. Leave [] to use the selected
++% preset defaults. For 'curvature_balanced_local', the defaults are:
++%   curvature_points = 50
++%   hmin_mode = 'fraction'
++%   hmin_fraction = 0.01
++%   hmin_edge_scale = 0.25
++%   cad_edge_tol_fraction = 1e-6
++%   hmax_fraction = 0.10
++%   mesh_size_extend_from_boundary = false
++CURVATURE_POINTS_OVERRIDE = [];
++HMIN_MODE_OVERRIDE = '';
++HMIN_FRACTION_OVERRIDE = [];
++HMIN_EDGE_SCALE_OVERRIDE = [];
++CAD_EDGE_TOL_FRACTION_OVERRIDE = [];
++HMAX_FRACTION_OVERRIDE = [];
++MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = [];
++
++CURVATURE_POINTS_OVERRIDE = 35;
++% HMIN_MODE_OVERRIDE = 'cad_edge';
++HMIN_FRACTION_OVERRIDE = 0.01;
++% HMIN_EDGE_SCALE_OVERRIDE = 0.25;
++% CAD_EDGE_TOL_FRACTION_OVERRIDE = 1e-6;
++HMAX_FRACTION_OVERRIDE = 0.12;
++MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = false;
+ 
+ RUN_PLOTS = true;
+ SAVE_FIGURES = true;
+@@ -73,6 +116,14 @@ fprintf('Orders:         %s\n', mat2str(ORDERS));
+ fprintf('Mesh fractions: %s\n', mat2str(MESH_FRACTIONS));
+ fprintf('Refinements:    %s\n\n', mat2str(REFINEMENT_LEVELS));
+ 
++fprintf('Available scaffold/adaptivity choices:\n');
++disp(stepmesher.mesh_profile_choices());
++[~, studyMeshProfileChoice] = stepmesher.apply_mesh_profile_choice( ...
++    struct(), STEP1_MESH_PROFILE_CHOICE);
++fprintf('Selected study choice: %s\n', studyMeshProfileChoice.name);
++fprintf('  description: %s\n', studyMeshProfileChoice.description);
++fprintf('  C++ profile: %s\n\n', studyMeshProfileChoice.mesh_profile);
++
+ %% Run convergence study
+ records = struct([]);
+ failures = struct([]);
+@@ -100,7 +151,30 @@ for imf = 1:numel(MESH_FRACTIONS)
+             opts.mesh_fraction = meshFraction;
+             opts.refinement_level = refinementLevel;
+             opts.edge_gll_order = EDGE_GLL_ORDER;
+-            opts.mesh_profile = STEP1_MESH_PROFILE;
++            opts = stepmesher.apply_mesh_profile_choice( ...
++                opts, STEP1_MESH_PROFILE_CHOICE);
++            if ~isempty(CURVATURE_POINTS_OVERRIDE)
++                opts.curvature_points = CURVATURE_POINTS_OVERRIDE;
++            end
++            if ~isempty(HMIN_MODE_OVERRIDE)
++                opts.hmin_mode = HMIN_MODE_OVERRIDE;
++            end
++            if ~isempty(HMIN_FRACTION_OVERRIDE)
++                opts.hmin_fraction = HMIN_FRACTION_OVERRIDE;
++            end
++            if ~isempty(HMIN_EDGE_SCALE_OVERRIDE)
++                opts.hmin_edge_scale = HMIN_EDGE_SCALE_OVERRIDE;
++            end
++            if ~isempty(CAD_EDGE_TOL_FRACTION_OVERRIDE)
++                opts.cad_edge_tol_fraction = CAD_EDGE_TOL_FRACTION_OVERRIDE;
++            end
++            if ~isempty(HMAX_FRACTION_OVERRIDE)
++                opts.hmax_fraction = HMAX_FRACTION_OVERRIDE;
++            end
++            if ~isempty(MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE)
++                opts.mesh_size_extend_from_boundary = ...
++                    MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE;
++            end
+             opts.occt_precision = 1e-6;
+             opts.occt_maxprecision = 1e-6;
+             opts.sameparameter = true;
+@@ -157,7 +231,40 @@ for imf = 1:numel(MESH_FRACTIONS)
+                 records(irec).mesh_fraction = meshFraction;
+                 records(irec).refinement_level = refinementLevel;
+                 records(irec).edge_gll_order = EDGE_GLL_ORDER;
+-                records(irec).mesh_profile = string(STEP1_MESH_PROFILE);
++                records(irec).mesh_profile_choice = ...
++                    string(STEP1_MESH_PROFILE_CHOICE);
++                records(irec).mesh_profile = string(opts.mesh_profile);
++                records(irec).curvature_points = opts.curvature_points;
++                records(irec).hmin_mode = string(opts.hmin_mode);
++                records(irec).hmin_fraction = opts.hmin_fraction;
++                records(irec).hmin_edge_scale = opts.hmin_edge_scale;
++                records(irec).cad_edge_tol_fraction = ...
++                    opts.cad_edge_tol_fraction;
++                records(irec).hmax_fraction = opts.hmax_fraction;
++                records(irec).hmin_effective = mesh.meta.hmin_effective;
++                records(irec).hmax_effective = mesh.meta.hmax_effective;
++                records(irec).min_raw_cad_edge_length = ...
++                    mesh.meta.min_raw_cad_edge_length;
++                records(irec).min_meaningful_cad_edge_length = ...
++                    mesh.meta.min_meaningful_cad_edge_length;
++                records(irec).cad_edge_count = mesh.meta.cad_edge_count;
++                records(irec).meaningful_cad_edge_count = ...
++                    mesh.meta.meaningful_cad_edge_count;
++                records(irec).mesh_size_extend_from_boundary = ...
++                    opts.mesh_size_extend_from_boundary;
++                records(irec).gmsh_algorithm = string(opts.gmsh_algorithm);
++                records(irec).optimize = opts.optimize;
++                records(irec).min_angle_deg = opts.min_angle_deg;
++                records(irec).max_edge_ratio = opts.max_edge_ratio;
++                records(irec).enforce_quality = opts.enforce_quality;
++                records(irec).min_scaffold_angle_deg = ...
++                    mesh.meta.min_scaffold_angle_deg;
++                records(irec).max_scaffold_edge_ratio = ...
++                    mesh.meta.max_scaffold_edge_ratio;
++                records(irec).bad_min_angle_count = ...
++                    mesh.meta.bad_min_angle_count;
++                records(irec).bad_edge_ratio_count = ...
++                    mesh.meta.bad_edge_ratio_count;
+                 records(irec).n_tri = mesh.npatches;
+                 records(irec).nodes_per_tri = mesh.nodes_per_patch;
+                 records(irec).total_nodes = size(mesh.xyz, 2);
+@@ -187,10 +294,13 @@ for imf = 1:numel(MESH_FRACTIONS)
+                 records(irec).scaffold_nodes = {mesh.scaffold_nodes};
+                 records(irec).scaffold_triangles = {mesh.scaffold_triangles};
+ 
+-                fprintf('n_tri=%d  nodes=%d  rel_area_err=%.6e  flux_norm=%.6e  proj_max=%.6e\n', ...
++                fprintf(['n_tri=%d  nodes=%d  rel_area_err=%.6e  ', ...
++                    'flux_norm=%.6e  proj_max=%.6e  min_ang=%.3g  ', ...
++                    'max_ratio=%.3g\n'], ...
+                     records(irec).n_tri, records(irec).total_nodes, ...
+                     records(irec).rel_area_error, records(irec).normal_flux_norm, ...
+-                    records(irec).proj_max);
++                    records(irec).proj_max, records(irec).min_scaffold_angle_deg, ...
++                    records(irec).max_scaffold_edge_ratio);
+                 fprintf('exported/available nodes: %d\n', exportedNodes);
+ 
+             catch ME
+diff --git a/examples/run_step_mesher.m b/examples/run_step_mesher.m
+index a7ca63a..80ab45d 100644
+--- a/examples/run_step_mesher.m
++++ b/examples/run_step_mesher.m
+@@ -32,19 +32,83 @@ end
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_2.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_geometry_manas.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'UV_curved_bezier.step');
+-stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_curved_uv.step');
++% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'test_curved_uv.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'cylinder_bezier_v2.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'intersection_two_balls.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'piecewise_bezier_cap.step');
+ % stepFile = fullfile(repoRoot, 'examples', 'step_files', 'spheres_intersect.step');
+-% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'torus_ellipse.step');
++stepFile = fullfile(repoRoot, 'examples', 'step_files', 'torus_ellipse.step');
++% stepFile = fullfile(repoRoot, 'examples', 'step_files', 'Multi_res.step');
++
++
++
++% Choose one scaffold/adaptivity launch preset.
++% To try curvature-based Gmsh sizing, change this to 'curvature_balanced'.
++% Other useful choices are 'curvature_coarse',
++% 'curvature_balanced_local', 'curvature_balanced_local_cadedge',
++% 'curvature_balanced_wide', 'curvature_fine', and 'curvature_guarded'.
++% The full menu is printed when the driver starts.
++MESH_PROFILE_CHOICE = 'rigid';
++% MESH_PROFILE_CHOICE = 'curvature_balanced';
++% MESH_PROFILE_CHOICE = 'curvature_balanced_local';
++% MESH_PROFILE_CHOICE = 'curvature_balanced_local_cadedge';
++% MESH_PROFILE_CHOICE = 'curvature_balanced_wide';
++% MESH_PROFILE_CHOICE = 'curvature_fine';
++% MESH_PROFILE_CHOICE = 'curvature_guarded';
++
++% Optional curvature-profile overrides. Leave [] to use the selected
++% preset defaults. For 'curvature_balanced_local', the defaults are:
++%   curvature_points = 50
++%   hmin_mode = 'fraction'
++%   hmin_fraction = 0.01
++%   hmin_edge_scale = 0.25
++%   cad_edge_tol_fraction = 1e-6
++%   hmax_fraction = 0.10
++%   mesh_size_extend_from_boundary = false
++CURVATURE_POINTS_OVERRIDE = [];
++HMIN_MODE_OVERRIDE = '';
++HMIN_FRACTION_OVERRIDE = [];
++HMIN_EDGE_SCALE_OVERRIDE = [];
++CAD_EDGE_TOL_FRACTION_OVERRIDE = [];
++HMAX_FRACTION_OVERRIDE = [];
++MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = [];
++% CURVATURE_POINTS_OVERRIDE = 35;
++% HMIN_MODE_OVERRIDE = 'cad_edge';
++% HMIN_FRACTION_OVERRIDE = 0.01;
++% HMIN_EDGE_SCALE_OVERRIDE = 0.25;
++% CAD_EDGE_TOL_FRACTION_OVERRIDE = 1e-6;
++% HMAX_FRACTION_OVERRIDE = 0.12;
++% MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = false;
+ 
+ opts = struct();
+ opts.order = 8;
+-opts.mesh_fraction = 0.10;
++opts.mesh_fraction = 0.050;
+ opts.refinement_level = 0;
+ opts.edge_gll_order = opts.order;
+-opts.mesh_profile = 'rigid';
++[opts, meshProfileChoice] = stepmesher.apply_mesh_profile_choice( ...
++    opts, MESH_PROFILE_CHOICE);
++if ~isempty(CURVATURE_POINTS_OVERRIDE)
++    opts.curvature_points = CURVATURE_POINTS_OVERRIDE;
++end
++if ~isempty(HMIN_MODE_OVERRIDE)
++    opts.hmin_mode = HMIN_MODE_OVERRIDE;
++end
++if ~isempty(HMIN_FRACTION_OVERRIDE)
++    opts.hmin_fraction = HMIN_FRACTION_OVERRIDE;
++end
++if ~isempty(HMIN_EDGE_SCALE_OVERRIDE)
++    opts.hmin_edge_scale = HMIN_EDGE_SCALE_OVERRIDE;
++end
++if ~isempty(CAD_EDGE_TOL_FRACTION_OVERRIDE)
++    opts.cad_edge_tol_fraction = CAD_EDGE_TOL_FRACTION_OVERRIDE;
++end
++if ~isempty(HMAX_FRACTION_OVERRIDE)
++    opts.hmax_fraction = HMAX_FRACTION_OVERRIDE;
++end
++if ~isempty(MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE)
++    opts.mesh_size_extend_from_boundary = ...
++        MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE;
++end
+ opts.occt_precision = 1e-6;
+ opts.occt_maxprecision = 1e-6;
+ opts.sameparameter = true;
+@@ -61,10 +125,31 @@ packageName = sprintf('%s_order%d', stepStem, opts.order);
+ packageDir = fullfile(outDir, packageName);
+ 
+ %% Run mesher
++fprintf('Available scaffold/adaptivity choices:\n');
++disp(stepmesher.mesh_profile_choices());
++fprintf('Selected choice: %s\n', meshProfileChoice.name);
++fprintf('  description: %s\n', meshProfileChoice.description);
++fprintf('  C++ profile: %s\n', meshProfileChoice.mesh_profile);
++if strcmp(meshProfileChoice.mesh_profile, "curvature")
++    fprintf(['  curvature_points=%d, hmin_mode=%s, ', ...
++        'hmin_fraction=%.4g, hmin_edge_scale=%.4g, ', ...
++        'cad_edge_tol_fraction=%.4g, hmax_fraction=%.4g\n'], ...
++        opts.curvature_points, opts.hmin_mode, opts.hmin_fraction, ...
++        opts.hmin_edge_scale, opts.cad_edge_tol_fraction, ...
++        opts.hmax_fraction);
++    fprintf(['  extend_from_boundary=%d, gmsh_algorithm=%s, ', ...
++        'optimize=%d\n'], opts.mesh_size_extend_from_boundary, ...
++        opts.gmsh_algorithm, opts.optimize);
++    fprintf(['  min_angle=%.4g, max_edge_ratio=%.4g, ', ...
++        'enforce_quality=%d\n'], opts.min_angle_deg, ...
++        opts.max_edge_ratio, opts.enforce_quality);
++end
++fprintf('\n');
++
+ fprintf('STEP file: %s\n', stepFile);
+ fprintf('Order:     %d\n', opts.order);
+ fprintf('Mesh frac: %.6g\n', opts.mesh_fraction);
+-fprintf('Profile:   %s\n\n', opts.mesh_profile);
++fprintf('Profile:   %s (%s)\n\n', opts.mesh_profile, MESH_PROFILE_CHOICE);
+ 
+ mesh = stepmesher.mesh_step(stepFile, opts);
+ 
+@@ -73,8 +158,18 @@ fprintf('  patches:          %d\n', mesh.npatches);
+ fprintf('  nodes per patch:  %d\n', mesh.nodes_per_patch);
+ fprintf('  total nodes:      %d\n', size(mesh.xyz, 2));
+ fprintf('  CAD area:         %.16e\n', mesh.meta.cad_area);
++fprintf('  hmin/hmax eff:    %.16e / %.16e\n', ...
++    mesh.meta.hmin_effective, mesh.meta.hmax_effective);
++fprintf('  CAD edge min:     raw %.16e, meaningful %.16e (%d/%d)\n', ...
++    mesh.meta.min_raw_cad_edge_length, ...
++    mesh.meta.min_meaningful_cad_edge_length, ...
++    mesh.meta.meaningful_cad_edge_count, mesh.meta.cad_edge_count);
+ fprintf('  max proj dist:    %.16e\n', mesh.meta.max_projection_distance);
+ fprintf('  mean proj dist:   %.16e\n\n', mesh.meta.mean_projection_distance);
++fprintf('  min tri angle:    %.6e deg\n', mesh.meta.min_scaffold_angle_deg);
++fprintf('  max edge ratio:   %.6e\n', mesh.meta.max_scaffold_edge_ratio);
++fprintf('  bad angle/ratio:  %d / %d\n\n', ...
++    mesh.meta.bad_min_angle_count, mesh.meta.bad_edge_ratio_count);
+ 
+ %% Convert to fmm3dbie formats
+ [srcvals, norders, iptype, meta] = stepmesher.to_srcvals(mesh); %#ok<ASGLU>
+@@ -121,6 +216,12 @@ figure('Name', 'Projection distance');
+ stepmesher.plot_projection_error(mesh);
+ title('Projection distance');
+ 
++figure('Name', 'Scaffold minimum angle');
++stepmesher.plot_scaffold_quality(mesh, 'min_angle');
++
++figure('Name', 'Scaffold edge ratio');
++stepmesher.plot_scaffold_quality(mesh, 'edge_ratio');
++
+ figure('Name', 'surfer surface');
+ stepmesher.plot_surface(mesh);
+ title('surfer surface');
+diff --git a/matlab/+stepmesher/private/default_options.m b/matlab/+stepmesher/private/default_options.m
+index bb6fce8..0f7f042 100644
+--- a/matlab/+stepmesher/private/default_options.m
++++ b/matlab/+stepmesher/private/default_options.m
+@@ -7,6 +7,18 @@ defaults.mesh_fraction = 0.10;
+ defaults.refinement_level = 0;
+ defaults.edge_gll_order = 16;
+ defaults.mesh_profile = 'rigid';
++defaults.curvature_points = 50;
++defaults.hmin_mode = 'fraction';
++defaults.hmin_fraction = 0.01;
++defaults.hmin_edge_scale = 0.25;
++defaults.cad_edge_tol_fraction = 1e-6;
++defaults.hmax_fraction = 0.10;
++defaults.mesh_size_extend_from_boundary = true;
++defaults.gmsh_algorithm = 'frontal_delaunay';
++defaults.optimize = true;
++defaults.min_angle_deg = 15;
++defaults.max_edge_ratio = 6;
++defaults.enforce_quality = false;
+ defaults.occt_precision = 1e-6;
+ defaults.occt_maxprecision = 1e-6;
+ privateDir = fileparts(mfilename('fullpath'));
+diff --git a/mex/step_mesher_mex.cpp b/mex/step_mesher_mex.cpp
+index eb8cd9d..a56bd94 100644
+--- a/mex/step_mesher_mex.cpp
++++ b/mex/step_mesher_mex.cpp
+@@ -70,6 +70,30 @@ stepmesher::MeshOptions parse_options(const mxArray *opts_array) {
+                                         opts.edge_gll_order));
+   opts.mesh_profile =
+       get_string_field(opts_array, "mesh_profile", opts.mesh_profile);
++  opts.curvature_points =
++      static_cast<int>(get_scalar_field(opts_array, "curvature_points",
++                                        opts.curvature_points));
++  opts.hmin_mode = get_string_field(opts_array, "hmin_mode", opts.hmin_mode);
++  opts.hmin_fraction =
++      get_scalar_field(opts_array, "hmin_fraction", opts.hmin_fraction);
++  opts.hmin_edge_scale =
++      get_scalar_field(opts_array, "hmin_edge_scale", opts.hmin_edge_scale);
++  opts.cad_edge_tol_fraction = get_scalar_field(
++      opts_array, "cad_edge_tol_fraction", opts.cad_edge_tol_fraction);
++  opts.hmax_fraction =
++      get_scalar_field(opts_array, "hmax_fraction", opts.hmax_fraction);
++  opts.mesh_size_extend_from_boundary = get_bool_field(
++      opts_array, "mesh_size_extend_from_boundary",
++      opts.mesh_size_extend_from_boundary);
++  opts.gmsh_algorithm =
++      get_string_field(opts_array, "gmsh_algorithm", opts.gmsh_algorithm);
++  opts.optimize = get_bool_field(opts_array, "optimize", opts.optimize);
++  opts.min_angle_deg =
++      get_scalar_field(opts_array, "min_angle_deg", opts.min_angle_deg);
++  opts.max_edge_ratio =
++      get_scalar_field(opts_array, "max_edge_ratio", opts.max_edge_ratio);
++  opts.enforce_quality =
++      get_bool_field(opts_array, "enforce_quality", opts.enforce_quality);
+   opts.occt_precision =
+       get_scalar_field(opts_array, "occt_precision", opts.occt_precision);
+   opts.occt_maxprecision =
+@@ -116,13 +140,29 @@ mxArray *make_double_row_from_ints(const std::vector<int> &data) {
+ 
+ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+                           const stepmesher::MeshOptions &opts) {
+-  const char *fields[] = {"backend",
++  const char *fields[] = {"cad_identity", "occ_evaluation", "runtime_version",
++                          "gmsh_version", "occt_version", "native_identity_faces",
++                          "native_identity_occurrences", "backend",
+                           "step_file",
+                           "mesh_profile",
+                           "sample_rule",
+                           "mesh_fraction",
+                           "refinement_level",
+                           "edge_gll_order",
++                          "curvature_points",
++                          "hmin_mode",
++                          "hmin_fraction",
++                          "hmin_edge_scale",
++                          "cad_edge_tol_fraction",
++                          "hmax_fraction",
++                          "hmin_effective",
++                          "hmax_effective",
++                          "mesh_size_extend_from_boundary",
++                          "gmsh_algorithm",
++                          "optimize",
++                          "min_angle_deg",
++                          "max_edge_ratio",
++                          "enforce_quality",
+                           "occt_precision",
+                           "occt_maxprecision",
+                           "occ_info_exe",
+@@ -130,6 +170,10 @@ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+                           "surfacecurve_mode",
+                           "bbox_diag",
+                           "mesh_size",
++                          "min_raw_cad_edge_length",
++                          "min_meaningful_cad_edge_length",
++                          "cad_edge_count",
++                          "meaningful_cad_edge_count",
+                           "cad_area",
+                           "max_projection_distance",
+                           "mean_projection_distance",
+@@ -146,10 +190,22 @@ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+                           "edge_order",
+                           "edge_nodes_per_panel",
+                           "ncad_edges",
+-                          "npanels_total"};
++                          "npanels_total",
++                          "min_scaffold_angle_deg",
++                          "max_scaffold_edge_ratio",
++                          "bad_min_angle_count",
++                          "bad_edge_ratio_count",
++                          "worst_quality_triangle"};
+   mxArray *meta =
+       mxCreateStructMatrix(1, 1, sizeof(fields) / sizeof(fields[0]), fields);
+   mxSetField(meta, 0, "backend", mxCreateString(mesh.backend.c_str()));
++  mxSetField(meta, 0, "cad_identity", mxCreateString(mesh.cad_identity.c_str()));
++  mxSetField(meta, 0, "occ_evaluation", mxCreateString(mesh.occ_evaluation.c_str()));
++  mxSetField(meta, 0, "runtime_version", mxCreateString(mesh.runtime_version.c_str()));
++  mxSetField(meta, 0, "gmsh_version", mxCreateString(mesh.gmsh_version.c_str()));
++  mxSetField(meta, 0, "occt_version", mxCreateString(mesh.occt_version.c_str()));
++  mxSetField(meta, 0, "native_identity_faces", mxCreateDoubleScalar(mesh.native_identity_faces));
++  mxSetField(meta, 0, "native_identity_occurrences", mxCreateDoubleScalar(mesh.native_identity_occurrences));
+   mxSetField(meta, 0, "step_file", mxCreateString(mesh.step_file.c_str()));
+   mxSetField(meta, 0, "mesh_profile",
+              mxCreateString(mesh.mesh_profile.c_str()));
+@@ -160,6 +216,32 @@ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+              mxCreateDoubleScalar(opts.refinement_level));
+   mxSetField(meta, 0, "edge_gll_order",
+              mxCreateDoubleScalar(opts.edge_gll_order));
++  mxSetField(meta, 0, "curvature_points",
++             mxCreateDoubleScalar(opts.curvature_points));
++  mxSetField(meta, 0, "hmin_mode", mxCreateString(opts.hmin_mode.c_str()));
++  mxSetField(meta, 0, "hmin_fraction",
++             mxCreateDoubleScalar(opts.hmin_fraction));
++  mxSetField(meta, 0, "hmin_edge_scale",
++             mxCreateDoubleScalar(opts.hmin_edge_scale));
++  mxSetField(meta, 0, "cad_edge_tol_fraction",
++             mxCreateDoubleScalar(opts.cad_edge_tol_fraction));
++  mxSetField(meta, 0, "hmax_fraction",
++             mxCreateDoubleScalar(opts.hmax_fraction));
++  mxSetField(meta, 0, "hmin_effective",
++             mxCreateDoubleScalar(mesh.hmin_effective));
++  mxSetField(meta, 0, "hmax_effective",
++             mxCreateDoubleScalar(mesh.hmax_effective));
++  mxSetField(meta, 0, "mesh_size_extend_from_boundary",
++             mxCreateLogicalScalar(opts.mesh_size_extend_from_boundary));
++  mxSetField(meta, 0, "gmsh_algorithm",
++             mxCreateString(opts.gmsh_algorithm.c_str()));
++  mxSetField(meta, 0, "optimize", mxCreateLogicalScalar(opts.optimize));
++  mxSetField(meta, 0, "min_angle_deg",
++             mxCreateDoubleScalar(opts.min_angle_deg));
++  mxSetField(meta, 0, "max_edge_ratio",
++             mxCreateDoubleScalar(opts.max_edge_ratio));
++  mxSetField(meta, 0, "enforce_quality",
++             mxCreateLogicalScalar(opts.enforce_quality));
+   mxSetField(meta, 0, "occt_precision",
+              mxCreateDoubleScalar(opts.occt_precision));
+   mxSetField(meta, 0, "occt_maxprecision",
+@@ -172,6 +254,14 @@ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+              mxCreateString(opts.surfacecurve_mode.c_str()));
+   mxSetField(meta, 0, "bbox_diag", mxCreateDoubleScalar(mesh.bbox_diag));
+   mxSetField(meta, 0, "mesh_size", mxCreateDoubleScalar(mesh.mesh_size));
++  mxSetField(meta, 0, "min_raw_cad_edge_length",
++             mxCreateDoubleScalar(mesh.min_raw_cad_edge_length));
++  mxSetField(meta, 0, "min_meaningful_cad_edge_length",
++             mxCreateDoubleScalar(mesh.min_meaningful_cad_edge_length));
++  mxSetField(meta, 0, "cad_edge_count",
++             mxCreateDoubleScalar(mesh.cad_edge_count));
++  mxSetField(meta, 0, "meaningful_cad_edge_count",
++             mxCreateDoubleScalar(mesh.meaningful_cad_edge_count));
+   mxSetField(meta, 0, "cad_area", mxCreateDoubleScalar(mesh.cad_area));
+   mxSetField(meta, 0, "max_projection_distance",
+              mxCreateDoubleScalar(mesh.max_projection_distance));
+@@ -203,6 +293,16 @@ mxArray *make_meta_struct(const stepmesher::MeshResult &mesh,
+   mxSetField(meta, 0, "ncad_edges", mxCreateDoubleScalar(mesh.ncad_edges));
+   mxSetField(meta, 0, "npanels_total",
+              mxCreateDoubleScalar(mesh.npanels_total));
++  mxSetField(meta, 0, "min_scaffold_angle_deg",
++             mxCreateDoubleScalar(mesh.min_scaffold_angle_deg));
++  mxSetField(meta, 0, "max_scaffold_edge_ratio",
++             mxCreateDoubleScalar(mesh.max_scaffold_edge_ratio));
++  mxSetField(meta, 0, "bad_min_angle_count",
++             mxCreateDoubleScalar(mesh.bad_min_angle_count));
++  mxSetField(meta, 0, "bad_edge_ratio_count",
++             mxCreateDoubleScalar(mesh.bad_edge_ratio_count));
++  mxSetField(meta, 0, "worst_quality_triangle",
++             mxCreateDoubleScalar(mesh.worst_quality_triangle));
+   return meta;
+ }
+ 
+@@ -221,6 +321,9 @@ mxArray *mesh_to_struct(const stepmesher::MeshResult &mesh,
+                           "scaffold_triangles",
+                           "scaffold_triangle_node_tags",
+                           "scaffold_face_tags",
++                          "scaffold_min_angle_deg",
++                          "scaffold_edge_ratio",
++                          "scaffold_triangle_area",
+                           "edge_order",
+                           "edge_nodes_per_panel",
+                           "ncad_edges",
+@@ -272,6 +375,15 @@ mxArray *mesh_to_struct(const stepmesher::MeshResult &mesh,
+          static_cast<mwSize>(mesh.nscaffold_triangles));
+   mxSetField(out, 0, "scaffold_face_tags",
+              make_double_row_from_ints(mesh.scaffold_face_tags));
++  mxSetField(out, 0, "scaffold_min_angle_deg",
++             make_double_matrix(mesh.scaffold_min_angle_deg, 1,
++                                static_cast<mwSize>(mesh.scaffold_min_angle_deg.size())));
++  mxSetField(out, 0, "scaffold_edge_ratio",
++             make_double_matrix(mesh.scaffold_edge_ratio, 1,
++                                static_cast<mwSize>(mesh.scaffold_edge_ratio.size())));
++  mxSetField(out, 0, "scaffold_triangle_area",
++             make_double_matrix(mesh.scaffold_triangle_area, 1,
++                                static_cast<mwSize>(mesh.scaffold_triangle_area.size())));
+   mxSetField(out, 0, "edge_order", mxCreateDoubleScalar(mesh.edge_order));
+   mxSetField(out, 0, "edge_nodes_per_panel",
+              mxCreateDoubleScalar(mesh.edge_nodes_per_panel));
+@@ -344,6 +456,11 @@ void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **prhs) {
+       throw std::runtime_error("Unknown step_mesher_mex command: " + command);
+     }
+   } catch (const std::exception &e) {
+-    mexErrMsgIdAndTxt("stepmesher:mex:error", "%s", e.what());
++    const std::string message = e.what();
++    const char *id = "stepmesher:mex:error";
++    if (message.find("[native_identity]") != std::string::npos) id = "stepmesher:nativeIdentity";
++    else if (message.find("[native_runtime]") != std::string::npos) id = "stepmesher:nativeRuntime";
++    else if (message.find("[unsupported_occ_helper]") != std::string::npos) id = "stepmesher:unsupportedOccHelper";
++    mexErrMsgIdAndTxt(id, "%s", e.what());
+   }
+ }
+diff --git a/tests/matlab/smoke_mesh_step.m b/tests/matlab/smoke_mesh_step.m
+index 0e7d322..b4eb910 100644
+--- a/tests/matlab/smoke_mesh_step.m
++++ b/tests/matlab/smoke_mesh_step.m
+@@ -17,6 +17,41 @@ assert(isfield(mesh, 'xyz'));
+ assert(size(mesh.xyz, 1) == 3);
+ assert(mesh.npatches > 0);
+ assert_koorn_vertex_convention(mesh, opts.order);
++assert_quality_fields(mesh);
++
++optsCurvature = opts;
++optsCurvature.mesh_profile = 'curvature';
++optsCurvature.curvature_points = 20;
++optsCurvature.hmin_fraction = 0.01;
++optsCurvature.hmax_fraction = 0.25;
++optsCurvature.gmsh_algorithm = 'frontal_delaunay';
++optsCurvature.optimize = true;
++meshCurvature = stepmesher.mesh_step(stepFile, optsCurvature);
++assert(strcmp(meshCurvature.meta.mesh_profile, 'curvature'));
++assert(meshCurvature.meta.mesh_size_extend_from_boundary);
++assert_quality_fields(meshCurvature);
++
++[optsLocal, localChoice] = stepmesher.apply_mesh_profile_choice( ...
++    opts, 'curvature_balanced_local');
++assert(strcmp(localChoice.name, "curvature_balanced_local"));
++assert(~optsLocal.mesh_size_extend_from_boundary);
++meshLocal = stepmesher.mesh_step(stepFile, optsLocal);
++assert(strcmp(meshLocal.meta.mesh_profile, 'curvature'));
++assert(~meshLocal.meta.mesh_size_extend_from_boundary);
++assert_quality_fields(meshLocal);
++
++[optsCadEdge, cadEdgeChoice] = stepmesher.apply_mesh_profile_choice( ...
++    opts, 'curvature_balanced_local_cadedge');
++assert(strcmp(cadEdgeChoice.name, "curvature_balanced_local_cadedge"));
++assert(strcmp(optsCadEdge.hmin_mode, 'cad_edge'));
++meshCadEdge = stepmesher.mesh_step(stepFile, optsCadEdge);
++assert(strcmp(meshCadEdge.meta.hmin_mode, 'cad_edge'));
++assert(meshCadEdge.meta.meaningful_cad_edge_count > 0);
++expectedHmin = meshCadEdge.meta.hmin_edge_scale * ...
++    meshCadEdge.meta.min_meaningful_cad_edge_length;
++assert(abs(meshCadEdge.meta.hmin_effective - expectedHmin) <= ...
++    1e-12 * max(1, abs(expectedHmin)));
++assert_quality_fields(meshCadEdge);
+ 
+ optsRefined = opts;
+ optsRefined.refinement_level = 1;
+@@ -97,11 +132,46 @@ assert(size(viewerData.surface_faces, 2) == 3);
+ assert(all(isfinite(viewerData.surface_vertices(:))));
+ assert(numel(viewerHandles.edges) == mesh.ncad_edges);
+ assert(all(arrayfun(@(h) isgraphics(h), viewerHandles.edges)));
++qualityHandles = stepmesher.plot_scaffold_quality(mesh, 'min_angle');
++assert(isgraphics(qualityHandles));
+ close(viewerHandles.figure);
+ clear figureCleanup
+ clear visibilityCleanup
+ end
+ 
++function assert_quality_fields(mesh)
++ntri = size(mesh.scaffold_triangles, 2);
++assert(isfield(mesh, 'scaffold_min_angle_deg'));
++assert(isfield(mesh, 'scaffold_edge_ratio'));
++assert(isfield(mesh, 'scaffold_triangle_area'));
++assert(numel(mesh.scaffold_min_angle_deg) == ntri);
++assert(numel(mesh.scaffold_edge_ratio) == ntri);
++assert(numel(mesh.scaffold_triangle_area) == ntri);
++assert(all(isfinite(mesh.scaffold_min_angle_deg)));
++assert(all(isfinite(mesh.scaffold_edge_ratio)));
++assert(all(isfinite(mesh.scaffold_triangle_area)));
++assert(all(mesh.scaffold_min_angle_deg >= 0));
++assert(all(mesh.scaffold_edge_ratio >= 1));
++assert(all(mesh.scaffold_triangle_area > 0));
++assert(isfield(mesh.meta, 'min_scaffold_angle_deg'));
++assert(isfield(mesh.meta, 'max_scaffold_edge_ratio'));
++assert(isfield(mesh.meta, 'bad_min_angle_count'));
++assert(isfield(mesh.meta, 'bad_edge_ratio_count'));
++assert(isfield(mesh.meta, 'worst_quality_triangle'));
++assert(isfield(mesh.meta, 'mesh_size_extend_from_boundary'));
++assert(isfield(mesh.meta, 'hmin_mode'));
++assert(isfield(mesh.meta, 'hmin_effective'));
++assert(isfield(mesh.meta, 'hmax_effective'));
++assert(isfield(mesh.meta, 'hmin_edge_scale'));
++assert(isfield(mesh.meta, 'cad_edge_tol_fraction'));
++assert(isfield(mesh.meta, 'min_raw_cad_edge_length'));
++assert(isfield(mesh.meta, 'min_meaningful_cad_edge_length'));
++assert(isfield(mesh.meta, 'cad_edge_count'));
++assert(isfield(mesh.meta, 'meaningful_cad_edge_count'));
++assert(mesh.meta.min_scaffold_angle_deg == min(mesh.scaffold_min_angle_deg));
++assert(mesh.meta.max_scaffold_edge_ratio == max(mesh.scaffold_edge_ratio));
++end
++
+ function cleanup_paths(paths)
+ for i = 1:numel(paths)
+     if isfolder(paths{i})

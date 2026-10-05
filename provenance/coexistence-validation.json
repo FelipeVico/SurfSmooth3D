@@ -1,0 +1,201 @@
+{
+  "status": "passed",
+  "process_exit_code": 0,
+  "fresh_matlab_process": true,
+  "environment": {
+    "LC_ALL": "C",
+    "OMP_NUM_THREADS": "2"
+  },
+  "test": "tests/interop/test_gateway_coexistence.m",
+  "test_sha256": "72915a91d62398f819ed7370ff901b5a6265eab9c9ec0cf89b9e6bbdf9180daa",
+  "log": "build/coexistence.log",
+  "command": "env LC_ALL=C OMP_NUM_THREADS=2 MATLAB_PREFDIR=\"$PWD/build/coexistence-prefs\" /Applications/MATLAB_R2026a.app/bin/matlab -batch \"addpath('tests/interop'); test_gateway_coexistence(fullfile(fileparts(pwd),'tools','fmm3dbie'),fullfile(pwd,'build','coexistence'));\"",
+  "results": {
+    "matlab_version": "26.1.0.3203278 (R2026a)",
+    "cases": {
+      "new_root_first": {
+        "one_step": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true
+        },
+        "adaptive": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true,
+          "indicator_max_difference": 0
+        },
+        "blend": {
+          "both_sessions_live": true,
+          "old_session_unchanged": true,
+          "max_difference": 0,
+          "new_session_survives_old_close": true
+        },
+        "loaded_mex": [
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64"
+        ],
+        "interleaved_A_B_A": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true
+        },
+        "changed_parameter_max_difference": 0.05548261967897972,
+        "bie_max_difference_from_before": 2.3626933742804113e-15,
+        "bie_relative_error": 5.63005526861003e-10
+      },
+      "old_root_first": {
+        "one_step": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true
+        },
+        "adaptive": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true,
+          "indicator_max_difference": 0
+        },
+        "blend": {
+          "both_sessions_live": true,
+          "old_session_unchanged": true,
+          "max_difference": 0,
+          "new_session_survives_old_close": true
+        },
+        "loaded_mex": [
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+          "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64"
+        ],
+        "interleaved_A_B_A": {
+          "patches": 414,
+          "nodes": 6210,
+          "values_max_difference": 0,
+          "coefficients_max_difference": 0,
+          "weights_max_difference": 0,
+          "values_exact": true,
+          "coefficients_exact": true,
+          "weights_exact": true
+        },
+        "changed_parameter_max_difference": 0.05548261967897972,
+        "bie_max_difference_from_before": 0,
+        "bie_relative_error": 5.630251408180767e-10
+      }
+    },
+    "gateway_paths": {
+      "fmm3dbie_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+      "fmm3dbie_adaptive_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+      "fmm3dbie_adaptive_blend_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+      "surfsmooth3d_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+      "surfsmooth3d_adaptive_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+      "surfsmooth3d_adaptive_blend_routs": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64"
+    },
+    "bie": {
+      "nodes": 2160,
+      "patches": 48,
+      "density": "z on the unit sphere",
+      "relative_error_before": 5.630251408180767e-10
+    },
+    "all_six_loaded": [
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64"
+    ],
+    "mex_after_clear": [
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+      "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64"
+    ],
+    "clear_mex_returned": true,
+    "normal_exit": true
+  },
+  "gateway_binary_audit": {
+    "fmm3dbie_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_routs.mexmaca64",
+      "sha256": "b0c49f71d6b080eaaf18890ff2d807da87c43177d05c48b76bacdedf6facc90c",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    },
+    "fmm3dbie_adaptive_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.mexmaca64",
+      "sha256": "de734d6b9a8c8e7e844f54dbbc5c87bfda7cd0820e7c7961fc00d6312343d204",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    },
+    "fmm3dbie_adaptive_blend_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.mexmaca64",
+      "sha256": "2821dcb7762f0c1a95f7ed82b52897005e81e7df247f74e4fc81866c0ace9560",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    },
+    "surfsmooth3d_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_routs.mexmaca64",
+      "sha256": "d04531007d1dbfbfaae65cf5fdae79e14d1ff170be7d1a2c3e4f114ae3966e71",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    },
+    "surfsmooth3d_adaptive_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_routs.mexmaca64",
+      "sha256": "e773b63a8e9fbd3095b359e363969e6469f873cf4d8b4c123fde9f1a9f530636",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    },
+    "surfsmooth3d_adaptive_blend_routs": {
+      "path": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/matlab/surfsmooth3d_adaptive_blend_routs.mexmaca64",
+      "sha256": "271acd9a52fde917a3dadaaad3665d05ad946a561e22567526ce42b1817cb233",
+      "public_symbols": [
+        "_mexFunction",
+        "_mexfilerequiredapiversion"
+      ]
+    }
+  },
+  "scope": "Original tools/fmm3dbie and extracted SurfSmooth3D macOS MATLAB gateways; local runtime pin option enabled; no MEX rebuild or original-source edit performed."
+}

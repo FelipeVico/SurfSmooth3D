@@ -1,0 +1,776 @@
+[
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/Contents.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/Contents.m",
+    "source_sha256": "8117b25ffa7c14496fe424531e71e644598e681fd9ab3a4e511fa970300178a7",
+    "destination_sha256": "8117b25ffa7c14496fe424531e71e644598e681fd9ab3a4e511fa970300178a7"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/affine_transf.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/affine_transf.m",
+    "source_sha256": "210ccbbbba83869e4a3070d29de4baf67ac0e59033e85ce9c9eac6f08dff5b6a",
+    "destination_sha256": "5dd7f8b636cc8a6db86c644329eb918c810fb5b178f018ef67a2927367e926f4"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/area.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/area.m",
+    "source_sha256": "ccd861830d319cbc917631b3a00bb23514b5c37a036817f0c5c75c24bac59ff2",
+    "destination_sha256": "ccd861830d319cbc917631b3a00bb23514b5c37a036817f0c5c75c24bac59ff2"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/conv_rsc_to_spmat.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/conv_rsc_to_spmat.m",
+    "source_sha256": "64348d724fb3bc3dd3f1291a0f6cceaadb6f1ad91913601a3f30ee076766176e",
+    "destination_sha256": "64348d724fb3bc3dd3f1291a0f6cceaadb6f1ad91913601a3f30ee076766176e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/extract_arrays.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/extract_arrays.m",
+    "source_sha256": "8c7714e5d60ce24074f716aae69a515a78b3e5dda2018cf74b366563f46be208",
+    "destination_sha256": "8c7714e5d60ce24074f716aae69a515a78b3e5dda2018cf74b366563f46be208"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/interpolate_data.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/interpolate_data.m",
+    "source_sha256": "0dc4b10b63cf92b9f836af10991557dec0b48a4c925290d22a165935b9734845",
+    "destination_sha256": "a05da8f72e10f634bdca8ada2677367a497c727f9863d378fbdf4fcfd2a8720f"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/load_from_file.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/load_from_file.m",
+    "source_sha256": "bb96311f6015032778f5bd15da6041e2dc1f7b5aa8f5cb79f3c3d2f52346cb4b",
+    "destination_sha256": "cce5a7b72b67a0352f68e2717206a8ae784e994bee3c2444a2a0381883071267"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/merge.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/merge.m",
+    "source_sha256": "7af0dde20d36b5c02a739e36af6a7a71d68fd6a3c5061dcebec65891ff89bdc6",
+    "destination_sha256": "4a5bf31ad7443ef329322f13582af49c49242b68abb29117b7feede6faf3a0f6"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/oversample.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/oversample.m",
+    "source_sha256": "9169a427bbf5a6872dd846b7a8c165dc89412177f414a692877221f4a61d444b",
+    "destination_sha256": "f38a720eed98476d7b47bfebfc5e0a6aebda25ff1295bc45cc71c7ef205bcd2c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/plot.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/plot.m",
+    "source_sha256": "87efded2e5e5d1d10138146322ed0b3e65f757636bb177198b1b6c3231244ee6",
+    "destination_sha256": "a93953cbce28d5c6a2e18f3beb01cec7a9ce842e47cbf438b0c3406e15b2c0bd"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/plot_nodes.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/plot_nodes.m",
+    "source_sha256": "b78a55137b6726613375b97fa96c425cf6b296afe1f43b9128871c1fa7c6b2c2",
+    "destination_sha256": "360f6fce79bc98ed201dcfeb7347291766f3b0787007b11fab73c01748e5a329"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/rotate.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/rotate.m",
+    "source_sha256": "d66180ea677fabaf14fd1d15b91b491a57705b2c42c8043b975f777b18bbb073",
+    "destination_sha256": "d66180ea677fabaf14fd1d15b91b491a57705b2c42c8043b975f777b18bbb073"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/scale.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/scale.m",
+    "source_sha256": "e05e5371ddf58e3ecd2235cf4a8a35417210360b44d9dac37d0de1d681d9e431",
+    "destination_sha256": "389cf859cbc6898621f882a328a529833bec285d85bc7f2c9afc009f25516885"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/scatter.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/scatter.m",
+    "source_sha256": "eaa33d2c2b09a916a9a8c3edf5d641e7dd1b30403892d6aa38f7164ffb5d1902",
+    "destination_sha256": "eaa33d2c2b09a916a9a8c3edf5d641e7dd1b30403892d6aa38f7164ffb5d1902"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/surf_fun_error.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/surf_fun_error.m",
+    "source_sha256": "3c9d6fc7439e18ddc34d563935a926639eb524400240b396867bd0d30ac40469",
+    "destination_sha256": "3c9d6fc7439e18ddc34d563935a926639eb524400240b396867bd0d30ac40469"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/surfacemesh_to_surfer.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/surfacemesh_to_surfer.m",
+    "source_sha256": "ca80090c3b9eed24387b2ac8302e49070b37e56533ad652483aeed70f1681d49",
+    "destination_sha256": "d5c0c145bff7bacaa9a5cc9fddf6f235cf728ae94403bae81a5fef5175db010c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/surfer.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/surfer.m",
+    "source_sha256": "197e595efdfa9af9d20a546e557c4e0f8dbfb9ec0c47f5c17e9a1499e4803fc1",
+    "destination_sha256": "306da4628f24cbc566ebb6a44d8c972ced4352ac515088261eb829dd02411f39"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/translate.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/translate.m",
+    "source_sha256": "d35dca86d0d9944bb84fc608e44147b2f0ed610b8310a802416b1f1610a79451",
+    "destination_sha256": "b553dc0a8326846e9ed9f52947bd27befa1ad1662ce0fdeeeb538c2338d1254a"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/@surfer/vals2coefs.m",
+    "destination": "matlab/+surfsmooth3d/@surfer/vals2coefs.m",
+    "source_sha256": "2f54aae3412d4a834ff3ed9ded8316325feeb74a818d92d0ac3b8c7946c1e202",
+    "destination_sha256": "2ed346068ce4419126f5892fc3353c91028185364cf6030633697ae3fec60acb"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/Contents.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/Contents.m",
+    "source_sha256": "0397074d45167f4421e35e6a9ca991a66d214ac24cf707506e7e23d594e3ebba",
+    "destination_sha256": "1e8cd24ee826e0a4409dc2e66f7cf1fbd8b7795ffb6e15247988d315d0ca3adb"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/bad_nodes_table.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/bad_nodes_table.m",
+    "source_sha256": "71ef08cb2719ec9c3fa398f0a114dbf217e1bb33160b55feaf94ece1501c84a9",
+    "destination_sha256": "71ef08cb2719ec9c3fa398f0a114dbf217e1bb33160b55feaf94ece1501c84a9"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/blend.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/blend.m",
+    "source_sha256": "d5f5ad80334be4939db037618af909bad8adda607e7e0d33b27630ef3e139dc4",
+    "destination_sha256": "3d3c0137b4f4c9d9b001e42ab53d7bd0e92630fddc311f3298679b29d4e04168"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/capture_newton_failure.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/capture_newton_failure.m",
+    "source_sha256": "88003c5d4730530cdbe4cfbca5c0cd74f05d49f7b5dfc76a0723609c5c7edb24",
+    "destination_sha256": "244669f740f305f23e08c1c3950a69b1343c3660e62909cff69c8a3c421fe22c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/color_limits.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/color_limits.m",
+    "source_sha256": "3512e37b75334c0ad183bfa180913dfd61e0a422887444e932fa82c18610a0f5",
+    "destination_sha256": "3512e37b75334c0ad183bfa180913dfd61e0a422887444e932fa82c18610a0f5"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/color_values.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/color_values.m",
+    "source_sha256": "409b9f2888d0b5203656715e1da82d629c43aa23fe4ff3d279066b434b2c33fc",
+    "destination_sha256": "409b9f2888d0b5203656715e1da82d629c43aa23fe4ff3d279066b434b2c33fc"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/compute_pair.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/compute_pair.m",
+    "source_sha256": "52f2381752efe5e6e9cc47633ec36b58028eaaf8e81bc6285f3ac1a383bf5926",
+    "destination_sha256": "3383e056886dc791b625f6f7b1735f57dad742710bd3863aebe69b6d6131cd67"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/default_input_root.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/default_input_root.m",
+    "source_sha256": "f666ba6d701f4bfe4f583e9a293617860dbba9e4736c8a8d01fabc230ffb73aa",
+    "destination_sha256": "15e29296cc0958f5683f63304177b19cba2c58d0297c11577a682dd0c90dda33"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/default_settings.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/default_settings.m",
+    "source_sha256": "e9f6d9644558ed8195368452e3241118b84320982f3e2eaab249d6dcc6ec98e5",
+    "destination_sha256": "e9f6d9644558ed8195368452e3241118b84320982f3e2eaab249d6dcc6ec98e5"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/export_surface.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/export_surface.m",
+    "source_sha256": "19cab2b5a5d9735d7c82b98542567e7e41360162d25981a683e6703281491583",
+    "destination_sha256": "985026ff587b75e0e319460fd79ca160ced0e218eedb28289933ea23a5510252"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/file_sha256.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/file_sha256.m",
+    "source_sha256": "a057b0df7479571c7f75c1c3fd48d9c891d8891deb290b4158a6ad94c3ffd1c8",
+    "destination_sha256": "a057b0df7479571c7f75c1c3fd48d9c891d8891deb290b4158a6ad94c3ffd1c8"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/launch_gui.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/launch_gui.m",
+    "source_sha256": "636926b318fe77c1588e3687833c996d49e509740c8e33bdc22f17e196ee0084",
+    "destination_sha256": "bd879ade753e78d41629542ae87b24e4b2651129a56e739d3cc2170dfcdd5a29"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/load_edges.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/load_edges.m",
+    "source_sha256": "c53528828570c196db742e618e3ddf96c740b76b7d2731de3388a436f517a448",
+    "destination_sha256": "fe5b84fa7703b6ffe45dede319dc580f07312e02a0587932cf90801b9a6b4e38"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/load_package.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/load_package.m",
+    "source_sha256": "7d198ba7fb0e51943819ff815278a22fefb5eb189426553ebd8790aab80b5405",
+    "destination_sha256": "5c1c5924c535849b403bc728a410b325dfe92460f8f2e836ddbfb7f01b59ce4c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/mesher_options.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/mesher_options.m",
+    "source_sha256": "31d0eef0cce42dd1327e7a7b34877969df103f6a5e235e0b5391616f7d9eb057",
+    "destination_sha256": "31d0eef0cce42dd1327e7a7b34877969df103f6a5e235e0b5391616f7d9eb057"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/new_run_directory.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/new_run_directory.m",
+    "source_sha256": "2c814de230330f7d99541fa36dfce2b2f22bca8936046730d241f08dbf88b52f",
+    "destination_sha256": "bb8119d721c96512468cfb69e1a56688138fe271e42142dcc1c0ea6bc9b68979"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/parse_integer_list.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/parse_integer_list.m",
+    "source_sha256": "56743d14db6467f5eed07f0c23ccfeddda02fa5013dbe4fe356e1704b7ddc0e6",
+    "destination_sha256": "56743d14db6467f5eed07f0c23ccfeddda02fa5013dbe4fe356e1704b7ddc0e6"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/plot_gidmsh.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/plot_gidmsh.m",
+    "source_sha256": "3722ff8f05a3bb5835c727e7a3063d677d1479530080a3ee3f4f0af84e502595",
+    "destination_sha256": "3722ff8f05a3bb5835c727e7a3063d677d1479530080a3ee3f4f0af84e502595"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/plot_newton_failure.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/plot_newton_failure.m",
+    "source_sha256": "223717a30284c91f9ea39c50efd615a8320882c5bdb891a6398f8d0741fd9b91",
+    "destination_sha256": "0f2443235cfaaeec02d53af655ff6e4f187cd6adea0a2abaa3ddeecae2c5aff0"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/plot_surface.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/plot_surface.m",
+    "source_sha256": "c0482a3574f4b0d8d0f40b0fa160f59d3683b2ac3692568527697a0e00a21d3f",
+    "destination_sha256": "135e94152e68b974ef9c54ae56dd8810bbb1b10537847f5982f72bc2a893528d"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/print_validity_report.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/print_validity_report.m",
+    "source_sha256": "3039d8ba801cd44a72cff00fcb9ac4f2e2dff1cf6f2cc8a7705f9c91d61bad67",
+    "destination_sha256": "3039d8ba801cd44a72cff00fcb9ac4f2e2dff1cf6f2cc8a7705f9c91d61bad67"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/read_gidmsh.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/read_gidmsh.m",
+    "source_sha256": "dfa89d6cb48c15974b32dbfe9e15684ed619a22034f47f99ce34bd0cda73df9e",
+    "destination_sha256": "dfa89d6cb48c15974b32dbfe9e15684ed619a22034f47f99ce34bd0cda73df9e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/read_newton_failure.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/read_newton_failure.m",
+    "source_sha256": "9b3176a7e703398fd5f6dd1dcf33605dee8748ab0a804d513d1b38d96f9811e6",
+    "destination_sha256": "9b3176a7e703398fd5f6dd1dcf33605dee8748ab0a804d513d1b38d96f9811e6"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/reference_map.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/reference_map.m",
+    "source_sha256": "4a2d6a2fe5d2a97e407c445328335459d1834fb29f0ae9cd42fe6c27e8c9e630",
+    "destination_sha256": "783a6cb9b4085275d53d9d9177b1a53141431cf97e307c1a993d797cba47d770"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/resample_cad.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/resample_cad.m",
+    "source_sha256": "ed4cb2d8c5125104bfaf66aa883e2e60a9c65337a86a5ff4facc68d84a522a39",
+    "destination_sha256": "811ba3f3a613624d234f1be841ed0b10238c6bd55102e8e4853d81c21e431756"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/run_batch.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/run_batch.m",
+    "source_sha256": "8f0976e03fb55dbdf7efefb407c2ff2e3258226c2f4eb6948f3e1af378aecec3",
+    "destination_sha256": "dacc0c88a18fda21c7d76e4547a8fbab5339f3af6830ceba2451f4f03d7558d3"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/save_pair.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/save_pair.m",
+    "source_sha256": "ce5b9336fdeeca34e6bcaf36b32eed2722ad754213ba7e1d7d4526c6cb7dd310",
+    "destination_sha256": "0f87cc7f2060d8386a479a58c8109395cc9fa08f60aefaac340995e06dd01f12"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/sigma_mode_label.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/sigma_mode_label.m",
+    "source_sha256": "8a962f8991201a9eee9bc0dbb956183ea3b2fb27c738b62bf4f74ee8dddcf3a2",
+    "destination_sha256": "8a962f8991201a9eee9bc0dbb956183ea3b2fb27c738b62bf4f74ee8dddcf3a2"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/srcvals_from_positions.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/srcvals_from_positions.m",
+    "source_sha256": "cc0bf01c438cefb934c04c539d268978f7f7d85fba8adaa4f869fa913f372fad",
+    "destination_sha256": "4a3c20f8fbd4724cec58ea77ca45f6b8878383273987fc113dfad0fa3a83940c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/stage_source.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/stage_source.m",
+    "source_sha256": "b94b5af9c33ae0b10ec5393856f062f5b6892ac02810b31f503b916518032dda",
+    "destination_sha256": "e5fd2a1dd70e4aed829c63c4430e483ac48c3980188c05d1d0248da955248ce7"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/surface_filename.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/surface_filename.m",
+    "source_sha256": "4d936cdefe42d7330a87433063ef943b07fd731ab6921ed49a536e2f48ade734",
+    "destination_sha256": "4d936cdefe42d7330a87433063ef943b07fd731ab6921ed49a536e2f48ade734"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/triangle_maps.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/triangle_maps.m",
+    "source_sha256": "d5c7e1769df2dc27994d7d682ede44d6cda294d0e8f8ac6736ecc013202710e2",
+    "destination_sha256": "d5c7e1769df2dc27994d7d682ede44d6cda294d0e8f8ac6736ecc013202710e2"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/update_blend.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/update_blend.m",
+    "source_sha256": "2cbd4bfe83b1a30b71f3ad371914af3560246d563b9e41316d68580062e70dbf",
+    "destination_sha256": "e6031dc2146886a1b426e0f7138082ae63c8e3c62fe58ceb2371440eb78d7305"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/validity_report.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/validity_report.m",
+    "source_sha256": "05e7e39f3fd11bf29274150ef5d867c03a32fd6039d48d8a0f5f65900ce1105f",
+    "destination_sha256": "9940fe69e574ccf0c0df8ae6cc219df351dfa2344b562c7b80e0ce825afc137e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/write_go3.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/write_go3.m",
+    "source_sha256": "f8c49f11113057ab0a570d3eac645c5c5ee961fa478a51156c579989fc1ef68b",
+    "destination_sha256": "f8c49f11113057ab0a570d3eac645c5c5ee961fa478a51156c579989fc1ef68b"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+edgepreserve/write_point_source.m",
+    "destination": "matlab/+surfsmooth3d/+edgepreserve/write_point_source.m",
+    "source_sha256": "b0d92abde7b30fa7ad6b075c41142d1161d20bf3a8213160f03807db8eb5d7dd",
+    "destination_sha256": "b0d92abde7b30fa7ad6b075c41142d1161d20bf3a8213160f03807db8eb5d7dd"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptivesmoother/launch_gui.m",
+    "destination": "matlab/+surfsmooth3d/+adaptivesmoother/launch_gui.m",
+    "source_sha256": "b39c6e44ddd3e00dc57a8dbc8c72627b75efdb4de0475d19bff9a85ad10cbdfb",
+    "destination_sha256": "1e7132917406bbd2108d76822aced2752085ee1fdd9d93498294175839d7eae5"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptivesmoother/resample_cad.m",
+    "destination": "matlab/+surfsmooth3d/+adaptivesmoother/resample_cad.m",
+    "source_sha256": "b09331c650d10d68acb945c1a74c1b2ee2179f7defdb941aefe8c60685df2144",
+    "destination_sha256": "dd4f9aef8561720a7e498bfeca99839481e189d214f7ccbc3fc4f40ff0e34ebf"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptivesmoother/save_result.m",
+    "destination": "matlab/+surfsmooth3d/+adaptivesmoother/save_result.m",
+    "source_sha256": "f4024bd03e12d2169c45d3ed3d5eafee9b0b1747573230444ddf2084fac7e06c",
+    "destination_sha256": "54a139299a048b38d014763dbe164e1d83c4e99e7e1a90cea14bd94e51e3fe0c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptivesmoother/solve.m",
+    "destination": "matlab/+surfsmooth3d/+adaptivesmoother/solve.m",
+    "source_sha256": "07d6d34363f2939c8800ab487b0cb359b3a5bd2c96d1e4200200d673f6d79911",
+    "destination_sha256": "2f9fe5d421c696eed90d4bcd7b8c00b3f3f1fe5d03a64f356a35239a76cc77d4"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/Contents.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/Contents.m",
+    "source_sha256": "c5bc0c879311f047e4bca9698f4530322f8cbc8db6f41dd65adcdd67207e16ca",
+    "destination_sha256": "c5bc0c879311f047e4bca9698f4530322f8cbc8db6f41dd65adcdd67207e16ca"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/assess_checks.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/assess_checks.m",
+    "source_sha256": "f3e4e5bc3f8508d3a1b5917aa5d11976cb364e75388f4ea85abc74b65d15d11d",
+    "destination_sha256": "822346017e56a4a8dc0ecb32d9a15f79f86c4710c1e53cf8cb05be2ed0ab6397"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/basis.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/basis.m",
+    "source_sha256": "eecca824456cc633f1c22a084b83730b992b832a1fa296d4d99da7429e073a3e",
+    "destination_sha256": "7f2b32e8ffdddf6d6d2f26faabe3611fb77b305e98717f78a92e160bf1aa15a2"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/beta_values.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/beta_values.m",
+    "source_sha256": "bc1ea84f03195049c4451aa0004fdace39616490c42a4244dc34222425dfa170",
+    "destination_sha256": "bc1ea84f03195049c4451aa0004fdace39616490c42a4244dc34222425dfa170"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/cad_values.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/cad_values.m",
+    "source_sha256": "b36a752bd2de7a9043bd2469e5a17dd68e63a2a13d39d2bee894218dca7add88",
+    "destination_sha256": "bde6836459a1901a9415d3634ef88f092bd35af6bbb6319f62927d6aadc45860"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/check_error.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/check_error.m",
+    "source_sha256": "01aed91e33108ff171574a3cd0d396f2c86ba583a4e6e01a0645744e63d68852",
+    "destination_sha256": "01aed91e33108ff171574a3cd0d396f2c86ba583a4e6e01a0645744e63d68852"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/default_settings.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/default_settings.m",
+    "source_sha256": "fa71f0bd3b483627f84e522365bd2b9e3dd37d0be5c7b2206fbd4df047317a69",
+    "destination_sha256": "fa71f0bd3b483627f84e522365bd2b9e3dd37d0be5c7b2206fbd4df047317a69"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/independent_indicators.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/independent_indicators.m",
+    "source_sha256": "3826b58705191de1ead66efb27ce5259308c21263a78113bb92ac592e0e14aa3",
+    "destination_sha256": "3826b58705191de1ead66efb27ce5259308c21263a78113bb92ac592e0e14aa3"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/launch_gui.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/launch_gui.m",
+    "source_sha256": "e21b6414cf388e9064bae07cac8efd1e2e9114afe0c2c7cbc88c6d34925657bf",
+    "destination_sha256": "18e86bb16c4d5e47e9a2a62cc57584323b3b4aa872e65cb0adcc7933b1a573d1"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/nodal_patch.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/nodal_patch.m",
+    "source_sha256": "59ef24ae8c3b409437da90ad9b63442164978dd1cd301e67aba0c0d17fb3e2a8",
+    "destination_sha256": "59ef24ae8c3b409437da90ad9b63442164978dd1cd301e67aba0c0d17fb3e2a8"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/save_result.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/save_result.m",
+    "source_sha256": "7b86a5da780ef4457cdd214240f14255cb1961bd94846ee1b9fb538155968b72",
+    "destination_sha256": "d29ba34705685fb07b55c657ad367a6e342b1dae9686db6bdb0939251ba434b7"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/solve.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/solve.m",
+    "source_sha256": "ebddff369c72d56bd06c38645f65876a9b8626281d8a7e5a7a28ef4fcd0c5194",
+    "destination_sha256": "8637e0e641b5c3dedd827eb21ad393986488c2a953470588a140e3719c587b35"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+adaptiveblend/validate_settings.m",
+    "destination": "matlab/+surfsmooth3d/+adaptiveblend/validate_settings.m",
+    "source_sha256": "764baab93f99996e6b1617c99227a7301437867524d4ef3c7da6986e97898d67",
+    "destination_sha256": "764baab93f99996e6b1617c99227a7301437867524d4ef3c7da6986e97898d67"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/coefs2vals.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/coefs2vals.m",
+    "source_sha256": "6a92c5726ed6c130c444fb9e03de3d04ce132f39139e18305fc0baaed5d7658f",
+    "destination_sha256": "ff8c65228dc824ad4e38135a21e7e607dee633d90fb163a96adbebeb837c2fa3"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/ders.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/ders.m",
+    "source_sha256": "4090648f55001efe132de06490c4f04148d3ff6dbc63c8167df49cc68331e481",
+    "destination_sha256": "294aa8301b71d1a363cdb6f6d56967d72888ff7c99df047f03fc882bcd1481e7"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/pols.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/pols.m",
+    "source_sha256": "4a7c677e30d31a36f1ae0f5df2cd07c34bdaae92135ed37197529256a1d606f9",
+    "destination_sha256": "4a7c677e30d31a36f1ae0f5df2cd07c34bdaae92135ed37197529256a1d606f9"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/rv_nodes.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/rv_nodes.m",
+    "source_sha256": "ef0f0905ee59636223deb27df69681654d272a584ee2e8ee4294a5b5744dfa7f",
+    "destination_sha256": "ef0f0905ee59636223deb27df69681654d272a584ee2e8ee4294a5b5744dfa7f"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/rv_weights.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/rv_weights.m",
+    "source_sha256": "f7cbeef6961e660c96ac62d0c17dc0b02e29a93a5bfedcb93160b1ee395c7495",
+    "destination_sha256": "f7cbeef6961e660c96ac62d0c17dc0b02e29a93a5bfedcb93160b1ee395c7495"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+koorn/vals2coefs.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+koorn/vals2coefs.m",
+    "source_sha256": "d081e8c8affba421e79a7a72cb40f591ad31a9a4a7d0e23f96b1db6b34c73ffe",
+    "destination_sha256": "28385498121dd3d96a50ac68a429578fc9b12b1ec4ddd7514d88e04cda494233"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/coefs2vals.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/coefs2vals.m",
+    "source_sha256": "dc80aa1e10d986461e5160c65d4520f5c3047f16e29cb36749effcad7abf745a",
+    "destination_sha256": "c26de8c5e1e2d3700dd31cbe1e71dde4e5b46dbe85dfbcc7845ca317658e3733"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/ders.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/ders.m",
+    "source_sha256": "aa79e736bc9adbd1fbd5e472f69655bec5a6ccdd7ff611cecda38ad4cc22440d",
+    "destination_sha256": "aa79e736bc9adbd1fbd5e472f69655bec5a6ccdd7ff611cecda38ad4cc22440d"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/nodes.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/nodes.m",
+    "source_sha256": "fa1b8bddb7c15b140a05ccd57f0b089af2dfcaecfa17e1491327020491e63825",
+    "destination_sha256": "a23f8e75505b890b6b572cd14824136069b34509a736e8ebb3d807e4643b9348"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/pols.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/pols.m",
+    "source_sha256": "03b17f19db4dc2c66df8dfba949f94c7f50b6b484233f23b54ee0bea73b18f4c",
+    "destination_sha256": "03b17f19db4dc2c66df8dfba949f94c7f50b6b484233f23b54ee0bea73b18f4c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/pts.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/pts.m",
+    "source_sha256": "bfebd7f8aad400fbe18e164d336ccbe9c7ef7a62935755a7a26eb1d72a6f992e",
+    "destination_sha256": "bfebd7f8aad400fbe18e164d336ccbe9c7ef7a62935755a7a26eb1d72a6f992e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/vals2coefs.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/vals2coefs.m",
+    "source_sha256": "992a3a2c3aa0cce3ee1606d74a3607a55ca3e8c74917b61de77ffdd2d635ad39",
+    "destination_sha256": "5dc07927f0611a6591e2c1657aeca81ccd92e84bda32ebd7b4e0e30aff880c8e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+cheb/weights.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+cheb/weights.m",
+    "source_sha256": "ce7e7a35e282705b736779eb708e2c05f9fef6fc989a17b5c6d4c15d615a5134",
+    "destination_sha256": "2146b45eb0639d955ec5e356ccd092a593628b3bc069123ad0075116e98308c6"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/coefs2vals.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/coefs2vals.m",
+    "source_sha256": "d00f483a555ad04a4133fdf3e3165712490b5bd9e88c777dbcf2084fce549557",
+    "destination_sha256": "c074a17628d16a9a29e30069fdaa9b24dfa7eee0fe6b916798c9ba5458440a4b"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/ders.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/ders.m",
+    "source_sha256": "e169ebdeb8969a50f9b014f1e136ca367b09eb12591ef1cacbec4dff4c34f530",
+    "destination_sha256": "e169ebdeb8969a50f9b014f1e136ca367b09eb12591ef1cacbec4dff4c34f530"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/nodes.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/nodes.m",
+    "source_sha256": "27806cf58d8e2fe957d8e0524d07671402fff90a2f9877bf32ccc39393ee6ed9",
+    "destination_sha256": "d7e9483bd0099c26c9daa5fd15a12c092ec89eb40418f3ea1b91cf42c2de2c7f"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/pol.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/pol.m",
+    "source_sha256": "a31ad6fe6dd5e05db5a61d25e9c87ef3ce172221546051087757a7abb82ba47b",
+    "destination_sha256": "a31ad6fe6dd5e05db5a61d25e9c87ef3ce172221546051087757a7abb82ba47b"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/pols.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/pols.m",
+    "source_sha256": "0ee5b7ad1377cbf9adf52f05e6297f059f9f71496eddbce68817a210d6ab7bfe",
+    "destination_sha256": "0ee5b7ad1377cbf9adf52f05e6297f059f9f71496eddbce68817a210d6ab7bfe"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/polsum.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/polsum.m",
+    "source_sha256": "a43669a0aefa175d44a6d66ec0e75483f3a13dfe9c5cc70773549e5696092d90",
+    "destination_sha256": "a43669a0aefa175d44a6d66ec0e75483f3a13dfe9c5cc70773549e5696092d90"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/pts.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/pts.m",
+    "source_sha256": "ee56a3c2df608e1d3e8c58a927742031f6dd1eaf5017edbdb461fabcf4b3202c",
+    "destination_sha256": "8d870403d7608f16b30dded4326707ae2fb140b87126f82b723ec39fbe148fa9"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/rts.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/rts.m",
+    "source_sha256": "a501a55a1dcccc7e3da71e4810c941ebd40a6fd563ecdcf241386099539cc665",
+    "destination_sha256": "2ee659ac508d7db3463e7f11dfe4526399ebc8bcee2c02cfa1a7eedd64da3e3e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/rts_stab.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/rts_stab.m",
+    "source_sha256": "b1ec905f6bb05c6a8af91494f0932f577fca4b3d28567c41df2a6e251312ba7a",
+    "destination_sha256": "7b9463df971f91255e7523805c1715d82e12210936912da6326e55e65165e12c"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/tayl.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/tayl.m",
+    "source_sha256": "356e8371a959278d2d9781f327c397c2445969d305e3debfd360da09518047a9",
+    "destination_sha256": "356e8371a959278d2d9781f327c397c2445969d305e3debfd360da09518047a9"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/vals2coefs.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/vals2coefs.m",
+    "source_sha256": "a29b55b927d976872e9e726c7208f57d0a5b01cde3d0920cb8c9ada187a40983",
+    "destination_sha256": "7cd12433491e3aff7c3211435155401c778b548739082613c666b53a7b09c57f"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/+polytens/+lege/weights.m",
+    "destination": "matlab/+surfsmooth3d/+internal/+polytens/+lege/weights.m",
+    "source_sha256": "ce5b5849fff136ad894541d0d7278e6968b0eaf970a4d79ac16f29d42c60403f",
+    "destination_sha256": "1d53eb0210787aef152dcdc1622cd96ee910020efa2f82e824c3f31adb45d998"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/src/barymat.m",
+    "destination": "matlab/+surfsmooth3d/+internal/barymat.m",
+    "source_sha256": "08335be7c00751c97350a2422e5ea24c544f57802c431dac241802db0250a6e3",
+    "destination_sha256": "08335be7c00751c97350a2422e5ea24c544f57802c431dac241802db0250a6e3"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/src/multiscale_mesher.m",
+    "destination": "matlab/+surfsmooth3d/multiscale_mesher.m",
+    "source_sha256": "a4e32ebde69390360a20bc13ab58842f0068856c295640e9e56d4e37ec3c2309",
+    "destination_sha256": "2fdf69c737a37c1a036786770e3f889b0454096b46ae960a87f087dadbed650e"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/src/multiscale_mesher_adaptive.m",
+    "destination": "matlab/+surfsmooth3d/multiscale_mesher_adaptive.m",
+    "source_sha256": "abb81b7c9d7a5d86f57227cb894f7ff91b17315105e4eb927bf9c569cd9f9139",
+    "destination_sha256": "c22081cdbd7e8e9b6fd7428fbb318f87b7f60597f36a00af7d524ebf35a6ee13"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/src/multiscale_mesher_sigma_eval.m",
+    "destination": "matlab/+surfsmooth3d/multiscale_mesher_sigma_eval.m",
+    "source_sha256": "9808260135296689c7c7867581874fea521b23f2d03f5251badfef5209520eb2",
+    "destination_sha256": "01cb509e84c4829a9baaa406a41514ef7df667c220c780da92159f1fb4055306"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/fmm3dbie_adaptive_routs.c",
+    "destination": "matlab/surfsmooth3d_adaptive_routs.c",
+    "source_sha256": "6804aa57509e3d7552e54d40ee3c7741dfb969366d7d0e72e28c99200697a869",
+    "destination_sha256": "6804aa57509e3d7552e54d40ee3c7741dfb969366d7d0e72e28c99200697a869"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/fmm3dbie_adaptive_blend_routs.c",
+    "destination": "matlab/surfsmooth3d_adaptive_blend_routs.c",
+    "source_sha256": "42bdb9eb504670d78678cbbc9777c52d2ce13b6334f9bc17aa8cfb847a9f25e0",
+    "destination_sha256": "42bdb9eb504670d78678cbbc9777c52d2ce13b6334f9bc17aa8cfb847a9f25e0"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/examples/driver_debug_primary_vs_cad_smooth.m",
+    "destination": "examples/matlab/driver_debug_primary_vs_cad_smooth.m",
+    "source_sha256": "11385dba05cdfbca18e8a5de7f838152a7e6c673bb4c5ea9c93d6ff60b4f5929",
+    "destination_sha256": "d05a841725044e60457b7cb6f14134cbc76ea9830578bed1ebaa4781ff4b2038"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/examples/driver_edge_preserve_compare_surfaces.m",
+    "destination": "examples/matlab/driver_edge_preserve_compare_surfaces.m",
+    "source_sha256": "231515ed3668df9edb24389ec427fba8c472ebad3516fb98a6afc9776e3b9904",
+    "destination_sha256": "3e0b7688d6cada1071e66300bfe7b2bacc27215cc20ed267f2bf93eec6658146"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/examples/driver_two_stage_adaptive_blend.m",
+    "destination": "examples/matlab/driver_two_stage_adaptive_blend.m",
+    "source_sha256": "97307bbe87261f44cdc6a20f2c3d909d256880e2a009031542a2576ffb117796",
+    "destination_sha256": "42d548a1eb39170c56c9d91888fd8a1d84958e522a2fbfc1ac812a180a48477d"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/examples/driver_two_stage_adaptive_smooth.m",
+    "destination": "examples/matlab/driver_two_stage_adaptive_smooth.m",
+    "source_sha256": "761ad07ba3b25c53491e9cd0aa7743ce6335efe6a814417e152a7378580a2b09",
+    "destination_sha256": "afb0c97688d078b9f59d57a7d2eca1462a7d08247b0891bb5717eba93533e5a7"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/examples/driver_two_stage_edge_smooth_batch.m",
+    "destination": "examples/matlab/driver_two_stage_edge_smooth_batch.m",
+    "source_sha256": "b05265d257cc79edee1c698230d5b8cb0b6038e22d43f3b6caa44effb50e3d14",
+    "destination_sha256": "4fda69a0be8e314f0fd6fe19b8c70db1ee8692db6583fd90b5847c032e10990b"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/adaptive_blend_lock_baseline.m",
+    "destination": "tests/matlab/adaptive_blend_lock_baseline.m",
+    "source_sha256": "58c29e754edcc26ecfb94e2f5c3557615644eaad8677fab7a06d4c638f8a7c23",
+    "destination_sha256": "1750c1bd8a9ed28ecc843fbdcf08a8b9738b5bdd512294d83a25b9e9afaab0a7"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/check_adaptive_code.m",
+    "destination": "tests/matlab/check_adaptive_code.m",
+    "source_sha256": "9e45cbb9b04dc247cd29d37a4530c91a94f7bc104836fc8300e23bf4009ec98f",
+    "destination_sha256": "3a6feec10412e58bc28086786dd4abe78cbf8f2f5df722623c3ff6570492a4fb"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_adaptive_blend_gui.m",
+    "destination": "tests/matlab/smoke_adaptive_blend_gui.m",
+    "source_sha256": "f0a5a1c752d71eb465570106c048091278acf5b4279bd12a5e968cc3a9abdcb1",
+    "destination_sha256": "010a5eb5f6eea45a0d34ecfb2993c684125e71391628e8584c917cb2baa2ef98"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_adaptive_gui.m",
+    "destination": "tests/matlab/smoke_adaptive_gui.m",
+    "source_sha256": "b0373529887372b3b80790e7e623216873f7151f30e37cd1f305298fc1159d5f",
+    "destination_sha256": "82b75e6b607aa5d13e1c8bdf7799d2e145c1b66876f94538e506a8737f1462d0"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_edgepreserve_gui_batch.m",
+    "destination": "tests/matlab/smoke_edgepreserve_gui_batch.m",
+    "source_sha256": "e50124ee07cfcbfccc6a1c6798d2591a307ea38d8573bd9c40bc8c07a836e44f",
+    "destination_sha256": "21b63bdabe567bbeb7ab47b7db66b1cc53c5e90c7e627399c9238238dead58f9"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_edgepreserve_real_package.m",
+    "destination": "tests/matlab/smoke_edgepreserve_real_package.m",
+    "source_sha256": "c6bc9e7d1c0be33cf89779111a6f70cffb9c76c11cf391316aecfea16cd4eccd",
+    "destination_sha256": "fdc309507bd742b99965c31893d0003ecf90573e08e57b3c191c6511dd31357e"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_newton_projection_failure_gui.m",
+    "destination": "tests/matlab/smoke_newton_projection_failure_gui.m",
+    "source_sha256": "c07b36f94637d09c1ea3b9888790d051605612ed71348b06b3423629044e3bad",
+    "destination_sha256": "9a727b071b99afb6f0184832c842bbf0e6089fd4aa9e1397fbcbf727c30e8ad8"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_newton_radius_guard_gui.m",
+    "destination": "tests/matlab/smoke_newton_radius_guard_gui.m",
+    "source_sha256": "38c419925d464dd4d7966efd2b029798f9dffc830e16038d3f0245eb2f9af534",
+    "destination_sha256": "8050a5cd2a744bbca43bafaa009f3aa2e2ccb1a716f337ed207d7192b3a5f133"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/smoke_sigma_modes_gui.m",
+    "destination": "tests/matlab/smoke_sigma_modes_gui.m",
+    "source_sha256": "d76b2339c3309b834a717d8a26ba31319b7c64b352704ba5d3ab90927287bccf",
+    "destination_sha256": "2fed21dcbff98279ed360afccf83d2ad53df2ad2379df5643ef65daa0eda2a3f"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_accuracy.m",
+    "destination": "tests/matlab/test_adaptive_accuracy.m",
+    "source_sha256": "bd581834cfde92b16b2719e7adc34fa8b2d77467b2317c8f21bbd404504af6c0",
+    "destination_sha256": "5f7b5004d5eb76f3ab587b88f83f26634fca8c7e132dca5e3aed43920d34943f"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_blend.m",
+    "destination": "tests/matlab/test_adaptive_blend.m",
+    "source_sha256": "cce74b515c2cd158cf25d5c0028397dc7b95f84811ae20cbc44f6cd571f29638",
+    "destination_sha256": "3ecb358d1534c604922e9fa1b4f14868740dfc1113aeb51145a4de3b5ff76f0c"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_blend_accuracy.m",
+    "destination": "tests/matlab/test_adaptive_blend_accuracy.m",
+    "source_sha256": "898460385b841c6924ac93e518d39396d167d69465a29b0952427f29d6b2702f",
+    "destination_sha256": "cf46188c18079c7bd8fe11a333dc9e799d553c6662406a4486bff67f6a78f9bb"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_blend_math.m",
+    "destination": "tests/matlab/test_adaptive_blend_math.m",
+    "source_sha256": "5abc0df004a0a8f2d21bdf7905ca49add71f2ec7011a6c9313903b73c4e87e8f",
+    "destination_sha256": "0c8ff69468f3945899fd90c34e6e1de9a0c6d2a3465689147ca241fa878c898e"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_reference_maps.m",
+    "destination": "tests/matlab/test_adaptive_reference_maps.m",
+    "source_sha256": "056825b74472346c4f673f37bbe9de62e60fe58d8928105aa5fc9c43711f67cf",
+    "destination_sha256": "405577fee0ee0fa1399968be03c9d62399fb6b4ef0aba087158f1f20dff3d588"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_adaptive_smoother.m",
+    "destination": "tests/matlab/test_adaptive_smoother.m",
+    "source_sha256": "7ac896f397bff49122e5d63a85819ec7cf324c5534eb27e8b1825b8b81b111d3",
+    "destination_sha256": "beedd37e388297ef80b712c0903afce7b6c78d1a9d67a2bff5cef0f4d44a304f"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_edgepreserve_fixed_cad.m",
+    "destination": "tests/matlab/test_edgepreserve_fixed_cad.m",
+    "source_sha256": "4e85c0bafbd1a0cd771f8bc3e89593441619d50e632e6f7d07a91db59bac1fa6",
+    "destination_sha256": "f9804889668cd19cbec6213718f1fba9138f66f92e331989fe66f03521f785ed"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_newton_guard_batch.m",
+    "destination": "tests/matlab/test_newton_guard_batch.m",
+    "source_sha256": "c6522c694318bccaad7c2f6ae08c98f8572e01a451fe9431a8730ec1368738f3",
+    "destination_sha256": "ccd58d09c643b498c96dab80aabac56f7b1dd0a29c77b48698a04802de4a5833"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_newton_projection_failure.m",
+    "destination": "tests/matlab/test_newton_projection_failure.m",
+    "source_sha256": "6155f81ee211a10707db0ad7895f6563d05e79921ef9d8fa5ee5b9cef7fc3855",
+    "destination_sha256": "65c16dece5416c11bd185a7b2b3c3d704c472ab6e6f4731acf182652c6b0d588"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_newton_radius_guard.m",
+    "destination": "tests/matlab/test_newton_radius_guard.m",
+    "source_sha256": "481a356da7c8fbb057edfc480ded8f56fd01b0cdbd95872b375597fc52a5239f",
+    "destination_sha256": "b62a33be3f03cb4e9b78425bae66d36f355d92e4deaeebe7d75638627d451977"
+  },
+  {
+    "source": "tools/fmm3dbie/test/matlab/test_sigma_modes.m",
+    "destination": "tests/matlab/test_sigma_modes.m",
+    "source_sha256": "73e9f9451146a309269d9eb2cecf97df35e356f3bd3c48244821ce4c15caa1fb",
+    "destination_sha256": "7c18ae866c02354e8dbdd3f791c013a3364bf3cbba68baf9f6d6f24be44d3c0d"
+  },
+  {
+    "source": "tools/fmm3dbie/matlab/fmm3dbie_routs.mw",
+    "destination": "matlab/surfsmooth3d_routs.mw",
+    "extraction": "Header and first two MATLAB blocks: exactly four Fortran dispatch signatures",
+    "destination_sha256": "b2abce63d461012edd143c3c4a356ac3c87b5c32d328cdeb82cdbd047825fa05"
+  }
+]

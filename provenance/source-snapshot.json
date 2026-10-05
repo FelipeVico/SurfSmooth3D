@@ -1,0 +1,4898 @@
+{
+  "schema": 1,
+  "purpose": "Pre-extraction source snapshot; existing repositories remain untouched",
+  "repositories": {
+    "smoother": {
+      "source": "tools/fmm3dbie",
+      "head": "1708ec866f55f19a21186eb1373d2d8770a5b3c5",
+      "branch": "add-exact-cad-skeleton",
+      "status": "?? geometries/meshes/edge_preserve_outputs/\n",
+      "files": [
+        {
+          "path": "COPYRIGHT",
+          "sha256": "e01f129516a5091a814b25bed5e0524246de18f55046cf23838f083f3c19fdac",
+          "bytes": 2234
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "d7d8c50c330e77def725031190fa476db7b6814e143d562abd6db2df953632db",
+          "bytes": 1541
+        },
+        {
+          "path": "local/INSTALL.rst",
+          "sha256": "451e08b155681c94157b1ecb54341ccb2eba3131d5b7013359a376d454e4f7b6",
+          "bytes": 1444
+        },
+        {
+          "path": "local/fmm3dbie_adaptive_blend_gateway.c",
+          "sha256": "2e82dcc850b600e6e31411d8dc9823ec1683473fae4ed78e7c36454442051c50",
+          "bytes": 1138
+        },
+        {
+          "path": "local/fmm3dbie_adaptive_gateway.c",
+          "sha256": "a603f3d2864b00101c97b5227fefd6de5aec696340be5eb6e20f08fae0b1135e",
+          "bytes": 615
+        },
+        {
+          "path": "local/fmm3dbie_gateway.c",
+          "sha256": "18a31c8d08f433823c380107a5934060c1c4899344923c0d9e4afa97ad2b832e",
+          "bytes": 606
+        },
+        {
+          "path": "local/make.inc.apple-silicon",
+          "sha256": "826d7989fb16f6d67288932893dd85ea1c212d25557bbecbd0f5a561133690f1",
+          "bytes": 1919
+        },
+        {
+          "path": "local/mex.sh",
+          "sha256": "5977d26da01713f2ba51405ca5c35f8cc7029492fa3e429a1cff35c4c5237d2e",
+          "bytes": 925
+        },
+        {
+          "path": "makefile",
+          "sha256": "994bff9b1497ecf91dc7b48e3856b9c0bb8468efdbfd70177cdb62491a2fc688",
+          "bytes": 19811
+        },
+        {
+          "path": "matlab/+adaptiveblend/Contents.m",
+          "sha256": "c5bc0c879311f047e4bca9698f4530322f8cbc8db6f41dd65adcdd67207e16ca",
+          "bytes": 1382
+        },
+        {
+          "path": "matlab/+adaptiveblend/assess_checks.m",
+          "sha256": "f3e4e5bc3f8508d3a1b5917aa5d11976cb364e75388f4ea85abc74b65d15d11d",
+          "bytes": 1463
+        },
+        {
+          "path": "matlab/+adaptiveblend/basis.m",
+          "sha256": "eecca824456cc633f1c22a084b83730b992b832a1fa296d4d99da7429e073a3e",
+          "bytes": 616
+        },
+        {
+          "path": "matlab/+adaptiveblend/beta_values.m",
+          "sha256": "bc1ea84f03195049c4451aa0004fdace39616490c42a4244dc34222425dfa170",
+          "bytes": 2297
+        },
+        {
+          "path": "matlab/+adaptiveblend/cad_values.m",
+          "sha256": "b36a752bd2de7a9043bd2469e5a17dd68e63a2a13d39d2bee894218dca7add88",
+          "bytes": 1179
+        },
+        {
+          "path": "matlab/+adaptiveblend/check_error.m",
+          "sha256": "01aed91e33108ff171574a3cd0d396f2c86ba583a4e6e01a0645744e63d68852",
+          "bytes": 972
+        },
+        {
+          "path": "matlab/+adaptiveblend/default_settings.m",
+          "sha256": "fa71f0bd3b483627f84e522365bd2b9e3dd37d0be5c7b2206fbd4df047317a69",
+          "bytes": 322
+        },
+        {
+          "path": "matlab/+adaptiveblend/independent_indicators.m",
+          "sha256": "3826b58705191de1ead66efb27ce5259308c21263a78113bb92ac592e0e14aa3",
+          "bytes": 830
+        },
+        {
+          "path": "matlab/+adaptiveblend/launch_gui.m",
+          "sha256": "e21b6414cf388e9064bae07cac8efd1e2e9114afe0c2c7cbc88c6d34925657bf",
+          "bytes": 14659
+        },
+        {
+          "path": "matlab/+adaptiveblend/nodal_patch.m",
+          "sha256": "59ef24ae8c3b409437da90ad9b63442164978dd1cd301e67aba0c0d17fb3e2a8",
+          "bytes": 669
+        },
+        {
+          "path": "matlab/+adaptiveblend/save_result.m",
+          "sha256": "7b86a5da780ef4457cdd214240f14255cb1961bd94846ee1b9fb538155968b72",
+          "bytes": 3881
+        },
+        {
+          "path": "matlab/+adaptiveblend/solve.m",
+          "sha256": "ebddff369c72d56bd06c38645f65876a9b8626281d8a7e5a7a28ef4fcd0c5194",
+          "bytes": 5084
+        },
+        {
+          "path": "matlab/+adaptiveblend/validate_settings.m",
+          "sha256": "764baab93f99996e6b1617c99227a7301437867524d4ef3c7da6986e97898d67",
+          "bytes": 1008
+        },
+        {
+          "path": "matlab/+adaptivesmoother/launch_gui.m",
+          "sha256": "b39c6e44ddd3e00dc57a8dbc8c72627b75efdb4de0475d19bff9a85ad10cbdfb",
+          "bytes": 12736
+        },
+        {
+          "path": "matlab/+adaptivesmoother/resample_cad.m",
+          "sha256": "b09331c650d10d68acb945c1a74c1b2ee2179f7defdb941aefe8c60685df2144",
+          "bytes": 1586
+        },
+        {
+          "path": "matlab/+adaptivesmoother/save_result.m",
+          "sha256": "f4024bd03e12d2169c45d3ed3d5eafee9b0b1747573230444ddf2084fac7e06c",
+          "bytes": 2407
+        },
+        {
+          "path": "matlab/+adaptivesmoother/solve.m",
+          "sha256": "07d6d34363f2939c8800ab487b0cb359b3a5bd2c96d1e4200200d673f6d79911",
+          "bytes": 710
+        },
+        {
+          "path": "matlab/+edgepreserve/Contents.m",
+          "sha256": "0397074d45167f4421e35e6a9ca991a66d214ac24cf707506e7e23d594e3ebba",
+          "bytes": 1705
+        },
+        {
+          "path": "matlab/+edgepreserve/bad_nodes_table.m",
+          "sha256": "71ef08cb2719ec9c3fa398f0a114dbf217e1bb33160b55feaf94ece1501c84a9",
+          "bytes": 1440
+        },
+        {
+          "path": "matlab/+edgepreserve/blend.m",
+          "sha256": "d5f5ad80334be4939db037618af909bad8adda607e7e0d33b27630ef3e139dc4",
+          "bytes": 3240
+        },
+        {
+          "path": "matlab/+edgepreserve/capture_newton_failure.m",
+          "sha256": "88003c5d4730530cdbe4cfbca5c0cd74f05d49f7b5dfc76a0723609c5c7edb24",
+          "bytes": 1442
+        },
+        {
+          "path": "matlab/+edgepreserve/color_limits.m",
+          "sha256": "3512e37b75334c0ad183bfa180913dfd61e0a422887444e932fa82c18610a0f5",
+          "bytes": 1546
+        },
+        {
+          "path": "matlab/+edgepreserve/color_values.m",
+          "sha256": "409b9f2888d0b5203656715e1da82d629c43aa23fe4ff3d279066b434b2c33fc",
+          "bytes": 2083
+        },
+        {
+          "path": "matlab/+edgepreserve/compute_pair.m",
+          "sha256": "52f2381752efe5e6e9cc47633ec36b58028eaaf8e81bc6285f3ac1a383bf5926",
+          "bytes": 1578
+        },
+        {
+          "path": "matlab/+edgepreserve/default_input_root.m",
+          "sha256": "f666ba6d701f4bfe4f583e9a293617860dbba9e4736c8a8d01fabc230ffb73aa",
+          "bytes": 730
+        },
+        {
+          "path": "matlab/+edgepreserve/default_settings.m",
+          "sha256": "e9f6d9644558ed8195368452e3241118b84320982f3e2eaab249d6dcc6ec98e5",
+          "bytes": 380
+        },
+        {
+          "path": "matlab/+edgepreserve/export_surface.m",
+          "sha256": "19cab2b5a5d9735d7c82b98542567e7e41360162d25981a683e6703281491583",
+          "bytes": 1511
+        },
+        {
+          "path": "matlab/+edgepreserve/file_sha256.m",
+          "sha256": "a057b0df7479571c7f75c1c3fd48d9c891d8891deb290b4158a6ad94c3ffd1c8",
+          "bytes": 547
+        },
+        {
+          "path": "matlab/+edgepreserve/launch_gui.m",
+          "sha256": "636926b318fe77c1588e3687833c996d49e509740c8e33bdc22f17e196ee0084",
+          "bytes": 23644
+        },
+        {
+          "path": "matlab/+edgepreserve/load_edges.m",
+          "sha256": "c53528828570c196db742e618e3ddf96c740b76b7d2731de3388a436f517a448",
+          "bytes": 5426
+        },
+        {
+          "path": "matlab/+edgepreserve/load_package.m",
+          "sha256": "7d198ba7fb0e51943819ff815278a22fefb5eb189426553ebd8790aab80b5405",
+          "bytes": 3461
+        },
+        {
+          "path": "matlab/+edgepreserve/mesher_options.m",
+          "sha256": "31d0eef0cce42dd1327e7a7b34877969df103f6a5e235e0b5391616f7d9eb057",
+          "bytes": 323
+        },
+        {
+          "path": "matlab/+edgepreserve/new_run_directory.m",
+          "sha256": "2c814de230330f7d99541fa36dfce2b2f22bca8936046730d241f08dbf88b52f",
+          "bytes": 1239
+        },
+        {
+          "path": "matlab/+edgepreserve/parse_integer_list.m",
+          "sha256": "56743d14db6467f5eed07f0c23ccfeddda02fa5013dbe4fe356e1704b7ddc0e6",
+          "bytes": 799
+        },
+        {
+          "path": "matlab/+edgepreserve/plot_gidmsh.m",
+          "sha256": "3722ff8f05a3bb5835c727e7a3063d677d1479530080a3ee3f4f0af84e502595",
+          "bytes": 1167
+        },
+        {
+          "path": "matlab/+edgepreserve/plot_newton_failure.m",
+          "sha256": "223717a30284c91f9ea39c50efd615a8320882c5bdb891a6398f8d0741fd9b91",
+          "bytes": 4424
+        },
+        {
+          "path": "matlab/+edgepreserve/plot_surface.m",
+          "sha256": "c0482a3574f4b0d8d0f40b0fa160f59d3683b2ac3692568527697a0e00a21d3f",
+          "bytes": 3720
+        },
+        {
+          "path": "matlab/+edgepreserve/print_validity_report.m",
+          "sha256": "3039d8ba801cd44a72cff00fcb9ac4f2e2dff1cf6f2cc8a7705f9c91d61bad67",
+          "bytes": 2099
+        },
+        {
+          "path": "matlab/+edgepreserve/read_gidmsh.m",
+          "sha256": "dfa89d6cb48c15974b32dbfe9e15684ed619a22034f47f99ce34bd0cda73df9e",
+          "bytes": 1286
+        },
+        {
+          "path": "matlab/+edgepreserve/read_newton_failure.m",
+          "sha256": "9b3176a7e703398fd5f6dd1dcf33605dee8748ab0a804d513d1b38d96f9811e6",
+          "bytes": 3558
+        },
+        {
+          "path": "matlab/+edgepreserve/reference_map.m",
+          "sha256": "4a2d6a2fe5d2a97e407c445328335459d1834fb29f0ae9cd42fe6c27e8c9e630",
+          "bytes": 1268
+        },
+        {
+          "path": "matlab/+edgepreserve/resample_cad.m",
+          "sha256": "ed4cb2d8c5125104bfaf66aa883e2e60a9c65337a86a5ff4facc68d84a522a39",
+          "bytes": 1358
+        },
+        {
+          "path": "matlab/+edgepreserve/run_batch.m",
+          "sha256": "8f0976e03fb55dbdf7efefb407c2ff2e3258226c2f4eb6948f3e1af378aecec3",
+          "bytes": 4560
+        },
+        {
+          "path": "matlab/+edgepreserve/save_pair.m",
+          "sha256": "ce5b9336fdeeca34e6bcaf36b32eed2722ad754213ba7e1d7d4526c6cb7dd310",
+          "bytes": 1946
+        },
+        {
+          "path": "matlab/+edgepreserve/sigma_mode_label.m",
+          "sha256": "8a962f8991201a9eee9bc0dbb956183ea3b2fb27c738b62bf4f74ee8dddcf3a2",
+          "bytes": 464
+        },
+        {
+          "path": "matlab/+edgepreserve/srcvals_from_positions.m",
+          "sha256": "cc0bf01c438cefb934c04c539d268978f7f7d85fba8adaa4f869fa913f372fad",
+          "bytes": 1173
+        },
+        {
+          "path": "matlab/+edgepreserve/stage_source.m",
+          "sha256": "b94b5af9c33ae0b10ec5393856f062f5b6892ac02810b31f503b916518032dda",
+          "bytes": 756
+        },
+        {
+          "path": "matlab/+edgepreserve/surface_filename.m",
+          "sha256": "4d936cdefe42d7330a87433063ef943b07fd731ab6921ed49a536e2f48ade734",
+          "bytes": 851
+        },
+        {
+          "path": "matlab/+edgepreserve/triangle_maps.m",
+          "sha256": "d5c7e1769df2dc27994d7d682ede44d6cda294d0e8f8ac6736ecc013202710e2",
+          "bytes": 1707
+        },
+        {
+          "path": "matlab/+edgepreserve/update_blend.m",
+          "sha256": "2cbd4bfe83b1a30b71f3ad371914af3560246d563b9e41316d68580062e70dbf",
+          "bytes": 881
+        },
+        {
+          "path": "matlab/+edgepreserve/validity_report.m",
+          "sha256": "05e7e39f3fd11bf29274150ef5d867c03a32fd6039d48d8a0f5f65900ce1105f",
+          "bytes": 4971
+        },
+        {
+          "path": "matlab/+edgepreserve/write_go3.m",
+          "sha256": "f8c49f11113057ab0a570d3eac645c5c5ee961fa478a51156c579989fc1ef68b",
+          "bytes": 859
+        },
+        {
+          "path": "matlab/+edgepreserve/write_point_source.m",
+          "sha256": "b0d92abde7b30fa7ad6b075c41142d1161d20bf3a8213160f03807db8eb5d7dd",
+          "bytes": 561
+        },
+        {
+          "path": "matlab/+em3d/+dielectric/eval.m",
+          "sha256": "571ccea4f86cba2219f19d09a849a700e14977c433d438c341341a87fb9753bf",
+          "bytes": 5213
+        },
+        {
+          "path": "matlab/+em3d/+dielectric/get_quadrature_correction.m",
+          "sha256": "11a0c8536e21f2a1d9cf137decf8b298dd504a0cfe34835467dfd9066756ded2",
+          "bytes": 5262
+        },
+        {
+          "path": "matlab/+em3d/+dielectric/solver.m",
+          "sha256": "d744fc27bcf7c236bacd12da703c33caa37bc6252a368b925e09cb8b50fcb71e",
+          "bytes": 5168
+        },
+        {
+          "path": "matlab/+em3d/+pec/Contents.m",
+          "sha256": "b8f23d83970f6dfa314b9b19968d5c0dbbc82a0786526da388791360937020d8",
+          "bytes": 1473
+        },
+        {
+          "path": "matlab/+em3d/+pec/eval.m",
+          "sha256": "4ef52aa092c323dbf8145920031354bbf7d1c2abed1a013293684e7cf9a34372",
+          "bytes": 6881
+        },
+        {
+          "path": "matlab/+em3d/+pec/get_quadrature_correction.m",
+          "sha256": "31db19be9b8dacff16e9d95d8ae54e745e30ef0f865c12401211f2ca8c2a7c4c",
+          "bytes": 8828
+        },
+        {
+          "path": "matlab/+em3d/+pec/solver.m",
+          "sha256": "0bab94baf1c419a1e3c353cb7ac9bd4fdab321fad851ba2ba4c809d730eaf0d2",
+          "bytes": 5869
+        },
+        {
+          "path": "matlab/+em3d/eval.m",
+          "sha256": "708c8398b31f22c69de1bad103b04c42f48dd290b2a8abe53f07fcfa38b79f26",
+          "bytes": 1251
+        },
+        {
+          "path": "matlab/+em3d/incoming_sources.m",
+          "sha256": "316f8496e3c78b35bdb179e8e100774e072251c583a71251876edb6aa165d6af",
+          "bytes": 4461
+        },
+        {
+          "path": "matlab/+em3d/kern.m",
+          "sha256": "7aef71db02f1eac8ee65bb40e26f1e6786277af619e80826243fbab28a32d940",
+          "bytes": 12638
+        },
+        {
+          "path": "matlab/+em3d/planewave.m",
+          "sha256": "a97808544562bea6be12351d6d644d487a15e7801604cd15a9a6c5eb5e0d90e1",
+          "bytes": 1100
+        },
+        {
+          "path": "matlab/+em3d/solver.m",
+          "sha256": "ff11b0342a3517aff72df5468b630bd94248174e1162662c2189e80a405b2a88",
+          "bytes": 1644
+        },
+        {
+          "path": "matlab/+geometries/disk.m",
+          "sha256": "7f3d3b64e81daa066e274ecbe4feb180e05b636210a7641cc7099f61691e40cc",
+          "bytes": 3902
+        },
+        {
+          "path": "matlab/+geometries/ellipsoid.m",
+          "sha256": "a1a53cc71b99de7df9f9e361e27f32a970b13191f5e4079a0c401b00d6dfb7ae",
+          "bytes": 2618
+        },
+        {
+          "path": "matlab/+geometries/sphere.m",
+          "sha256": "ac69c49a646d4f8eef6aba5365513fc8ad1484464766f68a07ea39d8c9b147b9",
+          "bytes": 1619
+        },
+        {
+          "path": "matlab/+geometries/startorus.m",
+          "sha256": "1bf03e2a5450a6c32c5af4da0d448b246089309cc87a68bd5b81ecc1c220a0a6",
+          "bytes": 3400
+        },
+        {
+          "path": "matlab/+geometries/stellarator.m",
+          "sha256": "73d332ad0213d3fef7440309f4ccabe534808991b59e500199d5b4e6baf13e6e",
+          "bytes": 2743
+        },
+        {
+          "path": "matlab/+geometries/wobbletorus.m",
+          "sha256": "a904e92530507a8f045df041a610bb0e0a387d312d28ec6dba78c05e2b4f5833",
+          "bytes": 2619
+        },
+        {
+          "path": "matlab/+geometries/xyz_tensor_fourier.m",
+          "sha256": "081c33bd3685933de30216647fb8387172de1774e2ed57004220ccc7171b5664",
+          "bytes": 4504
+        },
+        {
+          "path": "matlab/+helm3d/+dirichlet/eval.m",
+          "sha256": "ec3e5580bca7383e93b095e67dae5ce981d462b16614a7bd89028ddc8ea25045",
+          "bytes": 5117
+        },
+        {
+          "path": "matlab/+helm3d/+dirichlet/get_quadrature_correction.m",
+          "sha256": "dc15962c888930f1ec180162f362daceafc23f67ea96313132f6d7e00c7ffbec",
+          "bytes": 7006
+        },
+        {
+          "path": "matlab/+helm3d/+dirichlet/matgen.m",
+          "sha256": "10953caf15c0bc772d351461f852c1bc416369e56e028397c6b3d190d9b6590f",
+          "bytes": 2258
+        },
+        {
+          "path": "matlab/+helm3d/+dirichlet/proxyfun.m",
+          "sha256": "74c59b4dd6ed5abd8609c49f7008418ca903f4b0327ce83a92693482f723190d",
+          "bytes": 867
+        },
+        {
+          "path": "matlab/+helm3d/+dirichlet/solver.m",
+          "sha256": "bea7bf6b5f76cdbb3ff270e5d7df1810ff7655f4bf57f46a4c6622e062b2461e",
+          "bytes": 5128
+        },
+        {
+          "path": "matlab/+helm3d/+impedance/eval.m",
+          "sha256": "3b8c0a972faf451aa522cf262fd291b24825c18339538293146caea29e0a80ed",
+          "bytes": 5107
+        },
+        {
+          "path": "matlab/+helm3d/+impedance/get_quadrature_correction.m",
+          "sha256": "d2da3b833a99639912187f3b5379a433356cfed059f473b44ca946242bffd6ce",
+          "bytes": 8349
+        },
+        {
+          "path": "matlab/+helm3d/+impedance/solver.m",
+          "sha256": "ffce81429f888179d1200c766d1a4a4eabc7101f640cd5b1481656a7364596c9",
+          "bytes": 5500
+        },
+        {
+          "path": "matlab/+helm3d/+neumann/eval.m",
+          "sha256": "dfe7205ded367f5dca0a694326cef257463679e507375a67000bc8558903c017",
+          "bytes": 5134
+        },
+        {
+          "path": "matlab/+helm3d/+neumann/get_quadrature_correction.m",
+          "sha256": "85d6b0ffaa6062f4de8ff4f11dcf15a17857468a5d6f5ed71ac2b093b2fdccd7",
+          "bytes": 8340
+        },
+        {
+          "path": "matlab/+helm3d/+neumann/solver.m",
+          "sha256": "4df0f659027f208357e8ffc8d6a9809a65889db6167bf65e041b836b85b37de6",
+          "bytes": 5298
+        },
+        {
+          "path": "matlab/+helm3d/+transmission/eval.m",
+          "sha256": "36e3f4d2546c9f740004eeaaba93ef8f65940c45f6710e92d2df4e191b63e4d3",
+          "bytes": 3465
+        },
+        {
+          "path": "matlab/+helm3d/+transmission/get_quadrature_correction.m",
+          "sha256": "41e00bd92d89accb6c7fd9e9a8cf5aadf2cf8bbfedd57fb1b8e36952697b570f",
+          "bytes": 7981
+        },
+        {
+          "path": "matlab/+helm3d/+transmission/solver.m",
+          "sha256": "4cdf1a615b3faf1d0951dfb5b8df712f0c80640241188b2a64ccfcfdeca72f19",
+          "bytes": 5845
+        },
+        {
+          "path": "matlab/+helm3d/eval.m",
+          "sha256": "8fcfd04be6cc5bc14ea3dcbf161df80108a5d63c0158efdfa6adfeb23d263580",
+          "bytes": 5457
+        },
+        {
+          "path": "matlab/+helm3d/green.m",
+          "sha256": "fa2353ad55a39b60eed76257b1f6bce09c2d6e0c6d7253eccefbe561a5e11d9d",
+          "bytes": 1182
+        },
+        {
+          "path": "matlab/+helm3d/kern.m",
+          "sha256": "280a7fcc601fb43a8d85b014c003a309a70786c7f387c6695510a20f640da381",
+          "bytes": 7520
+        },
+        {
+          "path": "matlab/+helm3d/planewave.m",
+          "sha256": "b572fcdef933dc00cff81df8aabe49c062597b8d5881401309c28d2292baa0c9",
+          "bytes": 1534
+        },
+        {
+          "path": "matlab/+helm3d/solver.m",
+          "sha256": "9b8ed4baeae7b5d461c3d6831151e4ed2ccdc0bc674a82969001aa3c61c333c9",
+          "bytes": 4065
+        },
+        {
+          "path": "matlab/+koorn/coefs2vals.m",
+          "sha256": "6a92c5726ed6c130c444fb9e03de3d04ce132f39139e18305fc0baaed5d7658f",
+          "bytes": 267
+        },
+        {
+          "path": "matlab/+koorn/ders.m",
+          "sha256": "4090648f55001efe132de06490c4f04148d3ff6dbc63c8167df49cc68331e481",
+          "bytes": 3366
+        },
+        {
+          "path": "matlab/+koorn/pols.m",
+          "sha256": "4a7c677e30d31a36f1ae0f5df2cd07c34bdaae92135ed37197529256a1d606f9",
+          "bytes": 2465
+        },
+        {
+          "path": "matlab/+koorn/rv_nodes.m",
+          "sha256": "ef0f0905ee59636223deb27df69681654d272a584ee2e8ee4294a5b5744dfa7f",
+          "bytes": 163773
+        },
+        {
+          "path": "matlab/+koorn/rv_weights.m",
+          "sha256": "f7cbeef6961e660c96ac62d0c17dc0b02e29a93a5bfedcb93160b1ee395c7495",
+          "bytes": 78740
+        },
+        {
+          "path": "matlab/+koorn/vals2coefs.m",
+          "sha256": "d081e8c8affba421e79a7a72cb40f591ad31a9a4a7d0e23f96b1db6b34c73ffe",
+          "bytes": 271
+        },
+        {
+          "path": "matlab/+lap3d/+dirichlet/eval.m",
+          "sha256": "bb54bb5ac3089f8621ebde06d5a3c292613264b6c2f7986ac6cd1d949c126e60",
+          "bytes": 4909
+        },
+        {
+          "path": "matlab/+lap3d/+dirichlet/get_quadrature_correction.m",
+          "sha256": "35e02707812e56f7596dbbb7fa71a712cfaecf638aad853bd4ff9dff788637a7",
+          "bytes": 6800
+        },
+        {
+          "path": "matlab/+lap3d/+dirichlet/solver.m",
+          "sha256": "795eebdf3a253eadcebabd425fc1d7a015fe0f2595f25d4998d4c0fc1a387d74",
+          "bytes": 4918
+        },
+        {
+          "path": "matlab/+lap3d/+neumann/eval.m",
+          "sha256": "ed7527701579c7e073dd74d9959362171a59f30eb5cd69ac3e4a7321e82047d0",
+          "bytes": 4739
+        },
+        {
+          "path": "matlab/+lap3d/+neumann/get_quadrature_correction.m",
+          "sha256": "14fca6be75763ea53ca10087665cecd666ed0eb93b0471c48a683edafab7c595",
+          "bytes": 7890
+        },
+        {
+          "path": "matlab/+lap3d/+neumann/solver.m",
+          "sha256": "40eb0ac9c6a19782a3eb849bdc6f8931c02b4bfd2ec868d0936d6e93dd4b1de6",
+          "bytes": 4729
+        },
+        {
+          "path": "matlab/+lap3d/eval.m",
+          "sha256": "f4db8c39750a2087372fefee19b38ac2c9f9b15a5ca6d7a0ad1721b5f1d4ddad",
+          "bytes": 2833
+        },
+        {
+          "path": "matlab/+lap3d/green.m",
+          "sha256": "2a7e3f09c60c9634dacec6fd8d3a0299e4f24d30f67e56563c906b8822f0a49e",
+          "bytes": 1138
+        },
+        {
+          "path": "matlab/+lap3d/kern.m",
+          "sha256": "c49f5860e8ff0555a6e30bbdee6b0662ea86491e8e0e057a0036a7268617bbcc",
+          "bytes": 5213
+        },
+        {
+          "path": "matlab/+lap3d/solver.m",
+          "sha256": "cc4529415c61fa2029aac50cecd290401467f918cf802ffbd88e6f3a89c5e902",
+          "bytes": 1417
+        },
+        {
+          "path": "matlab/+polytens/+cheb/coefs2vals.m",
+          "sha256": "dc80aa1e10d986461e5160c65d4520f5c3047f16e29cb36749effcad7abf745a",
+          "bytes": 104
+        },
+        {
+          "path": "matlab/+polytens/+cheb/ders.m",
+          "sha256": "aa79e736bc9adbd1fbd5e472f69655bec5a6ccdd7ff611cecda38ad4cc22440d",
+          "bytes": 1805
+        },
+        {
+          "path": "matlab/+polytens/+cheb/nodes.m",
+          "sha256": "fa1b8bddb7c15b140a05ccd57f0b089af2dfcaecfa17e1491327020491e63825",
+          "bytes": 332
+        },
+        {
+          "path": "matlab/+polytens/+cheb/pols.m",
+          "sha256": "03b17f19db4dc2c66df8dfba949f94c7f50b6b484233f23b54ee0bea73b18f4c",
+          "bytes": 951
+        },
+        {
+          "path": "matlab/+polytens/+cheb/pts.m",
+          "sha256": "bfebd7f8aad400fbe18e164d336ccbe9c7ef7a62935755a7a26eb1d72a6f992e",
+          "bytes": 1505
+        },
+        {
+          "path": "matlab/+polytens/+cheb/vals2coefs.m",
+          "sha256": "992a3a2c3aa0cce3ee1606d74a3607a55ca3e8c74917b61de77ffdd2d635ad39",
+          "bytes": 113
+        },
+        {
+          "path": "matlab/+polytens/+cheb/weights.m",
+          "sha256": "ce7e7a35e282705b736779eb708e2c05f9fef6fc989a17b5c6d4c15d615a5134",
+          "bytes": 113
+        },
+        {
+          "path": "matlab/+polytens/+lege/coefs2vals.m",
+          "sha256": "d00f483a555ad04a4133fdf3e3165712490b5bd9e88c777dbcf2084fce549557",
+          "bytes": 104
+        },
+        {
+          "path": "matlab/+polytens/+lege/ders.m",
+          "sha256": "e169ebdeb8969a50f9b014f1e136ca367b09eb12591ef1cacbec4dff4c34f530",
+          "bytes": 1821
+        },
+        {
+          "path": "matlab/+polytens/+lege/nodes.m",
+          "sha256": "27806cf58d8e2fe957d8e0524d07671402fff90a2f9877bf32ccc39393ee6ed9",
+          "bytes": 219
+        },
+        {
+          "path": "matlab/+polytens/+lege/pol.m",
+          "sha256": "a31ad6fe6dd5e05db5a61d25e9c87ef3ce172221546051087757a7abb82ba47b",
+          "bytes": 622
+        },
+        {
+          "path": "matlab/+polytens/+lege/pols.m",
+          "sha256": "0ee5b7ad1377cbf9adf52f05e6297f059f9f71496eddbce68817a210d6ab7bfe",
+          "bytes": 964
+        },
+        {
+          "path": "matlab/+polytens/+lege/polsum.m",
+          "sha256": "a43669a0aefa175d44a6d66ec0e75483f3a13dfe9c5cc70773549e5696092d90",
+          "bytes": 844
+        },
+        {
+          "path": "matlab/+polytens/+lege/pts.m",
+          "sha256": "ee56a3c2df608e1d3e8c58a927742031f6dd1eaf5017edbdb461fabcf4b3202c",
+          "bytes": 1088
+        },
+        {
+          "path": "matlab/+polytens/+lege/rts.m",
+          "sha256": "a501a55a1dcccc7e3da71e4810c941ebd40a6fd563ecdcf241386099539cc665",
+          "bytes": 2599
+        },
+        {
+          "path": "matlab/+polytens/+lege/rts_stab.m",
+          "sha256": "b1ec905f6bb05c6a8af91494f0932f577fca4b3d28567c41df2a6e251312ba7a",
+          "bytes": 1722
+        },
+        {
+          "path": "matlab/+polytens/+lege/tayl.m",
+          "sha256": "356e8371a959278d2d9781f327c397c2445969d305e3debfd360da09518047a9",
+          "bytes": 1493
+        },
+        {
+          "path": "matlab/+polytens/+lege/vals2coefs.m",
+          "sha256": "a29b55b927d976872e9e726c7208f57d0a5b01cde3d0920cb8c9ada187a40983",
+          "bytes": 113
+        },
+        {
+          "path": "matlab/+polytens/+lege/weights.m",
+          "sha256": "ce5b5849fff136ad894541d0d7278e6968b0eaf970a4d79ac16f29d42c60403f",
+          "bytes": 113
+        },
+        {
+          "path": "matlab/+stok3d/+velocity/eval.m",
+          "sha256": "dfee928852a686783ecee9aeafe050674c6db2fb0f869d0c66ea7ce015a99ddd",
+          "bytes": 4938
+        },
+        {
+          "path": "matlab/+stok3d/+velocity/get_quadrature_correction.m",
+          "sha256": "a097f16c35fe8b3409f5e7eb169183731cb1a6666b5b5ef52aa0fac8f19708ac",
+          "bytes": 6826
+        },
+        {
+          "path": "matlab/+stok3d/+velocity/solver.m",
+          "sha256": "daedf9e8de6e12e8b2e1b453d2b9d364387514b0e333c220c387217c5a613ba6",
+          "bytes": 4930
+        },
+        {
+          "path": "matlab/+stok3d/eval.m",
+          "sha256": "348da0be8ccd43402ccb65d789c81a7779f3a8ee594e2cbdc606a70bcd5dc16c",
+          "bytes": 1299
+        },
+        {
+          "path": "matlab/+stok3d/green.m",
+          "sha256": "631a643f82777fa8865da26e3a9c85f70a2e53df2adfbee199e8a29a9910dad2",
+          "bytes": 1267
+        },
+        {
+          "path": "matlab/+stok3d/kern.m",
+          "sha256": "cb4d55c59bd00db670e3cf4d759c17419b0006d64ed100dda0ce0700e0a29a32",
+          "bytes": 3367
+        },
+        {
+          "path": "matlab/+stok3d/solver.m",
+          "sha256": "2973dfc9c78b76f60b3057d18c7bdd3c1250bdb4fe3b386c5f8e6a810ee2c4d1",
+          "bytes": 1263
+        },
+        {
+          "path": "matlab/.mesh_io/.keep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "matlab/@surfer/Contents.m",
+          "sha256": "8117b25ffa7c14496fe424531e71e644598e681fd9ab3a4e511fa970300178a7",
+          "bytes": 1405
+        },
+        {
+          "path": "matlab/@surfer/affine_transf.m",
+          "sha256": "210ccbbbba83869e4a3070d29de4baf67ac0e59033e85ce9c9eac6f08dff5b6a",
+          "bytes": 1422
+        },
+        {
+          "path": "matlab/@surfer/area.m",
+          "sha256": "ccd861830d319cbc917631b3a00bb23514b5c37a036817f0c5c75c24bac59ff2",
+          "bytes": 145
+        },
+        {
+          "path": "matlab/@surfer/conv_rsc_to_spmat.m",
+          "sha256": "64348d724fb3bc3dd3f1291a0f6cceaadb6f1ad91913601a3f30ee076766176e",
+          "bytes": 1143
+        },
+        {
+          "path": "matlab/@surfer/extract_arrays.m",
+          "sha256": "8c7714e5d60ce24074f716aae69a515a78b3e5dda2018cf74b366563f46be208",
+          "bytes": 397
+        },
+        {
+          "path": "matlab/@surfer/interpolate_data.m",
+          "sha256": "0dc4b10b63cf92b9f836af10991557dec0b48a4c925290d22a165935b9734845",
+          "bytes": 1751
+        },
+        {
+          "path": "matlab/@surfer/load_from_file.m",
+          "sha256": "bb96311f6015032778f5bd15da6041e2dc1f7b5aa8f5cb79f3c3d2f52346cb4b",
+          "bytes": 401
+        },
+        {
+          "path": "matlab/@surfer/merge.m",
+          "sha256": "7af0dde20d36b5c02a739e36af6a7a71d68fd6a3c5061dcebec65891ff89bdc6",
+          "bytes": 571
+        },
+        {
+          "path": "matlab/@surfer/oversample.m",
+          "sha256": "9169a427bbf5a6872dd846b7a8c165dc89412177f414a692877221f4a61d444b",
+          "bytes": 4420
+        },
+        {
+          "path": "matlab/@surfer/plot.m",
+          "sha256": "87efded2e5e5d1d10138146322ed0b3e65f757636bb177198b1b6c3231244ee6",
+          "bytes": 4100
+        },
+        {
+          "path": "matlab/@surfer/plot_nodes.m",
+          "sha256": "b78a55137b6726613375b97fa96c425cf6b296afe1f43b9128871c1fa7c6b2c2",
+          "bytes": 1097
+        },
+        {
+          "path": "matlab/@surfer/rotate.m",
+          "sha256": "d66180ea677fabaf14fd1d15b91b491a57705b2c42c8043b975f777b18bbb073",
+          "bytes": 557
+        },
+        {
+          "path": "matlab/@surfer/scale.m",
+          "sha256": "e05e5371ddf58e3ecd2235cf4a8a35417210360b44d9dac37d0de1d681d9e431",
+          "bytes": 559
+        },
+        {
+          "path": "matlab/@surfer/scatter.m",
+          "sha256": "eaa33d2c2b09a916a9a8c3edf5d641e7dd1b30403892d6aa38f7164ffb5d1902",
+          "bytes": 583
+        },
+        {
+          "path": "matlab/@surfer/surf_fun_error.m",
+          "sha256": "3c9d6fc7439e18ddc34d563935a926639eb524400240b396867bd0d30ac40469",
+          "bytes": 2552
+        },
+        {
+          "path": "matlab/@surfer/surfacemesh_to_surfer.m",
+          "sha256": "ca80090c3b9eed24387b2ac8302e49070b37e56533ad652483aeed70f1681d49",
+          "bytes": 3774
+        },
+        {
+          "path": "matlab/@surfer/surfer.m",
+          "sha256": "197e595efdfa9af9d20a546e557c4e0f8dbfb9ec0c47f5c17e9a1499e4803fc1",
+          "bytes": 15885
+        },
+        {
+          "path": "matlab/@surfer/translate.m",
+          "sha256": "d35dca86d0d9944bb84fc608e44147b2f0ed610b8310a802416b1f1610a79451",
+          "bytes": 761
+        },
+        {
+          "path": "matlab/@surfer/vals2coefs.m",
+          "sha256": "2f54aae3412d4a834ff3ed9ded8316325feeb74a818d92d0ac3b8c7946c1e202",
+          "bytes": 1793
+        },
+        {
+          "path": "matlab/em3d_pec_routs.mw",
+          "sha256": "ef0646a674973f5716f746dbda1e5a1dc38ed60faac013cd7042b5653ad14ae5",
+          "bytes": 20387
+        },
+        {
+          "path": "matlab/eval_fields.m",
+          "sha256": "5b956aac666f9ca786acadceff4fc5b32da8d3b7d99c06b4dbc927fbfb9b3797",
+          "bytes": 3424
+        },
+        {
+          "path": "matlab/examples/driver_debug_primary_vs_cad_smooth.m",
+          "sha256": "11385dba05cdfbca18e8a5de7f838152a7e6c673bb4c5ea9c93d6ff60b4f5929",
+          "bytes": 16853
+        },
+        {
+          "path": "matlab/examples/driver_edge_preserve_compare_surfaces.m",
+          "sha256": "231515ed3668df9edb24389ec427fba8c472ebad3516fb98a6afc9776e3b9904",
+          "bytes": 70983
+        },
+        {
+          "path": "matlab/examples/driver_two_stage_adaptive_blend.m",
+          "sha256": "97307bbe87261f44cdc6a20f2c3d909d256880e2a009031542a2576ffb117796",
+          "bytes": 413
+        },
+        {
+          "path": "matlab/examples/driver_two_stage_adaptive_smooth.m",
+          "sha256": "761ad07ba3b25c53491e9cd0aa7743ce6335efe6a814417e152a7378580a2b09",
+          "bytes": 423
+        },
+        {
+          "path": "matlab/examples/driver_two_stage_edge_smooth_batch.m",
+          "sha256": "b05265d257cc79edee1c698230d5b8cb0b6038e22d43f3b6caa44effb50e3d14",
+          "bytes": 744
+        },
+        {
+          "path": "matlab/examples/generalized_debye_current_demo.m",
+          "sha256": "33a74bc0ca27a26c8d1a0e17d6f162b40cbb6801399de24ae38bb2f7bd17f5ae",
+          "bytes": 3630
+        },
+        {
+          "path": "matlab/examples/helm_scatt_Dir.m",
+          "sha256": "5d07cb9efae9015a7414e90dc53805a6d1c44effb374c5724a5b11d6a53c8fa7",
+          "bytes": 2101
+        },
+        {
+          "path": "matlab/examples/lap_two_spheres.m",
+          "sha256": "f255aa6150f60124d8aed096ca33e28f7f25f5041966a3d41b203627b5b8e650",
+          "bytes": 1569
+        },
+        {
+          "path": "matlab/examples/miniwasp_geometries_solver_demo.m",
+          "sha256": "ae725aae4c3d7ad7a809fe56193a58b9fd35452dde64b0d53b925aae09855ca0",
+          "bytes": 891
+        },
+        {
+          "path": "matlab/examples/multiscale_mesher_sound_hard_demo.m",
+          "sha256": "31740010177432a170f6504c51df0b73b2337602ad3257be4480a5463502ae07",
+          "bytes": 707
+        },
+        {
+          "path": "matlab/examples/sprime_fmm_comp_demo.m",
+          "sha256": "83b948e95451fc3b5ef48be40276b115a339ed2071d67d8cb4940bbf1d72c242",
+          "bytes": 2119
+        },
+        {
+          "path": "matlab/examples/stok_scatt_Vel.m",
+          "sha256": "6adac9e93df05f014cfc547da56865ab9e805fe0457ad9ad650dcace2a58b61d",
+          "bytes": 2491
+        },
+        {
+          "path": "matlab/examples/yukawa_neumann_demo_opensurface.m",
+          "sha256": "f184a74b99a7602cbd4b8c703eddb1050ccf5078cc2bfbb5e6546c9f492081f6",
+          "bytes": 3340
+        },
+        {
+          "path": "matlab/fmm3dbie_adaptive_blend_routs.c",
+          "sha256": "42bdb9eb504670d78678cbbc9777c52d2ce13b6334f9bc17aa8cfb847a9f25e0",
+          "bytes": 6056
+        },
+        {
+          "path": "matlab/fmm3dbie_adaptive_routs.c",
+          "sha256": "6804aa57509e3d7552e54d40ee3c7741dfb969366d7d0e72e28c99200697a869",
+          "bytes": 2870
+        },
+        {
+          "path": "matlab/fmm3dbie_routs.c",
+          "sha256": "99de895fb95d934fd6dbf15d64b481cdc023e2d381f6966e08a3516a922cd513",
+          "bytes": 683880
+        },
+        {
+          "path": "matlab/fmm3dbie_routs.mw",
+          "sha256": "78052210ef976ceb13b9fdb4dd4c5ca9940eb1e75cc3f526fcac3436e6563dbe",
+          "bytes": 177761
+        },
+        {
+          "path": "matlab/perf_test/lap3d_dirichlet_convergenceTest.m",
+          "sha256": "0bc6427271547f3243856e5dd398ccb1c0b37505963f8f40802543f5b5f1d399",
+          "bytes": 1252
+        },
+        {
+          "path": "matlab/perf_test/lap3d_patchratio_Test.m",
+          "sha256": "99464d2f7a9f2a9feda9345bf67e623120a1dddf5ed723b16294500842541b08",
+          "bytes": 1732
+        },
+        {
+          "path": "matlab/solver.m",
+          "sha256": "376fa06b8be7f3c6bc6f659e6609de6b9b686252ded72d5994ad9360e12b71ce",
+          "bytes": 3270
+        },
+        {
+          "path": "matlab/src/array_to_surfacefun.m",
+          "sha256": "284a0edd553ebfae2e55c7174e47ca62d5ec30d4484f7426c342e05e453cb62c",
+          "bytes": 2451
+        },
+        {
+          "path": "matlab/src/barymat.m",
+          "sha256": "08335be7c00751c97350a2422e5ea24c544f57802c431dac241802db0250a6e3",
+          "bytes": 649
+        },
+        {
+          "path": "matlab/src/common_routs.mw",
+          "sha256": "cd758c4ce2b01e2a986c00cb9aca648b57d91c23c0a866aa300e50427fbdc74b",
+          "bytes": 1467
+        },
+        {
+          "path": "matlab/src/conv_rsc_to_csc.m",
+          "sha256": "567ab8cf4a323ddac6efb8e860b1b2b7d90f9a46b74558091279036952950f60",
+          "bytes": 2243
+        },
+        {
+          "path": "matlab/src/dealm.m",
+          "sha256": "d37891a49214427b53dfb7bf7d33f4154f9c1b843c2067dc6b0d78c45a9b66e0",
+          "bytes": 260
+        },
+        {
+          "path": "matlab/src/extract_targ_array.m",
+          "sha256": "041826119e9445a298b6a7955fc067a3368a54c9ce09fc6a7286ef6607d63d6b",
+          "bytes": 842
+        },
+        {
+          "path": "matlab/src/get_oversampling_parameters.m",
+          "sha256": "8d5497001b5ee5baf2ec8187b44c20df9850445cb4ee88bb427607b6ee646014",
+          "bytes": 1917
+        },
+        {
+          "path": "matlab/src/get_surface_grad.m",
+          "sha256": "b79792e9a53bebb2971388673fc09bea1e1afabf20c3362ad36721b7fda015c2",
+          "bytes": 2092
+        },
+        {
+          "path": "matlab/src/get_surface_laplacian.m",
+          "sha256": "bdd2fb9b1e040e8b22d6539b452befe0d4f074a7aa23ea7d937afce1cf715c92",
+          "bytes": 1474
+        },
+        {
+          "path": "matlab/src/getnear.m",
+          "sha256": "bdc88479d286f749a2c55ad02c3a14ebe13bf693d76b3adbc1728393f879a9e9",
+          "bytes": 4328
+        },
+        {
+          "path": "matlab/src/init_empty_quadrature_correction.m",
+          "sha256": "de579da4eafa8178ec1ed55de87d0d6b9acc240d829d1122ad52f49d6548a714",
+          "bytes": 696
+        },
+        {
+          "path": "matlab/src/multiscale_mesher.m",
+          "sha256": "a4e32ebde69390360a20bc13ab58842f0068856c295640e9e56d4e37ec3c2309",
+          "bytes": 7236
+        },
+        {
+          "path": "matlab/src/multiscale_mesher_adaptive.m",
+          "sha256": "abb81b7c9d7a5d86f57227cb894f7ff91b17315105e4eb927bf9c569cd9f9139",
+          "bytes": 5821
+        },
+        {
+          "path": "matlab/src/multiscale_mesher_sigma_eval.m",
+          "sha256": "9808260135296689c7c7867581874fea521b23f2d03f5251badfef5209520eb2",
+          "bytes": 3373
+        },
+        {
+          "path": "matlab/src/spget_quadcorr.m",
+          "sha256": "371686209b1d9ddb473b094c4d50effd8e9315e777d362b4b019cfe604e461e6",
+          "bytes": 603
+        },
+        {
+          "path": "matlab/src/surfacefun_to_array.m",
+          "sha256": "09f00b5abd4a92eada34f99efa730e03c60711732cdbab990f679ff93746ff0e",
+          "bytes": 1217
+        },
+        {
+          "path": "matlab/startup.m",
+          "sha256": "94ae747df5a4a43aeb91cbed1de26ba3d80e467dc3e89ca465b042243684d96a",
+          "bytes": 159
+        },
+        {
+          "path": "matlab/test/em3d_dielectric_routsTest.m",
+          "sha256": "5b02066e57f40482fb39188c3ac7b02504ef020e4c20be858fc6c0dafd4fa408",
+          "bytes": 1055
+        },
+        {
+          "path": "matlab/test/em3d_pec_routsTest.m",
+          "sha256": "635337f9c78f3108d1bdef3f35a015d4de5e88e0189d4b433d5ff0e7fad543f1",
+          "bytes": 926
+        },
+        {
+          "path": "matlab/test/helm3d_affine_test.m",
+          "sha256": "ed5fad15427a7676d3b63cb74921225aa6cbe5b6d029809b7a27b12b78632cdd",
+          "bytes": 3118
+        },
+        {
+          "path": "matlab/test/helm3d_dirichlet_routsTest.m",
+          "sha256": "f4a2136365f92fd72bcc5cb9ed1d7de58f4926bcd03aff88afcbfeffd83e0b70",
+          "bytes": 1571
+        },
+        {
+          "path": "matlab/test/helm3d_impedance_routsTest.m",
+          "sha256": "ea4cbc6dbd5b972ced46f5867c612ca2e92007256cdcfe474bf4f01625cc9ad2",
+          "bytes": 762
+        },
+        {
+          "path": "matlab/test/helm3d_neumann_routsTest.m",
+          "sha256": "bb16f9f8ebe92278fb4ba1b96c5143205fb057dd7cc74113649574f7e4970fee",
+          "bytes": 664
+        },
+        {
+          "path": "matlab/test/helm3d_transmission_routsTest.m",
+          "sha256": "23ebd74f6521455787bb677ddf5188466c368bbfc87bd0567f657d7b7118676b",
+          "bytes": 1259
+        },
+        {
+          "path": "matlab/test/lap3d_dirichlet_routsTest.m",
+          "sha256": "fc940fafa62d76bfd59d39885cfc1870c4aee4d79bcc4bc1b12ee123c141b763",
+          "bytes": 1468
+        },
+        {
+          "path": "matlab/test/lap3d_neumann_routsTest.m",
+          "sha256": "d1c35d4dc79bcb4be6e6172c25ec06e9b6543fb5251ecb2d3c5c55643df9be20",
+          "bytes": 589
+        },
+        {
+          "path": "matlab/test/stok3d_routsTest.m",
+          "sha256": "46231c8cdd1f74e936ddbb4544ca85efcbb46d461bce549db5539c460e62970d",
+          "bytes": 985
+        },
+        {
+          "path": "matlab/test/test_array_to_surfacefun.m",
+          "sha256": "4f0b34dccf4d6fb6c7fa61487ea2571d10dd98be5d4ec53ee0e7f33d303c6665",
+          "bytes": 854
+        },
+        {
+          "path": "matlab/test/test_coef.m",
+          "sha256": "5f94f5fced4bd2de7d0d132cc1bf0caa96902b8b464b4fc1bf5dea2946d5f12a",
+          "bytes": 199
+        },
+        {
+          "path": "matlab/test/test_interpolate_data.m",
+          "sha256": "fb55bd32de6e4503c976a2ef0046170e457c949dbfe19c6fa1b0859759a9700c",
+          "bytes": 1466
+        },
+        {
+          "path": "matlab/test/test_koorn_routs.m",
+          "sha256": "8bf0c4b9d40b1dab3bf52a86b0f04d6c2c36fdec7fa7eb5f76f2c6222f13d421",
+          "bytes": 700
+        },
+        {
+          "path": "matlab/test/test_merge.m",
+          "sha256": "2c4ff9f86c03f64087cee5011c2d9fddd65b1455aa96eabc20abe3052f914cfa",
+          "bytes": 1473
+        },
+        {
+          "path": "matlab/test/test_polytens_routs.m",
+          "sha256": "3f6a760c49bb77dd9ad3b10954c8bd322764317ad76c7aef9c11a543812b74ff",
+          "bytes": 2406
+        },
+        {
+          "path": "matlab/test/test_scale.m",
+          "sha256": "a3dc1cf642289d3ae59dea88850f0790156c0f60efdb602268b06611a0938990",
+          "bytes": 1096
+        },
+        {
+          "path": "matlab/test/test_surf_lap.m",
+          "sha256": "6c12c62ec5c191268d6e112faf975d49fc0950739c4ba3db137869fa79a14595",
+          "bytes": 346
+        },
+        {
+          "path": "matlab/test/test_surfacemesh_routs.m",
+          "sha256": "5e2dd9958671e300eda7b4a1d0ea749f1e9a5d9055932cab3224d784dc0ea0d8",
+          "bytes": 1838
+        },
+        {
+          "path": "matlab/test/test_surfer_plot.m",
+          "sha256": "3579b6dda94f778aa7dadfa2cd3a982f6b172095fecce23588bb869449ea3942",
+          "bytes": 535
+        },
+        {
+          "path": "src/common/chebexps.f",
+          "sha256": "67913173cac6d5b49b6da1bce2a77ebc49dae0fc407bdfe1b56070916da70ff4",
+          "bytes": 30678
+        },
+        {
+          "path": "src/common/common_Maxwell.f90",
+          "sha256": "c6cc9df6d3dc295d58dd1128cb74ca55547f33906c2edd4496bfb732e38fa369",
+          "bytes": 31956
+        },
+        {
+          "path": "src/common/cumsum.f",
+          "sha256": "39d46c16175bad8c0b0f2869414cb3fb03627f971ccc188a37794f0f68535556",
+          "bytes": 10574
+        },
+        {
+          "path": "src/common/dlaran.f",
+          "sha256": "b578511e27ff931d81aa8eece29b1f58656135fa8215e36635b6b5a4f36d0893",
+          "bytes": 5064
+        },
+        {
+          "path": "src/common/dotcross3d.f",
+          "sha256": "b0823e0963acbfbbb829842c87c5f64181ea1b3882162910e1dc26321ee3c22a",
+          "bytes": 8925
+        },
+        {
+          "path": "src/common/get_fmm_thresh.f",
+          "sha256": "44795bb74cb5a35888bf0e312e537b8de9a011b49a08ca71a8abd8dc34b8cb87",
+          "bytes": 7093
+        },
+        {
+          "path": "src/common/gmres_routs.f90",
+          "sha256": "24503b281dd8c81d6c2eda23522530afbd0b0657d990a3c333f324bfd529d72d",
+          "bytes": 22933
+        },
+        {
+          "path": "src/common/hkrand.f",
+          "sha256": "2be17c332ffd0b1f82314fe144c6a7d9dc9d64edf49829dd5c58d3d4e6a728ca",
+          "bytes": 357
+        },
+        {
+          "path": "src/common/lapack_wrap.f90",
+          "sha256": "c543af97b78acba24ef71dd580aa4d5558eae9b8f00815e008e4de41e3f16320",
+          "bytes": 19154
+        },
+        {
+          "path": "src/common/lapack_wrap_64.f90",
+          "sha256": "97e7e87d082869e14fb7f30ae33f9e9b6c76c737df63aa117584707b126cbb35",
+          "bytes": 19245
+        },
+        {
+          "path": "src/common/legeexps.f",
+          "sha256": "64b86df139907f37ed09445ef5e2659d640aeded680281a75f24af60c98280a1",
+          "bytes": 63580
+        },
+        {
+          "path": "src/common/polytens.f",
+          "sha256": "91e2729db42ecb828c36303579f227cf9fd87f692b34030169daed0f50b2c68c",
+          "bytes": 43553
+        },
+        {
+          "path": "src/common/prini_new.f",
+          "sha256": "fd075175a8aa170e58ebef2561d4aaeb1e17d1b2139c3559cba5d6df7906ef24",
+          "bytes": 7081
+        },
+        {
+          "path": "src/common/rigidbodies.f",
+          "sha256": "7cbfe5d536a03731f22dd1b0a58ed38620b5f99468b53e202feadccae2c73583",
+          "bytes": 5368
+        },
+        {
+          "path": "src/common/rotmat_gmres.f",
+          "sha256": "d916dfb3911be33a40b55f0844442cc21fa78ca00bf18127de63f779f67fe470",
+          "bytes": 1914
+        },
+        {
+          "path": "src/common/setops.f",
+          "sha256": "0ede5379afe2d719f6523ee1ab9bb2a843ed14dc5d56dd82420012bd769caea8",
+          "bytes": 10173
+        },
+        {
+          "path": "src/common/sort.f",
+          "sha256": "b3d5c1351758976be122ffa2becdc14da0e2c66fbbdbf00de7d68f71bc261a54",
+          "bytes": 25607
+        },
+        {
+          "path": "src/common/sparse_reps.f",
+          "sha256": "9733be1c69134fe74e62fa20dd634dc926875f6bf9e9fa9fa26e9b5a7dfb45bb",
+          "bytes": 6872
+        },
+        {
+          "path": "src/common/tree_lr_3d.f",
+          "sha256": "f390c3325b268c670ed9794a21ddc75e14ed3c15b3e74be8f395b96ebc435604",
+          "bytes": 175064
+        },
+        {
+          "path": "src/multiscale_mesher/.keep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "src/multiscale_mesher/ModType_Smooth_Surface.f90",
+          "sha256": "bb19ff0958641392e0f5b52a8aa9daf05d491e9d63414ba41d2dd0e2bc9a1b55",
+          "bytes": 6675
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Adaptive_Blend_Surface.f90",
+          "sha256": "1ea63acec5df63994dd5f18736df32104e854773a71dfa46aef2a1610f28735c",
+          "bytes": 9244
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Adaptive_Smooth_Surface.f90",
+          "sha256": "862e42d722596ab47de516b2dbe5cdfd01106194b83511b5a5391e9a573a1756",
+          "bytes": 15705
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Fast_Sigma.f90",
+          "sha256": "c10f5a831f0638149d1d2decc11103c40bd172b7daaa702267d3db2a424028cf",
+          "bytes": 55852
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Feval.f90",
+          "sha256": "a736961bbe83eada4ac1edb0b57c6d30c1210ad01e3cc7988a8f180f35bf7ea4",
+          "bytes": 25511
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Plot_Tools_sigma.f90",
+          "sha256": "ec7671a464f54aec3dd578023b7b411d7c98149d3fa0efdedbbbb0d7f6d40716",
+          "bytes": 6959
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_Smooth_Surface.f90",
+          "sha256": "cd1f4c4d15c09d65a3916e07f949e30ce99c171783d0a5295d6891b8563645af",
+          "bytes": 50920
+        },
+        {
+          "path": "src/multiscale_mesher/Mod_TreeLRD.f90",
+          "sha256": "62656db7bf2e583a9ac122e055fd8d0c03541a11e417061d73de9fdcc960922b",
+          "bytes": 97268
+        },
+        {
+          "path": "src/multiscale_mesher/cisurf_loadmsh.f90",
+          "sha256": "9dab9de9e3fc816a27a0b3e596c6037df8d66b0665bf9b507009dc57354e212c",
+          "bytes": 38380
+        },
+        {
+          "path": "src/multiscale_mesher/cisurf_plottools.f90",
+          "sha256": "62b544216858b3c50c927ba07b746f3ca1408a531440d15c990d998e0a7e27ac",
+          "bytes": 19027
+        },
+        {
+          "path": "src/multiscale_mesher/cisurf_skeleton.f90",
+          "sha256": "b85a25d157433fb7b2513b80a95a79bde455d311a180e690c12a7d67ea7b38e8",
+          "bytes": 17365
+        },
+        {
+          "path": "src/multiscale_mesher/cisurf_tritools.f90",
+          "sha256": "fb5af8edd829dbe8f6a5955e101cad4f1368d18ca1842df73fc4a702a654677c",
+          "bytes": 420858
+        },
+        {
+          "path": "src/multiscale_mesher/surface_smoother.f90",
+          "sha256": "a9eb3fb90719b7f244b08a29fb32385e8dd23417c4f5c1c2db0346579f13b980",
+          "bytes": 18608
+        },
+        {
+          "path": "src/multiscale_mesher/tfmm_setsub.f",
+          "sha256": "f04ccd25c339e749bc558bb7505466a017adab779a7b5f936dbefae90fddf86c",
+          "bytes": 15686
+        },
+        {
+          "path": "src/tria_routs/README.md",
+          "sha256": "8b0be9fc4e00f9b6bb136611b3c6542b047b2657de6fe1adedb4bd3e55e69aff",
+          "bytes": 624
+        },
+        {
+          "path": "src/tria_routs/ctriaints_main.f",
+          "sha256": "904e93b0761ec5a818b1728840d22384d1cc86efea7091cfbd08619c7ac6fba0",
+          "bytes": 16395
+        },
+        {
+          "path": "src/tria_routs/dtriaintrouts.f",
+          "sha256": "c61eeebb02ccbbf3ab4fdb2e7686f9b0f28a93b2aa24507aa27b9abd605d1a2a",
+          "bytes": 118441
+        },
+        {
+          "path": "src/tria_routs/dtriaints_main.f",
+          "sha256": "bfcd08b1f252b4ff781636ae6f2024e71b876955d7a389c74e37b2a88831dbb2",
+          "bytes": 16282
+        },
+        {
+          "path": "src/tria_routs/koorn-uvs-dat.txt",
+          "sha256": "1e3d01cf781aa8e61249907a0553dcf2d61fd8ae772a109cb6ef30c3baa919b0",
+          "bytes": 161157
+        },
+        {
+          "path": "src/tria_routs/koorn-wts-dat.txt",
+          "sha256": "f12f10152dc5c989b1d60a7e688c01b91745fe791173f1c376be6d0c1862693b",
+          "bytes": 77867
+        },
+        {
+          "path": "src/tria_routs/koornexps.f90",
+          "sha256": "79c643f1d11534dfc1de43140081245b7468664a0b2b3ac96831e33940f8a1d0",
+          "bytes": 27728
+        },
+        {
+          "path": "src/tria_routs/triaintrouts.f",
+          "sha256": "ea3060e65c07c87bedceef10c49bfbc6c6c01a7e0ba9a8cddaba2fb4188b8126",
+          "bytes": 118679
+        },
+        {
+          "path": "src/tria_routs/triasymq.f",
+          "sha256": "e811a56286578f5b4e57a16a83bff76621c83e1e55622eed1f0faa95faaafeed",
+          "bytes": 287668
+        },
+        {
+          "path": "src/tria_routs/triatreerouts.f",
+          "sha256": "3cc083ca7f9567423d72496f17fc8a5b6cfbe88c10f8e7e6cae7357433f53903",
+          "bytes": 14987
+        },
+        {
+          "path": "test/matlab/adaptive_blend_lock_baseline.m",
+          "sha256": "58c29e754edcc26ecfb94e2f5c3557615644eaad8677fab7a06d4c638f8a7c23",
+          "bytes": 600
+        },
+        {
+          "path": "test/matlab/check_adaptive_code.m",
+          "sha256": "9e45cbb9b04dc247cd29d37a4530c91a94f7bc104836fc8300e23bf4009ec98f",
+          "bytes": 873
+        },
+        {
+          "path": "test/matlab/smoke_adaptive_blend_gui.m",
+          "sha256": "f0a5a1c752d71eb465570106c048091278acf5b4279bd12a5e968cc3a9abdcb1",
+          "bytes": 3164
+        },
+        {
+          "path": "test/matlab/smoke_adaptive_gui.m",
+          "sha256": "b0373529887372b3b80790e7e623216873f7151f30e37cd1f305298fc1159d5f",
+          "bytes": 3384
+        },
+        {
+          "path": "test/matlab/smoke_edgepreserve_gui_batch.m",
+          "sha256": "e50124ee07cfcbfccc6a1c6798d2591a307ea38d8573bd9c40bc8c07a836e44f",
+          "bytes": 4554
+        },
+        {
+          "path": "test/matlab/smoke_edgepreserve_real_package.m",
+          "sha256": "c6bc9e7d1c0be33cf89779111a6f70cffb9c76c11cf391316aecfea16cd4eccd",
+          "bytes": 3440
+        },
+        {
+          "path": "test/matlab/smoke_newton_projection_failure_gui.m",
+          "sha256": "c07b36f94637d09c1ea3b9888790d051605612ed71348b06b3423629044e3bad",
+          "bytes": 4185
+        },
+        {
+          "path": "test/matlab/smoke_newton_radius_guard_gui.m",
+          "sha256": "38c419925d464dd4d7966efd2b029798f9dffc830e16038d3f0245eb2f9af534",
+          "bytes": 1833
+        },
+        {
+          "path": "test/matlab/smoke_sigma_modes_gui.m",
+          "sha256": "d76b2339c3309b834a717d8a26ba31319b7c64b352704ba5d3ab90927287bccf",
+          "bytes": 5392
+        },
+        {
+          "path": "test/matlab/test_adaptive_accuracy.m",
+          "sha256": "bd581834cfde92b16b2719e7adc34fa8b2d77467b2317c8f21bbd404504af6c0",
+          "bytes": 3820
+        },
+        {
+          "path": "test/matlab/test_adaptive_blend.m",
+          "sha256": "cce74b515c2cd158cf25d5c0028397dc7b95f84811ae20cbc44f6cd571f29638",
+          "bytes": 6483
+        },
+        {
+          "path": "test/matlab/test_adaptive_blend_accuracy.m",
+          "sha256": "898460385b841c6924ac93e518d39396d167d69465a29b0952427f29d6b2702f",
+          "bytes": 3913
+        },
+        {
+          "path": "test/matlab/test_adaptive_blend_math.m",
+          "sha256": "5abc0df004a0a8f2d21bdf7905ca49add71f2ec7011a6c9313903b73c4e87e8f",
+          "bytes": 4412
+        },
+        {
+          "path": "test/matlab/test_adaptive_reference_maps.m",
+          "sha256": "056825b74472346c4f673f37bbe9de62e60fe58d8928105aa5fc9c43711f67cf",
+          "bytes": 2045
+        },
+        {
+          "path": "test/matlab/test_adaptive_smoother.m",
+          "sha256": "7ac896f397bff49122e5d63a85819ec7cf324c5534eb27e8b1825b8b81b111d3",
+          "bytes": 4772
+        },
+        {
+          "path": "test/matlab/test_edgepreserve_fixed_cad.m",
+          "sha256": "4e85c0bafbd1a0cd771f8bc3e89593441619d50e632e6f7d07a91db59bac1fa6",
+          "bytes": 8056
+        },
+        {
+          "path": "test/matlab/test_newton_guard_batch.m",
+          "sha256": "c6522c694318bccaad7c2f6ae08c98f8572e01a451fe9431a8730ec1368738f3",
+          "bytes": 1926
+        },
+        {
+          "path": "test/matlab/test_newton_projection_failure.m",
+          "sha256": "6155f81ee211a10707db0ad7895f6563d05e79921ef9d8fa5ee5b9cef7fc3855",
+          "bytes": 2159
+        },
+        {
+          "path": "test/matlab/test_newton_radius_guard.m",
+          "sha256": "481a356da7c8fbb057edfc480ded8f56fd01b0cdbd95872b375597fc52a5239f",
+          "bytes": 2933
+        },
+        {
+          "path": "test/matlab/test_sigma_modes.m",
+          "sha256": "73e9f9451146a309269d9eb2cecf97df35e356f3bd3c48244821ce4c15caa1fb",
+          "bytes": 3903
+        },
+        {
+          "path": "test/multiscale_mesher/test_adaptive_blend.f90",
+          "sha256": "eb5738391746c77e6426a5e62a4dcaa3ee968f834f65eb0056ae8e5ee67483b2",
+          "bytes": 2054
+        },
+        {
+          "path": "test/multiscale_mesher/test_adaptive_smoother.f90",
+          "sha256": "5571c3a1587fd65995064044e9ae783c4d3eeb1bb2426eb1f58dbdcac7fbc069",
+          "bytes": 4583
+        },
+        {
+          "path": "test/multiscale_mesher/test_fixed_sources.f90",
+          "sha256": "17871b197c2bb137ac0b2415cce6d45b5e056bdb309d7fecdccb79ea19a1c7c3",
+          "bytes": 7834
+        },
+        {
+          "path": "test/multiscale_mesher/test_newton_radius_guard.f90",
+          "sha256": "7aa1b4d316781ecd4ebc37bbcc3b00571b49dfabc5851935cf132046b0891f66",
+          "bytes": 5964
+        },
+        {
+          "path": "test/multiscale_mesher/test_sigma_modes.f90",
+          "sha256": "244db5f392ef62cc71ac2b2b96ef07ae57d1bf20da4785032fc388cbc1a1c1a6",
+          "bytes": 5498
+        },
+        {
+          "path": "test/multiscale_mesher/test_surfsmooth.c",
+          "sha256": "1233350adc0f8cb78248dcb9515def9e8f6e4562cfd61e17aaf36b856e99439c",
+          "bytes": 1262
+        },
+        {
+          "path": "test/multiscale_mesher/test_surfsmooth.f90",
+          "sha256": "9a65922e2b75abd0586a9d01351050307b4d0e6c6559467a00c55e1410b82ba0",
+          "bytes": 5762
+        }
+      ]
+    },
+    "step_mesher": {
+      "source": "step_mesher_cpp_matlab_astra_v3",
+      "head": "997f67fc7c082f74a818d25f1cbc152c69744233",
+      "branch": "adaptive",
+      "status": " M CMakeLists.txt\n M README.md\n M cpp/include/step_mesher/mesh_result.hpp\n M cpp/include/step_mesher/options.hpp\n M cpp/src/cli.cpp\n M cpp/src/mesher.cpp\n M cpp/src/occ_info.cpp\n M examples/driver_view_geom_package.m\n M examples/driver_view_step_file.m\n M examples/run_convergence_study.m\n M examples/run_step_mesher.m\n M matlab/+stepmesher/private/default_options.m\n M mex/step_mesher_mex.cpp\n M tests/matlab/smoke_mesh_step.m\n?? cpp/include/step_mesher/occ_context.hpp\n?? cpp/src/occ_context.cpp\n?? cpp/src/occ_operation.hpp\n?? cpp/tests/native_contract.cpp\n?? cpp/tests/occ_context_probe.cpp\n?? cpp/tests/occ_context_probe.hpp\n?? cpp/tests/occ_context_probe_mex.cpp\n?? cpp/tests/test_occ_context.cpp\n?? cpp/tests/test_occ_frozen.cpp\n?? cpp/tests/test_occ_import_equivalence.cpp\n?? cpp/tests/test_occ_retention.cpp\n?? dependencies.lock.json\n?? docs/\n?? examples/step_files/Multi_res.step\n?? matlab/+stepmesher/apply_mesh_profile_choice.m\n?? matlab/+stepmesher/mesh_profile_choices.m\n?? matlab/+stepmesher/plot_scaffold_quality.m\n?? tools/\n",
+      "files": [
+        {
+          "path": ".gitignore",
+          "sha256": "805db9e8b6bcac98213484790fc23c18bf6b9a09f07337d1a1eaa8aabe82e307",
+          "bytes": 128
+        },
+        {
+          "path": "CMakeLists.txt",
+          "sha256": "f8c091ff59c813505f71d9f6ea42ab109bcf409cf740449dc92a025949b63c56",
+          "bytes": 6424
+        },
+        {
+          "path": "README.md",
+          "sha256": "45662e4597d5ab513176af0b9e10b8eb1dc31127e1856d8fd4bb7d4b5ed44057",
+          "bytes": 7802
+        },
+        {
+          "path": "cmake/FindGmsh.cmake",
+          "sha256": "cf424635b5c2daf40e5ee40fb42657e7ee050f3c4f19fcbf09f345643e8155d9",
+          "bytes": 1065
+        },
+        {
+          "path": "cpp/include/step_mesher/mesh_result.hpp",
+          "sha256": "e30fb2e39ef0366ed016dfd357f38e93c62118a6afbc2bb799bf5d88a0e41aa8",
+          "bytes": 3408
+        },
+        {
+          "path": "cpp/include/step_mesher/mesher.hpp",
+          "sha256": "e0f9473efe3da5022d6fc7853cdef216edd1ff7b36ec4563d314a2f0682828b6",
+          "bytes": 369
+        },
+        {
+          "path": "cpp/include/step_mesher/occ_context.hpp",
+          "sha256": "a4f3827ef3a2d349f146f109ab0736d66bd5eb2e18ad8c6f1b5f8f0a7923b05e",
+          "bytes": 4507
+        },
+        {
+          "path": "cpp/include/step_mesher/options.hpp",
+          "sha256": "240302c4b5388b8fa20de0a09cad5c4cc27c97e04efa6b7ea937668ad5e4dfbe",
+          "bytes": 869
+        },
+        {
+          "path": "cpp/include/step_mesher/sample_nodes.hpp",
+          "sha256": "c52db08b70e23d5ef250b8519561ca84e13ab762a505fbc99debbb221d030e3c",
+          "bytes": 302
+        },
+        {
+          "path": "cpp/src/cli.cpp",
+          "sha256": "8530dc11e221dcfd0467366b388a51ca34aec58e06b157331249037e21fb2e3d",
+          "bytes": 11130
+        },
+        {
+          "path": "cpp/src/mesher.cpp",
+          "sha256": "3bb2183ad64b1ebece85c29cff59a4c53458d88b21d4af170310f06554556d9d",
+          "bytes": 90342
+        },
+        {
+          "path": "cpp/src/occ_context.cpp",
+          "sha256": "5188045873cb887fce6fa31f3e04bc8dd9889b990a0626e7ebab7dff0073cf3f",
+          "bytes": 45761
+        },
+        {
+          "path": "cpp/src/occ_info.cpp",
+          "sha256": "756c847a794c668f4abf353989037fad91d0a884ec169352f4af9b823ce472c6",
+          "bytes": 14180
+        },
+        {
+          "path": "cpp/src/occ_operation.hpp",
+          "sha256": "a30bd551b2541f5a23120d0756a9deeb9a77a5ce372980b3080b0c7d59b37e6f",
+          "bytes": 774
+        },
+        {
+          "path": "cpp/src/sample_nodes.cpp",
+          "sha256": "aa5b9b2b8e64617e70caa01319896d348fabc6b4555b7e5ba6b3671fbf0bad3e",
+          "bytes": 973
+        },
+        {
+          "path": "cpp/tests/native_contract.cpp",
+          "sha256": "730ff4eaf5bb761effb3e5e86c9017bcb8c6174107bad2efcaa1b7932d92cb08",
+          "bytes": 3674
+        },
+        {
+          "path": "cpp/tests/occ_context_probe.cpp",
+          "sha256": "a60aee40939e6caf372250a8fc2f75f0b406ae7b8239816e61a91c376da82da1",
+          "bytes": 12741
+        },
+        {
+          "path": "cpp/tests/occ_context_probe.hpp",
+          "sha256": "9a358b461b5fe3d4a7aacac91491c3c0a320bcf96244a5d8e9d028a351fb5815",
+          "bytes": 89
+        },
+        {
+          "path": "cpp/tests/occ_context_probe_mex.cpp",
+          "sha256": "78ac1ec6c7abd724c994fc458cf055717fdc98b91bf4523e78e6b5777d642b54",
+          "bytes": 793
+        },
+        {
+          "path": "cpp/tests/smoke.cpp",
+          "sha256": "2d33fd4c8dd37d56c159489bdf8028296109a8d218505db9f7b37397a69a7274",
+          "bytes": 866
+        },
+        {
+          "path": "cpp/tests/test_occ_context.cpp",
+          "sha256": "e2035fc71f3208d9a9a81e9a51c65e3edfe81c03d865e83a2803f183bb5ff863",
+          "bytes": 412
+        },
+        {
+          "path": "cpp/tests/test_occ_frozen.cpp",
+          "sha256": "8d04f508c491b5fe832b3ae185d393a200f54fbd855b2f887e7ae1b12082f3f8",
+          "bytes": 4624
+        },
+        {
+          "path": "cpp/tests/test_occ_import_equivalence.cpp",
+          "sha256": "585ba0e9b734bdd97249507b13272b01001326d1524ec6c3ba4c301ec048945d",
+          "bytes": 7246
+        },
+        {
+          "path": "cpp/tests/test_occ_retention.cpp",
+          "sha256": "673f12eab4f612e537a23c80378ff8267066c1b699c78f3a505ba554a058cb8f",
+          "bytes": 7685
+        },
+        {
+          "path": "dependencies.lock.json",
+          "sha256": "7ce3b615b3722a400b85e4da4dccf50174e2fce256932333991e10ca0f5b3409",
+          "bytes": 1248
+        },
+        {
+          "path": "docs/V3_NATIVE_IDENTITY_MIGRATION.md",
+          "sha256": "94e6f53ca343c0b5544cadc6f6d714588d5c1a62144b1f79c90fddea4c1cfae7",
+          "bytes": 14177
+        },
+        {
+          "path": "examples/driver_view_geom_package.m",
+          "sha256": "845137b4fd90d1f7675e1ebc7c6384a2048f60f7589615cab94667ac9f6831c3",
+          "bytes": 2867
+        },
+        {
+          "path": "examples/driver_view_step_file.m",
+          "sha256": "8067bd66e5e67fca51f01b8468f1695cde4b15ceb77983040e878dc6b4e63a3a",
+          "bytes": 4744
+        },
+        {
+          "path": "examples/run_convergence_study.m",
+          "sha256": "9da819cc213f1714540f979cf6b3390f06c87a5e8718705431193846f3669f9e",
+          "bytes": 29555
+        },
+        {
+          "path": "examples/run_step_mesher.m",
+          "sha256": "54191c2a10a1fcd5a03088f3e953f7c205cfead0194f167a469ace8fe2822e1f",
+          "bytes": 9410
+        },
+        {
+          "path": "examples/step_files/Multi_res.step",
+          "sha256": "0d680f5cb4325983df5c3e660a702798e2803bf5bb58657475956a0c90f8878a",
+          "bytes": 63635
+        },
+        {
+          "path": "examples/step_files/Multiscale_step.step",
+          "sha256": "7d5cbd0b3b9ce44c9b1432b46722872588b07f401133c355895756cc23bcb995",
+          "bytes": 63634
+        },
+        {
+          "path": "examples/step_files/UV_curved_bezier.step",
+          "sha256": "2d2d19f85a01645904343ded35000f6b18b0b4ae3bc2585cefc5e158a8a52be2",
+          "bytes": 23761
+        },
+        {
+          "path": "examples/step_files/cylinder_bezier_v2.step",
+          "sha256": "adccaf84597bafed5a058603782a3c2d81015b906e24e4c822ad6e8284fe06b5",
+          "bytes": 6929
+        },
+        {
+          "path": "examples/step_files/intersection_two_balls.step",
+          "sha256": "3bc6c4260937cecc9cc3c5edd8944382b8c3808764150a36f03179e7c3bde922",
+          "bytes": 21857
+        },
+        {
+          "path": "examples/step_files/piecewise_bezier_cap.step",
+          "sha256": "3dedaf886a79a8ff76a7fd6c8e02b0b128734094537537a38b00d1ff41b37ef0",
+          "bytes": 25698
+        },
+        {
+          "path": "examples/step_files/spheres_intersect.step",
+          "sha256": "4191aca2216065a863ed30ab75a70264449af1584df41036f0ff445b37cb4e84",
+          "bytes": 4116
+        },
+        {
+          "path": "examples/step_files/test_curved_uv.step",
+          "sha256": "3430c9a9162a525972954fa2c622ecff4e40a46c6fe957d49b7f9d45f6cf10f2",
+          "bytes": 58628
+        },
+        {
+          "path": "examples/step_files/test_geometry_1.step",
+          "sha256": "f017cabc80d19839da5fd6e34c1ac0de8c9f3525000a9f5556d110eb914c6ac3",
+          "bytes": 26237
+        },
+        {
+          "path": "examples/step_files/test_geometry_2.step",
+          "sha256": "cda96a574504e72f5b6003ed741b7ec1b8640dc6e0927f9407873ff4cbe1c276",
+          "bytes": 8189
+        },
+        {
+          "path": "examples/step_files/test_geometry_manas.step",
+          "sha256": "dc8589a3d91f845ac25a21e5ff7edca21248afd95881c9361d579815863c74e1",
+          "bytes": 8048
+        },
+        {
+          "path": "examples/step_files/torus_ellipse.step",
+          "sha256": "d0aeb40ffc34e551cebd4353895fc051e4a1096dd9009c44a49f54fb07b6e2a9",
+          "bytes": 90184
+        },
+        {
+          "path": "matlab/+stepmesher/apply_mesh_profile_choice.m",
+          "sha256": "636d7aacf8b575528946254079d1e6be688345c53ee7fd5fc6e0ee07e4e0c200",
+          "bytes": 1422
+        },
+        {
+          "path": "matlab/+stepmesher/export_edges_gll.m",
+          "sha256": "b7ab15ef8be16cf8f70f04b85cda3f461cb7ebe242add08df9e897fd2a23fadb",
+          "bytes": 4612
+        },
+        {
+          "path": "matlab/+stepmesher/export_geom_package.m",
+          "sha256": "9494c77acc8063056ac45473a55550f8c3887482946120c2c2e1460e6cb922d8",
+          "bytes": 2679
+        },
+        {
+          "path": "matlab/+stepmesher/export_gidmsh.m",
+          "sha256": "d6a1c0195ee981ba287526129fd069df261b7d502edbca66ddd25e97a5198f41",
+          "bytes": 1720
+        },
+        {
+          "path": "matlab/+stepmesher/export_go3.m",
+          "sha256": "ca40fa26724b775921a70028e6bacfaa9f36d4723e1bb49b5017b30467a0e43f",
+          "bytes": 1656
+        },
+        {
+          "path": "matlab/+stepmesher/export_xyzw.m",
+          "sha256": "e1eae208d649ca8dcf4b6147d1a8789233cd1f306f6e00e677098aa16ce3889b",
+          "bytes": 1374
+        },
+        {
+          "path": "matlab/+stepmesher/load_edges_gll.m",
+          "sha256": "8379bf946aa17e11fe4ae64d430f18be8b889d6b32a3c79ae8625cf6dcb558b8",
+          "bytes": 6140
+        },
+        {
+          "path": "matlab/+stepmesher/load_geom_package.m",
+          "sha256": "4ec280fb360af8678d1ee099589368c51d759e7b818f623fa51330fab02299ad",
+          "bytes": 2000
+        },
+        {
+          "path": "matlab/+stepmesher/mesh_profile_choices.m",
+          "sha256": "757f4f34c8008f83ac14966b0a5d58a952e126516c6b80326ed7d587ab588644",
+          "bytes": 3316
+        },
+        {
+          "path": "matlab/+stepmesher/mesh_step.m",
+          "sha256": "d8093105cb7458af3fd15278eab26b52033080c3fcf256ff74c990708aa7aae9",
+          "bytes": 1415
+        },
+        {
+          "path": "matlab/+stepmesher/plot_coarse_triangle_error.m",
+          "sha256": "53414fff28764d5faf52b58673c1be5368d94c3135ca605931afdf8e2abb92bd",
+          "bytes": 4123
+        },
+        {
+          "path": "matlab/+stepmesher/plot_geom_package.m",
+          "sha256": "f69367b3757fd4e0fb71387b908575fb50854bf6b9c4aee0a437baff5953dd02",
+          "bytes": 17218
+        },
+        {
+          "path": "matlab/+stepmesher/plot_projected_nodes.m",
+          "sha256": "386b3249899361cdc357a4ee47b0d4c6d49a83da99428e7ecd745dec73ead48a",
+          "bytes": 251
+        },
+        {
+          "path": "matlab/+stepmesher/plot_projection_error.m",
+          "sha256": "3d6227bccbf7be596aa469a8f7c203102efcb6949dfdac36db95fee741095501",
+          "bytes": 329
+        },
+        {
+          "path": "matlab/+stepmesher/plot_scaffold.m",
+          "sha256": "0ae44acd22aaa3156f4905c7831cf5115cd297495af67797ea0bc7b3c7e10fc4",
+          "bytes": 414
+        },
+        {
+          "path": "matlab/+stepmesher/plot_scaffold_quality.m",
+          "sha256": "879e60957a85fd36a6018d452135c26dfcd79d11e2ec237c7753ab39d71b2996",
+          "bytes": 1039
+        },
+        {
+          "path": "matlab/+stepmesher/plot_surface.m",
+          "sha256": "f1634622094e425d270cefcefc4d9e3b8635ce443a1b3b29488b47ba44bd10f9",
+          "bytes": 171
+        },
+        {
+          "path": "matlab/+stepmesher/private/default_options.m",
+          "sha256": "29642dc46b1a8015ba70ec48674a1b668b7c7170fd03567f94ff91ad80f3a1d8",
+          "bytes": 1248
+        },
+        {
+          "path": "matlab/+stepmesher/to_srcvals.m",
+          "sha256": "29c87464b7f83eba08262cd3b3925d70e08574414be98c98bdc9c078339817e0",
+          "bytes": 1781
+        },
+        {
+          "path": "matlab/+stepmesher/to_surfer.m",
+          "sha256": "91bbf11090f51ff0d9c39b9e735a51afba91f3c17684b7465ec3e98492fb6b7b",
+          "bytes": 373
+        },
+        {
+          "path": "matlab/+stepmesher/validate_area_flux.m",
+          "sha256": "b407d249d0da1eb79fd982b852029550c3a1a05098787fe49d69634811d5fccc",
+          "bytes": 2331
+        },
+        {
+          "path": "mex/step_mesher_mex.cpp",
+          "sha256": "f4a430b3da7aef6b8c8cd9d197690c0403bb7e3d1e5f809fd3acbd4a3c246261",
+          "bytes": 21997
+        },
+        {
+          "path": "tests/matlab/regression_sweep_examples.m",
+          "sha256": "9402b091e9b614973f26f0c260c439c5fdc0e1932d397b7b87e87b82282d10c3",
+          "bytes": 2835
+        },
+        {
+          "path": "tests/matlab/smoke_mesh_step.m",
+          "sha256": "3d40223714d2f5f40493743b0bcf1e81d26d4fbe61dea1afc08dcf9389fb62ee",
+          "bytes": 10916
+        },
+        {
+          "path": "tools/build_native_dependencies.py",
+          "sha256": "8082bd46c424af488aef9bd4c2de0ed9e5ce8cf7dcabd206bab311d9cdc9fd1a",
+          "bytes": 10733
+        }
+      ]
+    },
+    "fmm_reference": {
+      "source": "tools/fmm3dbie/FMM3D",
+      "head": "3785618eda092a2234def359227a30e68582080c",
+      "branch": "",
+      "status": "",
+      "files": [
+        {
+          "path": ".codepod.yml",
+          "sha256": "3b1568976f8498c42bcd7a341a372003aed618402bb643eb554f6413bac06416",
+          "bytes": 151
+        },
+        {
+          "path": ".github/workflows/python.yml",
+          "sha256": "84d0c5b326db2406cb4aa29334c6c21dca21edad9646119efd9321bf01b545e1",
+          "bytes": 8439
+        },
+        {
+          "path": ".github/workflows/python_build_posix.sh",
+          "sha256": "0650102511f23fcf7beb89d54a2dab55801758d57a23bb424350302c2950bd98",
+          "bytes": 195
+        },
+        {
+          "path": ".github/workflows/python_build_win.ps1",
+          "sha256": "f2a9158c166a6d0600d5c174bdb2aa00e7a1dd60735cf59ae9b00ea075c54b92",
+          "bytes": 2360
+        },
+        {
+          "path": ".github/workflows/python_cmake.yml",
+          "sha256": "20b783c3220a1e862d7bce5a59f9bdb318a0436a2c6999720cb78e211e0c49c4",
+          "bytes": 730
+        },
+        {
+          "path": ".github/workflows/python_test_posix.sh",
+          "sha256": "04259a89fc3063f8c544b26e088f07ed11e081b89a3d97ff8aa89d0d382fa1ce",
+          "bytes": 201
+        },
+        {
+          "path": ".github/workflows/python_test_win.ps1",
+          "sha256": "dbf476e429707c980b93ec50b5830bb100f00379e095a39324861bb99af976e3",
+          "bytes": 248
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "6337a9ff5d0438129d8fcadab44085da1c3622ab9960ff60cd73b41475d558f0",
+          "bytes": 189
+        },
+        {
+          "path": ".gitpod.yml",
+          "sha256": "e38f12a0608fa96a28d4af525054c3d8e139c2901c3d0ba0a790989da2a84eda",
+          "bytes": 118
+        },
+        {
+          "path": ".readthedocs.yaml",
+          "sha256": "9efe40469e09188c2446a5933892bcd79212e99a709acacde5bb3db01b942e90",
+          "bytes": 593
+        },
+        {
+          "path": "AUTHORS",
+          "sha256": "45a774d3cf05dc4d420c2e9a9f76d3d4e33be84304f9c369aaffa8789f3f0c2a",
+          "bytes": 423
+        },
+        {
+          "path": "CMakeLists.txt",
+          "sha256": "389b356b56f839208003ab55a0230bd8a305872a2fc8fa623ba678844853e630",
+          "bytes": 6904
+        },
+        {
+          "path": "CONTRIBUTING",
+          "sha256": "8afb72b9a784c0b0b84b906f82e42d14c1db7af85b7b9962ea5bbd85f6586d39",
+          "bytes": 1626
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "80ca999e0a3de255930a5bf17771bdcadf0e0ac2835b93ddc418a639f0d5ea4c",
+          "bytes": 1506
+        },
+        {
+          "path": "README.md",
+          "sha256": "9b7f1460350bdeeeb95e65e4cba3246279e5bdc702a8bfc1c9fa43f17497df74",
+          "bytes": 531
+        },
+        {
+          "path": "c/README.md",
+          "sha256": "3e7a78843aeb71a8093a2415dd4956841e82797203f8ded09e190051d8ff62f1",
+          "bytes": 917
+        },
+        {
+          "path": "c/cprini.c",
+          "sha256": "8a5addb3347485894e04614c587cfcc56f11c2f92bec5b48cf7d3499ec29d16a",
+          "bytes": 7785
+        },
+        {
+          "path": "c/cprini.h",
+          "sha256": "a603e2671d512c7856207dd0eed172b0da4b5fadc1e69c5eac50ec26f3d3f45c",
+          "bytes": 649
+        },
+        {
+          "path": "c/hfmm3d_c.h",
+          "sha256": "efdbae8ccdaa2ab1dcebe2024d016b8942131e86d15e857ae57f72964433a1ac",
+          "bytes": 8301
+        },
+        {
+          "path": "c/hfmm3d_example.c",
+          "sha256": "5253122a139e5dc4d653c29c128e2dceb4170ce9ec160014fcebacfc0dcafa0c",
+          "bytes": 1019
+        },
+        {
+          "path": "c/hfmm3d_example.make",
+          "sha256": "cec0156054b65916fba5299f398353e82244a0473fd14ab2616c7a50c9178b10",
+          "bytes": 1612
+        },
+        {
+          "path": "c/hfmm3d_vec_example.c",
+          "sha256": "812c1598fef3822b62f981385ded7cfb71aff6b71e67f5f1277a66004dc5ffcf",
+          "bytes": 1455
+        },
+        {
+          "path": "c/hfmm3d_vec_example.make",
+          "sha256": "153a60dbf8bb9f02d761d867254526c46e02d6f4bd62d34a1b9d9c79a07a761c",
+          "bytes": 1620
+        },
+        {
+          "path": "c/lfmm3d_c.h",
+          "sha256": "4b868421951c44cf01e16d1693a88bcd81afe82a0b2886c8277fd218547df37a",
+          "bytes": 13428
+        },
+        {
+          "path": "c/lfmm3d_example.c",
+          "sha256": "b4dd9300cb7a267810d3101d1c7ec09b9fc8c4774416d14ced5674dc5f5218e6",
+          "bytes": 975
+        },
+        {
+          "path": "c/lfmm3d_example.make",
+          "sha256": "235534b0bbc5e27c539c390814fa90928e951e8ebebd882e81f333852abdd55a",
+          "bytes": 1612
+        },
+        {
+          "path": "c/lfmm3d_vec_example.c",
+          "sha256": "a0cdba46b93fed091f406bb33c232ea35b80b5e64f6ce0d91229a847a6e9a698",
+          "bytes": 1410
+        },
+        {
+          "path": "c/lfmm3d_vec_example.make",
+          "sha256": "79f5717a6f00bdebc92895ee756188281710fe8cb6345de45e6a08c163919ce7",
+          "bytes": 1620
+        },
+        {
+          "path": "c/test_hfmm3d.c",
+          "sha256": "d674a9f81826cd8110853384f9cd8c349ef0482b47321c82d423ef6ca59ebe15",
+          "bytes": 27743
+        },
+        {
+          "path": "c/test_lfmm3d.c",
+          "sha256": "837500cc08b11096289101899ec5772a455a0f4825bb52d93645648c12bf4b0d",
+          "bytes": 43613
+        },
+        {
+          "path": "c/utils.c",
+          "sha256": "1fa40e220b838c7e53179e21ae28466879387d81889442633df71b1212055ba2",
+          "bytes": 2425
+        },
+        {
+          "path": "c/utils.h",
+          "sha256": "c48357640aae0b26938c906db0de6d2ea2852c9158fb520913f863df05b72a8b",
+          "bytes": 715
+        },
+        {
+          "path": "devel/code-generation/instructions.md",
+          "sha256": "0df438850a358230e57770634b88d6ba3da3b6acd5b3c7188af858c9602e2494",
+          "bytes": 871
+        },
+        {
+          "path": "devel/code-generation/jinjaroot.yaml",
+          "sha256": "c0bf775739e6dd9b7f0accbc3d9bc67eaf93efcaadd1b9c7989574286dc15e9c",
+          "bytes": 1069
+        },
+        {
+          "path": "devel/code-generation/lfmm3dwrap.f",
+          "sha256": "bf74f13a203c2148c32a17942b5482c5e13e6fabf151fa1d353f62168839ef4a",
+          "bytes": 63996
+        },
+        {
+          "path": "devel/code-generation/lfmm3dwrap.f.j2",
+          "sha256": "0918b8dfb90a3b39544feb7865e44ea08d665a9186957803b2a8c3104a65aafa",
+          "bytes": 63409
+        },
+        {
+          "path": "docs/FMM-logo.png",
+          "sha256": "5351808870243beab49a6ce31bc313a971d0f7cabe58dbd3626e94379c8ea03f",
+          "bytes": 192190
+        },
+        {
+          "path": "docs/Makefile",
+          "sha256": "cc0ad023abc7b61ffa55c91de831c487d9c09f6bc461f2a9f2a7d135fd41108c",
+          "bytes": 7660
+        },
+        {
+          "path": "docs/_static/custom.css",
+          "sha256": "1ca8dc1a8401d1cbdf7ece08837f4ba403632b5ce698cf18dab6010b1c778e3e",
+          "bytes": 123
+        },
+        {
+          "path": "docs/_templates/page.html",
+          "sha256": "59baa4a7e4f341b6bea7db0714030d1a59132129d4b09ef5615a941331f517cb",
+          "bytes": 415
+        },
+        {
+          "path": "docs/ackn.rst",
+          "sha256": "4ab5f6024ba093580d545f2531cc6b82c4337e07649ecab6245d3b61228360fb",
+          "bytes": 491
+        },
+        {
+          "path": "docs/conf.py",
+          "sha256": "3936c000c63cd6702c06e925daf18cbd8276aef9ebac368da107e547287e84e3",
+          "bytes": 10177
+        },
+        {
+          "path": "docs/fortran-c.rst",
+          "sha256": "e1a54b0a89cf44f80bebb804c9852b9a5ddbab4de26e2e7ebcbcb5f82b5f68ee",
+          "bytes": 22208
+        },
+        {
+          "path": "docs/fortrandocs_helm.raw",
+          "sha256": "daa522521ca58b34acf39fcfede0535d6e9575bcaa0658f0123be56c1e758da8",
+          "bytes": 45357
+        },
+        {
+          "path": "docs/fortrandocs_helm2.raw",
+          "sha256": "52d64801eafa9e019ff3d5c5efafd7b5217eb323cb6f0bd76f69d957d932cb36",
+          "bytes": 21879
+        },
+        {
+          "path": "docs/fortrandocs_helm2_vec.raw",
+          "sha256": "ce5dafe2049346029919288236581b70fe8dcd58c34a8b8720961f2832805713",
+          "bytes": 23673
+        },
+        {
+          "path": "docs/fortrandocs_helm_header.raw",
+          "sha256": "77d2345a9f46c9426fa6455a09be3d13d779fa23489cd8b04273387b2bcc3462",
+          "bytes": 3171
+        },
+        {
+          "path": "docs/fortrandocs_helm_header_vec.raw",
+          "sha256": "c13043dc85166a7706387d7f47cf347116bcc516e89535684b4cc9ab2d00572f",
+          "bytes": 3243
+        },
+        {
+          "path": "docs/fortrandocs_lap.raw",
+          "sha256": "e30c9308f16e127438e45211e2ad8a7c057c7af6763ef95b61148b7aae2a91c2",
+          "bytes": 70713
+        },
+        {
+          "path": "docs/fortrandocs_lap2.raw",
+          "sha256": "fb0da81f2acd25d347b229eb6e33662e11ef71befcce8d6ef92e60632158cf0b",
+          "bytes": 32832
+        },
+        {
+          "path": "docs/fortrandocs_lap2_vec.raw",
+          "sha256": "ebf259fbea69cfeed52471ee55384af5e7500ece6b2b7903a5eb3dbb22a16fd0",
+          "bytes": 35547
+        },
+        {
+          "path": "docs/fortrandocs_lap_header.raw",
+          "sha256": "69557d81918d73db72a857a85e1fb33df626e05a3b64b6d5b3d55caf65ef2b0d",
+          "bytes": 4905
+        },
+        {
+          "path": "docs/fortrandocs_lap_header_vec.raw",
+          "sha256": "bc243568d3e5cb5ebeeefc13357686449741447ce884ecc07ba26cd5151da33a",
+          "bytes": 5013
+        },
+        {
+          "path": "docs/genfortdocumentation_helm.py",
+          "sha256": "167ad65e94b6bae2b2db40efd308e99593106509e66c11ce88de2385a7141840",
+          "bytes": 13787
+        },
+        {
+          "path": "docs/genfortdocumentation_lap.py",
+          "sha256": "7fc6ea79bf74aa780d5d9235a4e348763c2c4a835b0f63dafa8cce86ed90c1d6",
+          "bytes": 15115
+        },
+        {
+          "path": "docs/genpdfmanual.sh",
+          "sha256": "ae87da3964ea104d09f5b541990cde5ca1ab379ff7aa8396f845326b55f8cd55",
+          "bytes": 167
+        },
+        {
+          "path": "docs/index.rst",
+          "sha256": "6bb0a81c1e3f6f0be067348e5c360bc9286986dc98af44f7ca63879335dd4712",
+          "bytes": 3734
+        },
+        {
+          "path": "docs/install.rst",
+          "sha256": "e0463217d475703d0a230d7fbb9898c7ad885bf6358dc8b25130ee731adf5292",
+          "bytes": 11541
+        },
+        {
+          "path": "docs/julia.rst",
+          "sha256": "db445e6e9deee77cdf5eaadd72801df21363069d08e321189e9fb45e1fb1d440",
+          "bytes": 14820
+        },
+        {
+          "path": "docs/legacy.rst",
+          "sha256": "bc99bd3dbd158016a057551233e04ef0147afe0a6449ccafa0bb31870c737f15",
+          "bytes": 19408
+        },
+        {
+          "path": "docs/math.rst",
+          "sha256": "fcada3afe0ac340e872c204f368405457a99fb6483b9dea41029a3c8b61b3273",
+          "bytes": 3506
+        },
+        {
+          "path": "docs/matlab.rst",
+          "sha256": "8a180ab3c444add2d22abed607cf5b8cfbd4a20ecf096ca2fe00d860149c1981",
+          "bytes": 14567
+        },
+        {
+          "path": "docs/page.html",
+          "sha256": "59baa4a7e4f341b6bea7db0714030d1a59132129d4b09ef5615a941331f517cb",
+          "bytes": 415
+        },
+        {
+          "path": "docs/python.rst",
+          "sha256": "819cf8a676662fa7d002221d5d37b6c82dd4fba7f3bdd572c02b06b104705851",
+          "bytes": 13685
+        },
+        {
+          "path": "docs/ref.rst",
+          "sha256": "14b3565112bc97cdf6c8983dcd4090592afb566e435a484d0e1f962447cb3285",
+          "bytes": 155
+        },
+        {
+          "path": "docs/references.bib",
+          "sha256": "f28ecd04295d9e4114cacb5e5dc4069994268cf99dc11c0dd416660d2218e6b6",
+          "bytes": 1283
+        },
+        {
+          "path": "docs/requirements.txt",
+          "sha256": "7c28d73390fae54e4653e74979d40330707ab3499033e260cf9fccf493e0b4d7",
+          "bytes": 64
+        },
+        {
+          "path": "examples/README.md",
+          "sha256": "f4f2af42e68578de4aeaa05debad2fe369c8732aac5ab1ded4615f9be0d12ede",
+          "bytes": 944
+        },
+        {
+          "path": "examples/emfmm3d_example.f",
+          "sha256": "557a7e164b05aa7851b537863f14b7162d2775d983a481d2c191bcccad96bde0",
+          "bytes": 2381
+        },
+        {
+          "path": "examples/emfmm3d_example.make",
+          "sha256": "3655df57eabe33f7f6c082eb9262acdf0b35158d9f1b17734440d3bcea4ea181",
+          "bytes": 1513
+        },
+        {
+          "path": "examples/hfmm3d_example.f",
+          "sha256": "3393afbfe243bfbe372126c663bb51eb2642a6eb6a157198d5f84334d6a426db",
+          "bytes": 1636
+        },
+        {
+          "path": "examples/hfmm3d_example.make",
+          "sha256": "a3d54c97408af7b127868b6d6ce68ce393452fae08a9067351659e7b4319f46e",
+          "bytes": 1511
+        },
+        {
+          "path": "examples/hfmm3d_legacy_example.f",
+          "sha256": "a6b5fc03bd94d74ea521fd52dfb77d1f69f02ba2fcfbad17be9550e466c7f85b",
+          "bytes": 8099
+        },
+        {
+          "path": "examples/hfmm3d_legacy_example.make",
+          "sha256": "7c11a62792f7e2f0df4c3c0d391797cfe8632493d9cddc28f5ea45fda9177696",
+          "bytes": 1428
+        },
+        {
+          "path": "examples/hfmm3d_memest_example.f",
+          "sha256": "2dab85133a2e4e339dd59fea187400a8966e0cc3133f10c074ac49385dd443a9",
+          "bytes": 857
+        },
+        {
+          "path": "examples/hfmm3d_memest_example.make",
+          "sha256": "a591f0baeb7445ecbf92caa012221ff4616fac902bf8bb319bc38317c58058f4",
+          "bytes": 1736
+        },
+        {
+          "path": "examples/hfmm3d_vec_example.f",
+          "sha256": "d56d93830458c9bf89d6555c99a2cc7242b174311cf7eba2b982389bf723d7d2",
+          "bytes": 2263
+        },
+        {
+          "path": "examples/hfmm3d_vec_example.make",
+          "sha256": "d7bc27ccb26a3b9c019a531b0723937721e2b4ba7b879c50caba030659d65887",
+          "bytes": 1533
+        },
+        {
+          "path": "examples/lfmm3d_debug1.f",
+          "sha256": "12901639d0508e9eb8c32b83da629254de2fda366379732e97db10d7f394630b",
+          "bytes": 4404
+        },
+        {
+          "path": "examples/lfmm3d_example.f",
+          "sha256": "e50e0f681ec972a90dd4f28badac3574b5e0519f2a32d45c3ed7c208d0d32a6b",
+          "bytes": 1833
+        },
+        {
+          "path": "examples/lfmm3d_example.make",
+          "sha256": "6804caf32b36e2378a188f1c842e02ccaa22d1075ff1ebf4e26d603e0f0e64a9",
+          "bytes": 1528
+        },
+        {
+          "path": "examples/lfmm3d_legacy_example.f",
+          "sha256": "90654ae20dd3f240321f931a3663abe113c25938e2cbe164f2653c117f3ac563",
+          "bytes": 7677
+        },
+        {
+          "path": "examples/lfmm3d_legacy_example.make",
+          "sha256": "97f17135faef41e72c02f954bf93222649ee850fb8e9e8f86cd31c60e7dfc988",
+          "bytes": 1428
+        },
+        {
+          "path": "examples/lfmm3d_vec_example.f",
+          "sha256": "d5058291c3701b1f79430bdd3dcc01a7930a0b1aa8293c6a59ee7063f53110e5",
+          "bytes": 2006
+        },
+        {
+          "path": "examples/lfmm3d_vec_example.make",
+          "sha256": "446a109be6c5d121a4729f9a978282b5e59ed49024f77750a1ec06524a86257f",
+          "bytes": 1425
+        },
+        {
+          "path": "examples/stfmm3d_example.f",
+          "sha256": "bc4f85265ecb9ab9cf00d53cef1699838bba7aa7c48d3905960c2ad5a79ea17e",
+          "bytes": 2410
+        },
+        {
+          "path": "examples/stfmm3d_example.make",
+          "sha256": "89b02fb128fa21570d4d5a6df134bc30938b2f0fe390e583979f4f94e4b9ee06",
+          "bytes": 1513
+        },
+        {
+          "path": "fmm3d_manual.pdf",
+          "sha256": "67d7efb44c8b06950bf8e954ab4bb35da3a1c16ff7afa2dc5c86d32bc151bbc7",
+          "bytes": 661284
+        },
+        {
+          "path": "ifort_matlab.def",
+          "sha256": "50d3abe6424b2f14a08d1baa2919ea20accc58ab32c48289876f3914f35bcb8f",
+          "bytes": 2388
+        },
+        {
+          "path": "julia/AUTHORS",
+          "sha256": "41b339fb52f65f0be469f8bf872a5491ccb7bbd0b4a89000db2841a35af752bb",
+          "bytes": 412
+        },
+        {
+          "path": "julia/LICENSE",
+          "sha256": "80ca999e0a3de255930a5bf17771bdcadf0e0ac2835b93ddc418a639f0d5ea4c",
+          "bytes": 1506
+        },
+        {
+          "path": "julia/Manifest.toml",
+          "sha256": "71c20aba5b538a6903fb183d602508f58c3b51eda7756f8a7c629368f77af3bf",
+          "bytes": 3520
+        },
+        {
+          "path": "julia/Project.toml",
+          "sha256": "bd34e093d51f8d9a360147fed538968ef1db6cbe16b17d4e8bcf92301c50b149",
+          "bytes": 382
+        },
+        {
+          "path": "julia/README.md",
+          "sha256": "19b4c317e9c1116045ac2ba4f21d7fcabd0a775f30f4606c63df4600aae0591c",
+          "bytes": 1947
+        },
+        {
+          "path": "julia/examples/hfmm3dexample.jl",
+          "sha256": "92a0454eaa9716740c779185cfd23de65bda4e4a15e41110e76facb7136210ca",
+          "bytes": 668
+        },
+        {
+          "path": "julia/examples/lfmm3dexample.jl",
+          "sha256": "362b5ec7c12f86d78d42f714af4347a6b1b21cb7b1ea4a36f5bafdd512ebb88f",
+          "bytes": 601
+        },
+        {
+          "path": "julia/src/FMM3D.jl",
+          "sha256": "845d3815cb3a003f2ba99c2c6890e530c8a1b976ce22323476a3bb72bfb1d636",
+          "bytes": 75023
+        },
+        {
+          "path": "julia/test/runtests.jl",
+          "sha256": "e60b9e8b1d135520c2825d46b26617cff9c88bb2a30f260b4dbeace96368b33a",
+          "bytes": 12331
+        },
+        {
+          "path": "lib-static/.gitkeep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "lib/.gitkeep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "make.inc.icc",
+          "sha256": "5f33a03e241eed70e1dc9da0b6beb225c7fcb9b94c6af9b0d7d020812ca9c96a",
+          "bytes": 274
+        },
+        {
+          "path": "make.inc.macos.gnu",
+          "sha256": "cc4d3c39278acc6344abedd5e7a0c812dc9b72ab97f2c2ab54e3eed6d0c8598e",
+          "bytes": 459
+        },
+        {
+          "path": "make.inc.macos.intel",
+          "sha256": "e95ad12cfa4bf8aea752448e8d12a1346a04c0c32e4af14243720c8e78c47c9a",
+          "bytes": 863
+        },
+        {
+          "path": "make.inc.macos.nag",
+          "sha256": "900692a3bbefcfac58cc6afa22d66d23e62894ab85546eaee9775660394321a4",
+          "bytes": 1328
+        },
+        {
+          "path": "make.inc.macos_arm64.gnu",
+          "sha256": "ccd8ab7c82ef9d0566fd61b87091b469728f9859e8ff53eecdfdec7c8e748b65",
+          "bytes": 654
+        },
+        {
+          "path": "make.inc.nvhpc",
+          "sha256": "31367f351ebdd4d0bab238d1a92582e86ddd6fdfa47b74077d2e5a14e2442e86",
+          "bytes": 236
+        },
+        {
+          "path": "make.inc.windows.mingw",
+          "sha256": "811aafafc59bbb26cdb68d07f5471e8f356cbe4e4489c10b4d06be3a9a60c194",
+          "bytes": 468
+        },
+        {
+          "path": "makefile",
+          "sha256": "9556cda6f4ef89e43750b0593b1b96151d45dcc3f31dac7be9f2834420f6b9b0",
+          "bytes": 17231
+        },
+        {
+          "path": "makefile.windows",
+          "sha256": "c722d8f037646be68ddf29ba572b13329942da38b6c617cd9144c1861a518ce2",
+          "bytes": 12383
+        },
+        {
+          "path": "makefile.windows.intel",
+          "sha256": "ddb0f90ba3f43f9082cda0eb979cda06f970a2d4a46bfc7e1ae12578ba221bd6",
+          "bytes": 4723
+        },
+        {
+          "path": "matlab/Contents.m",
+          "sha256": "134809a12025369a268ddda5a74736be82ba470de613d2402c81a5ac58023dd3",
+          "bytes": 1537
+        },
+        {
+          "path": "matlab/em3ddir.m",
+          "sha256": "0767920d5826b309beb4517df3e5cc6d98a1319995af230ede71d3566805a195",
+          "bytes": 4191
+        },
+        {
+          "path": "matlab/emfmm3d.m",
+          "sha256": "515339e5918710a23909cad9b210c403060a4a21680f290487e3a4c8ac26c07d",
+          "bytes": 6635
+        },
+        {
+          "path": "matlab/emfmm3dTest.m",
+          "sha256": "973993786ad05ee057f42367854e88d220540711c2da1306c82266e63a88a368",
+          "bytes": 3194
+        },
+        {
+          "path": "matlab/emfmm3d_example.m",
+          "sha256": "dc126a5ffc7e74721fb78ac7c3805b2564efec180d381d0c1f5823f833614202",
+          "bytes": 1367
+        },
+        {
+          "path": "matlab/fmm3d.c",
+          "sha256": "63002ee9a6dcb1e6a6ecef50baa88e380f5c9954893c45162f8a19f3877208a2",
+          "bytes": 261829
+        },
+        {
+          "path": "matlab/fmm3d.mw",
+          "sha256": "820f55444c9dd4237aa07b66e47cb998888e1a27163701c34f8b80b35b81452f",
+          "bytes": 52831
+        },
+        {
+          "path": "matlab/fmm3d_legacy.c",
+          "sha256": "2acd7c96cb0a99acc6c648bb1df55b7b55eeb368487de432c093d89158ddc6d7",
+          "bytes": 97171
+        },
+        {
+          "path": "matlab/fmm3d_legacy.mw",
+          "sha256": "7cbc8a5a5503eef7986f0b2767b75ddc0ccca8a78524160a0a40051c6c9f76de",
+          "bytes": 16189
+        },
+        {
+          "path": "matlab/h3ddir.m",
+          "sha256": "8abab1ceca2be777876c2758d2b7d02015155316a1a8f7af28d1c0b07e0e53df",
+          "bytes": 4737
+        },
+        {
+          "path": "matlab/h3dpartdirect.m",
+          "sha256": "f8b4021fee1ec3f5fe786b810b5c65c5a47fcfcd5074789ffe2958648e0351dc",
+          "bytes": 3761
+        },
+        {
+          "path": "matlab/hfmm3d.m",
+          "sha256": "0551dc3dcdd1251a2b99f36b5ff0df9abd3a704915e349f91d907684d08bdff1",
+          "bytes": 8423
+        },
+        {
+          "path": "matlab/hfmm3dLegacyTest.m",
+          "sha256": "d7ef7eab0c663191e99fc68d5761ba1500a6e83137ad75347f4f953482f2b1a9",
+          "bytes": 2378
+        },
+        {
+          "path": "matlab/hfmm3dTest.m",
+          "sha256": "4067244374988ce4620cf9615cab957618a75136884a73cb2e5bb16bd0eb8c83",
+          "bytes": 16727
+        },
+        {
+          "path": "matlab/hfmm3d_big_example.m",
+          "sha256": "f8ee9fd742e0b707c3bdb5f66df5bad478cbadf9a57d94431f2e594ddcf02679",
+          "bytes": 769
+        },
+        {
+          "path": "matlab/hfmm3d_example.m",
+          "sha256": "be608cf1452bf6652402839b9d531aca4d90132f7c8a5c7be4eff7a6bdeefa1f",
+          "bytes": 1185
+        },
+        {
+          "path": "matlab/hfmm3dpart.m",
+          "sha256": "c97b3cbb2b5eb7db8c5856a4f1fdc8e6743cd52564cd11a4277cfd0a7cf9dfee",
+          "bytes": 4886
+        },
+        {
+          "path": "matlab/l3ddir.m",
+          "sha256": "dd4281af180131b1689aeab6aff11ca1a8cc35a086afcb49e07ad8d6fde707bb",
+          "bytes": 6000
+        },
+        {
+          "path": "matlab/l3dpartdirect.m",
+          "sha256": "3fbdb3bf7bd74a99f1354229b4037a4828ab0568cf6e810b0827225c56b77d8c",
+          "bytes": 3673
+        },
+        {
+          "path": "matlab/lfmm3d.m",
+          "sha256": "bcad0a63c69205c30bb233485768037d0400a6730b6e4f90e855b33a6dcb81fb",
+          "bytes": 8421
+        },
+        {
+          "path": "matlab/lfmm3dLegacyTest.m",
+          "sha256": "0d1be26e159a9410c7897dda077a58c28cd0896022571a59aa558589aed4d3d7",
+          "bytes": 2292
+        },
+        {
+          "path": "matlab/lfmm3dTest.m",
+          "sha256": "a647d7f299018eb55b1539c9f67efa858c9f00a27a4402adb58771db37150b09",
+          "bytes": 29523
+        },
+        {
+          "path": "matlab/lfmm3d_big_example.m",
+          "sha256": "ab8e723b3d3d0e4dfcee89cf86498489ef8d64134c8fd0aee353f56017a9a410",
+          "bytes": 727
+        },
+        {
+          "path": "matlab/lfmm3d_example.m",
+          "sha256": "6eb4559fab1a377931155870ba1670357c43f450d61248f48b5d488bd2409f60",
+          "bytes": 1081
+        },
+        {
+          "path": "matlab/lfmm3dpart.m",
+          "sha256": "37e501ab8a39d543529df2fd1aa14821c250625b0d026ed2512754e12aa5f561",
+          "bytes": 4781
+        },
+        {
+          "path": "matlab/readme.md",
+          "sha256": "9b4bb95f2078966fda9b077c893850907c6bd81fdd8a1cf9b0c0209cdcf90c7e",
+          "bytes": 543
+        },
+        {
+          "path": "matlab/st3ddir.m",
+          "sha256": "54db3986ef90d4a0d988651dd025a3681c3dc940c7e7d2128de997acdbaad275",
+          "bytes": 5889
+        },
+        {
+          "path": "matlab/stfmm3d.m",
+          "sha256": "b95d51613d805044a2ceb899309941d832ac8c1f1e252834b21725e27dde5e89",
+          "bytes": 11653
+        },
+        {
+          "path": "matlab/stfmm3dPerfTest.m",
+          "sha256": "31be04cbc0da775255df92ea834e750760188c1d492ae4f92fa391a67d27acdb",
+          "bytes": 3235
+        },
+        {
+          "path": "matlab/stfmm3dTest.m",
+          "sha256": "2e9465c442867c087a0731da2f4c5cf3f760ba309b8dcd6bfd3762612ac9b2f1",
+          "bytes": 2452
+        },
+        {
+          "path": "matlab/stfmm3d_example.m",
+          "sha256": "0ce2f9ba9ce2f0ccea490879b044833fc67d01ede6431f18ab9465cbde370ff2",
+          "bytes": 1362
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "754ec5cd068c73503e525b52b356f6b323392f49fedc1727e814b094e2691ddf",
+          "bytes": 900
+        },
+        {
+          "path": "python/CMakeLists.txt",
+          "sha256": "5a052bf73b887277a5fb0a4b2caf91527f2b399f1f7dc6d30801d44f3a72b9d1",
+          "bytes": 262
+        },
+        {
+          "path": "python/examples/emfmm3d_example.py",
+          "sha256": "b85a73b4cef80b049d6cf7ef36a9a01998ebb5125937399ebce2957f83ad5315",
+          "bytes": 925
+        },
+        {
+          "path": "python/examples/hfmm3d_example.py",
+          "sha256": "4c44d79ec44ebda0773be61f3bf4e23a8da9a8ba585afa887838157f93393b29",
+          "bytes": 828
+        },
+        {
+          "path": "python/examples/lfmm3d_example.py",
+          "sha256": "4232cb9ab476c3a7ce3b74a513929f6e5ec87354f9d4934bfd970305ed740e4f",
+          "bytes": 719
+        },
+        {
+          "path": "python/examples/stfmm3d_example.py",
+          "sha256": "d74ba7f0aeb27f2846207a3e96d5e6d449c76f6e639360d30af5abf3d5cf0146",
+          "bytes": 895
+        },
+        {
+          "path": "python/fmm3dpy/__init__.py",
+          "sha256": "226070c48293cfb3ec4cc0d2aa60ad1637a2e7747500de201094999dede81b4f",
+          "bytes": 116
+        },
+        {
+          "path": "python/fmm3dpy/fmm3d.py",
+          "sha256": "4709d335ef06c0132197813738a2a06600afb5c819ab61f6fa870bb16c1fc0ce",
+          "bytes": 62603
+        },
+        {
+          "path": "python/pyproject.toml",
+          "sha256": "4470d960232b8fe77beb9d50fea28fee607b16ae27f78952dbc299dc72eb962c",
+          "bytes": 90
+        },
+        {
+          "path": "python/readme.md",
+          "sha256": "6a145f814a1546e8555f8bdec2f469fa56abdb888b30b2a04d9e53144ba3a44b",
+          "bytes": 324
+        },
+        {
+          "path": "python/setup.py",
+          "sha256": "b23948e1d1c6440de8e9b0d4603dc13bfba4c486617c2927f9925e5066c46a0c",
+          "bytes": 3500
+        },
+        {
+          "path": "python/test/test_hfmm.py",
+          "sha256": "88dad8ae6975e6db94924a74b58856c6498f87d4e28f67e7f2eb8d5ab115a720",
+          "bytes": 18895
+        },
+        {
+          "path": "python/test/test_lfmm.py",
+          "sha256": "70d62fb71af634335bdcc26869ff4f42019e58e4d5153a1d022b8430709d1f93",
+          "bytes": 27769
+        },
+        {
+          "path": "src/Common/besseljs3d.f",
+          "sha256": "b627d9198d6f06f3e1f34feb38b186a19f57ffc43d0b1272f1ba4d145ce5d99c",
+          "bytes": 4520
+        },
+        {
+          "path": "src/Common/cdjseval3d.f",
+          "sha256": "22f9dc79c086ecca13ee8174a7bbca9feb1d3e947917484d9b1176d8137ef262",
+          "bytes": 5402
+        },
+        {
+          "path": "src/Common/cumsum.f",
+          "sha256": "f86d8cc4de94aa4f2e01127aa71c2c261f2afae084d15623f2972e3345ecd337",
+          "bytes": 5830
+        },
+        {
+          "path": "src/Common/dfft.f",
+          "sha256": "22ee4c4c497a66ffc6d86a1bcbea3909081031ec47578a22cb32007fa0efb397",
+          "bytes": 95239
+        },
+        {
+          "path": "src/Common/dlaran.f",
+          "sha256": "b578511e27ff931d81aa8eece29b1f58656135fa8215e36635b6b5a4f36d0893",
+          "bytes": 5064
+        },
+        {
+          "path": "src/Common/fmmcommon.f",
+          "sha256": "89991df8ecef92eda1a29a523590fbd9a4b8d42257ae3de83c2eed2ead8187bb",
+          "bytes": 20560
+        },
+        {
+          "path": "src/Common/hkrand.f",
+          "sha256": "520d47e9e3a0ef0e8830326f7d7193bb162b13d5d4350fbd46452d4a3acde678",
+          "bytes": 407
+        },
+        {
+          "path": "src/Common/legeexps.f",
+          "sha256": "0a6bb06d0ab8e2f4b61755b74cfa118309a0edbd0a78cf873ded3785b177d8ab",
+          "bytes": 56249
+        },
+        {
+          "path": "src/Common/prini.f",
+          "sha256": "fd075175a8aa170e58ebef2561d4aaeb1e17d1b2139c3559cba5d6df7906ef24",
+          "bytes": 7081
+        },
+        {
+          "path": "src/Common/pts_tree3d.f",
+          "sha256": "08bcddd8797c0860574fddf522d605fa56aa911ba8cfb93f84e846d35b202256",
+          "bytes": 46996
+        },
+        {
+          "path": "src/Common/rotgen.f",
+          "sha256": "9f6f5d86e869ba84d8ec87756de10aa8d4a734ec83bae1535d332a9d2fd049b1",
+          "bytes": 7697
+        },
+        {
+          "path": "src/Common/rotproj.f",
+          "sha256": "fb5eaf0e58b692b783d7b571748f2d14a2a58ffbd9fed1ff6a49e061dc137768",
+          "bytes": 16203
+        },
+        {
+          "path": "src/Common/rotviarecur.f",
+          "sha256": "f67864bba2e076ac09b35218fe1a2226fbe727f12eb4176a6dbb09c3b45eb1a4",
+          "bytes": 21038
+        },
+        {
+          "path": "src/Common/tree_lr_3d.f",
+          "sha256": "ae46941fdd84eb51f2532eff7489e3ab5b12bab6d16c0a779e2c20eaaaeacceb",
+          "bytes": 184859
+        },
+        {
+          "path": "src/Common/tree_routs3d.f",
+          "sha256": "b8c4f1019d4abd2ca2ed10791149dda0abc19677f4acfc7881e102f41ce9eb58",
+          "bytes": 41639
+        },
+        {
+          "path": "src/Common/yrecursion.f",
+          "sha256": "93b1c5f8be6dab2a654d7f65f05bdcc0837e3c1dc5e367b15b7d9e26b00fc092",
+          "bytes": 97807
+        },
+        {
+          "path": "src/Helmholtz/h3dcommon.f",
+          "sha256": "577baf9f22717ae8ca924dc970aa5db7e813ed8c67e9d856d1cc4d2bc4f2914b",
+          "bytes": 5581
+        },
+        {
+          "path": "src/Helmholtz/h3dterms.f",
+          "sha256": "eb3e9e26817ff4e8529e74b70e0b5fc0ed1b397c229bce8e8db9762b089396f4",
+          "bytes": 4004
+        },
+        {
+          "path": "src/Helmholtz/h3dtrans.f",
+          "sha256": "cb40445babdd3c59b24816b8a2f429f24720079d05a454808d81bc5ec5d05942",
+          "bytes": 26298
+        },
+        {
+          "path": "src/Helmholtz/helmkernels.f",
+          "sha256": "f0696262994b72f608341d05fecb6bc237597c76fb4a6977cc9e53b6757bc8fc",
+          "bytes": 21881
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_dr.f",
+          "sha256": "3170d62340132c4ce2d146b8c2e0564d25337405a34f58445ba425d2edd2a1d3",
+          "bytes": 10479
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_fast.f",
+          "sha256": "24d5e867524476701da27a937fd846b71eb0fda5539f06842c73282d88493780",
+          "bytes": 23344
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_hess.f",
+          "sha256": "4cec38e305bb69bfecbeebb7ab10e2a66f6119adb0d45ff3997e46776d055f45",
+          "bytes": 38510
+        },
+        {
+          "path": "src/Helmholtz/helmrouts3d.f",
+          "sha256": "59d531f50953e04bfb1b6047ee12d0633746e8f79d4475d1e7759e29720b3bfc",
+          "bytes": 56100
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d.f",
+          "sha256": "610c5c25ad3d559e179f039c599133a7f5bb0dd482ce7dbe36eec44b9aa05cb3",
+          "bytes": 83616
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_memest.f",
+          "sha256": "3aeda3f805412ca7220db85638bb4a6abc03d45ab268038d1c03b5db2522669f",
+          "bytes": 13022
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_mps.f90",
+          "sha256": "b6419dcae059d56ccbd98ef48ffd230fd32d4a38dd181817265a4330bdcae341",
+          "bytes": 40974
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_ndiv.f",
+          "sha256": "3dd3428483340970d534e8be8b2445ea334d30a98c1e15a534cac05edac4bf3e",
+          "bytes": 14700
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap.f",
+          "sha256": "ace866a612ea413230c324e5dd08326131d93a7a0c0da75c67275171fd2c9126",
+          "bytes": 45393
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap_legacy.f",
+          "sha256": "21caa26fe90537197074bc92f55499ad72af2610a477b67b76781ca59b69956c",
+          "bytes": 20567
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap_vec.f",
+          "sha256": "099e4dc07e6a9f5298e953189056060f277409c10d323c4bd122752300b94376",
+          "bytes": 48249
+        },
+        {
+          "path": "src/Helmholtz/hndiv.f",
+          "sha256": "3a8488bc75f3dc59f605b5a5b0beffbcdbc5e38cb2aa549aca96f37d55528c07",
+          "bytes": 1136
+        },
+        {
+          "path": "src/Helmholtz/hndiv_fast.f",
+          "sha256": "60ec881e607cc3c59b263801e6a0458631f8bdae2a6ab493a10362ec0698f295",
+          "bytes": 1093
+        },
+        {
+          "path": "src/Helmholtz/hnumfour.f",
+          "sha256": "ba54ae5cff950c134ff74d94c6c852b562fd178013f5d7bea5f1c06accd77b06",
+          "bytes": 1674618
+        },
+        {
+          "path": "src/Helmholtz/hnumphys.f",
+          "sha256": "48486ff39bccb1a4bd9e1d22e5ca0b1e686a9b1de5e7d025ee3c409d7beef0fe",
+          "bytes": 1674596
+        },
+        {
+          "path": "src/Helmholtz/hpwrouts.f",
+          "sha256": "5ba91a39736936c5f4f955eb813d7b2f1644958647620bd6b24673d9880a14e7",
+          "bytes": 151980
+        },
+        {
+          "path": "src/Helmholtz/hwts3e.f",
+          "sha256": "5bada7efd922ca4c2f24dc09fd841f22f7ed1f3abe4a4c400b961509565b7e94",
+          "bytes": 11665
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec0.txt",
+          "sha256": "ef18036f13da743b1aae2b611f58bdab6f15cd021368d394f59d8bc98bb261e2",
+          "bytes": 652544
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec1.txt",
+          "sha256": "ccddb0cc765f3c413223be978ac70ccb2e72210ff44f80db9327eafb67485dec",
+          "bytes": 733806
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec2.txt",
+          "sha256": "95d09648c48b5b2d2de18c90a2df0526ef7bf598d4fe0575aec893e74a58f25c",
+          "bytes": 997845
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec3.txt",
+          "sha256": "65587517271e636e31b2d5e3c165c7249d9c46668991ab14aa3fbfd3eda53003",
+          "bytes": 1312070
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec4.txt",
+          "sha256": "4833f59c56c584a40c8ee0698e7a48a6e67c57ce18b7714092ad9b399a85f6f9",
+          "bytes": 1680824
+        },
+        {
+          "path": "src/Helmholtz/projections.f",
+          "sha256": "08aededc9c3fa4be14f862fa415656c2f4f13262f2e95d7db2344cb85d6706f0",
+          "bytes": 16828
+        },
+        {
+          "path": "src/Laplace/l3dterms.f",
+          "sha256": "6941ab70d04292ee7423915da44ff7b9c01af6b4269aae00d0c652fbd24313a5",
+          "bytes": 14276
+        },
+        {
+          "path": "src/Laplace/l3dtrans.f",
+          "sha256": "3b92160f88ed9bbde495a6aeb49c11308bd8cb46415d3a1e9e37ec6323df628c",
+          "bytes": 20677
+        },
+        {
+          "path": "src/Laplace/lapkernels.f",
+          "sha256": "4592d0aec98b2aaa6fa2813796b576d9bc4a42168b0c3b96896a8d3b407ccc18",
+          "bytes": 34659
+        },
+        {
+          "path": "src/Laplace/lapkernels_dr.f",
+          "sha256": "e94f61b2d1765d1269b75013d961dfbe5635cf7400d1fd588c52c811d2ed9e2b",
+          "bytes": 5203
+        },
+        {
+          "path": "src/Laplace/lapkernels_fast.f",
+          "sha256": "7ce8092d94a1f101ac11498e0cc75c20881b347586ceb577f2ccb486364da284",
+          "bytes": 22434
+        },
+        {
+          "path": "src/Laplace/laprouts3d.f",
+          "sha256": "d8132047b974d4f47580bd65a6872dad4686d88dfc7d4dadbdb6f685240f0d80",
+          "bytes": 76737
+        },
+        {
+          "path": "src/Laplace/lfmm3d.f",
+          "sha256": "18fb6c8d87e36b8fd089797685a6bf6517b3b5c0ccc1e50adfbff26bc1039044",
+          "bytes": 91184
+        },
+        {
+          "path": "src/Laplace/lfmm3d_ndiv.f",
+          "sha256": "afd01baa01595132e3b911093584bb818b98e20d2885e464b87632fae093a6f3",
+          "bytes": 14401
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap.f",
+          "sha256": "e7fd7c1ec8e58b2ba076edc84075c8396e40e7a316bfd844df4c46561e80216c",
+          "bytes": 68595
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap_legacy.f",
+          "sha256": "b5f1a23deebcef9686f6f19946eadb777f53f74d9d5ef88db640d3213ff13959",
+          "bytes": 21594
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap_vec.f",
+          "sha256": "13867887b49a164eee6f9c2ce5fbdf30e1a55877733685b694565264346dde02",
+          "bytes": 72328
+        },
+        {
+          "path": "src/Laplace/lndiv.f",
+          "sha256": "17cf0f43c9ec4339c492b29859afaa89bf2f9437a15c1d694ed8edb9e3809b48",
+          "bytes": 851
+        },
+        {
+          "path": "src/Laplace/lndiv_fast.f",
+          "sha256": "798cdd62d337e590a007204c7b117176119ed5480c10c1e097eaf9349116bb3b",
+          "bytes": 858
+        },
+        {
+          "path": "src/Laplace/lpwrouts.f",
+          "sha256": "379e09e2ee7b5aa8f2c45710b322dcc46c565f0c2fa47a311a0e5453a176fa38",
+          "bytes": 145777
+        },
+        {
+          "path": "src/Laplace/lwtsexp_sep1.f",
+          "sha256": "a49e46d9cb45b22d7a4395a694137ea96ad05e4c680bd1a8c0811d84c1f720d3",
+          "bytes": 142448
+        },
+        {
+          "path": "src/Laplace/lwtsexp_sep2.f",
+          "sha256": "737f19c1e2ea3145ae86545e6dc1c422bb761cdb92d11ab9acaf7752172d6d99",
+          "bytes": 248394
+        },
+        {
+          "path": "src/Maxwell/emfmm3d.f90",
+          "sha256": "14c92654a890af5ae647404bd034cbb248f85d432c2139d247845c7e925c088b",
+          "bytes": 16841
+        },
+        {
+          "path": "src/Stokes/stfmm3d.f",
+          "sha256": "7e2d8f6c2f49daef3d97fd5ece3614b1b8aab46316d3998d67ee2dac331228c2",
+          "bytes": 21810
+        },
+        {
+          "path": "src/Stokes/stokkernels.f",
+          "sha256": "f2d2c7e83827ca65ffb609bcc0d13ea5d24d9e7bb5d22643fc06a7a24bbf4c32",
+          "bytes": 27940
+        },
+        {
+          "path": "test/Helmholtz/run_helmtest.sh",
+          "sha256": "8621c3f263081ce3737af5577572012edea569ae8cd5a4159fb880873b246363",
+          "bytes": 203
+        },
+        {
+          "path": "test/Helmholtz/run_helmtest_ext.sh",
+          "sha256": "884023abe1f77dfc86acd76a65ded24021e86214017d41c35bda39f446f33908",
+          "bytes": 228
+        },
+        {
+          "path": "test/Helmholtz/test_helmkernels_omp.f90",
+          "sha256": "c3a76e545ce59c044fc90cde259fc1ea876611916ae7d4b377ec67eb9edf5fe8",
+          "bytes": 8233
+        },
+        {
+          "path": "test/Helmholtz/test_helmkernels_omp.make",
+          "sha256": "be5612b8bdecf106c4ecf516115c9bc9d353cb3cf053b5eb93c4535829d36c4f",
+          "bytes": 1021
+        },
+        {
+          "path": "test/Helmholtz/test_helmrouts3d.f",
+          "sha256": "d95b24ac9597e9ee68c54cd065f6b62c53d39cd7acbb679f2080553a8ad13e1d",
+          "bytes": 9023
+        },
+        {
+          "path": "test/Helmholtz/test_helmrouts3d.make",
+          "sha256": "897caee6e24f06cbe5ad2912c811c4f0f37a33151003825885dbb4187720fb0a",
+          "bytes": 1358
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d.f",
+          "sha256": "b323b15eb196068170f9bd1c01ee688f0ef8d55dbbf21e52401fb28990a26aa3",
+          "bytes": 21871
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d.make",
+          "sha256": "43b9d99990415ad2cb00ed98ec3b0fc48fbafec38196cd40f382597f854aacad",
+          "bytes": 1594
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_adjoint.f90",
+          "sha256": "5ba278b6a4bcfaa84b95fccc0cd5b4e5bdfd2286f8536d3a671a7991b2cde5aa",
+          "bytes": 8908
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_adjoint.make",
+          "sha256": "67854308d74cb7f393ad6609f5b483825f774d1977ff9a746af31433db8c056e",
+          "bytes": 1692
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_big.f",
+          "sha256": "ce9a9be8be5f4ced04a16fbb18bf873e285e96b6b14619a83dd8edacf4d89f5d",
+          "bytes": 1886
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_mps.f90",
+          "sha256": "d654ab6b2706194f89787f109fe44cc2fe3d53bfc6f9b7f05720c6b360d874f7",
+          "bytes": 10637
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_mps.make",
+          "sha256": "17c7e0cad2db27873feb14d474cb5e1c2bb92c8ea1327953edf892a4c153954c",
+          "bytes": 1611
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_scale.f",
+          "sha256": "9ed4a8771fc8a328b399a391542f392b4439133b97b1e20d8f3a10bad2677f86",
+          "bytes": 3836
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_vec.f",
+          "sha256": "21f06ab3012da4ca7aa8d292cef71c4ea29c63bed554d3f9e45f2092f6b0fd34",
+          "bytes": 22845
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_vec.make",
+          "sha256": "1672bd7d487d91538685372e4d8e0ef5cdb0c942e316e4b2ad989d90d208bc0c",
+          "bytes": 1606
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_zkbig.f",
+          "sha256": "d3ab7960c879a05aa09a04404245848f85d7eaf51dd9bddbac1a1e72ce21534f",
+          "bytes": 3256
+        },
+        {
+          "path": "test/Helmholtz/test_pwrep_hfmm3d.f",
+          "sha256": "3429fcaee666c467534fce7855d464b7a98bc49da345d7bbca7e61b419f7c508",
+          "bytes": 2816
+        },
+        {
+          "path": "test/Laplace/run_laptest.sh",
+          "sha256": "a20f7a64362edb240a43cdba3d7e5962bc38e37a81d72b713d9dacda1a620d15",
+          "bytes": 178
+        },
+        {
+          "path": "test/Laplace/test_laprouts3d.f",
+          "sha256": "f4a3adcd9ce2d69b4f5f55828d79bec21aa37953e581339a663fc353a5b87689",
+          "bytes": 13385
+        },
+        {
+          "path": "test/Laplace/test_laprouts3d.make",
+          "sha256": "7c6a645332129e01e41634f6eddd97c4395d3d0af7098a4688f074eb92aa3ceb",
+          "bytes": 1042
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d.f",
+          "sha256": "d72b8bb61c0630d90957114379ce57e2b9a7bd0d506560ae6c85935b41a1ba9d",
+          "bytes": 32521
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d.make",
+          "sha256": "0945858e30285ddb16687cc13f2c4d461bcacd5850eeae9e11c88172acc6b80b",
+          "bytes": 1258
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_big.f",
+          "sha256": "a3986ad9020c7bd4c6df1ad33673609e3ae75906f046aa0f5707deb826f35b32",
+          "bytes": 1877
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_scale.f",
+          "sha256": "ba621db71cba94caed8a80f561f5746903a2955230e651060f5db7ae559b5cd7",
+          "bytes": 2983
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_vec.f",
+          "sha256": "1dcd75064b40e189b6690a0637db31c1bfe342a2b234dd09784ff470af72fda9",
+          "bytes": 33935
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_vec.make",
+          "sha256": "fe7cfc34f9b84d03ed1a5022edc8256e3014fc014dc55abedde65fa47e836b69",
+          "bytes": 1271
+        },
+        {
+          "path": "test/Maxwell/run_emtest.sh",
+          "sha256": "b071cd8d1fec577089118ecd7e5b19dd0f206b138ea2089b9d5b01afd02d6393",
+          "bytes": 107
+        },
+        {
+          "path": "test/Maxwell/test_emfmm3d.f",
+          "sha256": "33f849382c157a2201b6aaccb4b270a5fcaba2cd23dbc95316fd6d34a628a912",
+          "bytes": 12346
+        },
+        {
+          "path": "test/Stokes/run_stoktest.sh",
+          "sha256": "714f73c0f097c1858972d4913aa12c7761819bad0e34af31270e5dc109e26f58",
+          "bytes": 172
+        },
+        {
+          "path": "test/Stokes/test_stfmm3d.f",
+          "sha256": "94acae69b0256f5b80d17a7a407426eb3ae54f04c7ad2095e3f66e5d9b782c4b",
+          "bytes": 6730
+        },
+        {
+          "path": "test/Stokes/test_stokkernels.f",
+          "sha256": "6d6e93f535b053911224cdad6b33907ff710b1367d48f9f15bb3933cb73be86e",
+          "bytes": 13681
+        },
+        {
+          "path": "test/Stokes/test_stokkernels_rotlet_doublet.f",
+          "sha256": "04d025973fd0eb7b1c9a54bc4c46bd9c2315f5ec3f7d48d48c7e1bef50c35c08",
+          "bytes": 10405
+        },
+        {
+          "path": "vec-kernels/Makefile",
+          "sha256": "9df616da91e6f591bfe77546871a08d9959f4ae8f9f88addd92de316e0af83cc",
+          "bytes": 1399
+        },
+        {
+          "path": "vec-kernels/include/kernels.f90",
+          "sha256": "e32365355f589ecfcea350c8164fa824ca3db2a00b50b5d8d0855d0e0d87bd71",
+          "bytes": 4949
+        },
+        {
+          "path": "vec-kernels/include/kernels.h",
+          "sha256": "07c0301b49180c0c8ee646537654880665f633bd650093d525dfa7a465ceae65",
+          "bytes": 7265
+        },
+        {
+          "path": "vec-kernels/include/sctl.hpp",
+          "sha256": "380b2130ae11b1c45538850dde96809dd63c654c37f27c3ef7757d8a6899c000",
+          "bytes": 1823
+        },
+        {
+          "path": "vec-kernels/include/sctl/blas.h",
+          "sha256": "fae14d4c6c331b81a5e3e0436e2a8504ae33b3f9590fb7d967793d2d4a85a040",
+          "bytes": 1699
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_integral.hpp",
+          "sha256": "d204cdfcc8701cf3048ae0813bf458f77b0c517bb312ba373302be018530af1b",
+          "bytes": 11403
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_integral.txx",
+          "sha256": "f102e22f72fdc6a9418d64652cf162057503a9f4f983259c83cd4bfc8fb198e0",
+          "bytes": 36516
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_quadrature.hpp",
+          "sha256": "ce908ca7c1db57d803568f6cc48335e28bea90044bc2556c3f9131bf18ece49b",
+          "bytes": 71395
+        },
+        {
+          "path": "vec-kernels/include/sctl/cheb_utils.hpp",
+          "sha256": "4bb6149eabd5560b185b5ee29f89bb906493ebcd417445b1fe1f63e832ec3abb",
+          "bytes": 52192
+        },
+        {
+          "path": "vec-kernels/include/sctl/comm.hpp",
+          "sha256": "7dd45516ce5bc07a9977f7853e684fac40bb232af85e9a0a79b28ee316cf9d5c",
+          "bytes": 6513
+        },
+        {
+          "path": "vec-kernels/include/sctl/comm.txx",
+          "sha256": "b1a9baeb7257abd480a007027b301f621a51b1894689609ed302ba000c14acaa",
+          "bytes": 41862
+        },
+        {
+          "path": "vec-kernels/include/sctl/common.hpp",
+          "sha256": "48c0125fc530aefae4250b8400eff610310158d262abee7f5ed929fce9cefdf5",
+          "bytes": 2837
+        },
+        {
+          "path": "vec-kernels/include/sctl/fft_wrapper.hpp",
+          "sha256": "6fc6c6747905e6847df6cae540551a4fd7a4fe91d20df2802b1e9c623d5472be",
+          "bytes": 27015
+        },
+        {
+          "path": "vec-kernels/include/sctl/fmm-wrapper.hpp",
+          "sha256": "4ab157e17baef45fe8dda8efaf206b9283903fee4da6251148e7f429ad2a150f",
+          "bytes": 6616
+        },
+        {
+          "path": "vec-kernels/include/sctl/fmm-wrapper.txx",
+          "sha256": "72a7c0763d9f78d491ead7573df0213101174a4b12afc5d9530ebf96d9c0c362",
+          "bytes": 32979
+        },
+        {
+          "path": "vec-kernels/include/sctl/intrin-wrapper.hpp",
+          "sha256": "c831aae1939e664f668e1dce7516fe663b5a4f3588dda37b9b9f2379023f3d17",
+          "bytes": 174921
+        },
+        {
+          "path": "vec-kernels/include/sctl/kernel_functions.hpp",
+          "sha256": "f29bdc6e582474ad3a4b20e4f52aad211eb50d31ab0a4a5bb284cc413abb86ba",
+          "bytes": 23393
+        },
+        {
+          "path": "vec-kernels/include/sctl/lapack.h",
+          "sha256": "25fd71d988c5d6a987cb44bcb7c102219b455468f612d4db484f2ee344601c59",
+          "bytes": 2026
+        },
+        {
+          "path": "vec-kernels/include/sctl/legendre_rule.hpp",
+          "sha256": "4a7d927296b90c7c49b56d49251c7a0631d21820cf237c6e74326965367018a6",
+          "bytes": 34709
+        },
+        {
+          "path": "vec-kernels/include/sctl/mat_utils.hpp",
+          "sha256": "2acc659d4632a3cc460f97344aa8d4d9e7edba8e7256bf9875403e8aadcd096e",
+          "bytes": 1175
+        },
+        {
+          "path": "vec-kernels/include/sctl/mat_utils.txx",
+          "sha256": "2ed2325445e7d2e5bb8a7354267b8e6f74a17086a425863fb45d2d42dbeba2b8",
+          "bytes": 18645
+        },
+        {
+          "path": "vec-kernels/include/sctl/math_utils.hpp",
+          "sha256": "d69720913c118b935537398597fd87e059f476c8e32da562a5a4b3837244a76c",
+          "bytes": 4950
+        },
+        {
+          "path": "vec-kernels/include/sctl/math_utils.txx",
+          "sha256": "fc37161fbe7d166fd1c9550331b4113b208561ec0877a33cbfe33d3af2b3a5c5",
+          "bytes": 9841
+        },
+        {
+          "path": "vec-kernels/include/sctl/matrix.hpp",
+          "sha256": "6cd4ae8f218bbe3ac2349b231270dd7c9c41026b6f49058cc9e0cfba14e5fb01",
+          "bytes": 5223
+        },
+        {
+          "path": "vec-kernels/include/sctl/matrix.txx",
+          "sha256": "0c203e09f47c77c3c05f4db8bb369a936105ccc5e6d0806c6d9606a08696c0ff",
+          "bytes": 21579
+        },
+        {
+          "path": "vec-kernels/include/sctl/mem_mgr.hpp",
+          "sha256": "69554b35fa3368c329b84c8788a6c0738b2bba90ef18f9e76446344a8fbbe2e1",
+          "bytes": 13819
+        },
+        {
+          "path": "vec-kernels/include/sctl/mem_mgr.txx",
+          "sha256": "dc606b4e4e4da908e5ad517074c84c6aadd187ffc58ec47889a5de89b22bb2df",
+          "bytes": 18604
+        },
+        {
+          "path": "vec-kernels/include/sctl/morton.hpp",
+          "sha256": "160bf2b7c004241dbbfb6aa88ef08ff95819e81d0da8fc4c2bc4d4c51d3cedf1",
+          "bytes": 6343
+        },
+        {
+          "path": "vec-kernels/include/sctl/ode-solver.hpp",
+          "sha256": "9b1980f580924601bb6a4f3b35dbb2c43f4805818c4ff37122505998262d8b85",
+          "bytes": 3528
+        },
+        {
+          "path": "vec-kernels/include/sctl/ode-solver.txx",
+          "sha256": "2e04214e236ee7f0898c5a2ab76c1746687b448b3602c07c4233791dbb3c7da2",
+          "bytes": 4480
+        },
+        {
+          "path": "vec-kernels/include/sctl/ompUtils.hpp",
+          "sha256": "d9eebb832880574585b3bbc060844975eb9cd5ca473785759ebc64e4e946fd67",
+          "bytes": 845
+        },
+        {
+          "path": "vec-kernels/include/sctl/ompUtils.txx",
+          "sha256": "7918375360f7bf80b83f272454226452a1ca88b2ad4bfffd8988a2d57c80970c",
+          "bytes": 6377
+        },
+        {
+          "path": "vec-kernels/include/sctl/parallel_solver.hpp",
+          "sha256": "5f2a13b4e7833d5ff9155b28fde631904493b7b90103b43c9024d829c1a81e58",
+          "bytes": 11604
+        },
+        {
+          "path": "vec-kernels/include/sctl/profile.hpp",
+          "sha256": "981e8fb757d90af00f3e5bd70ed8d40aa0a3af6bdcb470d4903bddbac4d1a64d",
+          "bytes": 1311
+        },
+        {
+          "path": "vec-kernels/include/sctl/profile.txx",
+          "sha256": "9998b93e36fa198f9706ddafd1087c7ee55605cbbd69c2aaa90b002603c4eafb",
+          "bytes": 9455
+        },
+        {
+          "path": "vec-kernels/include/sctl/quadrule.hpp",
+          "sha256": "dcfed622430193694150070f7170f640715d51404cdccae4483cd8a073717131",
+          "bytes": 24048
+        },
+        {
+          "path": "vec-kernels/include/sctl/slender_element.hpp",
+          "sha256": "988969ce4a05ed09f0945866188830b7645967f7910f24b9f0ace1fb131bc3ad",
+          "bytes": 8568
+        },
+        {
+          "path": "vec-kernels/include/sctl/slender_element.txx",
+          "sha256": "4a0f50ade53711d1ed771b68b90e44fe3c619cff6a7d8c55c73181d5135b1580",
+          "bytes": 136793
+        },
+        {
+          "path": "vec-kernels/include/sctl/sph_harm.hpp",
+          "sha256": "7c89b6d3d767a1bba7d3e8e9922758627a8603ad65f82580db1915218afa1cae",
+          "bytes": 21976
+        },
+        {
+          "path": "vec-kernels/include/sctl/sph_harm.txx",
+          "sha256": "e7b5b0455e1b0ce9ef538b54adb1680270e6282ac73d2d4daaa0be2fd2dfc06b",
+          "bytes": 116807
+        },
+        {
+          "path": "vec-kernels/include/sctl/stacktrace.h",
+          "sha256": "d75a1db45fea3618bbf03f499b442bd1db230bf9b1f8ef759d163a8f5f4e0986",
+          "bytes": 3186
+        },
+        {
+          "path": "vec-kernels/include/sctl/tensor.hpp",
+          "sha256": "9245384da8c9387137ccc0d43770d390c3162c34afe41a4f9a7df8023fd5f8b5",
+          "bytes": 7617
+        },
+        {
+          "path": "vec-kernels/include/sctl/tree.hpp",
+          "sha256": "1e3c082c8d7898d275132c2740ef1d35abdcd0b2f19d7be0bba84fc169d8b65e",
+          "bytes": 5002
+        },
+        {
+          "path": "vec-kernels/include/sctl/tree.txx",
+          "sha256": "10a7ef975994330e78a28c063e649572a03b87acaf94a221c0ca8640f09c0f13",
+          "bytes": 42207
+        },
+        {
+          "path": "vec-kernels/include/sctl/vec-test.hpp",
+          "sha256": "663c7a558bb7f7cbf0fa0b5866c34e6acbbdcc6f92ca4a68bb2b137934ace6e6",
+          "bytes": 15707
+        },
+        {
+          "path": "vec-kernels/include/sctl/vec.hpp",
+          "sha256": "a28a8ea921f09269513550e67d1303af634c3ab0e79816fdfcd8eaba166a15b0",
+          "bytes": 10405
+        },
+        {
+          "path": "vec-kernels/include/sctl/vector.hpp",
+          "sha256": "2f1720c171424f3d32ba0f286fab8f3af6e5547fd36c1ce1a9ee00862f24bf81",
+          "bytes": 3249
+        },
+        {
+          "path": "vec-kernels/include/sctl/vector.txx",
+          "sha256": "ec98ee85d86f4a7e6e89d888b40c3095891141081bd0c14894f801cdaf2b7e66",
+          "bytes": 10998
+        },
+        {
+          "path": "vec-kernels/include/sctl/vtudata.hpp",
+          "sha256": "06c4548b5c12b36f3fca7b6acdbc9ac0fc983c6dd1b1689bc4a1ef43a9ef4aae",
+          "bytes": 1048
+        },
+        {
+          "path": "vec-kernels/include/sctl/vtudata.txx",
+          "sha256": "c14d33bfb143f362e23cd8749a96ec527238f2313ff0712b92ab0f50fef17ea7",
+          "bytes": 10992
+        },
+        {
+          "path": "vec-kernels/include/template-kernels.hpp",
+          "sha256": "5576a6978ecc1bce4feab1e042f086e94d5b3b657b4f8e3756dc0e328a6bd493",
+          "bytes": 127785
+        },
+        {
+          "path": "vec-kernels/mload.sh",
+          "sha256": "7c14a379b8d1b3e2ab4fce62ea742b4607f8794bc9ffde633ae78a0aa32b0f82",
+          "bytes": 106
+        },
+        {
+          "path": "vec-kernels/src/libkernels.cpp",
+          "sha256": "7ccde0b435533c48eff41a12062476f5b647c05be4296500d756f67f727be12c",
+          "bytes": 10759
+        },
+        {
+          "path": "vec-kernels/src/test-cpp.cpp",
+          "sha256": "e9a90d05b5c2a7c45fffbcb060e48ad374cfa00c914177f28e998a706b1d637e",
+          "bytes": 1295
+        },
+        {
+          "path": "vec-kernels/src/test-fortran.f90",
+          "sha256": "066acb9ddba48df26ea9947242280505877a6ec52d3361651b1c0ecded5db220",
+          "bytes": 1066
+        }
+      ]
+    },
+    "fmm_standalone": {
+      "source": "tools/FMM3D",
+      "head": "d2b5e6e983e1ec915d15330ce74df44221a9ac42",
+      "branch": "master",
+      "status": "?? install/\n?? local/\n",
+      "files": [
+        {
+          "path": ".codepod.yml",
+          "sha256": "3b1568976f8498c42bcd7a341a372003aed618402bb643eb554f6413bac06416",
+          "bytes": 151
+        },
+        {
+          "path": ".github/workflows/python.yml",
+          "sha256": "7325774d6dc9f65f600df7bedcebab3e667da708885d56743b1c4b4933389419",
+          "bytes": 3605
+        },
+        {
+          "path": ".gitignore",
+          "sha256": "6337a9ff5d0438129d8fcadab44085da1c3622ab9960ff60cd73b41475d558f0",
+          "bytes": 189
+        },
+        {
+          "path": ".gitpod.yml",
+          "sha256": "e38f12a0608fa96a28d4af525054c3d8e139c2901c3d0ba0a790989da2a84eda",
+          "bytes": 118
+        },
+        {
+          "path": ".readthedocs.yaml",
+          "sha256": "9efe40469e09188c2446a5933892bcd79212e99a709acacde5bb3db01b942e90",
+          "bytes": 593
+        },
+        {
+          "path": "AUTHORS",
+          "sha256": "45a774d3cf05dc4d420c2e9a9f76d3d4e33be84304f9c369aaffa8789f3f0c2a",
+          "bytes": 423
+        },
+        {
+          "path": "CONTRIBUTING",
+          "sha256": "8afb72b9a784c0b0b84b906f82e42d14c1db7af85b7b9962ea5bbd85f6586d39",
+          "bytes": 1626
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "80ca999e0a3de255930a5bf17771bdcadf0e0ac2835b93ddc418a639f0d5ea4c",
+          "bytes": 1506
+        },
+        {
+          "path": "README.md",
+          "sha256": "87a8d6300676f180e9bb706dd5ff66f9107fa6159dc53b70442ad2de2e2ee358",
+          "bytes": 525
+        },
+        {
+          "path": "c/README.md",
+          "sha256": "3e7a78843aeb71a8093a2415dd4956841e82797203f8ded09e190051d8ff62f1",
+          "bytes": 917
+        },
+        {
+          "path": "c/cprini.c",
+          "sha256": "8a5addb3347485894e04614c587cfcc56f11c2f92bec5b48cf7d3499ec29d16a",
+          "bytes": 7785
+        },
+        {
+          "path": "c/cprini.h",
+          "sha256": "a603e2671d512c7856207dd0eed172b0da4b5fadc1e69c5eac50ec26f3d3f45c",
+          "bytes": 649
+        },
+        {
+          "path": "c/hfmm3d_c.h",
+          "sha256": "efdbae8ccdaa2ab1dcebe2024d016b8942131e86d15e857ae57f72964433a1ac",
+          "bytes": 8301
+        },
+        {
+          "path": "c/hfmm3d_example.c",
+          "sha256": "5253122a139e5dc4d653c29c128e2dceb4170ce9ec160014fcebacfc0dcafa0c",
+          "bytes": 1019
+        },
+        {
+          "path": "c/hfmm3d_example.make",
+          "sha256": "cec0156054b65916fba5299f398353e82244a0473fd14ab2616c7a50c9178b10",
+          "bytes": 1612
+        },
+        {
+          "path": "c/hfmm3d_vec_example.c",
+          "sha256": "812c1598fef3822b62f981385ded7cfb71aff6b71e67f5f1277a66004dc5ffcf",
+          "bytes": 1455
+        },
+        {
+          "path": "c/hfmm3d_vec_example.make",
+          "sha256": "153a60dbf8bb9f02d761d867254526c46e02d6f4bd62d34a1b9d9c79a07a761c",
+          "bytes": 1620
+        },
+        {
+          "path": "c/lfmm3d_c.h",
+          "sha256": "4b868421951c44cf01e16d1693a88bcd81afe82a0b2886c8277fd218547df37a",
+          "bytes": 13428
+        },
+        {
+          "path": "c/lfmm3d_example.c",
+          "sha256": "b4dd9300cb7a267810d3101d1c7ec09b9fc8c4774416d14ced5674dc5f5218e6",
+          "bytes": 975
+        },
+        {
+          "path": "c/lfmm3d_example.make",
+          "sha256": "235534b0bbc5e27c539c390814fa90928e951e8ebebd882e81f333852abdd55a",
+          "bytes": 1612
+        },
+        {
+          "path": "c/lfmm3d_vec_example.c",
+          "sha256": "a0cdba46b93fed091f406bb33c232ea35b80b5e64f6ce0d91229a847a6e9a698",
+          "bytes": 1410
+        },
+        {
+          "path": "c/lfmm3d_vec_example.make",
+          "sha256": "79f5717a6f00bdebc92895ee756188281710fe8cb6345de45e6a08c163919ce7",
+          "bytes": 1620
+        },
+        {
+          "path": "c/test_hfmm3d.c",
+          "sha256": "d674a9f81826cd8110853384f9cd8c349ef0482b47321c82d423ef6ca59ebe15",
+          "bytes": 27743
+        },
+        {
+          "path": "c/test_lfmm3d.c",
+          "sha256": "837500cc08b11096289101899ec5772a455a0f4825bb52d93645648c12bf4b0d",
+          "bytes": 43613
+        },
+        {
+          "path": "c/utils.c",
+          "sha256": "1fa40e220b838c7e53179e21ae28466879387d81889442633df71b1212055ba2",
+          "bytes": 2425
+        },
+        {
+          "path": "c/utils.h",
+          "sha256": "c48357640aae0b26938c906db0de6d2ea2852c9158fb520913f863df05b72a8b",
+          "bytes": 715
+        },
+        {
+          "path": "devel/code-generation/instructions.md",
+          "sha256": "0df438850a358230e57770634b88d6ba3da3b6acd5b3c7188af858c9602e2494",
+          "bytes": 871
+        },
+        {
+          "path": "devel/code-generation/jinjaroot.yaml",
+          "sha256": "c0bf775739e6dd9b7f0accbc3d9bc67eaf93efcaadd1b9c7989574286dc15e9c",
+          "bytes": 1069
+        },
+        {
+          "path": "devel/code-generation/lfmm3dwrap.f",
+          "sha256": "bf74f13a203c2148c32a17942b5482c5e13e6fabf151fa1d353f62168839ef4a",
+          "bytes": 63996
+        },
+        {
+          "path": "devel/code-generation/lfmm3dwrap.f.j2",
+          "sha256": "0918b8dfb90a3b39544feb7865e44ea08d665a9186957803b2a8c3104a65aafa",
+          "bytes": 63409
+        },
+        {
+          "path": "docs/FMM-logo.png",
+          "sha256": "5351808870243beab49a6ce31bc313a971d0f7cabe58dbd3626e94379c8ea03f",
+          "bytes": 192190
+        },
+        {
+          "path": "docs/Makefile",
+          "sha256": "cc0ad023abc7b61ffa55c91de831c487d9c09f6bc461f2a9f2a7d135fd41108c",
+          "bytes": 7660
+        },
+        {
+          "path": "docs/_static/custom.css",
+          "sha256": "1ca8dc1a8401d1cbdf7ece08837f4ba403632b5ce698cf18dab6010b1c778e3e",
+          "bytes": 123
+        },
+        {
+          "path": "docs/_templates/page.html",
+          "sha256": "59baa4a7e4f341b6bea7db0714030d1a59132129d4b09ef5615a941331f517cb",
+          "bytes": 415
+        },
+        {
+          "path": "docs/ackn.rst",
+          "sha256": "98a9f9630008e535dfe308d1142fde33f41716263226310051b6082751066daf",
+          "bytes": 575
+        },
+        {
+          "path": "docs/conf.py",
+          "sha256": "3936c000c63cd6702c06e925daf18cbd8276aef9ebac368da107e547287e84e3",
+          "bytes": 10177
+        },
+        {
+          "path": "docs/fortran-c.rst",
+          "sha256": "e1a54b0a89cf44f80bebb804c9852b9a5ddbab4de26e2e7ebcbcb5f82b5f68ee",
+          "bytes": 22208
+        },
+        {
+          "path": "docs/fortrandocs_helm.raw",
+          "sha256": "daa522521ca58b34acf39fcfede0535d6e9575bcaa0658f0123be56c1e758da8",
+          "bytes": 45357
+        },
+        {
+          "path": "docs/fortrandocs_helm2.raw",
+          "sha256": "52d64801eafa9e019ff3d5c5efafd7b5217eb323cb6f0bd76f69d957d932cb36",
+          "bytes": 21879
+        },
+        {
+          "path": "docs/fortrandocs_helm2_vec.raw",
+          "sha256": "ce5dafe2049346029919288236581b70fe8dcd58c34a8b8720961f2832805713",
+          "bytes": 23673
+        },
+        {
+          "path": "docs/fortrandocs_helm_header.raw",
+          "sha256": "77d2345a9f46c9426fa6455a09be3d13d779fa23489cd8b04273387b2bcc3462",
+          "bytes": 3171
+        },
+        {
+          "path": "docs/fortrandocs_helm_header_vec.raw",
+          "sha256": "c13043dc85166a7706387d7f47cf347116bcc516e89535684b4cc9ab2d00572f",
+          "bytes": 3243
+        },
+        {
+          "path": "docs/fortrandocs_lap.raw",
+          "sha256": "e30c9308f16e127438e45211e2ad8a7c057c7af6763ef95b61148b7aae2a91c2",
+          "bytes": 70713
+        },
+        {
+          "path": "docs/fortrandocs_lap2.raw",
+          "sha256": "fb0da81f2acd25d347b229eb6e33662e11ef71befcce8d6ef92e60632158cf0b",
+          "bytes": 32832
+        },
+        {
+          "path": "docs/fortrandocs_lap2_vec.raw",
+          "sha256": "ebf259fbea69cfeed52471ee55384af5e7500ece6b2b7903a5eb3dbb22a16fd0",
+          "bytes": 35547
+        },
+        {
+          "path": "docs/fortrandocs_lap_header.raw",
+          "sha256": "69557d81918d73db72a857a85e1fb33df626e05a3b64b6d5b3d55caf65ef2b0d",
+          "bytes": 4905
+        },
+        {
+          "path": "docs/fortrandocs_lap_header_vec.raw",
+          "sha256": "bc243568d3e5cb5ebeeefc13357686449741447ce884ecc07ba26cd5151da33a",
+          "bytes": 5013
+        },
+        {
+          "path": "docs/genfortdocumentation_helm.py",
+          "sha256": "167ad65e94b6bae2b2db40efd308e99593106509e66c11ce88de2385a7141840",
+          "bytes": 13787
+        },
+        {
+          "path": "docs/genfortdocumentation_lap.py",
+          "sha256": "7fc6ea79bf74aa780d5d9235a4e348763c2c4a835b0f63dafa8cce86ed90c1d6",
+          "bytes": 15115
+        },
+        {
+          "path": "docs/genpdfmanual.sh",
+          "sha256": "ae87da3964ea104d09f5b541990cde5ca1ab379ff7aa8396f845326b55f8cd55",
+          "bytes": 167
+        },
+        {
+          "path": "docs/index.rst",
+          "sha256": "6bb0a81c1e3f6f0be067348e5c360bc9286986dc98af44f7ca63879335dd4712",
+          "bytes": 3734
+        },
+        {
+          "path": "docs/install.rst",
+          "sha256": "e0463217d475703d0a230d7fbb9898c7ad885bf6358dc8b25130ee731adf5292",
+          "bytes": 11541
+        },
+        {
+          "path": "docs/julia.rst",
+          "sha256": "db445e6e9deee77cdf5eaadd72801df21363069d08e321189e9fb45e1fb1d440",
+          "bytes": 14820
+        },
+        {
+          "path": "docs/legacy.rst",
+          "sha256": "bc99bd3dbd158016a057551233e04ef0147afe0a6449ccafa0bb31870c737f15",
+          "bytes": 19408
+        },
+        {
+          "path": "docs/math.rst",
+          "sha256": "fcada3afe0ac340e872c204f368405457a99fb6483b9dea41029a3c8b61b3273",
+          "bytes": 3506
+        },
+        {
+          "path": "docs/matlab.rst",
+          "sha256": "8a180ab3c444add2d22abed607cf5b8cfbd4a20ecf096ca2fe00d860149c1981",
+          "bytes": 14567
+        },
+        {
+          "path": "docs/page.html",
+          "sha256": "59baa4a7e4f341b6bea7db0714030d1a59132129d4b09ef5615a941331f517cb",
+          "bytes": 415
+        },
+        {
+          "path": "docs/python.rst",
+          "sha256": "819cf8a676662fa7d002221d5d37b6c82dd4fba7f3bdd572c02b06b104705851",
+          "bytes": 13685
+        },
+        {
+          "path": "docs/ref.rst",
+          "sha256": "14b3565112bc97cdf6c8983dcd4090592afb566e435a484d0e1f962447cb3285",
+          "bytes": 155
+        },
+        {
+          "path": "docs/references.bib",
+          "sha256": "f28ecd04295d9e4114cacb5e5dc4069994268cf99dc11c0dd416660d2218e6b6",
+          "bytes": 1283
+        },
+        {
+          "path": "docs/requirements.txt",
+          "sha256": "7c28d73390fae54e4653e74979d40330707ab3499033e260cf9fccf493e0b4d7",
+          "bytes": 64
+        },
+        {
+          "path": "examples/README.md",
+          "sha256": "f4f2af42e68578de4aeaa05debad2fe369c8732aac5ab1ded4615f9be0d12ede",
+          "bytes": 944
+        },
+        {
+          "path": "examples/emfmm3d_example.f",
+          "sha256": "557a7e164b05aa7851b537863f14b7162d2775d983a481d2c191bcccad96bde0",
+          "bytes": 2381
+        },
+        {
+          "path": "examples/emfmm3d_example.make",
+          "sha256": "3655df57eabe33f7f6c082eb9262acdf0b35158d9f1b17734440d3bcea4ea181",
+          "bytes": 1513
+        },
+        {
+          "path": "examples/hfmm3d_example.f",
+          "sha256": "3393afbfe243bfbe372126c663bb51eb2642a6eb6a157198d5f84334d6a426db",
+          "bytes": 1636
+        },
+        {
+          "path": "examples/hfmm3d_example.make",
+          "sha256": "a3d54c97408af7b127868b6d6ce68ce393452fae08a9067351659e7b4319f46e",
+          "bytes": 1511
+        },
+        {
+          "path": "examples/hfmm3d_legacy_example.f",
+          "sha256": "a6b5fc03bd94d74ea521fd52dfb77d1f69f02ba2fcfbad17be9550e466c7f85b",
+          "bytes": 8099
+        },
+        {
+          "path": "examples/hfmm3d_legacy_example.make",
+          "sha256": "7c11a62792f7e2f0df4c3c0d391797cfe8632493d9cddc28f5ea45fda9177696",
+          "bytes": 1428
+        },
+        {
+          "path": "examples/hfmm3d_memest_example.f",
+          "sha256": "2dab85133a2e4e339dd59fea187400a8966e0cc3133f10c074ac49385dd443a9",
+          "bytes": 857
+        },
+        {
+          "path": "examples/hfmm3d_memest_example.make",
+          "sha256": "a591f0baeb7445ecbf92caa012221ff4616fac902bf8bb319bc38317c58058f4",
+          "bytes": 1736
+        },
+        {
+          "path": "examples/hfmm3d_vec_example.f",
+          "sha256": "d56d93830458c9bf89d6555c99a2cc7242b174311cf7eba2b982389bf723d7d2",
+          "bytes": 2263
+        },
+        {
+          "path": "examples/hfmm3d_vec_example.make",
+          "sha256": "d7bc27ccb26a3b9c019a531b0723937721e2b4ba7b879c50caba030659d65887",
+          "bytes": 1533
+        },
+        {
+          "path": "examples/lfmm3d_debug1.f",
+          "sha256": "12901639d0508e9eb8c32b83da629254de2fda366379732e97db10d7f394630b",
+          "bytes": 4404
+        },
+        {
+          "path": "examples/lfmm3d_example.f",
+          "sha256": "e50e0f681ec972a90dd4f28badac3574b5e0519f2a32d45c3ed7c208d0d32a6b",
+          "bytes": 1833
+        },
+        {
+          "path": "examples/lfmm3d_example.make",
+          "sha256": "6804caf32b36e2378a188f1c842e02ccaa22d1075ff1ebf4e26d603e0f0e64a9",
+          "bytes": 1528
+        },
+        {
+          "path": "examples/lfmm3d_legacy_example.f",
+          "sha256": "90654ae20dd3f240321f931a3663abe113c25938e2cbe164f2653c117f3ac563",
+          "bytes": 7677
+        },
+        {
+          "path": "examples/lfmm3d_legacy_example.make",
+          "sha256": "97f17135faef41e72c02f954bf93222649ee850fb8e9e8f86cd31c60e7dfc988",
+          "bytes": 1428
+        },
+        {
+          "path": "examples/lfmm3d_vec_example.f",
+          "sha256": "d5058291c3701b1f79430bdd3dcc01a7930a0b1aa8293c6a59ee7063f53110e5",
+          "bytes": 2006
+        },
+        {
+          "path": "examples/lfmm3d_vec_example.make",
+          "sha256": "446a109be6c5d121a4729f9a978282b5e59ed49024f77750a1ec06524a86257f",
+          "bytes": 1425
+        },
+        {
+          "path": "examples/stfmm3d_example.f",
+          "sha256": "bc4f85265ecb9ab9cf00d53cef1699838bba7aa7c48d3905960c2ad5a79ea17e",
+          "bytes": 2410
+        },
+        {
+          "path": "examples/stfmm3d_example.make",
+          "sha256": "89b02fb128fa21570d4d5a6df134bc30938b2f0fe390e583979f4f94e4b9ee06",
+          "bytes": 1513
+        },
+        {
+          "path": "fmm3d_manual.pdf",
+          "sha256": "67d7efb44c8b06950bf8e954ab4bb35da3a1c16ff7afa2dc5c86d32bc151bbc7",
+          "bytes": 661284
+        },
+        {
+          "path": "ifort_matlab.def",
+          "sha256": "50d3abe6424b2f14a08d1baa2919ea20accc58ab32c48289876f3914f35bcb8f",
+          "bytes": 2388
+        },
+        {
+          "path": "install/lib/libfmm3d.a",
+          "sha256": "c84337716642a3f4ff4bc20b1f6c70076bf27227f6c3ee07355e879df9f14783",
+          "bytes": 7650848
+        },
+        {
+          "path": "install/lib/libfmm3d.dylib",
+          "sha256": "d6925212df99636cbf1be2094eb9f4bd68a59ba9671417207c7e5fe7adfa1a9d",
+          "bytes": 3968528
+        },
+        {
+          "path": "install/matlab-prefs/ddux.mlsettings",
+          "sha256": "6f8ee9daf95be22356ccab76a808cc42928ab4cac3a7119b4d420bab06ae6895",
+          "bytes": 3037
+        },
+        {
+          "path": "install/matlab-prefs/epfwk_cache-26.1.0.3203278-11097929556294861116.json",
+          "sha256": "1fadbee946397650bb802989f684c52c4ad1e4c941851a8060d0412ee581e7e8",
+          "bytes": 435064
+        },
+        {
+          "path": "install/matlab-prefs/matlabPkey.p12",
+          "sha256": "fd5a007b86a8a203b044de9bc74e1779f614addc9b4470712d6f4a23e569a327",
+          "bytes": 1515
+        },
+        {
+          "path": "install/matlab-prefs/thisMatlab.pem",
+          "sha256": "d973876da9d39e98a81c980fe290ec71cdaf65131d6e1c76b1d129a507bf2435",
+          "bytes": 1216
+        },
+        {
+          "path": "install/matlab-prefs/webwindowscale.mlsettings",
+          "sha256": "0eb3e2c8f52196565416b583bbd0d12facd04c624d6a2e54c02ade3af431537a",
+          "bytes": 2995
+        },
+        {
+          "path": "julia/AUTHORS",
+          "sha256": "41b339fb52f65f0be469f8bf872a5491ccb7bbd0b4a89000db2841a35af752bb",
+          "bytes": 412
+        },
+        {
+          "path": "julia/LICENSE",
+          "sha256": "80ca999e0a3de255930a5bf17771bdcadf0e0ac2835b93ddc418a639f0d5ea4c",
+          "bytes": 1506
+        },
+        {
+          "path": "julia/Manifest.toml",
+          "sha256": "4442b1fe727d491cc8cdb8f30c68cc3a1f0746b75cc08aac4aa95c4227faba33",
+          "bytes": 2426
+        },
+        {
+          "path": "julia/Project.toml",
+          "sha256": "cabfcb6f799d0fcec53870e94c0cb3739a4adc2b53126cdab580afdc6b2e836a",
+          "bytes": 382
+        },
+        {
+          "path": "julia/README.md",
+          "sha256": "19b4c317e9c1116045ac2ba4f21d7fcabd0a775f30f4606c63df4600aae0591c",
+          "bytes": 1947
+        },
+        {
+          "path": "julia/examples/hfmm3dexample.jl",
+          "sha256": "92a0454eaa9716740c779185cfd23de65bda4e4a15e41110e76facb7136210ca",
+          "bytes": 668
+        },
+        {
+          "path": "julia/examples/lfmm3dexample.jl",
+          "sha256": "362b5ec7c12f86d78d42f714af4347a6b1b21cb7b1ea4a36f5bafdd512ebb88f",
+          "bytes": 601
+        },
+        {
+          "path": "julia/src/FMM3D.jl",
+          "sha256": "845d3815cb3a003f2ba99c2c6890e530c8a1b976ce22323476a3bb72bfb1d636",
+          "bytes": 75023
+        },
+        {
+          "path": "julia/test/runtests.jl",
+          "sha256": "e60b9e8b1d135520c2825d46b26617cff9c88bb2a30f260b4dbeace96368b33a",
+          "bytes": 12331
+        },
+        {
+          "path": "lib-static/.gitkeep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "lib/.gitkeep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "local/INSTALL.md",
+          "sha256": "1b0bc9aabe94a1757cb78ccc0fde7eba9c7709b5d65cdbe3988414762e98eecc",
+          "bytes": 6413
+        },
+        {
+          "path": "local/fmm3d_gateway.c",
+          "sha256": "189882d84d5c451f7d297628363e1b6bd8523dfaf2cc31e76d4b8d24d93ecc10",
+          "bytes": 606
+        },
+        {
+          "path": "local/fmm3d_legacy_gateway.c",
+          "sha256": "09e9d6a6f39c443492d398fddf3036eded842dbd2cb484fd7c15602d8fd415b6",
+          "bytes": 414
+        },
+        {
+          "path": "local/lfmm3d_smoke.f90",
+          "sha256": "82732d609befc7d93f6a990ca5fcffe49b2abc3f7a9322f096892ff43b45d8af",
+          "bytes": 2584
+        },
+        {
+          "path": "local/make.inc.apple-silicon",
+          "sha256": "30b5bf81ec68a2f88dce4517e34417d950af65b28ac00eea1deb0c1b3a0b0eb5",
+          "bytes": 1836
+        },
+        {
+          "path": "local/validate_matlab.m",
+          "sha256": "a316f38d8d6047780ae4b980233d43b9c7a79b217c7ab426f5fb7fbbefad9d8a",
+          "bytes": 2198
+        },
+        {
+          "path": "make.inc.icc",
+          "sha256": "5f33a03e241eed70e1dc9da0b6beb225c7fcb9b94c6af9b0d7d020812ca9c96a",
+          "bytes": 274
+        },
+        {
+          "path": "make.inc.macos.gnu",
+          "sha256": "cc4d3c39278acc6344abedd5e7a0c812dc9b72ab97f2c2ab54e3eed6d0c8598e",
+          "bytes": 459
+        },
+        {
+          "path": "make.inc.macos.intel",
+          "sha256": "e95ad12cfa4bf8aea752448e8d12a1346a04c0c32e4af14243720c8e78c47c9a",
+          "bytes": 863
+        },
+        {
+          "path": "make.inc.macos.nag",
+          "sha256": "900692a3bbefcfac58cc6afa22d66d23e62894ab85546eaee9775660394321a4",
+          "bytes": 1328
+        },
+        {
+          "path": "make.inc.macos_arm64.gnu",
+          "sha256": "ccd8ab7c82ef9d0566fd61b87091b469728f9859e8ff53eecdfdec7c8e748b65",
+          "bytes": 654
+        },
+        {
+          "path": "make.inc.nvhpc",
+          "sha256": "31367f351ebdd4d0bab238d1a92582e86ddd6fdfa47b74077d2e5a14e2442e86",
+          "bytes": 236
+        },
+        {
+          "path": "make.inc.windows.mingw",
+          "sha256": "811aafafc59bbb26cdb68d07f5471e8f356cbe4e4489c10b4d06be3a9a60c194",
+          "bytes": 468
+        },
+        {
+          "path": "makefile",
+          "sha256": "bce3a72d8ab2b127806304b336f6e60927457f549b24dd141bbce59c5d60e8a9",
+          "bytes": 17292
+        },
+        {
+          "path": "makefile.windows",
+          "sha256": "c722d8f037646be68ddf29ba572b13329942da38b6c617cd9144c1861a518ce2",
+          "bytes": 12383
+        },
+        {
+          "path": "makefile.windows.intel",
+          "sha256": "ddb0f90ba3f43f9082cda0eb979cda06f970a2d4a46bfc7e1ae12578ba221bd6",
+          "bytes": 4723
+        },
+        {
+          "path": "matlab/Contents.m",
+          "sha256": "134809a12025369a268ddda5a74736be82ba470de613d2402c81a5ac58023dd3",
+          "bytes": 1537
+        },
+        {
+          "path": "matlab/em3ddir.m",
+          "sha256": "6b32f97b805ca033b197dc443535e4bca651de83aaf5f90c8527605d9951efe3",
+          "bytes": 4229
+        },
+        {
+          "path": "matlab/emfmm3d.m",
+          "sha256": "7fde4e1e50d08a4f4f5367f21f6496ca68483813ad3955b1c8bb28d5170dc620",
+          "bytes": 6675
+        },
+        {
+          "path": "matlab/emfmm3dTest.m",
+          "sha256": "973993786ad05ee057f42367854e88d220540711c2da1306c82266e63a88a368",
+          "bytes": 3194
+        },
+        {
+          "path": "matlab/emfmm3d_example.m",
+          "sha256": "dc126a5ffc7e74721fb78ac7c3805b2564efec180d381d0c1f5823f833614202",
+          "bytes": 1367
+        },
+        {
+          "path": "matlab/fmm3d.c",
+          "sha256": "0feef3628e5e2972046c9fce6cfb8b262029e6bb9cf1918a16bf25c16a5156dd",
+          "bytes": 277432
+        },
+        {
+          "path": "matlab/fmm3d.mw",
+          "sha256": "820f55444c9dd4237aa07b66e47cb998888e1a27163701c34f8b80b35b81452f",
+          "bytes": 52831
+        },
+        {
+          "path": "matlab/fmm3d_legacy.c",
+          "sha256": "daf4a731e4805c9b511f567b1ccb8586e89f7e23869ab01a998eaf605f08a377",
+          "bytes": 100300
+        },
+        {
+          "path": "matlab/fmm3d_legacy.mw",
+          "sha256": "7cbc8a5a5503eef7986f0b2767b75ddc0ccca8a78524160a0a40051c6c9f76de",
+          "bytes": 16189
+        },
+        {
+          "path": "matlab/h3ddir.m",
+          "sha256": "af9391231ce4616a5b4f2b477ead8ad81a05ee8969f8ec0e62d51af917d90a82",
+          "bytes": 4855
+        },
+        {
+          "path": "matlab/h3dpartdirect.m",
+          "sha256": "8b62d935bf46c2835da326d4c6bdccf3c8785f75711a9d31bc94ed72b9091c6b",
+          "bytes": 3797
+        },
+        {
+          "path": "matlab/hfmm3d.m",
+          "sha256": "685b96f00b1573e11320e8fb0e364cf138512810cd749caaabe2b44c69f640ca",
+          "bytes": 8493
+        },
+        {
+          "path": "matlab/hfmm3dLegacyTest.m",
+          "sha256": "d7ef7eab0c663191e99fc68d5761ba1500a6e83137ad75347f4f953482f2b1a9",
+          "bytes": 2378
+        },
+        {
+          "path": "matlab/hfmm3dTest.m",
+          "sha256": "4067244374988ce4620cf9615cab957618a75136884a73cb2e5bb16bd0eb8c83",
+          "bytes": 16727
+        },
+        {
+          "path": "matlab/hfmm3d_big_example.m",
+          "sha256": "f8ee9fd742e0b707c3bdb5f66df5bad478cbadf9a57d94431f2e594ddcf02679",
+          "bytes": 769
+        },
+        {
+          "path": "matlab/hfmm3d_example.m",
+          "sha256": "be608cf1452bf6652402839b9d531aca4d90132f7c8a5c7be4eff7a6bdeefa1f",
+          "bytes": 1185
+        },
+        {
+          "path": "matlab/hfmm3dpart.m",
+          "sha256": "cba5ca70a82bf47a74bead8bacb2af895631bd09fb011d441d03df003c68e712",
+          "bytes": 4954
+        },
+        {
+          "path": "matlab/l3ddir.m",
+          "sha256": "385a42ff851aa2d3279eb0bfef570bfd6c5ae83f08a861222207966c07745744",
+          "bytes": 6168
+        },
+        {
+          "path": "matlab/l3dpartdirect.m",
+          "sha256": "6f35ae61d466ed8791ac07c0537dc1e588ab5a00f134d46c924e4853a4caccff",
+          "bytes": 3707
+        },
+        {
+          "path": "matlab/lfmm3d.m",
+          "sha256": "d2e19e6672e5514e597bcd4ac77dcf7f10e4f72d92b4b9d061f35b26c3c841cf",
+          "bytes": 8487
+        },
+        {
+          "path": "matlab/lfmm3dLegacyTest.m",
+          "sha256": "0d1be26e159a9410c7897dda077a58c28cd0896022571a59aa558589aed4d3d7",
+          "bytes": 2292
+        },
+        {
+          "path": "matlab/lfmm3dTest.m",
+          "sha256": "a647d7f299018eb55b1539c9f67efa858c9f00a27a4402adb58771db37150b09",
+          "bytes": 29523
+        },
+        {
+          "path": "matlab/lfmm3d_big_example.m",
+          "sha256": "ab8e723b3d3d0e4dfcee89cf86498489ef8d64134c8fd0aee353f56017a9a410",
+          "bytes": 727
+        },
+        {
+          "path": "matlab/lfmm3d_example.m",
+          "sha256": "6eb4559fab1a377931155870ba1670357c43f450d61248f48b5d488bd2409f60",
+          "bytes": 1081
+        },
+        {
+          "path": "matlab/lfmm3dpart.m",
+          "sha256": "4c530f15113ef22238d28e01a562f37f43bd5064c8d24986676566bedaf6a1df",
+          "bytes": 4845
+        },
+        {
+          "path": "matlab/readme.md",
+          "sha256": "9b4bb95f2078966fda9b077c893850907c6bd81fdd8a1cf9b0c0209cdcf90c7e",
+          "bytes": 543
+        },
+        {
+          "path": "matlab/st3ddir.m",
+          "sha256": "9bae67f68aa3c50dd858a379e9aa22cdc8aad6a41f2c09aa52de805aa6b0fc0c",
+          "bytes": 5927
+        },
+        {
+          "path": "matlab/stfmm3d.m",
+          "sha256": "0650d8ab8a741292e416708f9e9605d09cd916037724966565bb22bf6a9e5ba4",
+          "bytes": 11705
+        },
+        {
+          "path": "matlab/stfmm3dPerfTest.m",
+          "sha256": "31be04cbc0da775255df92ea834e750760188c1d492ae4f92fa391a67d27acdb",
+          "bytes": 3235
+        },
+        {
+          "path": "matlab/stfmm3dTest.m",
+          "sha256": "2e9465c442867c087a0731da2f4c5cf3f760ba309b8dcd6bfd3762612ac9b2f1",
+          "bytes": 2452
+        },
+        {
+          "path": "matlab/stfmm3d_example.m",
+          "sha256": "0ce2f9ba9ce2f0ccea490879b044833fc67d01ede6431f18ab9465cbde370ff2",
+          "bytes": 1362
+        },
+        {
+          "path": "meson.build",
+          "sha256": "8abdad6b81c63bbf0fa8ed11708435d19210104afc74aca82338afe8a23860fe",
+          "bytes": 4042
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "7860c64917feb210989922c8c1de5ef4c9a897154dec3f16d90357645e7ae776",
+          "bytes": 1387
+        },
+        {
+          "path": "python/examples/emfmm3d_example.py",
+          "sha256": "b85a73b4cef80b049d6cf7ef36a9a01998ebb5125937399ebce2957f83ad5315",
+          "bytes": 925
+        },
+        {
+          "path": "python/examples/hfmm3d_example.py",
+          "sha256": "4c44d79ec44ebda0773be61f3bf4e23a8da9a8ba585afa887838157f93393b29",
+          "bytes": 828
+        },
+        {
+          "path": "python/examples/lfmm3d_example.py",
+          "sha256": "4232cb9ab476c3a7ce3b74a513929f6e5ec87354f9d4934bfd970305ed740e4f",
+          "bytes": 719
+        },
+        {
+          "path": "python/examples/stfmm3d_example.py",
+          "sha256": "d74ba7f0aeb27f2846207a3e96d5e6d449c76f6e639360d30af5abf3d5cf0146",
+          "bytes": 895
+        },
+        {
+          "path": "python/fmm3dpy/__init__.py",
+          "sha256": "e635d2eb58c793cda173d10674bc43cc59aa84a60ed6052080b24228857e606d",
+          "bytes": 116
+        },
+        {
+          "path": "python/fmm3dpy/fmm3d.py",
+          "sha256": "4709d335ef06c0132197813738a2a06600afb5c819ab61f6fa870bb16c1fc0ce",
+          "bytes": 62603
+        },
+        {
+          "path": "python/readme.md",
+          "sha256": "6a145f814a1546e8555f8bdec2f469fa56abdb888b30b2a04d9e53144ba3a44b",
+          "bytes": 324
+        },
+        {
+          "path": "python/test/test_hfmm.py",
+          "sha256": "88dad8ae6975e6db94924a74b58856c6498f87d4e28f67e7f2eb8d5ab115a720",
+          "bytes": 18895
+        },
+        {
+          "path": "python/test/test_lfmm.py",
+          "sha256": "70d62fb71af634335bdcc26869ff4f42019e58e4d5153a1d022b8430709d1f93",
+          "bytes": 27769
+        },
+        {
+          "path": "src/Common/besseljs3d.f",
+          "sha256": "b627d9198d6f06f3e1f34feb38b186a19f57ffc43d0b1272f1ba4d145ce5d99c",
+          "bytes": 4520
+        },
+        {
+          "path": "src/Common/cdjseval3d.f",
+          "sha256": "22f9dc79c086ecca13ee8174a7bbca9feb1d3e947917484d9b1176d8137ef262",
+          "bytes": 5402
+        },
+        {
+          "path": "src/Common/cumsum.f",
+          "sha256": "f86d8cc4de94aa4f2e01127aa71c2c261f2afae084d15623f2972e3345ecd337",
+          "bytes": 5830
+        },
+        {
+          "path": "src/Common/dfft.f",
+          "sha256": "22ee4c4c497a66ffc6d86a1bcbea3909081031ec47578a22cb32007fa0efb397",
+          "bytes": 95239
+        },
+        {
+          "path": "src/Common/dlaran.f",
+          "sha256": "b578511e27ff931d81aa8eece29b1f58656135fa8215e36635b6b5a4f36d0893",
+          "bytes": 5064
+        },
+        {
+          "path": "src/Common/fmmcommon.f",
+          "sha256": "89991df8ecef92eda1a29a523590fbd9a4b8d42257ae3de83c2eed2ead8187bb",
+          "bytes": 20560
+        },
+        {
+          "path": "src/Common/hkrand.f",
+          "sha256": "520d47e9e3a0ef0e8830326f7d7193bb162b13d5d4350fbd46452d4a3acde678",
+          "bytes": 407
+        },
+        {
+          "path": "src/Common/legeexps.f",
+          "sha256": "0a6bb06d0ab8e2f4b61755b74cfa118309a0edbd0a78cf873ded3785b177d8ab",
+          "bytes": 56249
+        },
+        {
+          "path": "src/Common/prini.f",
+          "sha256": "fd075175a8aa170e58ebef2561d4aaeb1e17d1b2139c3559cba5d6df7906ef24",
+          "bytes": 7081
+        },
+        {
+          "path": "src/Common/pts_tree3d.f",
+          "sha256": "08bcddd8797c0860574fddf522d605fa56aa911ba8cfb93f84e846d35b202256",
+          "bytes": 46996
+        },
+        {
+          "path": "src/Common/rotgen.f",
+          "sha256": "9f6f5d86e869ba84d8ec87756de10aa8d4a734ec83bae1535d332a9d2fd049b1",
+          "bytes": 7697
+        },
+        {
+          "path": "src/Common/rotproj.f",
+          "sha256": "fb5eaf0e58b692b783d7b571748f2d14a2a58ffbd9fed1ff6a49e061dc137768",
+          "bytes": 16203
+        },
+        {
+          "path": "src/Common/rotviarecur.f",
+          "sha256": "f67864bba2e076ac09b35218fe1a2226fbe727f12eb4176a6dbb09c3b45eb1a4",
+          "bytes": 21038
+        },
+        {
+          "path": "src/Common/tree_lr_3d.f",
+          "sha256": "ae46941fdd84eb51f2532eff7489e3ab5b12bab6d16c0a779e2c20eaaaeacceb",
+          "bytes": 184859
+        },
+        {
+          "path": "src/Common/tree_routs3d.f",
+          "sha256": "b8c4f1019d4abd2ca2ed10791149dda0abc19677f4acfc7881e102f41ce9eb58",
+          "bytes": 41639
+        },
+        {
+          "path": "src/Common/yrecursion.f",
+          "sha256": "93b1c5f8be6dab2a654d7f65f05bdcc0837e3c1dc5e367b15b7d9e26b00fc092",
+          "bytes": 97807
+        },
+        {
+          "path": "src/Helmholtz/h3dcommon.f",
+          "sha256": "577baf9f22717ae8ca924dc970aa5db7e813ed8c67e9d856d1cc4d2bc4f2914b",
+          "bytes": 5581
+        },
+        {
+          "path": "src/Helmholtz/h3dterms.f",
+          "sha256": "eb3e9e26817ff4e8529e74b70e0b5fc0ed1b397c229bce8e8db9762b089396f4",
+          "bytes": 4004
+        },
+        {
+          "path": "src/Helmholtz/h3dtrans.f",
+          "sha256": "cb40445babdd3c59b24816b8a2f429f24720079d05a454808d81bc5ec5d05942",
+          "bytes": 26298
+        },
+        {
+          "path": "src/Helmholtz/helmkernels.f",
+          "sha256": "f0696262994b72f608341d05fecb6bc237597c76fb4a6977cc9e53b6757bc8fc",
+          "bytes": 21881
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_dr.f",
+          "sha256": "3170d62340132c4ce2d146b8c2e0564d25337405a34f58445ba425d2edd2a1d3",
+          "bytes": 10479
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_fast.f",
+          "sha256": "24d5e867524476701da27a937fd846b71eb0fda5539f06842c73282d88493780",
+          "bytes": 23344
+        },
+        {
+          "path": "src/Helmholtz/helmkernels_hess.f",
+          "sha256": "4cec38e305bb69bfecbeebb7ab10e2a66f6119adb0d45ff3997e46776d055f45",
+          "bytes": 38510
+        },
+        {
+          "path": "src/Helmholtz/helmrouts3d.f",
+          "sha256": "59d531f50953e04bfb1b6047ee12d0633746e8f79d4475d1e7759e29720b3bfc",
+          "bytes": 56100
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d.f",
+          "sha256": "610c5c25ad3d559e179f039c599133a7f5bb0dd482ce7dbe36eec44b9aa05cb3",
+          "bytes": 83616
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_memest.f",
+          "sha256": "3aeda3f805412ca7220db85638bb4a6abc03d45ab268038d1c03b5db2522669f",
+          "bytes": 13022
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_mps.f90",
+          "sha256": "b6419dcae059d56ccbd98ef48ffd230fd32d4a38dd181817265a4330bdcae341",
+          "bytes": 40974
+        },
+        {
+          "path": "src/Helmholtz/hfmm3d_ndiv.f",
+          "sha256": "3dd3428483340970d534e8be8b2445ea334d30a98c1e15a534cac05edac4bf3e",
+          "bytes": 14700
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap.f",
+          "sha256": "ace866a612ea413230c324e5dd08326131d93a7a0c0da75c67275171fd2c9126",
+          "bytes": 45393
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap_legacy.f",
+          "sha256": "21caa26fe90537197074bc92f55499ad72af2610a477b67b76781ca59b69956c",
+          "bytes": 20567
+        },
+        {
+          "path": "src/Helmholtz/hfmm3dwrap_vec.f",
+          "sha256": "099e4dc07e6a9f5298e953189056060f277409c10d323c4bd122752300b94376",
+          "bytes": 48249
+        },
+        {
+          "path": "src/Helmholtz/hndiv.f",
+          "sha256": "3a8488bc75f3dc59f605b5a5b0beffbcdbc5e38cb2aa549aca96f37d55528c07",
+          "bytes": 1136
+        },
+        {
+          "path": "src/Helmholtz/hndiv_fast.f",
+          "sha256": "60ec881e607cc3c59b263801e6a0458631f8bdae2a6ab493a10362ec0698f295",
+          "bytes": 1093
+        },
+        {
+          "path": "src/Helmholtz/hnumfour.f",
+          "sha256": "ba54ae5cff950c134ff74d94c6c852b562fd178013f5d7bea5f1c06accd77b06",
+          "bytes": 1674618
+        },
+        {
+          "path": "src/Helmholtz/hnumphys.f",
+          "sha256": "48486ff39bccb1a4bd9e1d22e5ca0b1e686a9b1de5e7d025ee3c409d7beef0fe",
+          "bytes": 1674596
+        },
+        {
+          "path": "src/Helmholtz/hpwrouts.f",
+          "sha256": "5ba91a39736936c5f4f955eb813d7b2f1644958647620bd6b24673d9880a14e7",
+          "bytes": 151980
+        },
+        {
+          "path": "src/Helmholtz/hwts3e.f",
+          "sha256": "5bada7efd922ca4c2f24dc09fd841f22f7ed1f3abe4a4c400b961509565b7e94",
+          "bytes": 11665
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec0.txt",
+          "sha256": "ef18036f13da743b1aae2b611f58bdab6f15cd021368d394f59d8bc98bb261e2",
+          "bytes": 652544
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec1.txt",
+          "sha256": "ccddb0cc765f3c413223be978ac70ccb2e72210ff44f80db9327eafb67485dec",
+          "bytes": 733806
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec2.txt",
+          "sha256": "95d09648c48b5b2d2de18c90a2df0526ef7bf598d4fe0575aec893e74a58f25c",
+          "bytes": 997845
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec3.txt",
+          "sha256": "65587517271e636e31b2d5e3c165c7249d9c46668991ab14aa3fbfd3eda53003",
+          "bytes": 1312070
+        },
+        {
+          "path": "src/Helmholtz/hwts_3d_iprec4.txt",
+          "sha256": "4833f59c56c584a40c8ee0698e7a48a6e67c57ce18b7714092ad9b399a85f6f9",
+          "bytes": 1680824
+        },
+        {
+          "path": "src/Helmholtz/projections.f",
+          "sha256": "08aededc9c3fa4be14f862fa415656c2f4f13262f2e95d7db2344cb85d6706f0",
+          "bytes": 16828
+        },
+        {
+          "path": "src/Laplace/l3dterms.f",
+          "sha256": "6941ab70d04292ee7423915da44ff7b9c01af6b4269aae00d0c652fbd24313a5",
+          "bytes": 14276
+        },
+        {
+          "path": "src/Laplace/l3dtrans.f",
+          "sha256": "3b92160f88ed9bbde495a6aeb49c11308bd8cb46415d3a1e9e37ec6323df628c",
+          "bytes": 20677
+        },
+        {
+          "path": "src/Laplace/lapkernels.f",
+          "sha256": "4592d0aec98b2aaa6fa2813796b576d9bc4a42168b0c3b96896a8d3b407ccc18",
+          "bytes": 34659
+        },
+        {
+          "path": "src/Laplace/lapkernels_dr.f",
+          "sha256": "e94f61b2d1765d1269b75013d961dfbe5635cf7400d1fd588c52c811d2ed9e2b",
+          "bytes": 5203
+        },
+        {
+          "path": "src/Laplace/lapkernels_fast.f",
+          "sha256": "7ce8092d94a1f101ac11498e0cc75c20881b347586ceb577f2ccb486364da284",
+          "bytes": 22434
+        },
+        {
+          "path": "src/Laplace/laprouts3d.f",
+          "sha256": "d8132047b974d4f47580bd65a6872dad4686d88dfc7d4dadbdb6f685240f0d80",
+          "bytes": 76737
+        },
+        {
+          "path": "src/Laplace/lfmm3d.f",
+          "sha256": "18fb6c8d87e36b8fd089797685a6bf6517b3b5c0ccc1e50adfbff26bc1039044",
+          "bytes": 91184
+        },
+        {
+          "path": "src/Laplace/lfmm3d_ndiv.f",
+          "sha256": "afd01baa01595132e3b911093584bb818b98e20d2885e464b87632fae093a6f3",
+          "bytes": 14401
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap.f",
+          "sha256": "e7fd7c1ec8e58b2ba076edc84075c8396e40e7a316bfd844df4c46561e80216c",
+          "bytes": 68595
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap_legacy.f",
+          "sha256": "b5f1a23deebcef9686f6f19946eadb777f53f74d9d5ef88db640d3213ff13959",
+          "bytes": 21594
+        },
+        {
+          "path": "src/Laplace/lfmm3dwrap_vec.f",
+          "sha256": "13867887b49a164eee6f9c2ce5fbdf30e1a55877733685b694565264346dde02",
+          "bytes": 72328
+        },
+        {
+          "path": "src/Laplace/lndiv.f",
+          "sha256": "17cf0f43c9ec4339c492b29859afaa89bf2f9437a15c1d694ed8edb9e3809b48",
+          "bytes": 851
+        },
+        {
+          "path": "src/Laplace/lndiv_fast.f",
+          "sha256": "798cdd62d337e590a007204c7b117176119ed5480c10c1e097eaf9349116bb3b",
+          "bytes": 858
+        },
+        {
+          "path": "src/Laplace/lpwrouts.f",
+          "sha256": "379e09e2ee7b5aa8f2c45710b322dcc46c565f0c2fa47a311a0e5453a176fa38",
+          "bytes": 145777
+        },
+        {
+          "path": "src/Laplace/lwtsexp_sep1.f",
+          "sha256": "a49e46d9cb45b22d7a4395a694137ea96ad05e4c680bd1a8c0811d84c1f720d3",
+          "bytes": 142448
+        },
+        {
+          "path": "src/Laplace/lwtsexp_sep2.f",
+          "sha256": "737f19c1e2ea3145ae86545e6dc1c422bb761cdb92d11ab9acaf7752172d6d99",
+          "bytes": 248394
+        },
+        {
+          "path": "src/Maxwell/emfmm3d.f90",
+          "sha256": "14c92654a890af5ae647404bd034cbb248f85d432c2139d247845c7e925c088b",
+          "bytes": 16841
+        },
+        {
+          "path": "src/Stokes/stfmm3d.f",
+          "sha256": "7e2d8f6c2f49daef3d97fd5ece3614b1b8aab46316d3998d67ee2dac331228c2",
+          "bytes": 21810
+        },
+        {
+          "path": "src/Stokes/stokkernels.f",
+          "sha256": "f2d2c7e83827ca65ffb609bcc0d13ea5d24d9e7bb5d22643fc06a7a24bbf4c32",
+          "bytes": 27940
+        },
+        {
+          "path": "test/Helmholtz/run_helmtest.sh",
+          "sha256": "8621c3f263081ce3737af5577572012edea569ae8cd5a4159fb880873b246363",
+          "bytes": 203
+        },
+        {
+          "path": "test/Helmholtz/run_helmtest_ext.sh",
+          "sha256": "884023abe1f77dfc86acd76a65ded24021e86214017d41c35bda39f446f33908",
+          "bytes": 228
+        },
+        {
+          "path": "test/Helmholtz/test_helmkernels_omp.f90",
+          "sha256": "c3a76e545ce59c044fc90cde259fc1ea876611916ae7d4b377ec67eb9edf5fe8",
+          "bytes": 8233
+        },
+        {
+          "path": "test/Helmholtz/test_helmkernels_omp.make",
+          "sha256": "be5612b8bdecf106c4ecf516115c9bc9d353cb3cf053b5eb93c4535829d36c4f",
+          "bytes": 1021
+        },
+        {
+          "path": "test/Helmholtz/test_helmrouts3d.f",
+          "sha256": "d95b24ac9597e9ee68c54cd065f6b62c53d39cd7acbb679f2080553a8ad13e1d",
+          "bytes": 9023
+        },
+        {
+          "path": "test/Helmholtz/test_helmrouts3d.make",
+          "sha256": "897caee6e24f06cbe5ad2912c811c4f0f37a33151003825885dbb4187720fb0a",
+          "bytes": 1358
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d.f",
+          "sha256": "b323b15eb196068170f9bd1c01ee688f0ef8d55dbbf21e52401fb28990a26aa3",
+          "bytes": 21871
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d.make",
+          "sha256": "43b9d99990415ad2cb00ed98ec3b0fc48fbafec38196cd40f382597f854aacad",
+          "bytes": 1594
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_adjoint.f90",
+          "sha256": "5ba278b6a4bcfaa84b95fccc0cd5b4e5bdfd2286f8536d3a671a7991b2cde5aa",
+          "bytes": 8908
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_adjoint.make",
+          "sha256": "67854308d74cb7f393ad6609f5b483825f774d1977ff9a746af31433db8c056e",
+          "bytes": 1692
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_big.f",
+          "sha256": "ce9a9be8be5f4ced04a16fbb18bf873e285e96b6b14619a83dd8edacf4d89f5d",
+          "bytes": 1886
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_mps.f90",
+          "sha256": "d654ab6b2706194f89787f109fe44cc2fe3d53bfc6f9b7f05720c6b360d874f7",
+          "bytes": 10637
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_mps.make",
+          "sha256": "17c7e0cad2db27873feb14d474cb5e1c2bb92c8ea1327953edf892a4c153954c",
+          "bytes": 1611
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_scale.f",
+          "sha256": "9ed4a8771fc8a328b399a391542f392b4439133b97b1e20d8f3a10bad2677f86",
+          "bytes": 3836
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_vec.f",
+          "sha256": "21f06ab3012da4ca7aa8d292cef71c4ea29c63bed554d3f9e45f2092f6b0fd34",
+          "bytes": 22845
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_vec.make",
+          "sha256": "1672bd7d487d91538685372e4d8e0ef5cdb0c942e316e4b2ad989d90d208bc0c",
+          "bytes": 1606
+        },
+        {
+          "path": "test/Helmholtz/test_hfmm3d_zkbig.f",
+          "sha256": "d3ab7960c879a05aa09a04404245848f85d7eaf51dd9bddbac1a1e72ce21534f",
+          "bytes": 3256
+        },
+        {
+          "path": "test/Helmholtz/test_pwrep_hfmm3d.f",
+          "sha256": "3429fcaee666c467534fce7855d464b7a98bc49da345d7bbca7e61b419f7c508",
+          "bytes": 2816
+        },
+        {
+          "path": "test/Laplace/run_laptest.sh",
+          "sha256": "a20f7a64362edb240a43cdba3d7e5962bc38e37a81d72b713d9dacda1a620d15",
+          "bytes": 178
+        },
+        {
+          "path": "test/Laplace/test_laprouts3d.f",
+          "sha256": "f4a3adcd9ce2d69b4f5f55828d79bec21aa37953e581339a663fc353a5b87689",
+          "bytes": 13385
+        },
+        {
+          "path": "test/Laplace/test_laprouts3d.make",
+          "sha256": "7c6a645332129e01e41634f6eddd97c4395d3d0af7098a4688f074eb92aa3ceb",
+          "bytes": 1042
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d.f",
+          "sha256": "d72b8bb61c0630d90957114379ce57e2b9a7bd0d506560ae6c85935b41a1ba9d",
+          "bytes": 32521
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d.make",
+          "sha256": "0945858e30285ddb16687cc13f2c4d461bcacd5850eeae9e11c88172acc6b80b",
+          "bytes": 1258
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_big.f",
+          "sha256": "a3986ad9020c7bd4c6df1ad33673609e3ae75906f046aa0f5707deb826f35b32",
+          "bytes": 1877
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_scale.f",
+          "sha256": "ba621db71cba94caed8a80f561f5746903a2955230e651060f5db7ae559b5cd7",
+          "bytes": 2983
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_vec.f",
+          "sha256": "1dcd75064b40e189b6690a0637db31c1bfe342a2b234dd09784ff470af72fda9",
+          "bytes": 33935
+        },
+        {
+          "path": "test/Laplace/test_lfmm3d_vec.make",
+          "sha256": "fe7cfc34f9b84d03ed1a5022edc8256e3014fc014dc55abedde65fa47e836b69",
+          "bytes": 1271
+        },
+        {
+          "path": "test/Maxwell/run_emtest.sh",
+          "sha256": "b071cd8d1fec577089118ecd7e5b19dd0f206b138ea2089b9d5b01afd02d6393",
+          "bytes": 107
+        },
+        {
+          "path": "test/Maxwell/test_emfmm3d.f",
+          "sha256": "33f849382c157a2201b6aaccb4b270a5fcaba2cd23dbc95316fd6d34a628a912",
+          "bytes": 12346
+        },
+        {
+          "path": "test/Stokes/run_stoktest.sh",
+          "sha256": "714f73c0f097c1858972d4913aa12c7761819bad0e34af31270e5dc109e26f58",
+          "bytes": 172
+        },
+        {
+          "path": "test/Stokes/test_stfmm3d.f",
+          "sha256": "94acae69b0256f5b80d17a7a407426eb3ae54f04c7ad2095e3f66e5d9b782c4b",
+          "bytes": 6730
+        },
+        {
+          "path": "test/Stokes/test_stokkernels.f",
+          "sha256": "6d6e93f535b053911224cdad6b33907ff710b1367d48f9f15bb3933cb73be86e",
+          "bytes": 13681
+        },
+        {
+          "path": "test/Stokes/test_stokkernels_rotlet_doublet.f",
+          "sha256": "04d025973fd0eb7b1c9a54bc4c46bd9c2315f5ec3f7d48d48c7e1bef50c35c08",
+          "bytes": 10405
+        },
+        {
+          "path": "vec-kernels/Makefile",
+          "sha256": "9df616da91e6f591bfe77546871a08d9959f4ae8f9f88addd92de316e0af83cc",
+          "bytes": 1399
+        },
+        {
+          "path": "vec-kernels/include/kernels.f90",
+          "sha256": "e32365355f589ecfcea350c8164fa824ca3db2a00b50b5d8d0855d0e0d87bd71",
+          "bytes": 4949
+        },
+        {
+          "path": "vec-kernels/include/kernels.h",
+          "sha256": "07c0301b49180c0c8ee646537654880665f633bd650093d525dfa7a465ceae65",
+          "bytes": 7265
+        },
+        {
+          "path": "vec-kernels/include/sctl.hpp",
+          "sha256": "380b2130ae11b1c45538850dde96809dd63c654c37f27c3ef7757d8a6899c000",
+          "bytes": 1823
+        },
+        {
+          "path": "vec-kernels/include/sctl/blas.h",
+          "sha256": "fae14d4c6c331b81a5e3e0436e2a8504ae33b3f9590fb7d967793d2d4a85a040",
+          "bytes": 1699
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_integral.hpp",
+          "sha256": "d204cdfcc8701cf3048ae0813bf458f77b0c517bb312ba373302be018530af1b",
+          "bytes": 11403
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_integral.txx",
+          "sha256": "f102e22f72fdc6a9418d64652cf162057503a9f4f983259c83cd4bfc8fb198e0",
+          "bytes": 36516
+        },
+        {
+          "path": "vec-kernels/include/sctl/boundary_quadrature.hpp",
+          "sha256": "ce908ca7c1db57d803568f6cc48335e28bea90044bc2556c3f9131bf18ece49b",
+          "bytes": 71395
+        },
+        {
+          "path": "vec-kernels/include/sctl/cheb_utils.hpp",
+          "sha256": "4bb6149eabd5560b185b5ee29f89bb906493ebcd417445b1fe1f63e832ec3abb",
+          "bytes": 52192
+        },
+        {
+          "path": "vec-kernels/include/sctl/comm.hpp",
+          "sha256": "7dd45516ce5bc07a9977f7853e684fac40bb232af85e9a0a79b28ee316cf9d5c",
+          "bytes": 6513
+        },
+        {
+          "path": "vec-kernels/include/sctl/comm.txx",
+          "sha256": "b1a9baeb7257abd480a007027b301f621a51b1894689609ed302ba000c14acaa",
+          "bytes": 41862
+        },
+        {
+          "path": "vec-kernels/include/sctl/common.hpp",
+          "sha256": "48c0125fc530aefae4250b8400eff610310158d262abee7f5ed929fce9cefdf5",
+          "bytes": 2837
+        },
+        {
+          "path": "vec-kernels/include/sctl/fft_wrapper.hpp",
+          "sha256": "6fc6c6747905e6847df6cae540551a4fd7a4fe91d20df2802b1e9c623d5472be",
+          "bytes": 27015
+        },
+        {
+          "path": "vec-kernels/include/sctl/fmm-wrapper.hpp",
+          "sha256": "4ab157e17baef45fe8dda8efaf206b9283903fee4da6251148e7f429ad2a150f",
+          "bytes": 6616
+        },
+        {
+          "path": "vec-kernels/include/sctl/fmm-wrapper.txx",
+          "sha256": "72a7c0763d9f78d491ead7573df0213101174a4b12afc5d9530ebf96d9c0c362",
+          "bytes": 32979
+        },
+        {
+          "path": "vec-kernels/include/sctl/intrin-wrapper.hpp",
+          "sha256": "c831aae1939e664f668e1dce7516fe663b5a4f3588dda37b9b9f2379023f3d17",
+          "bytes": 174921
+        },
+        {
+          "path": "vec-kernels/include/sctl/kernel_functions.hpp",
+          "sha256": "f29bdc6e582474ad3a4b20e4f52aad211eb50d31ab0a4a5bb284cc413abb86ba",
+          "bytes": 23393
+        },
+        {
+          "path": "vec-kernels/include/sctl/lapack.h",
+          "sha256": "25fd71d988c5d6a987cb44bcb7c102219b455468f612d4db484f2ee344601c59",
+          "bytes": 2026
+        },
+        {
+          "path": "vec-kernels/include/sctl/legendre_rule.hpp",
+          "sha256": "4a7d927296b90c7c49b56d49251c7a0631d21820cf237c6e74326965367018a6",
+          "bytes": 34709
+        },
+        {
+          "path": "vec-kernels/include/sctl/mat_utils.hpp",
+          "sha256": "2acc659d4632a3cc460f97344aa8d4d9e7edba8e7256bf9875403e8aadcd096e",
+          "bytes": 1175
+        },
+        {
+          "path": "vec-kernels/include/sctl/mat_utils.txx",
+          "sha256": "2ed2325445e7d2e5bb8a7354267b8e6f74a17086a425863fb45d2d42dbeba2b8",
+          "bytes": 18645
+        },
+        {
+          "path": "vec-kernels/include/sctl/math_utils.hpp",
+          "sha256": "d69720913c118b935537398597fd87e059f476c8e32da562a5a4b3837244a76c",
+          "bytes": 4950
+        },
+        {
+          "path": "vec-kernels/include/sctl/math_utils.txx",
+          "sha256": "fc37161fbe7d166fd1c9550331b4113b208561ec0877a33cbfe33d3af2b3a5c5",
+          "bytes": 9841
+        },
+        {
+          "path": "vec-kernels/include/sctl/matrix.hpp",
+          "sha256": "6cd4ae8f218bbe3ac2349b231270dd7c9c41026b6f49058cc9e0cfba14e5fb01",
+          "bytes": 5223
+        },
+        {
+          "path": "vec-kernels/include/sctl/matrix.txx",
+          "sha256": "0c203e09f47c77c3c05f4db8bb369a936105ccc5e6d0806c6d9606a08696c0ff",
+          "bytes": 21579
+        },
+        {
+          "path": "vec-kernels/include/sctl/mem_mgr.hpp",
+          "sha256": "69554b35fa3368c329b84c8788a6c0738b2bba90ef18f9e76446344a8fbbe2e1",
+          "bytes": 13819
+        },
+        {
+          "path": "vec-kernels/include/sctl/mem_mgr.txx",
+          "sha256": "dc606b4e4e4da908e5ad517074c84c6aadd187ffc58ec47889a5de89b22bb2df",
+          "bytes": 18604
+        },
+        {
+          "path": "vec-kernels/include/sctl/morton.hpp",
+          "sha256": "160bf2b7c004241dbbfb6aa88ef08ff95819e81d0da8fc4c2bc4d4c51d3cedf1",
+          "bytes": 6343
+        },
+        {
+          "path": "vec-kernels/include/sctl/ode-solver.hpp",
+          "sha256": "9b1980f580924601bb6a4f3b35dbb2c43f4805818c4ff37122505998262d8b85",
+          "bytes": 3528
+        },
+        {
+          "path": "vec-kernels/include/sctl/ode-solver.txx",
+          "sha256": "2e04214e236ee7f0898c5a2ab76c1746687b448b3602c07c4233791dbb3c7da2",
+          "bytes": 4480
+        },
+        {
+          "path": "vec-kernels/include/sctl/ompUtils.hpp",
+          "sha256": "d9eebb832880574585b3bbc060844975eb9cd5ca473785759ebc64e4e946fd67",
+          "bytes": 845
+        },
+        {
+          "path": "vec-kernels/include/sctl/ompUtils.txx",
+          "sha256": "7918375360f7bf80b83f272454226452a1ca88b2ad4bfffd8988a2d57c80970c",
+          "bytes": 6377
+        },
+        {
+          "path": "vec-kernels/include/sctl/parallel_solver.hpp",
+          "sha256": "5f2a13b4e7833d5ff9155b28fde631904493b7b90103b43c9024d829c1a81e58",
+          "bytes": 11604
+        },
+        {
+          "path": "vec-kernels/include/sctl/profile.hpp",
+          "sha256": "981e8fb757d90af00f3e5bd70ed8d40aa0a3af6bdcb470d4903bddbac4d1a64d",
+          "bytes": 1311
+        },
+        {
+          "path": "vec-kernels/include/sctl/profile.txx",
+          "sha256": "9998b93e36fa198f9706ddafd1087c7ee55605cbbd69c2aaa90b002603c4eafb",
+          "bytes": 9455
+        },
+        {
+          "path": "vec-kernels/include/sctl/quadrule.hpp",
+          "sha256": "dcfed622430193694150070f7170f640715d51404cdccae4483cd8a073717131",
+          "bytes": 24048
+        },
+        {
+          "path": "vec-kernels/include/sctl/slender_element.hpp",
+          "sha256": "988969ce4a05ed09f0945866188830b7645967f7910f24b9f0ace1fb131bc3ad",
+          "bytes": 8568
+        },
+        {
+          "path": "vec-kernels/include/sctl/slender_element.txx",
+          "sha256": "4a0f50ade53711d1ed771b68b90e44fe3c619cff6a7d8c55c73181d5135b1580",
+          "bytes": 136793
+        },
+        {
+          "path": "vec-kernels/include/sctl/sph_harm.hpp",
+          "sha256": "7c89b6d3d767a1bba7d3e8e9922758627a8603ad65f82580db1915218afa1cae",
+          "bytes": 21976
+        },
+        {
+          "path": "vec-kernels/include/sctl/sph_harm.txx",
+          "sha256": "e7b5b0455e1b0ce9ef538b54adb1680270e6282ac73d2d4daaa0be2fd2dfc06b",
+          "bytes": 116807
+        },
+        {
+          "path": "vec-kernels/include/sctl/stacktrace.h",
+          "sha256": "d75a1db45fea3618bbf03f499b442bd1db230bf9b1f8ef759d163a8f5f4e0986",
+          "bytes": 3186
+        },
+        {
+          "path": "vec-kernels/include/sctl/tensor.hpp",
+          "sha256": "9245384da8c9387137ccc0d43770d390c3162c34afe41a4f9a7df8023fd5f8b5",
+          "bytes": 7617
+        },
+        {
+          "path": "vec-kernels/include/sctl/tree.hpp",
+          "sha256": "1e3c082c8d7898d275132c2740ef1d35abdcd0b2f19d7be0bba84fc169d8b65e",
+          "bytes": 5002
+        },
+        {
+          "path": "vec-kernels/include/sctl/tree.txx",
+          "sha256": "10a7ef975994330e78a28c063e649572a03b87acaf94a221c0ca8640f09c0f13",
+          "bytes": 42207
+        },
+        {
+          "path": "vec-kernels/include/sctl/vec-test.hpp",
+          "sha256": "663c7a558bb7f7cbf0fa0b5866c34e6acbbdcc6f92ca4a68bb2b137934ace6e6",
+          "bytes": 15707
+        },
+        {
+          "path": "vec-kernels/include/sctl/vec.hpp",
+          "sha256": "a28a8ea921f09269513550e67d1303af634c3ab0e79816fdfcd8eaba166a15b0",
+          "bytes": 10405
+        },
+        {
+          "path": "vec-kernels/include/sctl/vector.hpp",
+          "sha256": "2f1720c171424f3d32ba0f286fab8f3af6e5547fd36c1ce1a9ee00862f24bf81",
+          "bytes": 3249
+        },
+        {
+          "path": "vec-kernels/include/sctl/vector.txx",
+          "sha256": "ec98ee85d86f4a7e6e89d888b40c3095891141081bd0c14894f801cdaf2b7e66",
+          "bytes": 10998
+        },
+        {
+          "path": "vec-kernels/include/sctl/vtudata.hpp",
+          "sha256": "06c4548b5c12b36f3fca7b6acdbc9ac0fc983c6dd1b1689bc4a1ef43a9ef4aae",
+          "bytes": 1048
+        },
+        {
+          "path": "vec-kernels/include/sctl/vtudata.txx",
+          "sha256": "c14d33bfb143f362e23cd8749a96ec527238f2313ff0712b92ab0f50fef17ea7",
+          "bytes": 10992
+        },
+        {
+          "path": "vec-kernels/include/template-kernels.hpp",
+          "sha256": "5576a6978ecc1bce4feab1e042f086e94d5b3b657b4f8e3756dc0e328a6bd493",
+          "bytes": 127785
+        },
+        {
+          "path": "vec-kernels/mload.sh",
+          "sha256": "7c14a379b8d1b3e2ab4fce62ea742b4607f8794bc9ffde633ae78a0aa32b0f82",
+          "bytes": 106
+        },
+        {
+          "path": "vec-kernels/src/libkernels.cpp",
+          "sha256": "7ccde0b435533c48eff41a12062476f5b647c05be4296500d756f67f727be12c",
+          "bytes": 10759
+        },
+        {
+          "path": "vec-kernels/src/test-cpp.cpp",
+          "sha256": "e9a90d05b5c2a7c45fffbcb060e48ad374cfa00c914177f28e998a706b1d637e",
+          "bytes": 1295
+        },
+        {
+          "path": "vec-kernels/src/test-fortran.f90",
+          "sha256": "066acb9ddba48df26ea9947242280505877a6ec52d3361651b1c0ecded5db220",
+          "bytes": 1066
+        }
+      ]
+    }
+  }
+}

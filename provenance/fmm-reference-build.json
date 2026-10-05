@@ -1,0 +1,10 @@
+{
+  "revision": "3785618eda092a2234def359227a30e68582080c",
+  "source": "unmodified git archive of existing reference checkout",
+  "configuration": "build/deps/fmm3d-reference/source/make.inc",
+  "log": "build/logs/fmm-reference-build.log",
+  "archive": "build/deps/fmm3d-reference/install/lib/libfmm3d.a",
+  "sha256": "38032bd02db49e923c6dd458a8be0dac5758fab0db5be8e10eb2a2b56377addb",
+  "prior_archive_sha256": "64a1712ebbab054e52ad1257a98fad1152d9e67f183a20d77395ef0e6faa85f7",
+  "note": "Archive headers may differ; numerical equivalence is tested separately."
+}

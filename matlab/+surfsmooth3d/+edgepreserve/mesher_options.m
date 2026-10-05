@@ -1,0 +1,6 @@
+function opts = mesher_options(pkg, work, settings, level)
+%MESHER_OPTIONS Keep the CAD quadrature and original scaffold fixed.
+opts = struct('filetype',3,'fcad',work.cad_file,'nquad',pkg.source_order, ...
+    'nrefine',level,'rlam',settings.rlam,'adapt_sigma',settings.adapt_sigma, ...
+    'two_stage_smoother',true);
+end
