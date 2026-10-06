@@ -30,13 +30,14 @@ repoRoot = fileparts(fileparts(fileparts(thisFile)));
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_2.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_manas.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'UV_curved_bezier.step');
-stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_curved_uv.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_curved_uv.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'cylinder_bezier_v2.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'intersection_two_balls.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'piecewise_bezier_cap.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'spheres_intersect.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multi_res.step');
+stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'wobbly_hairy_torus_10_v2_flat_AP214.step');
 
 
 

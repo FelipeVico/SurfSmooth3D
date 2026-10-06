@@ -29,8 +29,11 @@ setup_surfsmooth3d();
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'intersection_two_balls.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'piecewise_bezier_cap.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'spheres_intersect.step');
-stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
-% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multi_res.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
+%stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multi_res.step');
+stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'wobbly_hairy_torus_10_v2_flat_AP214.step');
+
+
 
 
 
@@ -41,12 +44,16 @@ stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_el
 % 'curvature_balanced_wide', 'curvature_fine', and 'curvature_guarded'.
 % The full menu is printed when the driver starts.
 MESH_PROFILE_CHOICE = 'rigid';
-% MESH_PROFILE_CHOICE = 'curvature_balanced';
-% MESH_PROFILE_CHOICE = 'curvature_balanced_local';
-% MESH_PROFILE_CHOICE = 'curvature_balanced_local_cadedge';
-% MESH_PROFILE_CHOICE = 'curvature_balanced_wide';
-% MESH_PROFILE_CHOICE = 'curvature_fine';
-% MESH_PROFILE_CHOICE = 'curvature_guarded';
+MESH_PROFILE_CHOICE = 'curvature_balanced_local';
+
+%%%%%% DO NOT USE THESE  %%%%%%%%%%%%%%%%%%%%%%
+%%%MESH_PROFILE_CHOICE = 'curvature_balanced';
+%%%MESH_PROFILE_CHOICE = 'curvature_balanced_local_cadedge';
+%%%MESH_PROFILE_CHOICE = 'curvature_balanced_wide';
+%%%MESH_PROFILE_CHOICE = 'curvature_fine';
+%%%MESH_PROFILE_CHOICE = 'curvature_guarded';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Optional curvature-profile overrides. Leave [] to use the selected
 % preset defaults. For 'curvature_balanced_local', the defaults are:
@@ -73,8 +80,8 @@ MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = [];
 % MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = false;
 
 opts = struct();
-opts.order = 8;
-opts.mesh_fraction = 0.050;
+opts.order = 4;
+opts.mesh_fraction = 0.10;
 opts.refinement_level = 0;
 opts.edge_gll_order = opts.order;
 [opts, meshProfileChoice] = surfsmooth3d.stepmesher.apply_mesh_profile_choice( ...
