@@ -17,7 +17,7 @@ setup_surfsmooth3d();
 
 %% User parameters
 % Choose one STEP file by uncommenting the desired line.
-%  stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_1.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_1.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_2.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'test_geometry_manas.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'UV_curved_bezier.step');
@@ -26,15 +26,15 @@ setup_surfsmooth3d();
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'intersection_two_balls.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'piecewise_bezier_cap.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'spheres_intersect.step');
-stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multiscale_step.step');
 
 
-ORDERS = [4, 6, 8];
+ORDERS = [4, 6];
 %MESH_FRACTIONS = [0.1];
 MESH_FRACTIONS = [0.05];
 
-REFINEMENT_LEVELS = [0, 1, 2, 3];
+REFINEMENT_LEVELS = [0, 1, 2];
 
 
 EDGE_GLL_ORDER = max(ORDERS);

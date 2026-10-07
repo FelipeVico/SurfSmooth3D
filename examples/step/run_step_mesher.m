@@ -30,8 +30,8 @@ setup_surfsmooth3d();
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'piecewise_bezier_cap.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'spheres_intersect.step');
 % stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'torus_ellipse.step');
-%stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multi_res.step');
-stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'wobbly_hairy_torus_10_v2_flat_AP214.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'Multi_res.step');
+% stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'wobbly_hairy_torus_10_v2_flat_AP214.step');
 
 
 
@@ -43,7 +43,7 @@ stepFile = fullfile(repoRoot, 'step_mesher', 'examples', 'step_files', 'wobbly_h
 % 'curvature_balanced_local', 'curvature_balanced_local_cadedge',
 % 'curvature_balanced_wide', 'curvature_fine', and 'curvature_guarded'.
 % The full menu is printed when the driver starts.
-MESH_PROFILE_CHOICE = 'rigid';
+% MESH_PROFILE_CHOICE = 'rigid';
 MESH_PROFILE_CHOICE = 'curvature_balanced_local';
 
 %%%%%% DO NOT USE THESE  %%%%%%%%%%%%%%%%%%%%%%
