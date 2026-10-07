@@ -40,6 +40,7 @@
 #include <iostream>
 #include <limits>
 #include <map>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -467,6 +468,58 @@ bool project_surface(const TopoDS_Face &face, const Vec3 &x, Vec2 &uv,
     proj.LowerDistanceParameters(u, v);
     uv = {u, v};
     out = pnt_to_vec(proj.NearestPoint());
+    return finite(out);
+  } catch (...) {
+    return false;
+  }
+}
+
+std::unique_ptr<GeomAPI_ProjectPointOnSurf>
+bounded_spline_projector(const TopoDS_Face &face) {
+  try {
+    BRepAdaptor_Surface adapt(face, Standard_False);
+    const auto type = adapt.GetType();
+    if (type != GeomAbs_BSplineSurface && type != GeomAbs_BezierSurface) {
+      return nullptr;
+    }
+    const double u0 = adapt.FirstUParameter();
+    const double u1 = adapt.LastUParameter();
+    const double v0 = adapt.FirstVParameter();
+    const double v1 = adapt.LastVParameter();
+    if (!(std::isfinite(u0) && std::isfinite(u1) && std::isfinite(v0) &&
+          std::isfinite(v1) && std::abs(u1 - u0) > 1.0e-30 &&
+          std::abs(v1 - v0) > 1.0e-30 && std::abs(u0) < 1.0e50 &&
+          std::abs(u1) < 1.0e50 && std::abs(v0) < 1.0e50 &&
+          std::abs(v1) < 1.0e50)) {
+      return nullptr;
+    }
+    Handle(Geom_Surface) surf = BRep_Tool::Surface(face);
+    if (surf.IsNull()) {
+      return nullptr;
+    }
+    // Keep the initialized object at a stable address: OCC retains a pointer
+    // to its internal surface adaptor. This overload uses the same bounds,
+    // default algorithm and tolerance as project_surface's bounded overload.
+    auto projector = std::make_unique<GeomAPI_ProjectPointOnSurf>();
+    projector->Init(surf, u0, u1, v0, v1);
+    return projector;
+  } catch (...) {
+    return nullptr;
+  }
+}
+
+bool project_surface_reusing(GeomAPI_ProjectPointOnSurf &projector,
+                            const Vec3 &x, Vec2 &uv, Vec3 &out) {
+  try {
+    projector.Perform(gp_Pnt(x[0], x[1], x[2]));
+    if (!projector.IsDone() || projector.NbPoints() <= 0) {
+      return false;
+    }
+    Standard_Real u = 0.0;
+    Standard_Real v = 0.0;
+    projector.LowerDistanceParameters(u, v);
+    uv = {u, v};
+    out = pnt_to_vec(projector.NearestPoint());
     return finite(out);
   } catch (...) {
     return false;
@@ -1368,22 +1421,45 @@ ProjectedNodes Context::project_nodes(const std::vector<ProjectNode> &nodes) con
   int n_fallback = 0;
 
 
-  for (const ProjectNode &node : nodes) {
-    Vec3 projected = node.x;
-    Vec2 uv{};
-    bool ok = false;
-    const auto face_it = gm_to_occ.find(node.face_tag);
-    if (face_it != gm_to_occ.end()) {
-      const auto occ_idx = static_cast<std::size_t>(face_it->second);
-      ok = project_surface(occ_faces[occ_idx].face, node.x, uv, projected);
+  for (std::size_t first = 0; first < nodes.size();) {
+    std::size_t last = first + 1;
+    while (last < nodes.size() &&
+           nodes[last].face_tag == nodes[first].face_tag) {
+      ++last;
     }
-    if (!ok) {
-      ++n_fallback;
-      uv = {0.0, 0.0};
-      projected = node.x;
+    const auto face_it = gm_to_occ.find(nodes[first].face_tag);
+    const TopoDS_Face *face = face_it != gm_to_occ.end()
+        ? &occ_faces[static_cast<std::size_t>(face_it->second)].face
+        : nullptr;
+    // One consecutive face run owns one grid; it is released before the next
+    // run, without reordering points or retaining grids for unrelated faces.
+    auto projector = face != nullptr && last - first > 1
+        ? bounded_spline_projector(*face) : nullptr;
+    for (std::size_t i = first; i < last; ++i) {
+      const ProjectNode &node = nodes[i];
+      Vec3 projected = node.x;
+      Vec2 uv{};
+      bool ok = false;
+      if (projector) {
+        ok = project_surface_reusing(*projector, node.x, uv, projected);
+        if (!ok) {
+          // A failed Perform may leave partial state. Retry the original path
+          // for this point and do not reuse the failed cache in this run.
+          projector.reset();
+        }
+      }
+      if (!ok && face != nullptr) {
+        ok = project_surface(*face, node.x, uv, projected);
+      }
+      if (!ok) {
+        ++n_fallback;
+        uv = {0.0, 0.0};
+        projected = node.x;
+      }
+      const double dist = ok ? norm(subtract(projected, node.x)) : 0.0;
+      result.nodes.push_back({projected, dist, uv});
     }
-    const double dist = ok ? norm(subtract(projected, node.x)) : 0.0;
-    result.nodes.push_back({projected, dist, uv});
+    first = last;
   }
 
   result.n_fallback = n_fallback;

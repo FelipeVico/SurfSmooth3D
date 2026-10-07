@@ -1,20 +1,31 @@
-function report = test_extraction_parity(baselineFile, outputDirectory)
+function report = test_extraction_parity(baselineFile, outputDirectory, packageRoot)
 %TEST_EXTRACTION_PARITY Replay frozen V3 MATLAB results with SurfSmooth3D.
 % The baseline is captured in a separate process from the original package.
 % Numerical arrays, diagnostics, counters and exported GO3 data are compared.
 % Input/helper paths are the only excluded metadata fields.
+% packageRoot optionally selects an isolated build containing matlab/; STEP
+% fixtures still come from this repository. Use separate MATLAB processes
+% when comparing different native builds.
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
-addpath(fullfile(root,'matlab'));
+if nargin < 3 || isempty(packageRoot), packageRoot = root; end
+packageRoot = canonical_path(packageRoot);
+matlabRoot = fullfile(packageRoot,'matlab');
+addpath(matlabRoot,'-begin');
+resolved = verify_package_route(matlabRoot);
 reference = load(baselineFile,'cases');
-if nargin < 2
+if nargin < 2 || isempty(outputDirectory)
     outputDirectory = fullfile(root,'build','validation','step');
 end
 if ~isfolder(outputDirectory), mkdir(outputDirectory); end
-report = struct('passed',true,'cases',[]);
+report = struct('passed',true,'cases',[], 'package_root',packageRoot, ...
+    'fixture_root',root,'baseline_file',canonical_path(baselineFile), ...
+    'resolved_functions',resolved,'loaded_mex','', 'route_verified',false);
 for k=1:numel(reference.cases)
     c=reference.cases{k};
     mesh=surfsmooth3d.stepmesher.mesh_step(fullfile(root,'step_mesher','examples', ...
         'step_files',[c.name,'.step']),c.options);
+    report.loaded_mex = verify_loaded_mex(resolved.expected_mex);
+    report.route_verified = true;
     [srcvals,norders,iptype]=surfsmooth3d.stepmesher.to_srcvals(mesh);
     stats=surfsmooth3d.stepmesher.validate_area_flux(mesh);
     [count,exact,maxScaled]=compare_struct(c.mesh,mesh,'mesh');
@@ -40,6 +51,46 @@ fid=fopen(fullfile(outputDirectory,'parity.json'),'w');
 assert(fid>=0); cleanup=onCleanup(@() fclose(fid)); %#ok<NASGU>
 fprintf(fid,'%s\n',jsonencode(report,PrettyPrint=true));
 fprintf('STEP_EXTRACTION_PARITY_PASSED\n');
+end
+
+function resolved=verify_package_route(matlabRoot)
+names={'surfsmooth3d.stepmesher.mesh_step', ...
+    'surfsmooth3d.stepmesher.to_srcvals', ...
+    'surfsmooth3d.stepmesher.validate_area_flux', ...
+    'surfsmooth3d.stepmesher.export_geom_package','surfsmooth3d.surfer'};
+resolved=struct('names',{names},'paths',{cell(size(names))}, ...
+    'expected_mex',canonical_path(fullfile(matlabRoot,'+surfsmooth3d', ...
+        '+stepmesher','private',['step_mesher_mex.',mexext])));
+for k=1:numel(names)
+    found=which(names{k});
+    assert(~isempty(found),'stepmesher:parityRoute','Missing %s.',names{k});
+    found=canonical_path(found);
+    assert(startsWith(found,[matlabRoot,filesep]),'stepmesher:parityRoute', ...
+        '%s resolves outside requested build: %s',names{k},found);
+    resolved.paths{k}=found;
+end
+assert(isfile(resolved.expected_mex),'stepmesher:parityMex', ...
+    'Requested build has no STEP MEX: %s',resolved.expected_mex);
+end
+
+function loaded=verify_loaded_mex(expected)
+[~,files]=inmem('-completenames');
+loaded='';
+for k=1:numel(files)
+    [~,stem]=fileparts(files{k});
+    if strcmp(stem,'step_mesher_mex')
+        found=canonical_path(files{k});
+        assert(strcmp(found,expected),'stepmesher:parityMex', ...
+            'STEP MEX loaded from the wrong build: %s',found);
+        loaded=found;
+    end
+end
+assert(~isempty(loaded),'stepmesher:parityMex', ...
+    'Requested STEP MEX was not found among loaded native modules.');
+end
+
+function value=canonical_path(value)
+value=char(java.io.File(char(value)).getCanonicalPath());
 end
 
 function [count,exact,maxScaled]=compare_struct(expected,actual,label)

@@ -1,0 +1,3677 @@
+{
+  "schema_version": 1,
+  "component": "SurfSmooth3D STEP node projection",
+  "baseline_commit": "562f968",
+  "implementation_files": [
+    {
+      "path": "step_mesher/cpp/src/occ_context.cpp",
+      "exists": true,
+      "bytes": 48564,
+      "sha256": "d410a54812e202413638cb33f9461a84622add24e782c40e78b3c1d4f93bd6be"
+    },
+    {
+      "path": "step_mesher/CMakeLists.txt",
+      "exists": true,
+      "bytes": 9031,
+      "sha256": "c6855ebd853beff43cc0dd6fbd489de5901838fa838ee5cefbfa5cc5f631908c"
+    }
+  ],
+  "generated_utc": "2026-10-07T01:46:04.015692+00:00",
+  "status": "passed",
+  "completed": true,
+  "passed": true,
+  "required_checks": {
+    "native_ctest": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/ctest-candidate.log",
+        "exists": true,
+        "bytes": 4458,
+        "sha256": "62da9599c08be9ed9cabb1207c40ad10fe2dbfc19849911d30fe9cc298f0ace4"
+      },
+      "passed_tests": 29,
+      "failed_tests": 0,
+      "total_tests": 29,
+      "required_groups": {
+        "projection_reuse": true,
+        "frozen_project_nodes": true,
+        "retention_project_nodes": true,
+        "context_lifetime": true
+      },
+      "passed_test_names": [
+        "cpp_smoke_import",
+        "native_contract",
+        "projection_reuse",
+        "projection_reuse_failure_recovery",
+        "import_equivalence_Multi_res",
+        "import_equivalence_Multiscale_step",
+        "import_equivalence_UV_curved_bezier",
+        "import_equivalence_cylinder_bezier_v2",
+        "import_equivalence_intersection_two_balls",
+        "import_equivalence_piecewise_bezier_cap",
+        "import_equivalence_spheres_intersect",
+        "import_equivalence_test_curved_uv",
+        "import_equivalence_test_geometry_1",
+        "import_equivalence_test_geometry_2",
+        "import_equivalence_test_geometry_manas",
+        "import_equivalence_torus_ellipse",
+        "import_equivalence_wobbly_hairy_torus_10_v2_flat_AP214",
+        "frozen_cad-measurements",
+        "frozen_helper-curves",
+        "retention_helper-curves",
+        "frozen_edge-samples",
+        "retention_edge-samples",
+        "frozen_feature-samples",
+        "retention_feature-samples",
+        "frozen_feature-nodes",
+        "retention_feature-nodes",
+        "frozen_project-nodes",
+        "retention_project-nodes",
+        "occ_context"
+      ]
+    },
+    "native_projection_matrix": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/native-matrix/exit-statuses.json",
+        "exists": true,
+        "bytes": 5523,
+        "sha256": "42c81aac6d77126b26ad8ca3ec57b655b0f819d49e72dcea9f562811bdd07e73"
+      },
+      "expected_fixtures": [
+        "Multi_res",
+        "Multiscale_step",
+        "UV_curved_bezier",
+        "cylinder_bezier_v2",
+        "intersection_two_balls",
+        "piecewise_bezier_cap",
+        "spheres_intersect",
+        "test_curved_uv",
+        "test_geometry_1",
+        "test_geometry_2",
+        "test_geometry_manas",
+        "torus_ellipse",
+        "wobbly_hairy_torus_10_v2_flat_AP214"
+      ],
+      "tested_fixtures": 13,
+      "projection_comparisons": 78,
+      "fixtures": [
+        {
+          "fixture": "Multi_res",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 775,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000469125,
+              "candidate_seconds": 0.000485584,
+              "speedup": 0.9661047316221292,
+              "fallbacks": 0,
+              "oracle_digest": "e15ec612516bbbd2",
+              "candidate_digest": "e15ec612516bbbd2",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000469667,
+              "candidate_seconds": 0.000449958,
+              "speedup": 1.0438018659519332,
+              "fallbacks": 0,
+              "oracle_digest": "d46eaeb0f87ef8fe",
+              "candidate_digest": "d46eaeb0f87ef8fe",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000469125,
+              "candidate_seconds": 0.00042425,
+              "speedup": 1.1057748968768415,
+              "fallbacks": 0,
+              "oracle_digest": "e15ec612516bbbd2",
+              "candidate_digest": "e15ec612516bbbd2",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 2.167e-06,
+              "candidate_seconds": 8.75e-07,
+              "speedup": 2.476571428571429,
+              "fallbacks": 0,
+              "oracle_digest": "89e7fe6395b2ec2d",
+              "candidate_digest": "89e7fe6395b2ec2d",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 2.083e-06,
+              "candidate_seconds": 1.917e-06,
+              "speedup": 1.0865936358894104,
+              "fallbacks": 0,
+              "oracle_digest": "55790802543e81b5",
+              "candidate_digest": "55790802543e81b5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multi_res.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 1.2875e-05,
+              "candidate_seconds": 1.1208e-05,
+              "speedup": 1.1487330478229836,
+              "fallbacks": 0,
+              "oracle_digest": "1143cf3afc458e2a",
+              "candidate_digest": "1143cf3afc458e2a",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/Multi_res.jsonl",
+            "exists": true,
+            "bytes": 3077,
+            "sha256": "cbcc30ca2fdf746c3065621014be8163a8b629393a3039a7919c6140cdbb2ee9"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/Multi_res.step",
+            "exists": true,
+            "bytes": 63635,
+            "sha256": "0d680f5cb4325983df5c3e660a702798e2803bf5bb58657475956a0c90f8878a"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/Multi_res.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "Multiscale_step",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 775,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000172333,
+              "candidate_seconds": 0.000162875,
+              "speedup": 1.0580690713737528,
+              "fallbacks": 0,
+              "oracle_digest": "e15ec612516bbbd2",
+              "candidate_digest": "e15ec612516bbbd2",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000170542,
+              "candidate_seconds": 0.000164,
+              "speedup": 1.0398902439024391,
+              "fallbacks": 0,
+              "oracle_digest": "d46eaeb0f87ef8fe",
+              "candidate_digest": "d46eaeb0f87ef8fe",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.000172333,
+              "candidate_seconds": 0.000158958,
+              "speedup": 1.0841417229708477,
+              "fallbacks": 0,
+              "oracle_digest": "e15ec612516bbbd2",
+              "candidate_digest": "e15ec612516bbbd2",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 5.83e-07,
+              "candidate_seconds": 4.16e-07,
+              "speedup": 1.4014423076923075,
+              "fallbacks": 0,
+              "oracle_digest": "89e7fe6395b2ec2d",
+              "candidate_digest": "89e7fe6395b2ec2d",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 1.083e-06,
+              "candidate_seconds": 8.75e-07,
+              "speedup": 1.2377142857142858,
+              "fallbacks": 0,
+              "oracle_digest": "55790802543e81b5",
+              "candidate_digest": "55790802543e81b5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/Multiscale_step.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 5.459e-06,
+              "candidate_seconds": 4.959e-06,
+              "speedup": 1.1008267795926596,
+              "fallbacks": 0,
+              "oracle_digest": "1143cf3afc458e2a",
+              "candidate_digest": "1143cf3afc458e2a",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/Multiscale_step.jsonl",
+            "exists": true,
+            "bytes": 3150,
+            "sha256": "868fd910f78a550e3fff89b44bc76befcbc439e075c4453f7ce3fbf85b516274"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/Multiscale_step.step",
+            "exists": true,
+            "bytes": 63634,
+            "sha256": "7d5cbd0b3b9ce44c9b1432b46722872588b07f401133c355895756cc23bcb995"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/Multiscale_step.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "UV_curved_bezier",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 127,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.001861416,
+              "candidate_seconds": 0.000859625,
+              "speedup": 2.165381416315254,
+              "fallbacks": 0,
+              "oracle_digest": "375ac7bc4a7843a6",
+              "candidate_digest": "375ac7bc4a7843a6",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.001830083,
+              "candidate_seconds": 0.001538333,
+              "speedup": 1.1896533455370195,
+              "fallbacks": 0,
+              "oracle_digest": "0dcca49ead8f40de",
+              "candidate_digest": "0dcca49ead8f40de",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.001861416,
+              "candidate_seconds": 0.000884625,
+              "speedup": 2.1041865197117424,
+              "fallbacks": 0,
+              "oracle_digest": "375ac7bc4a7843a6",
+              "candidate_digest": "375ac7bc4a7843a6",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 1,
+              "oracle_seconds": 0.000145,
+              "candidate_seconds": 0.000143375,
+              "speedup": 1.011333914559721,
+              "fallbacks": 0,
+              "oracle_digest": "e68e37d8505b9a33",
+              "candidate_digest": "e68e37d8505b9a33",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 2,
+              "oracle_seconds": 0.00028475,
+              "candidate_seconds": 0.000193125,
+              "speedup": 1.4744336569579288,
+              "fallbacks": 0,
+              "oracle_digest": "4980afa81bedfe2d",
+              "candidate_digest": "4980afa81bedfe2d",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/UV_curved_bezier.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 16,
+              "oracle_seconds": 0.002370083,
+              "candidate_seconds": 0.001105458,
+              "speedup": 2.143982855974628,
+              "fallbacks": 0,
+              "oracle_digest": "995ce774daf85423",
+              "candidate_digest": "995ce774daf85423",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/UV_curved_bezier.jsonl",
+            "exists": true,
+            "bytes": 3155,
+            "sha256": "fb3035fb30656a070ae7d5def3df6cc9fda02eef5a1004a5542b77e05c44bd64"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/UV_curved_bezier.step",
+            "exists": true,
+            "bytes": 23761,
+            "sha256": "2d2d19f85a01645904343ded35000f6b18b0b4ae3bc2585cefc5e158a8a52be2"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/UV_curved_bezier.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "cylinder_bezier_v2",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 127,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.002957916,
+              "candidate_seconds": 0.000960459,
+              "speedup": 3.079690023207654,
+              "fallbacks": 0,
+              "oracle_digest": "d97cd0330c326291",
+              "candidate_digest": "d97cd0330c326291",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.001996667,
+              "candidate_seconds": 0.00180225,
+              "speedup": 1.1078746011929532,
+              "fallbacks": 0,
+              "oracle_digest": "d035da402bc1ecd9",
+              "candidate_digest": "d035da402bc1ecd9",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 0.002957916,
+              "candidate_seconds": 0.000922875,
+              "speedup": 3.2051101178382773,
+              "fallbacks": 0,
+              "oracle_digest": "d97cd0330c326291",
+              "candidate_digest": "d97cd0330c326291",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 1,
+              "oracle_seconds": 0.00014625,
+              "candidate_seconds": 0.000154125,
+              "speedup": 0.9489051094890512,
+              "fallbacks": 0,
+              "oracle_digest": "6f92066ba52c9563",
+              "candidate_digest": "6f92066ba52c9563",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 2,
+              "oracle_seconds": 0.000297792,
+              "candidate_seconds": 0.000221,
+              "speedup": 1.347475113122172,
+              "fallbacks": 0,
+              "oracle_digest": "653379f0ab536461",
+              "candidate_digest": "653379f0ab536461",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/cylinder_bezier_v2.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 16,
+              "oracle_seconds": 0.003208875,
+              "candidate_seconds": 0.003022208,
+              "speedup": 1.0617651068357967,
+              "fallbacks": 0,
+              "oracle_digest": "0191b75297480936",
+              "candidate_digest": "0191b75297480936",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/cylinder_bezier_v2.jsonl",
+            "exists": true,
+            "bytes": 3182,
+            "sha256": "c0f2967459f2514301d5845deb7beca4cf9f5b49d4a4124ee91ba0349101a4be"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/cylinder_bezier_v2.step",
+            "exists": true,
+            "bytes": 6929,
+            "sha256": "adccaf84597bafed5a058603782a3c2d81015b906e24e4c822ad6e8284fe06b5"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/cylinder_bezier_v2.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "intersection_two_balls",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 127,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.3292e-05,
+              "candidate_seconds": 4.0666e-05,
+              "speedup": 1.064574829095559,
+              "fallbacks": 0,
+              "oracle_digest": "a528482b39b42d21",
+              "candidate_digest": "a528482b39b42d21",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.0708e-05,
+              "candidate_seconds": 3.975e-05,
+              "speedup": 1.0241006289308177,
+              "fallbacks": 0,
+              "oracle_digest": "9b952f8300c8ce05",
+              "candidate_digest": "9b952f8300c8ce05",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.3292e-05,
+              "candidate_seconds": 3.9875e-05,
+              "speedup": 1.085692789968652,
+              "fallbacks": 0,
+              "oracle_digest": "a528482b39b42d21",
+              "candidate_digest": "a528482b39b42d21",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 1.417e-06,
+              "candidate_seconds": 1.292e-06,
+              "speedup": 1.0967492260061917,
+              "fallbacks": 0,
+              "oracle_digest": "0c589502369c14d6",
+              "candidate_digest": "0c589502369c14d6",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 2.625e-06,
+              "candidate_seconds": 2.542e-06,
+              "speedup": 1.0326514555468136,
+              "fallbacks": 0,
+              "oracle_digest": "1ef0c6290a4c58f9",
+              "candidate_digest": "1ef0c6290a4c58f9",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/intersection_two_balls.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 1.8333e-05,
+              "candidate_seconds": 1.7792e-05,
+              "speedup": 1.0304069244604317,
+              "fallbacks": 0,
+              "oracle_digest": "c00e24ad8790e635",
+              "candidate_digest": "c00e24ad8790e635",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/intersection_two_balls.jsonl",
+            "exists": true,
+            "bytes": 3188,
+            "sha256": "19cb085a60d7dd028c41e229ed3fda37d7a46b9fe1a18dffea23f79784e71330"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/intersection_two_balls.step",
+            "exists": true,
+            "bytes": 21857,
+            "sha256": "3bc6c4260937cecc9cc3c5edd8944382b8c3808764150a36f03179e7c3bde922"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/intersection_two_balls.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "piecewise_bezier_cap",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 235,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 72,
+              "oracle_seconds": 0.004171666,
+              "candidate_seconds": 0.000854375,
+              "speedup": 4.882710753474762,
+              "fallbacks": 0,
+              "oracle_digest": "898bc03591acad68",
+              "candidate_digest": "898bc03591acad68",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 72,
+              "oracle_seconds": 0.002539083,
+              "candidate_seconds": 0.001943125,
+              "speedup": 1.3067008041170796,
+              "fallbacks": 0,
+              "oracle_digest": "8acc5ae07602b148",
+              "candidate_digest": "8acc5ae07602b148",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 72,
+              "oracle_seconds": 0.004171666,
+              "candidate_seconds": 0.000916958,
+              "speedup": 4.54946246174852,
+              "fallbacks": 0,
+              "oracle_digest": "898bc03591acad68",
+              "candidate_digest": "898bc03591acad68",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 3,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 1,
+              "oracle_seconds": 0.001651834,
+              "candidate_seconds": 0.000306959,
+              "speedup": 5.3812854485452455,
+              "fallbacks": 0,
+              "oracle_digest": "562c7215d14b6aa7",
+              "candidate_digest": "562c7215d14b6aa7",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 3,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 2,
+              "oracle_seconds": 0.000456375,
+              "candidate_seconds": 0.000299958,
+              "speedup": 1.521463004820675,
+              "fallbacks": 0,
+              "oracle_digest": "25bcdb2b6f865203",
+              "candidate_digest": "25bcdb2b6f865203",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/piecewise_bezier_cap.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 3,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 1936,
+              "nodes": 16,
+              "oracle_seconds": 0.003655834,
+              "candidate_seconds": 0.002762625,
+              "speedup": 1.3233189448441247,
+              "fallbacks": 0,
+              "oracle_digest": "5ebc6be1ce76ae46",
+              "candidate_digest": "5ebc6be1ce76ae46",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/piecewise_bezier_cap.jsonl",
+            "exists": true,
+            "bytes": 3195,
+            "sha256": "269bc72d92c95ca1c2bc851d8fc31ba499755942d19581762ed44e5ab31d513f"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/piecewise_bezier_cap.step",
+            "exists": true,
+            "bytes": 25698,
+            "sha256": "3dedaf886a79a8ff76a7fd6c8e02b0b128734094537537a38b00d1ff41b37ef0"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/piecewise_bezier_cap.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "spheres_intersect",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 91,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 24,
+              "oracle_seconds": 3.0375e-05,
+              "candidate_seconds": 2.7125e-05,
+              "speedup": 1.1198156682027651,
+              "fallbacks": 0,
+              "oracle_digest": "70d0cb31b793f655",
+              "candidate_digest": "70d0cb31b793f655",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 24,
+              "oracle_seconds": 2.7125e-05,
+              "candidate_seconds": 2.625e-05,
+              "speedup": 1.0333333333333332,
+              "fallbacks": 0,
+              "oracle_digest": "cfbda16af90eeaed",
+              "candidate_digest": "cfbda16af90eeaed",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 24,
+              "oracle_seconds": 3.0375e-05,
+              "candidate_seconds": 2.6e-05,
+              "speedup": 1.1682692307692308,
+              "fallbacks": 0,
+              "oracle_digest": "70d0cb31b793f655",
+              "candidate_digest": "70d0cb31b793f655",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 1.333e-06,
+              "candidate_seconds": 1.208e-06,
+              "speedup": 1.1034768211920531,
+              "fallbacks": 0,
+              "oracle_digest": "70194e98a6b60dd5",
+              "candidate_digest": "70194e98a6b60dd5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 2.542e-06,
+              "candidate_seconds": 2.375e-06,
+              "speedup": 1.070315789473684,
+              "fallbacks": 0,
+              "oracle_digest": "0ebaa5ef971435e4",
+              "candidate_digest": "0ebaa5ef971435e4",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/spheres_intersect.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 1.7875e-05,
+              "candidate_seconds": 1.7292e-05,
+              "speedup": 1.0337150127226464,
+              "fallbacks": 0,
+              "oracle_digest": "3aa84568b0cd66ee",
+              "candidate_digest": "3aa84568b0cd66ee",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/spheres_intersect.jsonl",
+            "exists": true,
+            "bytes": 3129,
+            "sha256": "d461159ea695a94804ac63a85b346fcfbc6a84cb3a78a4c345bbec70cc83e3c1"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/spheres_intersect.step",
+            "exists": true,
+            "bytes": 4116,
+            "sha256": "4191aca2216065a863ed30ab75a70264449af1584df41036f0ff445b37cb4e84"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/spheres_intersect.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "test_curved_uv",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 163,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 48,
+              "oracle_seconds": 8.8042e-05,
+              "candidate_seconds": 7.6708e-05,
+              "speedup": 1.1477551233248162,
+              "fallbacks": 0,
+              "oracle_digest": "d86c0d685ac473ad",
+              "candidate_digest": "d86c0d685ac473ad",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 48,
+              "oracle_seconds": 7.9708e-05,
+              "candidate_seconds": 6.4875e-05,
+              "speedup": 1.2286396917148361,
+              "fallbacks": 0,
+              "oracle_digest": "970236e32e8ca419",
+              "candidate_digest": "970236e32e8ca419",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 48,
+              "oracle_seconds": 8.8042e-05,
+              "candidate_seconds": 6.9916e-05,
+              "speedup": 1.2592539618971337,
+              "fallbacks": 0,
+              "oracle_digest": "d86c0d685ac473ad",
+              "candidate_digest": "d86c0d685ac473ad",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "cylinder",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 7.792e-06,
+              "candidate_seconds": 3.666e-06,
+              "speedup": 2.1254773595199126,
+              "fallbacks": 0,
+              "oracle_digest": "6707cb41b70e1775",
+              "candidate_digest": "6707cb41b70e1775",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "cylinder",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 5.208e-06,
+              "candidate_seconds": 4.834e-06,
+              "speedup": 1.0773686388084402,
+              "fallbacks": 0,
+              "oracle_digest": "5782d04e14e42df5",
+              "candidate_digest": "5782d04e14e42df5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_curved_uv.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "cylinder",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 3.5583e-05,
+              "candidate_seconds": 3.3041e-05,
+              "speedup": 1.0769347174722317,
+              "fallbacks": 0,
+              "oracle_digest": "3ce0488c9873ef40",
+              "candidate_digest": "3ce0488c9873ef40",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/test_curved_uv.jsonl",
+            "exists": true,
+            "bytes": 3176,
+            "sha256": "6eaa7f84c70332bda67ae5a844db52bda538b838785e6eae06997bb77e8a1560"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/test_curved_uv.step",
+            "exists": true,
+            "bytes": 58628,
+            "sha256": "3430c9a9162a525972954fa2c622ecff4e40a46c6fe957d49b7f9d45f6cf10f2"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/test_curved_uv.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "test_geometry_1",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 343,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 108,
+              "oracle_seconds": 3.3959e-05,
+              "candidate_seconds": 2.9667e-05,
+              "speedup": 1.1446725317693058,
+              "fallbacks": 0,
+              "oracle_digest": "ad8153fc57a2b4ca",
+              "candidate_digest": "ad8153fc57a2b4ca",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 108,
+              "oracle_seconds": 3.2e-05,
+              "candidate_seconds": 2.9e-05,
+              "speedup": 1.103448275862069,
+              "fallbacks": 0,
+              "oracle_digest": "13a5c86afa8d93b6",
+              "candidate_digest": "13a5c86afa8d93b6",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 108,
+              "oracle_seconds": 3.3959e-05,
+              "candidate_seconds": 2.95e-05,
+              "speedup": 1.1511525423728812,
+              "fallbacks": 0,
+              "oracle_digest": "ad8153fc57a2b4ca",
+              "candidate_digest": "ad8153fc57a2b4ca",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 5.42e-07,
+              "candidate_seconds": 3.75e-07,
+              "speedup": 1.4453333333333331,
+              "fallbacks": 0,
+              "oracle_digest": "64e5c40d63704541",
+              "candidate_digest": "64e5c40d63704541",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 8.33e-07,
+              "candidate_seconds": 7.08e-07,
+              "speedup": 1.176553672316384,
+              "fallbacks": 0,
+              "oracle_digest": "9d58d7b3880193ad",
+              "candidate_digest": "9d58d7b3880193ad",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "plane",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 5.25e-06,
+              "candidate_seconds": 4.709e-06,
+              "speedup": 1.1148863877681034,
+              "fallbacks": 0,
+              "oracle_digest": "027310197182af1b",
+              "candidate_digest": "027310197182af1b",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_1.jsonl",
+            "exists": true,
+            "bytes": 3161,
+            "sha256": "20da7ad7cccedc00c473be795bd58b8eb0d52da3879f93cf1cb8081a0b964b67"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/test_geometry_1.step",
+            "exists": true,
+            "bytes": 26237,
+            "sha256": "f017cabc80d19839da5fd6e34c1ac0de8c9f3525000a9f5556d110eb914c6ac3"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_1.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "test_geometry_2",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 127,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.0875e-05,
+              "candidate_seconds": 3.7333e-05,
+              "speedup": 1.0948758471057776,
+              "fallbacks": 0,
+              "oracle_digest": "630a834a882a7d82",
+              "candidate_digest": "630a834a882a7d82",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 3.8291e-05,
+              "candidate_seconds": 3.7459e-05,
+              "speedup": 1.0222109506393657,
+              "fallbacks": 0,
+              "oracle_digest": "618653a3cd8366be",
+              "candidate_digest": "618653a3cd8366be",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.0875e-05,
+              "candidate_seconds": 3.7e-05,
+              "speedup": 1.1047297297297298,
+              "fallbacks": 0,
+              "oracle_digest": "630a834a882a7d82",
+              "candidate_digest": "630a834a882a7d82",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 1.25e-06,
+              "candidate_seconds": 1.209e-06,
+              "speedup": 1.0339123242349049,
+              "fallbacks": 0,
+              "oracle_digest": "da5b81ae2772fe97",
+              "candidate_digest": "da5b81ae2772fe97",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 2.458e-06,
+              "candidate_seconds": 2.459e-06,
+              "speedup": 0.9995933306222041,
+              "fallbacks": 0,
+              "oracle_digest": "84a1b74f1f7fbb45",
+              "candidate_digest": "84a1b74f1f7fbb45",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_2.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 1.8333e-05,
+              "candidate_seconds": 1.7166e-05,
+              "speedup": 1.067983222649423,
+              "fallbacks": 0,
+              "oracle_digest": "123b1c00a507a1c8",
+              "candidate_digest": "123b1c00a507a1c8",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_2.jsonl",
+            "exists": true,
+            "bytes": 3151,
+            "sha256": "69cfd0dfd053e649709713fc9f0b1c574a9a7ee43d587355973fc271f216f80f"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/test_geometry_2.step",
+            "exists": true,
+            "bytes": 8189,
+            "sha256": "cda96a574504e72f5b6003ed741b7ec1b8640dc6e0927f9407873ff4cbe1c276"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_2.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "test_geometry_manas",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 127,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.0584e-05,
+              "candidate_seconds": 3.5916e-05,
+              "speedup": 1.1299699298362849,
+              "fallbacks": 0,
+              "oracle_digest": "813e9b47c5847f37",
+              "candidate_digest": "813e9b47c5847f37",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 3.6833e-05,
+              "candidate_seconds": 3.5791e-05,
+              "speedup": 1.0291134642787294,
+              "fallbacks": 0,
+              "oracle_digest": "fe7b8ff0c9787b7f",
+              "candidate_digest": "fe7b8ff0c9787b7f",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 36,
+              "oracle_seconds": 4.0584e-05,
+              "candidate_seconds": 3.55e-05,
+              "speedup": 1.1432112676056339,
+              "fallbacks": 0,
+              "oracle_digest": "813e9b47c5847f37",
+              "candidate_digest": "813e9b47c5847f37",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 1,
+              "oracle_seconds": 1.292e-06,
+              "candidate_seconds": 1.208e-06,
+              "speedup": 1.0695364238410598,
+              "fallbacks": 0,
+              "oracle_digest": "586a1c84736a0fa0",
+              "candidate_digest": "586a1c84736a0fa0",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 2,
+              "oracle_seconds": 2.542e-06,
+              "candidate_seconds": 2.375e-06,
+              "speedup": 1.070315789473684,
+              "fallbacks": 0,
+              "oracle_digest": "ce0e9603fc33db78",
+              "candidate_digest": "ce0e9603fc33db78",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_manas.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "sphere",
+              "knot_grid_points_estimate": 0,
+              "nodes": 16,
+              "oracle_seconds": 1.8208e-05,
+              "candidate_seconds": 1.75e-05,
+              "speedup": 1.040457142857143,
+              "fallbacks": 0,
+              "oracle_digest": "9c416aa0aefe1972",
+              "candidate_digest": "9c416aa0aefe1972",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_manas.jsonl",
+            "exists": true,
+            "bytes": 3179,
+            "sha256": "17a0f63b7d0d2570f5195de41ffcf70b2cefad2ddcea935d38df9783cdd7325a"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/test_geometry_manas.step",
+            "exists": true,
+            "bytes": 8048,
+            "sha256": "dc8589a3d91f845ac25a21e5ff7edca21248afd95881c9361d579815863c74e1"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/test_geometry_manas.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "torus_ellipse",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 55,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 12,
+              "oracle_seconds": 0.0225885,
+              "candidate_seconds": 0.00553225,
+              "speedup": 4.08305843011433,
+              "fallbacks": 0,
+              "oracle_digest": "bfd51e207a6d5f5f",
+              "candidate_digest": "bfd51e207a6d5f5f",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 12,
+              "oracle_seconds": 0.022850834,
+              "candidate_seconds": 0.005862417,
+              "speedup": 3.8978520292909904,
+              "fallbacks": 0,
+              "oracle_digest": "0f9ca22087006b4b",
+              "candidate_digest": "0f9ca22087006b4b",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 12,
+              "oracle_seconds": 0.0225885,
+              "candidate_seconds": 0.005493291,
+              "speedup": 4.112015911773106,
+              "fallbacks": 0,
+              "oracle_digest": "bfd51e207a6d5f5f",
+              "candidate_digest": "bfd51e207a6d5f5f",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 6644,
+              "nodes": 1,
+              "oracle_seconds": 0.004314792,
+              "candidate_seconds": 0.005033458,
+              "speedup": 0.8572222118472032,
+              "fallbacks": 0,
+              "oracle_digest": "9d37d89c69197bcd",
+              "candidate_digest": "9d37d89c69197bcd",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 6644,
+              "nodes": 2,
+              "oracle_seconds": 0.007436708,
+              "candidate_seconds": 0.00238425,
+              "speedup": 3.1190974100870292,
+              "fallbacks": 0,
+              "oracle_digest": "1ee51c8c4f810563",
+              "candidate_digest": "1ee51c8c4f810563",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/torus_ellipse.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 6644,
+              "nodes": 16,
+              "oracle_seconds": 0.037459666,
+              "candidate_seconds": 0.008912417,
+              "speedup": 4.203087220896419,
+              "fallbacks": 0,
+              "oracle_digest": "5184f1a9f0828ebd",
+              "candidate_digest": "5184f1a9f0828ebd",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/torus_ellipse.jsonl",
+            "exists": true,
+            "bytes": 3131,
+            "sha256": "2b0ae5e816fd5b5e58a511224beca8261c545488470b7d8fde7b6258e04187fe"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/torus_ellipse.step",
+            "exists": true,
+            "bytes": 90184,
+            "sha256": "d0aeb40ffc34e551cebd4353895fc051e4a1096dd9009c44a49f54fb07b6e2a9"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/torus_ellipse.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "fixture": "wobbly_hairy_torus_10_v2_flat_AP214",
+          "passed": true,
+          "exit_status": 0,
+          "projection_comparisons": 6,
+          "compared_nodes_including_repeated_batches": 775,
+          "records": [
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "contracts",
+              "empty_batch": true,
+              "unknown_face_rejected": true,
+              "independent_contexts": true,
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "all-faces A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.361968625,
+              "candidate_seconds": 0.067803166,
+              "speedup": 5.338520991777877,
+              "fallbacks": 0,
+              "oracle_digest": "04787df8a9b4abb5",
+              "candidate_digest": "04787df8a9b4abb5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "all-faces shuffled B",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.340231083,
+              "candidate_seconds": 0.325100083,
+              "speedup": 1.0465425903936174,
+              "fallbacks": 0,
+              "oracle_digest": "ee35eff78c26d0f9",
+              "candidate_digest": "ee35eff78c26d0f9",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "all-faces repeated A",
+              "face": 0,
+              "surface_type": "mixed",
+              "knot_grid_points_estimate": 0,
+              "nodes": 252,
+              "oracle_seconds": 0.361968625,
+              "candidate_seconds": 0.074543041,
+              "speedup": 4.855833893334188,
+              "fallbacks": 0,
+              "oracle_digest": "04787df8a9b4abb5",
+              "candidate_digest": "04787df8a9b4abb5",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "primary batch 1 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 75328,
+              "nodes": 1,
+              "oracle_seconds": 0.026290291,
+              "candidate_seconds": 0.031588667,
+              "speedup": 0.8322697187570466,
+              "fallbacks": 0,
+              "oracle_digest": "837ce572275a1036",
+              "candidate_digest": "837ce572275a1036",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "primary batch 2 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 75328,
+              "nodes": 2,
+              "oracle_seconds": 0.056745833,
+              "candidate_seconds": 0.046854083,
+              "speedup": 1.2111182071368254,
+              "fallbacks": 0,
+              "oracle_digest": "17bc647738827c71",
+              "candidate_digest": "17bc647738827c71",
+              "exact": true
+            },
+            {
+              "fixture": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+              "case": "primary batch 16 repetition 1",
+              "face": 1,
+              "surface_type": "bspline",
+              "knot_grid_points_estimate": 75328,
+              "nodes": 16,
+              "oracle_seconds": 0.437919959,
+              "candidate_seconds": 0.073078458,
+              "speedup": 5.992463045676197,
+              "fallbacks": 0,
+              "oracle_digest": "9fc5bcfb87ac3941",
+              "candidate_digest": "9fc5bcfb87ac3941",
+              "exact": true
+            }
+          ],
+          "stdout_evidence": {
+            "path": "build/validation/fast/native-matrix/wobbly_hairy_torus_10_v2_flat_AP214.jsonl",
+            "exists": true,
+            "bytes": 3298,
+            "sha256": "7a10e39d14080439e09ed9d125c4a6aa356321e506e427951900322d88f8c330"
+          },
+          "fixture_evidence": {
+            "path": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+            "exists": true,
+            "bytes": 371446,
+            "sha256": "68b6509fced29c1101d5a3b201d35b34e8906e9d5f5c32f71fa789ab91fc1ebb"
+          },
+          "stderr_evidence": {
+            "path": "build/validation/fast/native-matrix/wobbly_hairy_torus_10_v2_flat_AP214.stderr.txt",
+            "exists": true,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "scope": "Native projection comparisons against the preserved original projector, beyond the separate CTest import fixture coverage. Synthetic UV/seam/narrow-span, grouped/shuffled/repeated and 1/2/16-node batches; full actual target nodes are checked by replay."
+    },
+    "small_matlab_differential": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/small-comparison.json",
+        "exists": true,
+        "bytes": 523889,
+        "sha256": "c1d341a1cadd4cde65f8b57159f50cd9ae28dff9cba4dfdc22da17963d6c109a"
+      },
+      "expected_cases": [
+        "Multi_res",
+        "UV_curved_bezier",
+        "piecewise_bezier_cap",
+        "spheres_intersect",
+        "test_curved_uv",
+        "test_geometry_1",
+        "torus_ellipse"
+      ],
+      "cases": [
+        {
+          "id": "test_geometry_1_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 0.5085136666666666,
+          "candidate_seconds": 0.3115399166666667,
+          "baseline_median_seconds": 0.5085136666666666,
+          "candidate_median_seconds": 0.3115399166666667,
+          "speedup": 1.6322584666116886,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "test_curved_uv_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 0.04889383333333333,
+          "candidate_seconds": 0.047815875,
+          "baseline_median_seconds": 0.04889383333333333,
+          "candidate_median_seconds": 0.047815875,
+          "speedup": 1.0225439424319502,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "spheres_intersect_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 0.018326541666666668,
+          "candidate_seconds": 0.018624625,
+          "baseline_median_seconds": 0.018326541666666668,
+          "candidate_median_seconds": 0.018624625,
+          "speedup": 0.9839952034828443,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "Multi_res_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 0.14810775,
+          "candidate_seconds": 0.14788004166666666,
+          "baseline_median_seconds": 0.14810775,
+          "candidate_median_seconds": 0.14788004166666666,
+          "speedup": 1.0015398178873023,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "UV_curved_bezier_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 0.8271341666666666,
+          "candidate_seconds": 0.5878135416666667,
+          "baseline_median_seconds": 0.8271341666666666,
+          "candidate_median_seconds": 0.5878135416666667,
+          "speedup": 1.407136971226349,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "piecewise_bezier_cap_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 2.8797957083333334,
+          "candidate_seconds": 2.196054625,
+          "baseline_median_seconds": 2.8797957083333334,
+          "candidate_median_seconds": 2.196054625,
+          "speedup": 1.311349761317223,
+          "comparisons": 231,
+          "changed_fields": []
+        },
+        {
+          "id": "torus_ellipse_p4_rigid",
+          "passed": true,
+          "bitwise_passed": true,
+          "baseline_seconds": 5.263619416666667,
+          "candidate_seconds": 1.2037624583333333,
+          "baseline_median_seconds": 5.263619416666667,
+          "candidate_median_seconds": 1.2037624583333333,
+          "speedup": 4.3726396185792336,
+          "comparisons": 231,
+          "changed_fields": []
+        }
+      ],
+      "timing_caveat": "The stored full-mesh measurements are single runs, not a statistical no-regression proof."
+    },
+    "legacy_extraction_parity": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/extraction-parity/parity.json",
+        "exists": true,
+        "bytes": 3575,
+        "sha256": "63b3ac924f94718b401b00315860d6255193d7bed0213e2eb5c3a1565e53536e"
+      },
+      "route_checks": {
+        "route_verified": true,
+        "candidate_package": true,
+        "live_fixtures": true,
+        "all_requested_functions": true,
+        "functions_in_candidate_package": true,
+        "private_candidate_mex": true,
+        "loaded_mex_matches_candidate": true,
+        "frozen_baseline_exists": true
+      },
+      "package_root": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-candidate",
+      "loaded_mex": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-candidate/matlab/+surfsmooth3d/+stepmesher/private/step_mesher_mex.mexmaca64",
+      "baseline": {
+        "path": "build/validation/step/baseline.mat",
+        "exists": true,
+        "bytes": 5674113,
+        "sha256": "c6e70dc32bd53fdb4642b6cca7470f82de38bf00812609c27bf9cf42eec049f1"
+      },
+      "native_module": {
+        "path": "build/fast-candidate/matlab/+surfsmooth3d/+stepmesher/private/step_mesher_mex.mexmaca64",
+        "exists": true,
+        "bytes": 55176,
+        "sha256": "175a8d16c150a8cfcf86a943f23eb9f7d4d63ef90d95fb0bc46a242e7fc875b1"
+      },
+      "cases": [
+        {
+          "name": "test_geometry_1",
+          "patches": 582,
+          "area": 600.0000000000005,
+          "numeric_comparisons": 92,
+          "exact_comparisons": 92,
+          "maximum_scaled_difference": 0,
+          "output": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/extraction-parity/test_geometry_1"
+        },
+        {
+          "name": "test_curved_uv",
+          "patches": 532,
+          "area": 2264.183100999066,
+          "numeric_comparisons": 92,
+          "exact_comparisons": 92,
+          "maximum_scaled_difference": 0,
+          "output": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/extraction-parity/test_curved_uv"
+        },
+        {
+          "name": "UV_curved_bezier",
+          "patches": 416,
+          "area": 175.9683330482373,
+          "numeric_comparisons": 92,
+          "exact_comparisons": 92,
+          "maximum_scaled_difference": 0,
+          "output": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/extraction-parity/UV_curved_bezier"
+        },
+        {
+          "name": "torus_ellipse",
+          "patches": 180,
+          "area": 15217.220515747853,
+          "numeric_comparisons": 92,
+          "exact_comparisons": 92,
+          "maximum_scaled_difference": 0,
+          "output": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/extraction-parity/torus_ellipse"
+        }
+      ],
+      "comparison": "Exact MATLAB numerical equality, including the existing GO3 round-trip checks; byte equality is separately checked by the differential captures."
+    },
+    "candidate_smoke": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/candidate-smoke.json",
+        "exists": true,
+        "bytes": 569,
+        "sha256": "36827c19092ce3edf976736298907eac256c5e6e91f6edef063ad1940f79c53b"
+      },
+      "package_root": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-candidate",
+      "loaded_mex": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-candidate/matlab/+surfsmooth3d/+stepmesher/private/step_mesher_mex.mexmaca64",
+      "fixture_source": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/test_geometry_1.step",
+      "route_verified": true
+    },
+    "hairy_full_projection_replay": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/full-replay/report.json",
+        "exists": true,
+        "bytes": 24881,
+        "sha256": "9f1dfaaf69ff654aa386cdd2cf03453c14f1765f52cf66c07e311b5f848bc7f7"
+      },
+      "source_nodes": 270630,
+      "verified_nodes": 270630,
+      "reported_verified_nodes": 270630,
+      "completed_batches": 55,
+      "expected_batches": 55,
+      "fallback_count": 0,
+      "jobs": 6,
+      "batch_size": 5000,
+      "outputs_rehashed": true,
+      "errors": [],
+      "request_sha256": "eb48696f8f5a4867a7898d064ec1fb7e41357b664adece71c07ec49188b14f0a",
+      "mapping_sha256": "39e3e05c6682d344194fefaee2339f6c4a4bfb238893e7343810d752d880c545",
+      "elapsed_wall_seconds": 1292.2020763750188,
+      "process_timings": {
+        "baseline": {
+          "timed_batches": 37,
+          "untimed_batches": 18,
+          "sum_timed_process_wall_seconds": 6660.663882168068
+        },
+        "candidate": {
+          "timed_batches": 55,
+          "untimed_batches": 0,
+          "sum_timed_process_wall_seconds": 857.9018982519046
+        }
+      },
+      "timing_caveat": "Batches run in independent concurrent processes, each reimporting geometry and rebuilding grids. These process or aggregate wall times are not serial full-mesh baseline/candidate timings and do not establish a full-pipeline speedup."
+    },
+    "hairy_actual_mesh_projection_comparison": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/full-replay-matlab-comparison.json",
+        "exists": true,
+        "bytes": 1312,
+        "sha256": "c459e843159196bee9c5e27e2ed6ae6abf9d9afcf131d33cfedef1c5271600ec"
+      },
+      "candidate_mesh_evidence": {
+        "path": "build/validation/fast/capture-hairy/capture.mat",
+        "exists": true,
+        "bytes": 34386082,
+        "sha256": "213706259b81519ae81957561220e9f207e2d0b0fabd9eccc5778b1017d1ac24"
+      },
+      "replay_evidence": {
+        "path": "build/validation/fast/full-replay/report.json",
+        "exists": true,
+        "bytes": 24881,
+        "sha256": "9f1dfaaf69ff654aa386cdd2cf03453c14f1765f52cf66c07e311b5f848bc7f7"
+      },
+      "nodes": 270630,
+      "batches": 55,
+      "fallbacks": 0,
+      "request_sha256": "eb48696f8f5a4867a7898d064ec1fb7e41357b664adece71c07ec49188b14f0a",
+      "runs": [
+        {
+          "id": "wobbly_hairy_torus_10_v2_flat_AP214_p4_curvature_balanced_local",
+          "repetition": 1,
+          "xyz_bitwise_exact": true,
+          "distance_bitwise_exact": true,
+          "face_order_bitwise_exact": true,
+          "fallback_count_exact": true,
+          "dimensions_exact": true,
+          "passed": true
+        }
+      ],
+      "replay_xyz_distance_uv_byte_exact": true,
+      "projected_uv_in_matlab_mesh": false,
+      "scope": "The completed candidate mesh XYZ, projection distances, face order and fallback count are checked against all independent original projector outputs; replay UV is byte exact, while the mesh stores scaffold UV rather than projected UV."
+    },
+    "hairy_candidate_full_mesh": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/capture-hairy/capture.json",
+        "exists": true,
+        "bytes": 6027,
+        "sha256": "a9e1b0cf4dfaa3023e17cdf3ef00a5aa3bb847e6115ff945e458228cebf9efe1"
+      },
+      "stage_evidence": {
+        "path": "build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.timings.csv",
+        "exists": true,
+        "bytes": 351,
+        "sha256": "a56bbd369b9fc67f20267609278220770edf8a5da35a9529ca9f488ca4f01fd8"
+      },
+      "options": {
+        "order": 4,
+        "mesh_fraction": 0.1,
+        "refinement_level": 0,
+        "edge_gll_order": 4,
+        "mesh_profile": "curvature",
+        "curvature_points": 50,
+        "hmin_mode": "fraction",
+        "hmin_fraction": 0.01,
+        "hmin_edge_scale": 0.25,
+        "cad_edge_tol_fraction": 1e-06,
+        "hmax_fraction": 0.1,
+        "mesh_size_extend_from_boundary": false,
+        "gmsh_algorithm": "frontal_delaunay",
+        "optimize": true,
+        "min_angle_deg": 15,
+        "max_edge_ratio": 6,
+        "enforce_quality": false,
+        "occt_precision": 1e-06,
+        "occt_maxprecision": 1e-06,
+        "sameparameter": true,
+        "surfacecurve_mode": "3d_preferred",
+        "verbose": false
+      },
+      "profile_choice": "curvature_balanced_local",
+      "capture_metrics": {
+        "step_file": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+        "source_nodes": 270630,
+        "source_faces": 21,
+        "represented_faces": 21,
+        "per_source_face": [
+          {
+            "tag": 1,
+            "canonical_index": 0,
+            "nodes": 262515
+          },
+          {
+            "tag": 2,
+            "canonical_index": 1,
+            "nodes": 795
+          },
+          {
+            "tag": 3,
+            "canonical_index": 2,
+            "nodes": 105
+          },
+          {
+            "tag": 4,
+            "canonical_index": 3,
+            "nodes": 720
+          },
+          {
+            "tag": 5,
+            "canonical_index": 4,
+            "nodes": 90
+          },
+          {
+            "tag": 6,
+            "canonical_index": 5,
+            "nodes": 705
+          },
+          {
+            "tag": 7,
+            "canonical_index": 6,
+            "nodes": 105
+          },
+          {
+            "tag": 8,
+            "canonical_index": 7,
+            "nodes": 720
+          },
+          {
+            "tag": 9,
+            "canonical_index": 8,
+            "nodes": 90
+          },
+          {
+            "tag": 10,
+            "canonical_index": 9,
+            "nodes": 705
+          },
+          {
+            "tag": 11,
+            "canonical_index": 10,
+            "nodes": 105
+          },
+          {
+            "tag": 12,
+            "canonical_index": 11,
+            "nodes": 675
+          },
+          {
+            "tag": 13,
+            "canonical_index": 12,
+            "nodes": 105
+          },
+          {
+            "tag": 14,
+            "canonical_index": 13,
+            "nodes": 660
+          },
+          {
+            "tag": 15,
+            "canonical_index": 14,
+            "nodes": 90
+          },
+          {
+            "tag": 16,
+            "canonical_index": 15,
+            "nodes": 720
+          },
+          {
+            "tag": 17,
+            "canonical_index": 16,
+            "nodes": 105
+          },
+          {
+            "tag": 18,
+            "canonical_index": 17,
+            "nodes": 720
+          },
+          {
+            "tag": 19,
+            "canonical_index": 18,
+            "nodes": 90
+          },
+          {
+            "tag": 20,
+            "canonical_index": 19,
+            "nodes": 705
+          },
+          {
+            "tag": 21,
+            "canonical_index": 20,
+            "nodes": 105
+          }
+        ],
+        "main_spline_canonical_index": 0,
+        "main_spline_nodes": 262515
+      },
+      "diagnostics": {
+        "mesh_seconds": 754.5621499583333,
+        "srcvals_seconds": 0.42370654166666666,
+        "validation_seconds": 0.75735125,
+        "patches": 18042,
+        "nodes": 270630,
+        "projection_failures": 0,
+        "area": 103.6022030067097,
+        "relative_area_error": 6.336816801438988e-05,
+        "normal_flux": [
+          0.000499535784833729,
+          0.002164119111764835,
+          0.0006535094235973285
+        ],
+        "max_projection_distance": 0.04978053376141984,
+        "mean_projection_distance": 0.0010626997198856143,
+        "loaded_mex": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-capture/matlab/+surfsmooth3d/+stepmesher/private/step_mesher_mex.mexmaca64"
+      },
+      "normal_flux_norm": 0.0023151721527708865,
+      "native_stages_seconds": {
+        "import": 0.03711675,
+        "cad_measurements": 0.635621709,
+        "binding_and_bbox": 0.00501825,
+        "fragmentation": 0.001117667,
+        "scaffold": 1.136557917,
+        "edge_processing": 26.735632167,
+        "candidate_generation": 0.00616175,
+        "diagnostic_capture": 0.828736916,
+        "projection": 724.686251292,
+        "result_packaging": 0.003806041
+      },
+      "measured_native_seconds_excluding_capture": 753.247283543,
+      "timing_caveat": "The native call wall time includes diagnostic request/BRep writes. Stage timings isolate this cost. No serial original full-mesh completion was timed for this target."
+    },
+    "hairy_preprojection_identity": {
+      "status": "passed",
+      "completed": true,
+      "artifacts": [
+        {
+          "kind": ".request.txt",
+          "baseline": {
+            "path": "build/validation/fast/baseline-capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt",
+            "exists": true,
+            "bytes": 16727023,
+            "sha256": "eb48696f8f5a4867a7898d064ec1fb7e41357b664adece71c07ec49188b14f0a"
+          },
+          "candidate": {
+            "path": "build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt",
+            "exists": true,
+            "bytes": 16727023,
+            "sha256": "eb48696f8f5a4867a7898d064ec1fb7e41357b664adece71c07ec49188b14f0a"
+          },
+          "byte_equal": true
+        },
+        {
+          "kind": ".map.txt",
+          "baseline": {
+            "path": "build/validation/fast/baseline-capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt",
+            "exists": true,
+            "bytes": 107,
+            "sha256": "39e3e05c6682d344194fefaee2339f6c4a4bfb238893e7343810d752d880c545"
+          },
+          "candidate": {
+            "path": "build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt",
+            "exists": true,
+            "bytes": 107,
+            "sha256": "39e3e05c6682d344194fefaee2339f6c4a4bfb238893e7343810d752d880c545"
+          },
+          "byte_equal": true
+        },
+        {
+          "kind": ".brep",
+          "baseline": {
+            "path": "build/validation/fast/baseline-capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.brep",
+            "exists": true,
+            "bytes": 238051,
+            "sha256": "0bcd9f704db1064620cd92d369dbace7268a79201021f8580f4aa1146f2fb740"
+          },
+          "candidate": {
+            "path": "build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.brep",
+            "exists": true,
+            "bytes": 238051,
+            "sha256": "0bcd9f704db1064620cd92d369dbace7268a79201021f8580f4aa1146f2fb740"
+          },
+          "byte_equal": true
+        }
+      ],
+      "capture_metrics": {
+        "step_file": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+        "source_nodes": 270630,
+        "source_faces": 21,
+        "represented_faces": 21,
+        "per_source_face": [
+          {
+            "tag": 1,
+            "canonical_index": 0,
+            "nodes": 262515
+          },
+          {
+            "tag": 2,
+            "canonical_index": 1,
+            "nodes": 795
+          },
+          {
+            "tag": 3,
+            "canonical_index": 2,
+            "nodes": 105
+          },
+          {
+            "tag": 4,
+            "canonical_index": 3,
+            "nodes": 720
+          },
+          {
+            "tag": 5,
+            "canonical_index": 4,
+            "nodes": 90
+          },
+          {
+            "tag": 6,
+            "canonical_index": 5,
+            "nodes": 705
+          },
+          {
+            "tag": 7,
+            "canonical_index": 6,
+            "nodes": 105
+          },
+          {
+            "tag": 8,
+            "canonical_index": 7,
+            "nodes": 720
+          },
+          {
+            "tag": 9,
+            "canonical_index": 8,
+            "nodes": 90
+          },
+          {
+            "tag": 10,
+            "canonical_index": 9,
+            "nodes": 705
+          },
+          {
+            "tag": 11,
+            "canonical_index": 10,
+            "nodes": 105
+          },
+          {
+            "tag": 12,
+            "canonical_index": 11,
+            "nodes": 675
+          },
+          {
+            "tag": 13,
+            "canonical_index": 12,
+            "nodes": 105
+          },
+          {
+            "tag": 14,
+            "canonical_index": 13,
+            "nodes": 660
+          },
+          {
+            "tag": 15,
+            "canonical_index": 14,
+            "nodes": 90
+          },
+          {
+            "tag": 16,
+            "canonical_index": 15,
+            "nodes": 720
+          },
+          {
+            "tag": 17,
+            "canonical_index": 16,
+            "nodes": 105
+          },
+          {
+            "tag": 18,
+            "canonical_index": 17,
+            "nodes": 720
+          },
+          {
+            "tag": 19,
+            "canonical_index": 18,
+            "nodes": 90
+          },
+          {
+            "tag": 20,
+            "canonical_index": 19,
+            "nodes": 705
+          },
+          {
+            "tag": 21,
+            "canonical_index": 20,
+            "nodes": 105
+          }
+        ],
+        "main_spline_canonical_index": 0,
+        "main_spline_nodes": 262515
+      },
+      "baseline_intentionally_stopped_after_capture": true,
+      "baseline_is_not_a_completed_full_mesh": true,
+      "baseline_stop_evidence": {
+        "path": "build/validation/fast/baseline-capture-hairy.log",
+        "exists": true,
+        "bytes": 3498,
+        "sha256": "c08165c0aea6ca813bffc946bf866a2024586248f6e5e09a66d72b74d0b2f425"
+      }
+    },
+    "repeated_small_mesh_performance": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/repeated-timing-summary.json",
+        "exists": true,
+        "bytes": 15574,
+        "sha256": "d754b022257e2e99decf94b8f6bfa7f3766e0386f3ef1bbab3f55b84cdff61cf"
+      },
+      "warm_samples_per_variant_per_fixture": 12,
+      "exact_payloads_passed": true,
+      "cases": [
+        {
+          "name": "Multi_res",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 0.16266847916666666,
+            "minimum_seconds": 0.15050325,
+            "maximum_seconds": 0.20501333333333333,
+            "p25_seconds": 0.15987758333333332,
+            "p75_seconds": 0.16913065624999998,
+            "samples_seconds": [
+              0.15934133333333333,
+              0.16005633333333333,
+              0.17981245833333334,
+              0.15050325,
+              0.16728141666666665,
+              0.171203,
+              0.20501333333333333,
+              0.168439875,
+              0.16033504166666668,
+              0.1616165,
+              0.15218995833333332,
+              0.16372045833333335
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 0.16633135416666667,
+            "minimum_seconds": 0.14842879166666667,
+            "maximum_seconds": 0.22201416666666668,
+            "p25_seconds": 0.16248333333333334,
+            "p75_seconds": 0.19967138541666668,
+            "samples_seconds": [
+              0.20686741666666666,
+              0.194045875,
+              0.16752520833333334,
+              0.16105595833333333,
+              0.19867308333333333,
+              0.20266629166666666,
+              0.16493254166666665,
+              0.1534235,
+              0.22201416666666668,
+              0.14842879166666667,
+              0.1651375,
+              0.162959125
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 0.163668875,
+            "candidate-a": 0.19635947916666668,
+            "candidate-b": 0.16394583333333335,
+            "baseline-b": 0.16266847916666666
+          },
+          "median_speedup": 0.9779784453848085,
+          "candidate_median_change_seconds": 0.00366287500000001,
+          "candidate_median_change_percent": 2.2517423281784703,
+          "flag_for_quiet_rerun": false
+        },
+        {
+          "name": "UV_curved_bezier",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 0.9718079791666667,
+            "minimum_seconds": 0.9171682083333333,
+            "maximum_seconds": 1.05007825,
+            "p25_seconds": 0.9468916979166667,
+            "p75_seconds": 1.0200437916666667,
+            "samples_seconds": [
+              1.019313875,
+              0.9920127916666667,
+              0.9472468333333334,
+              0.9171682083333333,
+              0.9597120833333334,
+              0.9428119166666666,
+              1.0465144166666667,
+              0.9458262916666667,
+              1.0222335416666666,
+              0.9548023333333333,
+              1.05007825,
+              0.983903875
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 0.6378326666666667,
+            "minimum_seconds": 0.62124025,
+            "maximum_seconds": 0.7003395416666667,
+            "p25_seconds": 0.629751625,
+            "p75_seconds": 0.6602097916666666,
+            "samples_seconds": [
+              0.6734672916666666,
+              0.6750015,
+              0.62530525,
+              0.6329642916666667,
+              0.6341320833333334,
+              0.6426955416666666,
+              0.655790625,
+              0.63123375,
+              0.7003395416666667,
+              0.64153325,
+              0.62124025,
+              0.623892375
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 0.9534794583333334,
+            "candidate-a": 0.6384138125000001,
+            "candidate-b": 0.6363835,
+            "baseline-b": 1.0030687083333332
+          },
+          "median_speedup": 1.5236096079013408,
+          "candidate_median_change_seconds": -0.3339753125,
+          "candidate_median_change_percent": -34.366389210591436,
+          "flag_for_quiet_rerun": false
+        },
+        {
+          "name": "piecewise_bezier_cap",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 3.3537130208333332,
+            "minimum_seconds": 3.027948208333333,
+            "maximum_seconds": 3.801452875,
+            "p25_seconds": 3.2321681458333336,
+            "p75_seconds": 3.480623125,
+            "samples_seconds": [
+              3.3719355,
+              3.5234945833333335,
+              3.2180060833333335,
+              3.2731144166666666,
+              3.2368888333333334,
+              3.357170791666667,
+              3.027948208333333,
+              3.18464475,
+              3.801452875,
+              3.35025525,
+              3.481433,
+              3.4803531666666667
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 2.4482453958333332,
+            "minimum_seconds": 2.3445487083333334,
+            "maximum_seconds": 2.674721625,
+            "p25_seconds": 2.4155579583333333,
+            "p75_seconds": 2.4934973020833335,
+            "samples_seconds": [
+              2.4285419166666666,
+              2.4666918333333334,
+              2.4442589166666666,
+              2.452231875,
+              2.5261954583333335,
+              2.430463125,
+              2.5489890833333333,
+              2.3445487083333334,
+              2.4825979166666667,
+              2.3766060833333333,
+              2.3686285,
+              2.674721625
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 3.3151426041666667,
+            "candidate-a": 2.4482453958333332,
+            "candidate-b": 2.429602,
+            "baseline-b": 3.4153042083333336
+          },
+          "median_speedup": 1.3698434914004187,
+          "candidate_median_change_seconds": -0.905467625,
+          "candidate_median_change_percent": -26.99895964190188,
+          "flag_for_quiet_rerun": false
+        },
+        {
+          "name": "spheres_intersect",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 0.022362541666666666,
+            "minimum_seconds": 0.017920166666666668,
+            "maximum_seconds": 0.037479,
+            "p25_seconds": 0.019445020833333333,
+            "p75_seconds": 0.026302072916666665,
+            "samples_seconds": [
+              0.019873333333333333,
+              0.018770583333333334,
+              0.030254416666666666,
+              0.017920166666666668,
+              0.022544916666666668,
+              0.01843625,
+              0.024301666666666666,
+              0.024984625,
+              0.037479,
+              0.019669833333333334,
+              0.031266166666666664,
+              0.022180166666666667
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 0.023117,
+            "minimum_seconds": 0.01837325,
+            "maximum_seconds": 0.03819004166666667,
+            "p25_seconds": 0.020406177083333334,
+            "p75_seconds": 0.030994989583333334,
+            "samples_seconds": [
+              0.019758791666666668,
+              0.023338375,
+              0.020241708333333334,
+              0.030126208333333335,
+              0.03819004166666667,
+              0.020461,
+              0.022895625,
+              0.03360133333333333,
+              0.024036625,
+              0.01837325,
+              0.021054541666666666,
+              0.034280291666666664
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 0.019321958333333333,
+            "candidate-a": 0.0218996875,
+            "candidate-b": 0.023466124999999997,
+            "baseline-b": 0.02464314583333333
+          },
+          "median_speedup": 0.9673634843044802,
+          "candidate_median_change_seconds": 0.0007544583333333327,
+          "candidate_median_change_percent": 3.3737593185032235,
+          "flag_for_quiet_rerun": false
+        },
+        {
+          "name": "test_curved_uv",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 0.0554088125,
+            "minimum_seconds": 0.047953333333333334,
+            "maximum_seconds": 0.080575625,
+            "p25_seconds": 0.05084610416666667,
+            "p75_seconds": 0.06425533333333333,
+            "samples_seconds": [
+              0.04851679166666667,
+              0.048803291666666665,
+              0.05152704166666667,
+              0.05326733333333333,
+              0.047953333333333334,
+              0.05278716666666667,
+              0.07215958333333333,
+              0.057823125,
+              0.080575625,
+              0.05755029166666667,
+              0.075165,
+              0.06162058333333333
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 0.06079529166666667,
+            "minimum_seconds": 0.048645041666666666,
+            "maximum_seconds": 0.07834045833333333,
+            "p25_seconds": 0.050311458333333337,
+            "p75_seconds": 0.0682245,
+            "samples_seconds": [
+              0.060475375,
+              0.07059058333333333,
+              0.04996133333333334,
+              0.06111520833333333,
+              0.07834045833333333,
+              0.05147745833333333,
+              0.05042816666666667,
+              0.048709166666666665,
+              0.048645041666666666,
+              0.06811470833333333,
+              0.06775329166666667,
+              0.068553875
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 0.05016516666666666,
+            "candidate-a": 0.06079529166666667,
+            "candidate-b": 0.059090729166666675,
+            "baseline-b": 0.06689008333333334
+          },
+          "median_speedup": 0.9113997314759161,
+          "candidate_median_change_seconds": 0.005386479166666666,
+          "candidate_median_change_percent": 9.721340204983939,
+          "flag_for_quiet_rerun": true
+        },
+        {
+          "name": "test_geometry_1",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 0.04627977083333333,
+            "minimum_seconds": 0.03826225,
+            "maximum_seconds": 0.057522833333333336,
+            "p25_seconds": 0.043370197916666665,
+            "p75_seconds": 0.052547583333333335,
+            "samples_seconds": [
+              0.03826225,
+              0.048589041666666666,
+              0.0533295,
+              0.04437375,
+              0.04389404166666667,
+              0.04713570833333333,
+              0.052416375,
+              0.057522833333333336,
+              0.04542383333333333,
+              0.04041279166666667,
+              0.05294120833333334,
+              0.041798666666666665
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 0.041497770833333336,
+            "minimum_seconds": 0.037491875,
+            "maximum_seconds": 0.059649375,
+            "p25_seconds": 0.03977379166666666,
+            "p75_seconds": 0.04435501041666667,
+            "samples_seconds": [
+              0.03858316666666667,
+              0.04135604166666667,
+              0.059649375,
+              0.0443005,
+              0.043638625,
+              0.04451854166666667,
+              0.044563375,
+              0.040160666666666664,
+              0.038613166666666664,
+              0.037491875,
+              0.04088375,
+              0.0416395
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 0.04575472916666667,
+            "candidate-a": 0.0439695625,
+            "candidate-b": 0.04052220833333334,
+            "baseline-b": 0.048920104166666666
+          },
+          "median_speedup": 1.1152351055001446,
+          "candidate_median_change_seconds": -0.004781999999999995,
+          "candidate_median_change_percent": -10.332808295921218,
+          "flag_for_quiet_rerun": false
+        },
+        {
+          "name": "torus_ellipse",
+          "baseline": {
+            "count": 12,
+            "median_seconds": 6.220135,
+            "minimum_seconds": 5.944370541666666,
+            "maximum_seconds": 6.871401083333334,
+            "p25_seconds": 5.990564708333333,
+            "p75_seconds": 6.439593020833334,
+            "samples_seconds": [
+              6.081320875,
+              5.962945125,
+              6.255087125,
+              6.290602041666666,
+              5.966157708333333,
+              5.944370541666666,
+              6.607453708333333,
+              6.185182875,
+              6.871401083333334,
+              6.62470525,
+              6.383639458333334,
+              5.998700375
+            ]
+          },
+          "candidate": {
+            "count": 12,
+            "median_seconds": 1.3436712499999999,
+            "minimum_seconds": 1.270924,
+            "maximum_seconds": 1.7487830416666668,
+            "p25_seconds": 1.3297762083333333,
+            "p75_seconds": 1.3560588958333333,
+            "samples_seconds": [
+              1.3476318333333333,
+              1.7487830416666668,
+              1.270924,
+              1.3523655833333332,
+              1.300335625,
+              1.3912300416666668,
+              1.329925625,
+              1.348758875,
+              1.331765,
+              1.3671388333333334,
+              1.3293279583333333,
+              1.3397106666666667
+            ]
+          },
+          "per_process_median_seconds": {
+            "baseline-a": 6.023739291666667,
+            "candidate-a": 1.3499987083333331,
+            "candidate-b": 1.3357378333333334,
+            "baseline-b": 6.495546583333333
+          },
+          "median_speedup": 4.629208967595311,
+          "candidate_median_change_seconds": -4.87646375,
+          "candidate_median_change_percent": -78.39803718086505,
+          "flag_for_quiet_rerun": false
+        }
+      ],
+      "initial_quiet_rerun_required_cases": [
+        "test_curved_uv"
+      ],
+      "quiet_rerun_evidence": {
+        "path": "build/validation/fast/quiet-timing/repeated-timing-summary.json",
+        "exists": true,
+        "bytes": 5199,
+        "sha256": "494886b89c5d0b95cca26bee28f7dbdc40b7bc5ef1d224e8f2de9fd7f4374a8d"
+      },
+      "quiet_rerun": {
+        "schema_version": 1,
+        "generated_utc": "2026-10-07T00:25:54.180904+00:00",
+        "status": "passed",
+        "completed": true,
+        "passed": true,
+        "measurements_completed": true,
+        "exact_payloads_passed": true,
+        "expected_cases": [
+          "test_curved_uv"
+        ],
+        "process_order": [
+          "baseline-a",
+          "candidate-a",
+          "candidate-b",
+          "baseline-b"
+        ],
+        "repetitions_per_fixture_per_process": 7,
+        "excluded_repetitions_per_fixture_per_process": [
+          1
+        ],
+        "warm_samples_per_variant_per_fixture": 12,
+        "capture_evidence": [
+          {
+            "path": "build/validation/fast/quiet-timing/timing-baseline-a/capture.json",
+            "exists": true,
+            "bytes": 17243,
+            "sha256": "35d984980f302f7583ada33c8c352f83de2d73cef18b8ac2e37297c5d0485d37"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-baseline-a/capture.mat",
+            "exists": true,
+            "bytes": 5857718,
+            "sha256": "f9437cbd111aa2d87cddc49a76991d876ef7b58ef0f9cbd4f671c70b454a1b96"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-candidate-a/capture.json",
+            "exists": true,
+            "bytes": 17310,
+            "sha256": "2f7eba3203abac8c5da4017ceb83b110ce081e52e61225a89e8dc649a231c42b"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-candidate-a/capture.mat",
+            "exists": true,
+            "bytes": 5857607,
+            "sha256": "61d90ce488b9a7d27e37d27fb78bf40471122d34a1fe594c9bab702227a51a93"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-candidate-b/capture.json",
+            "exists": true,
+            "bytes": 17325,
+            "sha256": "fd9f8275119b4c460ba4a4854ecce39b37ca0e9f51f55e1e0881d72318ca65cc"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-candidate-b/capture.mat",
+            "exists": true,
+            "bytes": 5857613,
+            "sha256": "ea4abd11fc3a85e77f222744e81bba7849109ee83ece5e2f943f758ac298ba38"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-baseline-b/capture.json",
+            "exists": true,
+            "bytes": 17185,
+            "sha256": "1912a15e9317feaa52724d972156749e19512043a20ff61d98acda1d57c84f7f"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-baseline-b/capture.mat",
+            "exists": true,
+            "bytes": 5857723,
+            "sha256": "f3f4ad0946cf24544b052a18dd907e2a2a070d786f7929cf8d7b1154978639aa"
+          }
+        ],
+        "comparison_evidence": [
+          {
+            "path": "build/validation/fast/quiet-timing/timing-comparison-a.json",
+            "exists": true,
+            "bytes": 480202,
+            "sha256": "9e1fd40c0d1d129bda6e4e8a74a1c75a837335041dcbb5f4e97333f4fde4b43b"
+          },
+          {
+            "path": "build/validation/fast/quiet-timing/timing-comparison-b.json",
+            "exists": true,
+            "bytes": 480162,
+            "sha256": "ed918cfebf4801bd6c4ba0b2728adc5b5d4c6091dccbde89ab35e6abac3adfa2"
+          }
+        ],
+        "cases": [
+          {
+            "name": "test_curved_uv",
+            "baseline": {
+              "count": 12,
+              "median_seconds": 0.049944333333333334,
+              "minimum_seconds": 0.04616066666666667,
+              "maximum_seconds": 0.052994541666666665,
+              "p25_seconds": 0.04977709375,
+              "p75_seconds": 0.05045323958333334,
+              "samples_seconds": [
+                0.04616066666666667,
+                0.051344958333333336,
+                0.04978216666666667,
+                0.05006545833333333,
+                0.052994541666666665,
+                0.04974158333333333,
+                0.050074458333333335,
+                0.051497375,
+                0.049761875,
+                0.050156,
+                0.049823208333333334,
+                0.04981129166666667
+              ]
+            },
+            "candidate": {
+              "count": 12,
+              "median_seconds": 0.049266375,
+              "minimum_seconds": 0.047772416666666664,
+              "maximum_seconds": 0.05057091666666667,
+              "p25_seconds": 0.04869132291666667,
+              "p75_seconds": 0.0496575625,
+              "samples_seconds": [
+                0.047772416666666664,
+                0.04932129166666667,
+                0.05030645833333333,
+                0.05057091666666667,
+                0.04778595833333334,
+                0.04950970833333333,
+                0.04921145833333333,
+                0.04877379166666666,
+                0.05005875,
+                0.049523833333333336,
+                0.049196875,
+                0.04844391666666667
+              ]
+            },
+            "per_process_median_seconds": {
+              "baseline-a": 0.0499238125,
+              "candidate-a": 0.0494155,
+              "candidate-b": 0.04920416666666667,
+              "baseline-b": 0.04994883333333333
+            },
+            "median_speedup": 1.0137610760550848,
+            "candidate_median_change_seconds": -0.0006779583333333325,
+            "candidate_median_change_percent": -1.357427936435897,
+            "flag_for_quiet_rerun": false
+          }
+        ],
+        "quiet_rerun_required_cases": [],
+        "regression_threshold": {
+          "relative_median_increase": 0.05,
+          "absolute_median_increase_seconds": 0.001,
+          "condition": "Both thresholds must be exceeded."
+        },
+        "background_load": "Own replay coordinator and six worker processes were suspended; the existing user MATLAB process was left running. One timing MATLAB process ran at a time.",
+        "timing_caveat": "ABBA order and warm repetitions reduce startup/order bias. Background activity can still affect these measurements; any threshold violation needs a quiet rerun before the performance gate passes."
+      },
+      "quiet_rerun_resolved": true,
+      "background_load": "Six projection replay workers and an existing user MATLAB process were active; only one timing MATLAB worker ran at a time.",
+      "timing_caveat": "ABBA order and warm repetitions reduce startup/order bias. Background activity can still affect these measurements; any threshold violation needs a quiet rerun before the performance gate passes.",
+      "reason": null
+    }
+  },
+  "optional_evidence": {
+    "hairy_microbenchmark": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/micro-hairy.jsonl",
+        "exists": true,
+        "bytes": 3211,
+        "sha256": "80c225c99035d6dac3716ecda2541df32eb8de3a516e945855e79870fd83f01c"
+      },
+      "rows": [
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "all-faces A",
+          "face": 0,
+          "surface_type": "mixed",
+          "knot_grid_points_estimate": 0,
+          "nodes": 252,
+          "oracle_seconds": 0.285887,
+          "candidate_seconds": 0.062489292,
+          "speedup": 4.574975821457539,
+          "fallbacks": 0,
+          "oracle_digest": "04787df8a9b4abb5",
+          "candidate_digest": "04787df8a9b4abb5",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "all-faces shuffled B",
+          "face": 0,
+          "surface_type": "mixed",
+          "knot_grid_points_estimate": 0,
+          "nodes": 252,
+          "oracle_seconds": 0.278604583,
+          "candidate_seconds": 0.252724916,
+          "speedup": 1.1024025149938124,
+          "fallbacks": 0,
+          "oracle_digest": "ee35eff78c26d0f9",
+          "candidate_digest": "ee35eff78c26d0f9",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "all-faces repeated A",
+          "face": 0,
+          "surface_type": "mixed",
+          "knot_grid_points_estimate": 0,
+          "nodes": 252,
+          "oracle_seconds": 0.285887,
+          "candidate_seconds": 0.060035667,
+          "speedup": 4.7619525906158415,
+          "fallbacks": 0,
+          "oracle_digest": "04787df8a9b4abb5",
+          "candidate_digest": "04787df8a9b4abb5",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "primary batch 1 repetition 1",
+          "face": 1,
+          "surface_type": "bspline",
+          "knot_grid_points_estimate": 75328,
+          "nodes": 1,
+          "oracle_seconds": 0.023287416,
+          "candidate_seconds": 0.023102834,
+          "speedup": 1.0079895825767522,
+          "fallbacks": 0,
+          "oracle_digest": "837ce572275a1036",
+          "candidate_digest": "837ce572275a1036",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "primary batch 2 repetition 1",
+          "face": 1,
+          "surface_type": "bspline",
+          "knot_grid_points_estimate": 75328,
+          "nodes": 2,
+          "oracle_seconds": 0.045929416,
+          "candidate_seconds": 0.031431625,
+          "speedup": 1.4612485355116067,
+          "fallbacks": 0,
+          "oracle_digest": "17bc647738827c71",
+          "candidate_digest": "17bc647738827c71",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "primary batch 16 repetition 1",
+          "face": 1,
+          "surface_type": "bspline",
+          "knot_grid_points_estimate": 75328,
+          "nodes": 16,
+          "oracle_seconds": 0.359554584,
+          "candidate_seconds": 0.069460333,
+          "speedup": 5.176401673743776,
+          "fallbacks": 0,
+          "oracle_digest": "9fc5bcfb87ac3941",
+          "candidate_digest": "9fc5bcfb87ac3941",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "primary batch 64 repetition 1",
+          "face": 1,
+          "surface_type": "bspline",
+          "knot_grid_points_estimate": 75328,
+          "nodes": 64,
+          "oracle_seconds": 1.446188292,
+          "candidate_seconds": 0.201054416,
+          "speedup": 7.193019286878036,
+          "fallbacks": 0,
+          "oracle_digest": "4d797d94adf73d43",
+          "candidate_digest": "4d797d94adf73d43",
+          "exact": true
+        },
+        {
+          "fixture": "step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step",
+          "case": "primary batch 256 repetition 1",
+          "face": 1,
+          "surface_type": "bspline",
+          "knot_grid_points_estimate": 75328,
+          "nodes": 256,
+          "oracle_seconds": 6.156116333,
+          "candidate_seconds": 0.727269417,
+          "speedup": 8.464698486008245,
+          "fallbacks": 0,
+          "oracle_digest": "614690c8835df29c",
+          "candidate_digest": "614690c8835df29c",
+          "exact": true
+        }
+      ],
+      "scope": "Completed printed comparisons only; synthetic seam/narrow-span and mixed/shuffled/repeated batches, not the full mesh."
+    },
+    "actual_rv_serial_timing": {
+      "status": "passed",
+      "completed": true,
+      "evidence": {
+        "path": "build/validation/fast/rv-sample/benchmark.json",
+        "exists": true,
+        "bytes": 83314,
+        "sha256": "b97ebd512ae4faeb4d8c0a74094246d4052c6c7cacfd896469efe565f8a42e31"
+      },
+      "request_evidence": {
+        "path": "build/validation/fast/rv-sample/main-face-512.request.txt",
+        "exists": true,
+        "bytes": 34836,
+        "sha256": "be28c4d648ab85e51e0fa3ec6c76fa82b69d873761ebc48b9216e70b6ee12e82"
+      },
+      "map_evidence": {
+        "path": "build/validation/fast/rv-sample/main-face-512.map.txt",
+        "exists": true,
+        "bytes": 107,
+        "sha256": "39e3e05c6682d344194fefaee2339f6c4a4bfb238893e7343810d752d880c545"
+      },
+      "sample_nodes": 512,
+      "original_source_nodes": 270630,
+      "original_main_spline_nodes": 262515,
+      "selection": "i * (N - 1) // (512 - 1), i=0..511, preserving source order",
+      "runs": [
+        {
+          "index": 1,
+          "variant": "baseline",
+          "wall_seconds": 13.98,
+          "user_seconds": 13.41,
+          "system_seconds": 0.52,
+          "peak_rss_bytes": 202080256,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "variant": "candidate",
+          "wall_seconds": 1.42,
+          "user_seconds": 1.39,
+          "system_seconds": 0.01,
+          "peak_rss_bytes": 52117504,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "variant": "candidate",
+          "wall_seconds": 1.36,
+          "user_seconds": 1.34,
+          "system_seconds": 0.01,
+          "peak_rss_bytes": 52396032,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "variant": "baseline",
+          "wall_seconds": 13.89,
+          "user_seconds": 13.34,
+          "system_seconds": 0.5,
+          "peak_rss_bytes": 211845120,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 5,
+          "variant": "candidate",
+          "wall_seconds": 1.37,
+          "user_seconds": 1.35,
+          "system_seconds": 0.01,
+          "peak_rss_bytes": 52051968,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 6,
+          "variant": "baseline",
+          "wall_seconds": 13.97,
+          "user_seconds": 13.4,
+          "system_seconds": 0.52,
+          "peak_rss_bytes": 215695360,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 7,
+          "variant": "baseline",
+          "wall_seconds": 13.89,
+          "user_seconds": 13.36,
+          "system_seconds": 0.49,
+          "peak_rss_bytes": 207339520,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        },
+        {
+          "index": 8,
+          "variant": "candidate",
+          "wall_seconds": 1.37,
+          "user_seconds": 1.36,
+          "system_seconds": 0.01,
+          "peak_rss_bytes": 52281344,
+          "response_sha256": "c73e78a1c46f0bd175c4609fede53643908ccf5d3f63202fe522d992475a6cb4",
+          "strict_response_bytes_equal": true,
+          "background": {
+            "available": true,
+            "replay_related_processes": [
+              {
+                "pid": 2341,
+                "state": "Ss",
+                "cpu_percent": 0.0,
+                "command": "/bin/bash -lc python3 tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume > build/validation/fast/full-replay-resumed.log 2>&1"
+              },
+              {
+                "pid": 2359,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python tests/step/replay_projection_batches.py --request build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.request.txt --mapping build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt --baseline build/fast-baseline/test_occ_frozen --candidate build/fast-candidate/test_occ_frozen --output build/validation/fast/full-replay --jobs 6 --batch-size 5000 --resume"
+              },
+              {
+                "pid": 4116,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0036/baseline.txt"
+              },
+              {
+                "pid": 4117,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0037/baseline.txt"
+              },
+              {
+                "pid": 4118,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0038/baseline.txt"
+              },
+              {
+                "pid": 4119,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0039/baseline.txt"
+              },
+              {
+                "pid": 4120,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0040/baseline.txt"
+              },
+              {
+                "pid": 4123,
+                "state": "T",
+                "cpu_percent": 0.0,
+                "command": "/Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/fast-baseline/test_occ_frozen project-nodes /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/request.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/capture-hairy/wobbly_hairy_torus_10_v2_flat_AP214_p4.map.txt /Users/fevibon/Library/CloudStorage/Dropbox/felipe_code_cloud_dropbox/chunkiefest2026/SurfSmooth3D/build/validation/fast/full-replay/batch-0041/baseline.txt"
+              }
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "baseline": {
+          "runs": 4,
+          "median_wall_seconds": 13.93,
+          "median_user_seconds": 13.379999999999999,
+          "median_system_seconds": 0.51,
+          "median_peak_rss_bytes": 209592320.0,
+          "maximum_peak_rss_bytes": 215695360
+        },
+        "candidate": {
+          "runs": 4,
+          "median_wall_seconds": 1.37,
+          "median_user_seconds": 1.355,
+          "median_system_seconds": 0.01,
+          "median_peak_rss_bytes": 52199424.0,
+          "maximum_peak_rss_bytes": 52396032
+        }
+      },
+      "paired_speedups": [
+        {
+          "run_indices": [
+            1,
+            2
+          ],
+          "wall_speedup": 9.845070422535212,
+          "user_speedup": 9.64748201438849
+        },
+        {
+          "run_indices": [
+            3,
+            4
+          ],
+          "wall_speedup": 10.213235294117647,
+          "user_speedup": 9.955223880597014
+        },
+        {
+          "run_indices": [
+            5,
+            6
+          ],
+          "wall_speedup": 10.197080291970803,
+          "user_speedup": 9.925925925925926
+        },
+        {
+          "run_indices": [
+            7,
+            8
+          ],
+          "wall_speedup": 10.13868613138686,
+          "user_speedup": 9.823529411764705
+        }
+      ],
+      "sample_median_wall_speedup": 10.16788321167883,
+      "sample_median_user_speedup": 9.874538745387452,
+      "candidate_to_baseline_peak_rss_ratio": 0.24291682491454614,
+      "background_note": "Original user MATLAB continues on one CPU core. Owned six replay workers and their coordinator were paused by root throughout this sample benchmark. Quiet one-fixture ABBA completed before the sample began.",
+      "timing_caveat": "Fixed 512-point projection helper microbenchmark; includes fresh process/STEP-import overhead. Does not measure or extrapolate a full serial baseline mesh runtime."
+    }
+  },
+  "scope": "Reuse the same initialized bounded OCC spline/Bezier projector within consecutive source-face runs; preserve original global nearest-point algorithm, tolerance, order, UV, distances, and fallbacks.",
+  "limits": [
+    "The isolated baseline benchmark stops after preprojection capture; its serialized geometry, face map and all input nodes must match the candidate before replay is accepted.",
+    "Full target projection correctness is checked against an independent baseline executable for every captured node; candidate end-to-end mesh correctness also includes the recorded RV-derived and area/flux diagnostics.",
+    "Parallel replay timing is not a serial original full-mesh runtime measurement. Fixed-input projection benchmarks and repeated small-case timings provide the direct speed evidence.",
+    "The initial small-case captures contain single measurements. The separate ABBA gate uses repeated warm samples and a 5% plus 1ms median threshold for these fixtures; it does not prove a universal absence of performance regressions."
+  ]
+}

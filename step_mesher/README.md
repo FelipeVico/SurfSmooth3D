@@ -73,8 +73,9 @@ original formats and the reference convention
 first line, the number of triangular patches next, then the twelve
 component-major blocks of positions, local tangents, and normals at RV nodes.
 
-The ordinary driver is `examples/step/run_step_mesher.m`; its original torus
-selection and p8/GLL8 settings are retained. API defaults remain p8/GLL16.
+The ordinary driver is `examples/step/run_step_mesher.m`; it currently uses
+p4/GLL4 and `curvature_balanced_local`. Uncomment a `stepFile` selection in the
+driver before running it. API defaults remain p8/GLL16.
 The convergence driver and viewers are in the same directory. The optional STEP
 file viewer uses MATLAB's PDE Toolbox; the mesher and geometry-package viewer
 do not require it. Driver exports go under `outputs/step`.
@@ -102,6 +103,53 @@ fragmentation. Current-face ancestry drives Gmsh operations; OCC calculations
 retain the original support domains. Metadata reports `native_occ_topology_v1`
 and the chosen numerical path. Mesher calls are serialized and clear Gmsh
 models, preserving the original lifecycle.
+
+## Projection performance
+
+RV-node projection reuses an initialized OCC projector across consecutive
+points on the same bounded B-spline or Bezier face. Complex spline surfaces can
+have expensive surface sampling grids; keeping that grid avoids rebuilding it
+for every point. Each point still uses OCC's original global projection
+algorithm, bounds, tolerance, extrema selection, and output order. Mesh sizing,
+quadrature order, and refinement settings are unchanged.
+
+Analytic surfaces and single-point runs use the original projector path. Only
+one reusable projector exists at a time, owned by the current face run inside
+one `project_nodes` call. A failed projection discards it and retries the
+original path, which is then used for the rest of that run. No geometry cache
+survives the call or is shared between threads.
+
+`test_projection_reuse` compares XYZ, UV, distances, and fallback counts with
+the original fresh-projector calculation, including seams, repeated face
+visits, singleton batches, and failed-projection recovery. CTest runs the
+Bezier checks. To check another fixture explicitly:
+
+```sh
+build/step/test_projection_reuse \
+  step_mesher/examples/step_files/wobbly_hairy_torus_10_v2_flat_AP214.step \
+  --batch-sizes=1,2,16,64,256 --points-per-face=12 --repetitions=1
+```
+
+The MATLAB differential drivers are `tests/step/benchmark_projection_reuse.m`
+and `tests/step/compare_projection_reuse.m`. Run baseline and candidate builds
+in separate MATLAB processes; the driver verifies the selected package and
+loaded MEX. Captures include complete mesh fields, `srcvals`, and area/flux
+checks, with strict numerical and byte comparisons across repetitions.
+
+For exhaustive validation of expensive geometries,
+`tests/step/instrument_projection_benchmark.py` instruments an archived source
+copy under `build/` to capture actual RV projection requests and stage timings.
+It refuses to modify the production source. `replay_projection_batches.py`
+compares every requested projection using separate baseline and candidate
+executables; `compare_projection_replay.m` also compares the uninterrupted
+MATLAB mesh with those baseline results. Parallel replay times are diagnostics,
+not serial end-to-end speedup measurements.
+
+Recorded validation is in `provenance/projection-reuse-validation.json`: all
+270,630 current torus nodes match the original projection results, with a
+separate byte comparison of the uninterrupted MATLAB mesh. The report also
+records the other fixtures, repeated timings, memory measurements, and their
+measurement limits.
 
 ## Validation and known limitations
 
