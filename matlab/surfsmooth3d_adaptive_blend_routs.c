@@ -6,6 +6,8 @@
 
 extern void adaptive_blend_open(const char *,const char *,const char *,const int64_t *,
     const int64_t *,const int64_t *,const double *,const int64_t *,int64_t *,int64_t *);
+extern void adaptive_blend_open_recovery(const char *,const char *,const char *,const int64_t *,
+    const int64_t *,const int64_t *,const double *,const int64_t *,const int64_t *,int64_t *,int64_t *);
 extern void adaptive_blend_close(const int64_t *,int64_t *);
 extern void adaptive_blend_close_all(void);
 extern void adaptive_blend_size(const int64_t *,int64_t *,int64_t *,double *,int64_t *);
@@ -58,14 +60,15 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
     int64_t id=0,ier=0,n=0,np=0;
     double sphere[4];
     if (!strcmp(command,"open")) {
-        require(nrhs==9 && nlhs==2,"open expects eight arguments and two outputs.");
+        require((nrhs==9 || nrhs==10) && nlhs==2,"open expects eight arguments, an optional recovery flag, and two outputs.");
         for (int j=1;j<=3;++j) require(mxIsChar(prhs[j]) && mxGetM(prhs[j])==1 && mxGetN(prhs[j])>0,"Invalid path.");
         int64_t nq=(int64_t)scalar(prhs[4],1,20,1),p=(int64_t)scalar(prhs[5],1,20,1);
         int64_t mode=(int64_t)scalar(prhs[6],0,3,1),budget=(int64_t)scalar(prhs[8],1,9007199254740991.,1);
+        int64_t recovery=nrhs==10 ? (int64_t)scalar(prhs[9],0,1,1) : 1;
         double rlam=scalar(prhs[7],0,mxGetInf(),0);
         require(rlam>0,"rlam must be positive.");
         char *fname=mxArrayToString(prhs[1]),*cad=mxArrayToString(prhs[2]),*root=mxArrayToString(prhs[3]);
-        adaptive_blend_open(fname,cad,root,&nq,&p,&mode,&rlam,&budget,&id,&ier);
+        adaptive_blend_open_recovery(fname,cad,root,&nq,&p,&mode,&rlam,&budget,&recovery,&id,&ier);
         mxFree(fname); mxFree(cad); mxFree(root);
         if (!ier) mexLock();
         plhs[0]=mxCreateDoubleScalar((double)id); plhs[1]=mxCreateDoubleScalar((double)ier);

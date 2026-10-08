@@ -13,9 +13,28 @@ hash = surfsmooth3d.edgepreserve.file_sha256(scaffold);
 opts = struct('fcad',cad,'filetype',3,'nquad',8,'rlam',2, ...
     'adapt_sigma',1,'two_stage_smoother',true,'nrefine',2, ...
     'max_refine',0,'eps_adapt',1e-12,'max_points',200000);
-uniform = surfsmooth3d.multiscale_mesher(scaffold,4,opts);
+[uniform,uniformInfo] = surfsmooth3d.multiscale_mesher(scaffold,4,opts);
+assert(uniformInfo.recovery.enabled && uniformInfo.recovery.deferred==0);
+opts.newton_recovery = false;
+[disabled,disabledInfo] = surfsmooth3d.multiscale_mesher(scaffold,4,opts);
+assert(~disabledInfo.recovery.enabled && disabledInfo.recovery.deferred==0);
+assert(isequal(extract_arrays(disabled{1}),extract_arrays(uniform{1})));
+opts.newton_recovery = true;
 [baseline,zero] = surfsmooth3d.multiscale_mesher_adaptive(scaffold,4,opts);
 assert_same(baseline,uniform{1},2e-11);
+assert(zero.recovery.enabled && zero.recovery.deferred==0);
+% The original eleven-input gateway remains usable and defaults to recovery.
+legacyRoot = fullfile(directory,'old_gateway');
+legacyStatus = surfsmooth3d_adaptive_routs(scaffold,cad,legacyRoot, ...
+    3,8,4,1,2,opts.eps_adapt,0,opts.max_points);
+assert(legacyStatus==0);
+legacy = surfsmooth3d.surfer.load_from_file([legacyRoot '.go3']);
+assert(isequal(extract_arrays(legacy),extract_arrays(baseline)));
+opts.newton_recovery = false;
+[disabledAdaptive,disabledAdaptiveInfo] = surfsmooth3d.multiscale_mesher_adaptive(scaffold,4,opts);
+assert(~disabledAdaptiveInfo.recovery.enabled);
+assert(isequal(extract_arrays(disabledAdaptive),extract_arrays(baseline)));
+opts.newton_recovery = true;
 assert(zero.achieved_depth==0 && ~zero.converged);
 opts.max_refine = 2;
 [adaptive,info] = surfsmooth3d.multiscale_mesher_adaptive(scaffold,4,opts);

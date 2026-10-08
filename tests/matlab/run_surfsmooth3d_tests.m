@@ -18,6 +18,7 @@ if ismember(mode,{'pure','all'})
     test_edgepreserve_fixed_cad;
     test_adaptive_reference_maps;
     test_adaptive_blend_math;
+    test_newton_recovery_report;
     check_adaptive_code;
 end
 if ismember(mode,{'native','all'})
@@ -25,6 +26,7 @@ if ismember(mode,{'native','all'})
     test_adaptive_blend;
     test_adaptive_blend('limits');
     test_sigma_modes(package);
+    test_newton_recovery_switch;
 end
 if ismember(mode,{'gui','all'})
     runOutput = tempname(output); mkdir(runOutput);

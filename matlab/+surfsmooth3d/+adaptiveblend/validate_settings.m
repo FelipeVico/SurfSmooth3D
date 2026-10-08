@@ -1,4 +1,7 @@
 function validate_settings(s,pkg)
+if isfield(s,'newton_recovery')
+    surfsmooth3d.validate_newton_recovery(s.newton_recovery);
+end
 validateattributes(s.order,{'double'},{'scalar','integer','>=',1,'<=',20});
 validateattributes(s.rlam,{'double'},{'scalar','finite','positive'});
 validateattributes(s.adapt_sigma,{'double'},{'scalar','integer','>=',0,'<=',3});

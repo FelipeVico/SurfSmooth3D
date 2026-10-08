@@ -4,6 +4,8 @@ function [S, info] = multiscale_mesher_adaptive(scaffoldFile, norder, opts)
 % opts.fcad is required (x y z nx ny nz w point-skeleton file).
 % Existing options: nquad=12, rlam=10, adapt_sigma=1, filetype inferred.
 % Sigma modes: 0 constant, 1 longest-side, 2 recursive, 3 shortest-side.
+% opts.newton_recovery=true enables local recovery of unsafe Newton targets.
+% info.recovery contains counts and stage records; false restores guarded aborts.
 % Adaptive options: eps_adapt=1e-4, max_refine=3, max_points=2000000.
 % Order is 1:20, maximum depth is 0:20. Leaves refine independently.
 % The CAD source and original scaffold sigma field stay fixed. Tolerance
@@ -25,11 +27,12 @@ if ~isfile(scaffoldFile)
     error('adaptivesmoother:scaffold','Scaffold file does not exist.');
 end
 defaults = struct('nquad',12,'rlam',10,'adapt_sigma',1, ...
-    'eps_adapt',1e-4,'max_refine',3,'max_points',2000000);
+    'eps_adapt',1e-4,'max_refine',3,'max_points',2000000,'newton_recovery',true);
 fields = fieldnames(defaults);
 for k = 1:numel(fields)
     if ~isfield(opts,fields{k}), opts.(fields{k}) = defaults.(fields{k}); end
 end
+opts.newton_recovery = surfsmooth3d.validate_newton_recovery(opts.newton_recovery);
 validateattributes(norder,{'numeric'},{'real','scalar','integer','>=',1,'<=',20});
 validateattributes(opts.nquad,{'numeric'},{'real','scalar','integer','>=',1,'<=',20});
 validateattributes(opts.rlam,{'numeric'},{'real','scalar','finite','positive'});
@@ -52,23 +55,34 @@ cleanup = onCleanup(@() rmdir(directory,'s'));
 root = fullfile(directory,'adaptive');
 ier = surfsmooth3d_adaptive_routs(char(scaffoldFile),char(opts.fcad),root, ...
     double(opts.filetype),double(opts.nquad),double(norder),double(opts.adapt_sigma), ...
-    double(opts.rlam),double(opts.eps_adapt),double(opts.max_refine),double(opts.max_points));
+    double(opts.rlam),double(opts.eps_adapt),double(opts.max_refine),double(opts.max_points),double(opts.newton_recovery));
 if ier ~= 0
     message = sprintf('Adaptive smoother failed (code %d). No failed mesh was returned.',ier);
     identifier = 'adaptivesmoother:solve';
-    if ier == 7, identifier = 'MULTISCALE_MESHER:NewtonRadiusGuard'; end
+    if ier == 7
+        identifier = 'MULTISCALE_MESHER:NewtonRadiusGuard';
+        if isfile([root '_newton_recovery.txt'])
+            message = 'Deferred Newton recovery found no acceptable local outward crossing. No mesh was returned.';
+        end
+    end
     if ismember(ier,[3 4]), identifier = 'MULTISCALE_MESHER:NewtonProjectionFailure'; end
-    if ier == 6, message = 'Vertex projection produced a degenerate scaffold.'; end
+    if ier == 6, message = 'Projected scaffold or recovered-patch validation produced an invalid geometry.'; end
     if ier == 8, message = 'Level-zero mesh already exceeds opts.max_points.'; end
     if ier == 9, message = 'Cannot write adaptive result files.'; end
     exception = MException(identifier,'%s',message);
     reportFile = [root '_newton_failure.txt'];
     if isfile(reportFile)
         preserved = [tempname '_newton_failure.txt'];
-        copyfile(reportFile,preserved);
-        exception = addCause(exception,MException( ...
-            'MULTISCALE_MESHER:NewtonDiagnosticFile','%s',preserved));
+        [saved,diagnosticMessage] = copyfile(reportFile,preserved);
+        if saved
+            exception = addCause(exception,MException( ...
+                'MULTISCALE_MESHER:NewtonDiagnosticFile','%s',preserved));
+        else
+            warning('MULTISCALE_MESHER:NewtonDiagnosticFile', ...
+                'Could not preserve Newton diagnostic %s: %s',reportFile,diagnosticMessage);
+        end
     end
+    exception = surfsmooth3d.attach_recovery_report(exception,[root '_newton_recovery.txt']);
     throw(exception);
 end
 S = surfsmooth3d.surfer.load_from_file([root '.go3']);
@@ -84,6 +98,7 @@ info = struct('converged',status(1)==0,'stop_reason',reasons{status(1)+1}, ...
     'maps',reshape(leaves(:,3:8).',2,3,[]),'indicators',leaves(:,9:12), ...
     'launch_diameter',leaves(:,13),'center',status(2:4).','radius',status(5), ...
     'order',norder,'settings',opts);
+info.recovery = surfsmooth3d.read_newton_recovery([root '_newton_recovery.txt'],opts.newton_recovery,true);
 info.indicator_names = {'position_tail','normal_tail','position_check','normal_check'};
 info.independent_checked = all(info.indicators(:,3:4)>=0,2);
 info.unresolved = max(info.indicators,[],2)>opts.eps_adapt;

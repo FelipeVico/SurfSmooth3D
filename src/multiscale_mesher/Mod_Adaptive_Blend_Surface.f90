@@ -2,7 +2,8 @@ module Mod_Adaptive_Blend_Surface
   use Mod_Adaptive_Smooth_Surface
   implicit none
   private
-  public :: blend_open, blend_close, blend_close_all, blend_size, blend_get, blend_refine, blend_project, blend_sigma
+  public :: blend_open, blend_open_recovery, blend_close, blend_close_all, blend_size, &
+      blend_get, blend_refine, blend_project, blend_sigma
 
   type blend_context
     type(Geometry) :: g
@@ -65,6 +66,15 @@ contains
     integer(c_int64_t), intent(in) :: nquad,p,mode,budget
     real(c_double), intent(in) :: rlam
     integer(c_int64_t), intent(out) :: id,ier
+    call blend_open_recovery(fname,cad,root,nquad,p,mode,rlam,budget,1_c_int64_t,id,ier)
+  end subroutine
+
+  subroutine blend_open_recovery(fname,cad,root,nquad,p,mode,rlam,budget,newton_recovery,id,ier) &
+      bind(C,name='adaptive_blend_open_recovery')
+    character(c_char), intent(in) :: fname(*),cad(*),root(*)
+    integer(c_int64_t), intent(in) :: nquad,p,mode,budget,newton_recovery
+    real(c_double), intent(in) :: rlam
+    integer(c_int64_t), intent(out) :: id,ier
     type(blend_context), pointer :: c
     integer*8 :: j,close_error
     id=0
@@ -89,7 +99,7 @@ contains
     endif
     call load_cad_skeleton(c%g,c_string(cad))
     call funcion_normal_vert(c%g)
-    call initialize_projection_guard(c%guard,c%g,c_string(root),ier)
+    call initialize_projection_guard(c%guard,c%g,c_string(root),ier,newton_recovery/=0)
     if (ier/=0) goto 900
     call start_Feval_tree(c%feval,c%g,rlam,mode)
     c%tree_ready=.true.
@@ -194,7 +204,8 @@ contains
     type(blend_context), pointer :: c
     real*8, allocatable :: saved_b(:,:),saved_n(:,:),bu(:,:),bv(:,:),nu(:,:),nv(:,:)
     real*8, allocatable :: h(:),grad(:,:),r(:,:),pol(:),coeff(:),f(:)
-    real*8 :: denominator,hu,hv
+    real*8 :: denominator,hu,hv,cross(3),jacobian
+    logical :: recovered
     integer*8 :: j,old_nt,flag
     c=>lookup(id)
     ier=10
@@ -233,16 +244,58 @@ contains
     enddo
     call eval_density_grad_FMM(c%g,r,c%g%Base_Points_N,nt,f,grad,c%feval,c%mode)
     do j=1,nt
+      recovered=.false.
+      if (allocated(c%guard%recovered_mask)) then
+        if (size(c%guard%recovered_mask)==nt) recovered=c%guard%recovered_mask(j)
+      endif
       denominator=dot_product(grad(:,j),c%g%Base_Points_N(:,j))
-      if (.not.ieee_is_finite(denominator)) cycle
-      if (abs(denominator)<=1d-12*norm2(grad(:,j))*norm2(c%g%Base_Points_N(:,j))) cycle
-      if (norm2(grad(:,j))*c%guard%radius<=1d-14) cycle
+      if (.not.ieee_is_finite(denominator)) then
+        if (recovered) then
+          call reject_recovered_geometry(c%guard,'nonfinite directional derivative at recovered blend target',ier)
+          goto 900
+        endif
+        cycle
+      endif
+      if (abs(denominator)<=1d-12*norm2(grad(:,j))*norm2(c%g%Base_Points_N(:,j))) then
+        if (recovered) then
+          call reject_recovered_geometry(c%guard,'singular directional derivative at recovered blend target',ier)
+          goto 900
+        endif
+        cycle
+      endif
+      if (norm2(grad(:,j))*c%guard%radius<=1d-14) then
+        if (recovered) then
+          call reject_recovered_geometry(c%guard,'vanishing field gradient at recovered blend target',ier)
+          goto 900
+        endif
+        cycle
+      endif
+      if (recovered) then
+        if (denominator>=-1d-12*norm2(grad(:,j))*norm2(c%g%Base_Points_N(:,j))) then
+          call reject_recovered_geometry(c%guard,'outward crossing lost at recovered blend target',ier)
+          goto 900
+        endif
+      endif
       hu=-dot_product(grad(:,j),bu(:,j)+h(j)*nu(:,j))/denominator
       hv=-dot_product(grad(:,j),bv(:,j)+h(j)*nv(:,j))/denominator
       values(1:3,j)=r(:,j)
       values(4:6,j)=bu(:,j)+h(j)*nu(:,j)+hu*c%g%Base_Points_N(:,j)
       values(7:9,j)=bv(:,j)+h(j)*nv(:,j)+hv*c%g%Base_Points_N(:,j)
       values(10:12,j)=-grad(:,j)/norm2(grad(:,j))
+      if (recovered) then
+        cross(1)=values(5,j)*values(9,j)-values(6,j)*values(8,j)
+        cross(2)=values(6,j)*values(7,j)-values(4,j)*values(9,j)
+        cross(3)=values(4,j)*values(8,j)-values(5,j)*values(7,j)
+        jacobian=norm2(cross)
+        if (any(.not.ieee_is_finite(values(:,j))) .or. .not.ieee_is_finite(jacobian)) then
+          call reject_recovered_geometry(c%guard,'nonfinite implicit derivatives at recovered blend target',ier)
+          goto 900
+        endif
+        if (jacobian<=0d0 .or. dot_product(cross,values(10:12,j))<=0d0) then
+          call reject_recovered_geometry(c%guard,'invalid implicit Jacobian at recovered blend target',ier)
+          goto 900
+        endif
+      endif
     enddo
 900 deallocate(c%g%Base_Points,c%g%Base_Points_N)
     call move_alloc(saved_b,c%g%Base_Points)

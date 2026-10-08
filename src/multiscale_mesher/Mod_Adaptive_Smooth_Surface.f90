@@ -292,6 +292,18 @@ contains
     real*8, intent(in) :: rlam,tol
     integer*8, intent(out) :: ier
     procedure(adaptive_progress), optional :: progress
+    call run_adaptive_smoother_recovery(fname,cad,outroot,filetype,nquad,p,mode,rlam,tol, &
+        maxdepth,maxpoints,ier,progress,.true.)
+  end subroutine
+
+  subroutine run_adaptive_smoother_recovery(fname,cad,outroot,filetype,nquad,p,mode,rlam,tol, &
+      maxdepth,maxpoints,ier,progress,newton_recovery)
+    character(*), intent(in) :: fname,cad,outroot
+    integer*8, intent(in) :: filetype,nquad,p,mode,maxdepth,maxpoints
+    real*8, intent(in) :: rlam,tol
+    integer*8, intent(out) :: ier
+    procedure(adaptive_progress), optional :: progress
+    logical, intent(in) :: newton_recovery
     type(Geometry) :: g
     type(Feval_stuff) :: feval
     type(projection_radius_guard) :: guard
@@ -310,7 +322,7 @@ contains
     endif
     call load_cad_skeleton(g,cad)
     call funcion_normal_vert(g)
-    call initialize_projection_guard(guard,g,outroot,ier)
+    call initialize_projection_guard(guard,g,outroot,ier,newton_recovery)
     if (ier/=0) return
     call start_Feval_tree(feval,g,rlam,mode)
     call project_scaffold_vertices_to_levelset(g,feval,mode,ier,guard)
@@ -427,6 +439,20 @@ contains
     call c_f_procpointer(progress_function,progress)
     call run_adaptive_smoother(c_string(fname),c_string(cad),c_string(outroot), &
         filetype,nquad,p,mode,rlam,tol,maxdepth,maxpoints,ier,progress)
+  end subroutine
+
+  subroutine adaptive_recovery_c(fname,cad,outroot,filetype,nquad,p,mode,rlam,tol,maxdepth,maxpoints, &
+      newton_recovery,ier,progress_function) &
+      bind(C,name='multiscale_mesher_adaptive_recovery_c')
+    character(c_char), intent(in) :: fname(*),cad(*),outroot(*)
+    integer(c_int64_t), intent(in) :: filetype,nquad,p,mode,maxdepth,maxpoints,newton_recovery
+    real(c_double), intent(in) :: rlam,tol
+    integer(c_int64_t), intent(out) :: ier
+    type(c_funptr), value :: progress_function
+    procedure(adaptive_progress), pointer :: progress
+    call c_f_procpointer(progress_function,progress)
+    call run_adaptive_smoother_recovery(c_string(fname),c_string(cad),c_string(outroot), &
+        filetype,nquad,p,mode,rlam,tol,maxdepth,maxpoints,ier,progress,newton_recovery/=0)
   end subroutine
 
   function c_string(chars) result(str)

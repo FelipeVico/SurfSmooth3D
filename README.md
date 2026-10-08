@@ -61,6 +61,29 @@ Use `surfsmooth3d.multiscale_mesher_adaptive` for full adaptive smoothing,
 defaults and return conventions are preserved. The one-step path remains the
 default of `multiscale_mesher`.
 
+Guarded two-stage and adaptive solves automatically defer Newton targets whose
+proposed step is nonfinite or leaves the fixed 10R sphere. After the other
+targets converge, recovery scans the original pseudonormal near its initial
+position and uses safeguarded Brent iterations to select the closest detected
+outward crossing of Phi=1/2. Sources and the sigma field stay fixed. Unresolved
+roots or invalid recovered patches stop the solve without returning a mesh.
+Set `opts.newton_recovery=false` to restore the previous guarded abort behavior;
+the default one-stage path is unaffected. The uniform wrapper also supports
+`[S,info] = surfsmooth3d.multiscale_mesher(...)`. Its `info.recovery`, and the
+corresponding adaptive/blend metadata, contain counts, per-target stage records,
+and a preserved diagnostic path when recovery occurred.
+
+Recovery searches at most eight local sigma on each side with 128 subdivisions
+per side. It cannot certify all intersections or restore a feature removed by
+smoothing. The separate `upward-tree-reuse` FMM optimization is deferred.
+
+The [recovery validation record](provenance/newton-recovery-validation.json)
+contains the regression results, input hashes and controlled timings. Complete
+cylinder and intersecting-sphere comparisons retain bitwise output equality
+and identical FMM calls, with median overhead below 5%. The hairy-torus check
+covers 128 targets on the full fixed CAD sources; full-surface acceptance has
+not yet been established. Restart MATLAB after rebuilding the pinned gateways.
+
 The main interactive/batch drivers are in `examples/matlab`:
 
 - `driver_two_stage_edge_smooth_batch.m`

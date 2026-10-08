@@ -47,6 +47,7 @@ Module Mod_Feval
   use Mod_TreeLRD
   use Mod_Fast_Sigma
   use ModType_Smooth_Surface
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
 
   implicit none
   
@@ -54,6 +55,10 @@ Module Mod_Feval
   ! type definitions
   !
   type Feval_stuff
+     ! Per-owner instrumentation; no FMM state or numerical caching is changed.
+     integer*8 :: evaluation_calls = 0, evaluation_targets = 0
+     logical :: audit_targets = .false., unsafe_target_seen = .false.
+     real*8 :: audit_center(3) = 0d0, audit_radius = 1d0, max_target_radius = 0d0
      type (  Fast_Sigma_stuff ), pointer :: FSS_1 => null ()
      type ( TreeLRD ), pointer :: Tree_local => null ()
      !!All the stuff for Manas' tree
@@ -193,6 +198,18 @@ contains
     
     !$ double precision :: omp_get_wtime
 
+    if (n_targets == 0) return
+    Fev_stf_1%evaluation_calls = Fev_stf_1%evaluation_calls + 1
+    Fev_stf_1%evaluation_targets = Fev_stf_1%evaluation_targets + n_targets
+    if (Fev_stf_1%audit_targets) then
+      if (.not.all(ieee_is_finite(targets))) Fev_stf_1%unsafe_target_seen = .true.
+      do count=1,n_targets
+        if (.not.all(ieee_is_finite(targets(:,count)))) cycle
+        sgma_max = norm2((targets(:,count)-Fev_stf_1%audit_center)/Fev_stf_1%audit_radius)
+        Fev_stf_1%max_target_radius = max(Fev_stf_1%max_target_radius,sgma_max)
+        if (sgma_max > 10d0) Fev_stf_1%unsafe_target_seen = .true.
+      enddo
+    endif
     allocate(sgma(n_targets))
     allocate(sgma_grad(3,n_targets))
     !

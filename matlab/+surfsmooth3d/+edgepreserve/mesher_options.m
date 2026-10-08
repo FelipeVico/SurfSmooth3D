@@ -3,4 +3,7 @@ function opts = mesher_options(pkg, work, settings, level)
 opts = struct('filetype',3,'fcad',work.cad_file,'nquad',pkg.source_order, ...
     'nrefine',level,'rlam',settings.rlam,'adapt_sigma',settings.adapt_sigma, ...
     'two_stage_smoother',true);
+if isfield(settings,'newton_recovery')
+    opts.newton_recovery = surfsmooth3d.validate_newton_recovery(settings.newton_recovery);
+end
 end

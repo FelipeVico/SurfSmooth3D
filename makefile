@@ -51,7 +51,7 @@ MATLAB_OMP_LIBS :=
 else
 FOMP := $(OMPFLAGS)
 endif
-CORE_NAMES := ModType_Smooth_Surface Mod_TreeLRD Mod_Fast_Sigma Mod_Plot_Tools_sigma Mod_Feval Mod_Smooth_Surface Mod_Adaptive_Smooth_Surface Mod_Adaptive_Blend_Surface cisurf_loadmsh cisurf_skeleton cisurf_plottools cisurf_tritools surface_smoother tfmm_setsub
+CORE_NAMES := ModType_Smooth_Surface Mod_TreeLRD Mod_Fast_Sigma Mod_Plot_Tools_sigma Mod_Feval Mod_Newton_Recovery Mod_Smooth_Surface Mod_Adaptive_Smooth_Surface Mod_Adaptive_Blend_Surface cisurf_loadmsh cisurf_skeleton cisurf_plottools cisurf_tritools surface_smoother tfmm_setsub
 SUPPORT_NAMES := koornexps setops sort
 NATIVE_OBJS := $(addprefix $(NATIVE)/obj/,$(addsuffix .o,$(CORE_NAMES) $(SUPPORT_NAMES) lapack_wrap))
 MATLAB_OBJS := $(addprefix $(MATLAB)/obj/,$(addsuffix .o,$(CORE_NAMES) $(SUPPORT_NAMES) lapack_wrap_64))
@@ -62,7 +62,7 @@ MATLAB_LIB := $(MATLAB)/lib/libsurfsmooth3d_matlab.a
 NATIVE_LINK := $(NATIVE_LIB) $(FMM_STATIC) $(NATIVE_BLAS_LIBS) $(NATIVE_OMP_LIBS) $(EXTRA_LIBS)
 MEX_NAMES := surfsmooth3d_routs surfsmooth3d_adaptive_routs surfsmooth3d_adaptive_blend_routs
 MEX_FILES := $(addprefix $(ROOT)/matlab/,$(addsuffix .$(MEX_EXT),$(MEX_NAMES)))
-TEST_NAMES := test_sigma_modes test_newton_radius_guard test_adaptive_smoother test_adaptive_blend test_fixed_sources test_surfsmooth
+TEST_NAMES := test_recovery_brent test_newton_recovery test_sigma_modes test_newton_radius_guard test_adaptive_smoother test_adaptive_blend test_fixed_sources test_surfsmooth
 TEST_BINS := $(addprefix $(NATIVE)/bin/,$(TEST_NAMES))
 FIXTURES := $(ROOT)/tests/fixtures/cylinder
 TEST_OUTPUT := $(NATIVE)/test-output
@@ -129,7 +129,8 @@ $(1)/obj/koornexps.o: $(ROOT)/src/special_functions/koornexps.f90 $(ROOT)/src/sp
 $(1)/obj/Mod_Fast_Sigma.o: $(1)/obj/Mod_TreeLRD.o $(1)/obj/ModType_Smooth_Surface.o
 $(1)/obj/Mod_Plot_Tools_sigma.o: $(1)/obj/Mod_Fast_Sigma.o
 $(1)/obj/Mod_Feval.o: $(1)/obj/Mod_Fast_Sigma.o
-$(1)/obj/Mod_Smooth_Surface.o: $(1)/obj/Mod_Feval.o
+$(1)/obj/Mod_Newton_Recovery.o: $(1)/obj/Mod_Feval.o
+$(1)/obj/Mod_Smooth_Surface.o: $(1)/obj/Mod_Feval.o $(1)/obj/Mod_Newton_Recovery.o
 $(1)/obj/Mod_Adaptive_Smooth_Surface.o: $(1)/obj/Mod_Smooth_Surface.o
 $(1)/obj/Mod_Adaptive_Blend_Surface.o: $(1)/obj/Mod_Adaptive_Smooth_Surface.o
 $(1)/obj/surface_smoother.o: $(1)/obj/Mod_Smooth_Surface.o $(1)/obj/Mod_Plot_Tools_sigma.o
@@ -181,6 +182,8 @@ test-c: lib $(NATIVE)/bin/test_surfsmooth_c
 
 test-native: lib $(TEST_BINS)
 	@mkdir -p $(TEST_OUTPUT) $(TEST_LOGS)
+	@$(NATIVE)/bin/test_recovery_brent > $(TEST_LOGS)/recovery-brent.log 2>&1 || { cat $(TEST_LOGS)/recovery-brent.log; exit 1; }
+	@$(NATIVE)/bin/test_newton_recovery $(FIXTURES)/cylinder.gidmsh $(FIXTURES)/cylinder_skeleton.txt $(TEST_OUTPUT)/recovery > $(TEST_LOGS)/newton-recovery.log 2>&1 || { cat $(TEST_LOGS)/newton-recovery.log; exit 1; }
 	@$(NATIVE)/bin/test_sigma_modes > $(TEST_LOGS)/sigma.log 2>&1 || { cat $(TEST_LOGS)/sigma.log; exit 1; }
 	@$(NATIVE)/bin/test_newton_radius_guard $(TEST_OUTPUT)/guard > $(TEST_LOGS)/newton-guard.log 2>&1 || { cat $(TEST_LOGS)/newton-guard.log; exit 1; }
 	@$(NATIVE)/bin/test_adaptive_smoother $(FIXTURES)/cylinder.gidmsh $(FIXTURES)/cylinder_skeleton.txt $(TEST_OUTPUT)/adaptive > $(TEST_LOGS)/adaptive.log 2>&1 || { cat $(TEST_LOGS)/adaptive.log; exit 1; }
@@ -190,7 +193,7 @@ test-native: lib $(TEST_BINS)
 	@$(NATIVE)/bin/smooth_surface $(FIXTURES)/cylinder.gidmsh $(FIXTURES)/cylinder_skeleton.txt $(TEST_OUTPUT)/static 8 0 0 > $(TEST_LOGS)/static-link.log 2>&1 || { cat $(TEST_LOGS)/static-link.log; exit 1; }
 	@$(NATIVE)/bin/smooth_surface_shared $(FIXTURES)/cylinder.gidmsh $(FIXTURES)/cylinder_skeleton.txt $(TEST_OUTPUT)/shared 8 0 0 > $(TEST_LOGS)/shared-link.log 2>&1 || { cat $(TEST_LOGS)/shared-link.log; exit 1; }
 	@cmp $(TEST_OUTPUT)/static_o08_r00.go3 $(TEST_OUTPUT)/shared_o08_r00.go3
-	@echo "PASS: six native suites; static/shared public driver outputs match. Logs: $(TEST_LOGS)"
+	@echo "PASS: eight native suites; static/shared public driver outputs match. Logs: $(TEST_LOGS)"
 
 matlab: check-fmm $(MEX_FILES)
 ifeq ($(MATLAB_RUNTIME_PIN),1)

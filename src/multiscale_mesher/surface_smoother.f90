@@ -45,6 +45,28 @@ end subroutine multiscale_mesher_unif_refine_two_stage
 subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
    filename_cad, norder_skel, norder_smooth, nrefine, adapt_sigma, rlam, &
    fnameout_root, two_stage_smoother, ier)
+  implicit none
+  integer*8 :: ifiletype,ifcad,norder_skel,norder_smooth,nrefine,adapt_sigma,two_stage_smoother,ier
+  real*8 :: rlam
+  character(*) :: fnamein,filename_cad,fnameout_root
+  call multiscale_mesher_unif_refine_core_recovery(fnamein,ifiletype,ifcad,filename_cad, &
+      norder_skel,norder_smooth,nrefine,adapt_sigma,rlam,fnameout_root,two_stage_smoother,1_8,ier)
+end subroutine multiscale_mesher_unif_refine_core
+
+subroutine multiscale_mesher_unif_refine_two_stage_recovery(fnamein, ifiletype, &
+    ifcad, filename_cad, norder_skel, norder_smooth, nrefine, adapt_sigma, &
+    rlam, fnameout_root, newton_recovery, ier)
+  implicit none
+  integer*8 :: ifiletype,ifcad,norder_skel,norder_smooth,nrefine,adapt_sigma,newton_recovery,ier
+  real*8 :: rlam
+  character(*) :: fnamein,filename_cad,fnameout_root
+  call multiscale_mesher_unif_refine_core_recovery(fnamein,ifiletype,ifcad,filename_cad, &
+      norder_skel,norder_smooth,nrefine,adapt_sigma,rlam,fnameout_root,1_8,newton_recovery,ier)
+end subroutine multiscale_mesher_unif_refine_two_stage_recovery
+
+subroutine multiscale_mesher_unif_refine_core_recovery(fnamein, ifiletype, ifcad, &
+   filename_cad, norder_skel, norder_smooth, nrefine, adapt_sigma, rlam, &
+   fnameout_root, two_stage_smoother, newton_recovery, ier)
 !
 !  Given an input flat/second order triangulated mesh 
 !  specified in .gidmsh, .msh, gmsh v2, or .tri formats,
@@ -129,7 +151,7 @@ subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
   integer *8 :: norder_skel, norder_smooth
   integer *8 :: ifiletype
   integer *8 :: ifcad
-  integer *8 :: two_stage_smoother
+  integer *8 :: two_stage_smoother, newton_recovery
 
   character (len=*) :: fnamein, fnameout_root, filename_cad
 
@@ -183,7 +205,7 @@ subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
   call funcion_normal_vert(Geometry1)
 
   if (two_stage_smoother.ne.0) then
-    call initialize_projection_guard(guard,Geometry1,fnameout_root,ier)
+    call initialize_projection_guard(guard,Geometry1,fnameout_root,ier,newton_recovery/=0)
     if (ier.ne.0) return
   endif
 
@@ -244,6 +266,11 @@ subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
     return
   endif
 
+  if (ier.ne.0) then
+    call destroy_Feval_tree(Feval_stuff_1)
+    return
+  endif
+
   len1 = len(trim(fnameout_root))
 
   ll = len1 + 12
@@ -291,6 +318,11 @@ subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
       return
     endif
 
+    if (ier.ne.0) then
+      call destroy_Feval_tree(Feval_stuff_1)
+      return
+    endif
+
     write(istr1,"(I2.2)") count
     write(istr2,"(I2.2)") norder_smooth
     fname_aux = trim(fnameout_root)//'_o'//trim(istr2)// &
@@ -314,7 +346,7 @@ subroutine multiscale_mesher_unif_refine_core(fnamein, ifiletype, ifcad, &
 
   call destroy_Feval_tree(Feval_stuff_1)
 
-end subroutine multiscale_mesher_unif_refine_core
+end subroutine multiscale_mesher_unif_refine_core_recovery
 !
 !
 !
@@ -616,6 +648,59 @@ subroutine multiscale_mesher_unif_refine_two_stage_cfname(fnamein, &
 
   return
 end subroutine multiscale_mesher_unif_refine_two_stage_cfname
+
+subroutine multiscale_mesher_unif_refine_two_stage_recovery_cfname(fnamein, &
+   ifiletype, ifcad, filename_cad, norder_skel, norder_smooth, nrefine, &
+   adapt_sigma, rlam, fnameout_root, newton_recovery, ier)
+!
+!  C-string wrapper for the opt-in two-stage CAD-skeleton smoother.
+!
+  use iso_c_binding
+
+  implicit none
+
+  integer *8 :: nrefine, adapt_sigma, newton_recovery
+  integer *8 :: norder_skel, norder_smooth
+  integer *8 :: ifiletype, ifcad
+  character (kind=c_char), dimension(*) :: fnamein, fnameout_root
+  character (kind=c_char), dimension(*) :: filename_cad
+  character (len=:), allocatable :: fortran_fnamein, fortran_fnameout
+  character (len=:), allocatable :: fortran_filename_cad
+  real *8 :: rlam
+  integer *8 :: ier
+  integer *8 :: ilen
+
+  ilen = 0
+  do
+    if (fnamein(ilen+1) == C_NULL_CHAR) exit
+    ilen = ilen + 1
+  enddo
+  allocate(character(len=ilen) :: fortran_fnamein)
+  fortran_fnamein = transfer(fnamein(1:ilen), fortran_fnamein)
+
+  ilen = 0
+  do
+    if (fnameout_root(ilen+1) == C_NULL_CHAR) exit
+    ilen = ilen + 1
+  enddo
+  allocate(character(len=ilen) :: fortran_fnameout)
+  fortran_fnameout = transfer(fnameout_root(1:ilen), fortran_fnameout)
+
+  ilen = 0
+  do
+    if (filename_cad(ilen+1) == C_NULL_CHAR) exit
+    ilen = ilen + 1
+  enddo
+  allocate(character(len=ilen) :: fortran_filename_cad)
+  fortran_filename_cad = transfer(filename_cad(1:ilen), &
+      fortran_filename_cad)
+
+  call multiscale_mesher_unif_refine_two_stage_recovery(fortran_fnamein, &
+      ifiletype, ifcad, fortran_filename_cad, norder_skel, norder_smooth, &
+      nrefine, adapt_sigma, rlam, fortran_fnameout, newton_recovery, ier)
+
+  return
+end subroutine multiscale_mesher_unif_refine_two_stage_recovery_cfname
 !
 !
 !

@@ -57,6 +57,14 @@ program test_fixed_sources
   call require(all(ieee_is_finite(f0)).and.all(ieee_is_finite(grad0)),'finite reference field')
   call require(all(ieee_is_finite(s0)).and.all(ieee_is_finite(ds0)),'finite reference sigma')
 
+  ! The included cylinder admits an almost tangential projection line with
+  ! an unsafe Newton proposal and a valid nearby downward crossing. Verify
+  ! the fixed-source invariants across that real recovery event as well.
+  if (mode==1.and.abs(rlam-5d0)<1d-14.and.index(trim(meshfile),'cylinder')>0) then
+    call verify_recovery_event()
+    call verify('after deferred Newton recovery')
+  endif
+
   call project_scaffold_vertices_to_levelset(g,fev,mode,ier,guard)
   call require(ier==0,'stage-one projection')
   print *, 'Max scaffold coordinate change:',maxval(abs(g%Points-launch0))
@@ -115,6 +123,23 @@ program test_fixed_sources
   print *, 'LEGACY_REPEATED_CALL_PASS max delta A/A=',maxval(abs(first-repeated))
 
 contains
+  subroutine verify_recovery_event()
+    double precision :: base(3,1),normal(3,1),projected(3,1),height(1),gradient(3,1),residual(1)
+    double precision :: tangent(3),unit_gradient(3)
+    integer*8 :: before,local_status
+    base(:,1)=[9.9d0,0d0,0d0]
+    normal(:,1)=[1d0,0d0,0d0]
+    call eval_density_grad_FMM(g,base,normal,1_8,residual,gradient,fev,mode)
+    unit_gradient=gradient(:,1)/norm2(gradient(:,1))
+    tangent=[-gradient(2,1),gradient(1,1),0d0]
+    tangent=tangent/norm2(tangent)
+    normal(:,1)=(tangent-1d-6*unit_gradient)/sqrt(1d0+1d-12)
+    before=guard%recovery_recovered
+    call project_points_to_levelset(g,fev,mode,1_8,base,normal,projected,height,gradient,local_status,guard)
+    call require(local_status==0,'fixed-source recovery succeeds')
+    call require(guard%recovery_recovered==before+1,'fixed-source test exercised actual recovery')
+  end subroutine verify_recovery_event
+
   subroutine verify(label)
     character(len=*), intent(in) :: label
     call require(g%n_Sk_points==nsrc.and.g%ntri_sk==nseed,'source counts unchanged')

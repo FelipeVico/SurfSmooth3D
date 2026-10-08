@@ -1,10 +1,12 @@
 function result = solve(pkg,s)
 %SOLVE Refine the partial surface while keeping the CAD and sigma source fixed.
+if ~isfield(s,'newton_recovery'), s.newton_recovery = true; end
+s.newton_recovery = surfsmooth3d.validate_newton_recovery(s.newton_recovery);
 surfsmooth3d.adaptiveblend.validate_settings(s,pkg);
 [work,workCleanup] = surfsmooth3d.edgepreserve.stage_source(pkg); %#ok<ASGLU>
 root = fullfile(work.directory,'partial_adaptive');
 [handle,ier] = surfsmooth3d_adaptive_blend_routs('open',work.scaffold_file,work.cad_file, ...
-    root,pkg.source_order,s.order,s.adapt_sigma,s.rlam,s.max_points);
+    root,pkg.source_order,s.order,s.adapt_sigma,s.rlam,s.max_points,double(s.newton_recovery));
 surfsmooth3d.adaptiveblend.check_error(ier,root,'Initial two-stage solve');
 sessionCleanup = onCleanup(@() surfsmooth3d_adaptive_blend_routs('close',handle));
 b = surfsmooth3d.adaptiveblend.basis(s.order);
@@ -62,6 +64,7 @@ for pass = 0:s.max_refine
     end
     records = next;
 end
+info.recovery = surfsmooth3d.read_newton_recovery([root '_newton_recovery.txt'],s.newton_recovery,true);
 info.indicators = eta; info.independent_checked = checked;
 info.unresolved = unresolved; info.unresolved_count = sum(unresolved);
 info.converged = ~any(unresolved); info.stop_reason = reason;

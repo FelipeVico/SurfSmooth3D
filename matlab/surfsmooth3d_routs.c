@@ -983,27 +983,32 @@ typedef _Complex float fcomplex;
  #if defined(MWF77_CAPS)
  #define MWF77_multiscale_mesher MULTISCALE_MESHER_UNIF_REFINE_CFNAME
  #define MWF77_multiscale_mesher_two_stage MULTISCALE_MESHER_UNIF_REFINE_TWO_STAGE_CFNAME
+ #define MWF77_multiscale_mesher_two_stage_recovery MULTISCALE_MESHER_UNIF_REFINE_TWO_STAGE_RECOVERY_CFNAME
  #define MWF77_multiscale_mesher_sigma_eval MULTISCALE_MESHER_SIGMA_EVAL_CFNAME
  #define MWF77_get_filetype GET_FILETYPE_CFNAME
  #elif defined(MWF77_UNDERSCORE1)
  #define MWF77_multiscale_mesher multiscale_mesher_unif_refine_cfname_ 
  #define MWF77_multiscale_mesher_two_stage multiscale_mesher_unif_refine_two_stage_cfname_
+ #define MWF77_multiscale_mesher_two_stage_recovery multiscale_mesher_unif_refine_two_stage_recovery_cfname_
  #define MWF77_multiscale_mesher_sigma_eval multiscale_mesher_sigma_eval_cfname_
  #define MWF77_get_filetype get_filetype_cfname_ 
  #elif defined(MWF77_UNDERSCORE0)
  #define MWF77_multiscale_mesher multiscale_mesher_unif_refine_cfname 
  #define MWF77_multiscale_mesher_two_stage multiscale_mesher_unif_refine_two_stage_cfname
+ #define MWF77_multiscale_mesher_two_stage_recovery multiscale_mesher_unif_refine_two_stage_recovery_cfname
  #define MWF77_multiscale_mesher_sigma_eval multiscale_mesher_sigma_eval_cfname
  #define MWF77_get_filetype get_filetype_cfname 
  #else
  #define MWF77_multiscale_mesher multiscale_mesher_unif_refine_cfname__
  #define MWF77_multiscale_mesher_two_stage multiscale_mesher_unif_refine_two_stage_cfname__
+ #define MWF77_multiscale_mesher_two_stage_recovery multiscale_mesher_unif_refine_two_stage_recovery_cfname__
  #define MWF77_multiscale_mesher_sigma_eval multiscale_mesher_sigma_eval_cfname__
  #define MWF77_get_filetype get_filetype_cfname__
  #endif
 
  void MWF77_multiscale_mesher(char *, int64_t*, int64_t*, char *, int64_t*, int64_t *, int64_t *, int64_t *, double *, char *, int64_t *);
  void MWF77_multiscale_mesher_two_stage(char *, int64_t*, int64_t*, char *, int64_t*, int64_t *, int64_t *, int64_t *, double *, char *, int64_t *);
+ void MWF77_multiscale_mesher_two_stage_recovery(char *, int64_t*, int64_t*, char *, int64_t*, int64_t *, int64_t *, int64_t *, double *, char *, int64_t *, int64_t *);
  void MWF77_multiscale_mesher_sigma_eval(char *, int64_t*, int64_t*, char *, int64_t*, int64_t *, int64_t *, double *, int64_t *, double *, double *, double *, int64_t *);
  void MWF77_get_filetype(char *, int64_t *, int64_t *);
 
@@ -1104,7 +1109,7 @@ mxWrapCopyZDef_single     (mxWrapCopy_single_dcomplex, dcomplex,
 mxWrapReturnZDef_single   (mxWrapReturn_single_dcomplex, dcomplex,
                     real_dcomplex, imag_dcomplex)
 
-/* ---- surfsmooth3d_routs.mw: 122 ----
+/* ---- surfsmooth3d_routs.mw: 137 ----
  * MWF77_get_filetype(cstring[1000] fnameuse, inout int64_t[1] ifiletype, inout int64_t[1] ier);
  */
 static const char* stubids1_ = "MWF77_get_filetype(c i cstring[x], c io int64_t[x], c io int64_t[x])";
@@ -1168,7 +1173,7 @@ mw_err_label:
         mexErrMsgTxt(mw_err_txt_);
 }
 
-/* ---- surfsmooth3d_routs.mw: 153 ----
+/* ---- surfsmooth3d_routs.mw: 170 ----
  * MWF77_multiscale_mesher_two_stage(cstring[1000] fnameuse, int64_t[1] ifiletype, int64_t[1] ifcad, cstring[1000] fcad, int64_t[1] norder_skel, int64_t[1] norder_smooth, int64_t[1] nrefine, int64_t[1] adapt_sigma, double[1] rlam, cstring[1000] fnameoutuse, inout int64_t[1] ier);
  */
 static const char* stubids2_ = "MWF77_multiscale_mesher_two_stage(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i cstring[x], c io int64_t[x])";
@@ -1344,12 +1349,203 @@ mw_err_label:
         mexErrMsgTxt(mw_err_txt_);
 }
 
-/* ---- surfsmooth3d_routs.mw: 155 ----
- * MWF77_multiscale_mesher(cstring[1000] fnameuse, int64_t[1] ifiletype, int64_t[1] ifcad, cstring[1000] fcad, int64_t[1] norder_skel, int64_t[1] norder_smooth, int64_t[1] nrefine, int64_t[1] adapt_sigma, double[1] rlam, cstring[1000] fnameoutuse, inout int64_t[1] ier);
+/* ---- surfsmooth3d_routs.mw: 172 ----
+ * MWF77_multiscale_mesher_two_stage_recovery(cstring[1000] fnameuse, int64_t[1] ifiletype, int64_t[1] ifcad, cstring[1000] fcad, int64_t[1] norder_skel, int64_t[1] norder_smooth, int64_t[1] nrefine, int64_t[1] adapt_sigma, double[1] rlam, cstring[1000] fnameoutuse, int64_t[1] recovery_flag, inout int64_t[1] ier);
  */
-static const char* stubids3_ = "MWF77_multiscale_mesher(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i cstring[x], c io int64_t[x])";
+static const char* stubids3_ = "MWF77_multiscale_mesher_two_stage_recovery(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i cstring[x], c i int64_t[x], c io int64_t[x])";
 
 void mexStub3(int nlhs, mxArray* plhs[],
+              int nrhs, const mxArray* prhs[])
+{
+    const char* mw_err_txt_ = 0;
+    char*       in0_ =0; /* fnameuse   */
+    int64_t*    in1_ =0; /* ifiletype  */
+    int64_t*    in2_ =0; /* ifcad      */
+    char*       in3_ =0; /* fcad       */
+    int64_t*    in4_ =0; /* norder_skel */
+    int64_t*    in5_ =0; /* norder_smooth */
+    int64_t*    in6_ =0; /* nrefine    */
+    int64_t*    in7_ =0; /* adapt_sigma */
+    double*     in8_ =0; /* rlam       */
+    char*       in9_ =0; /* fnameoutuse */
+    int64_t*    in10_ =0; /* recovery_flag */
+    int64_t*    in11_ =0; /* ier        */
+    mwSize      dim12_;   /* 1000       */
+    mwSize      dim13_;   /* 1          */
+    mwSize      dim14_;   /* 1          */
+    mwSize      dim15_;   /* 1000       */
+    mwSize      dim16_;   /* 1          */
+    mwSize      dim17_;   /* 1          */
+    mwSize      dim18_;   /* 1          */
+    mwSize      dim19_;   /* 1          */
+    mwSize      dim20_;   /* 1          */
+    mwSize      dim21_;   /* 1000       */
+    mwSize      dim22_;   /* 1          */
+    mwSize      dim23_;   /* 1          */
+
+    dim12_ = (mwSize) mxWrapGetScalar(prhs[12], &mw_err_txt_);
+    dim13_ = (mwSize) mxWrapGetScalar(prhs[13], &mw_err_txt_);
+    dim14_ = (mwSize) mxWrapGetScalar(prhs[14], &mw_err_txt_);
+    dim15_ = (mwSize) mxWrapGetScalar(prhs[15], &mw_err_txt_);
+    dim16_ = (mwSize) mxWrapGetScalar(prhs[16], &mw_err_txt_);
+    dim17_ = (mwSize) mxWrapGetScalar(prhs[17], &mw_err_txt_);
+    dim18_ = (mwSize) mxWrapGetScalar(prhs[18], &mw_err_txt_);
+    dim19_ = (mwSize) mxWrapGetScalar(prhs[19], &mw_err_txt_);
+    dim20_ = (mwSize) mxWrapGetScalar(prhs[20], &mw_err_txt_);
+    dim21_ = (mwSize) mxWrapGetScalar(prhs[21], &mw_err_txt_);
+    dim22_ = (mwSize) mxWrapGetScalar(prhs[22], &mw_err_txt_);
+    dim23_ = (mwSize) mxWrapGetScalar(prhs[23], &mw_err_txt_);
+
+    if (mxGetM(prhs[1])*mxGetN(prhs[1]) != dim13_) {
+        mw_err_txt_ = "Bad argument size: ifiletype";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[2])*mxGetN(prhs[2]) != dim14_) {
+        mw_err_txt_ = "Bad argument size: ifcad";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[4])*mxGetN(prhs[4]) != dim16_) {
+        mw_err_txt_ = "Bad argument size: norder_skel";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[5])*mxGetN(prhs[5]) != dim17_) {
+        mw_err_txt_ = "Bad argument size: norder_smooth";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[6])*mxGetN(prhs[6]) != dim18_) {
+        mw_err_txt_ = "Bad argument size: nrefine";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[7])*mxGetN(prhs[7]) != dim19_) {
+        mw_err_txt_ = "Bad argument size: adapt_sigma";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[8])*mxGetN(prhs[8]) != dim20_) {
+        mw_err_txt_ = "Bad argument size: rlam";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[10])*mxGetN(prhs[10]) != dim22_) {
+        mw_err_txt_ = "Bad argument size: recovery_flag";        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[11])*mxGetN(prhs[11]) != dim23_) {
+        mw_err_txt_ = "Bad argument size: ier";        goto mw_err_label;
+    }
+
+    in0_ = (char*) mxMalloc(dim12_*sizeof(char));
+    if (mxGetString(prhs[0], in0_, dim12_) != 0) {
+        mw_err_txt_ = "Invalid string argument";
+        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[1])*mxGetN(prhs[1]) != 0) {
+        in1_ = mxWrapGetArray_int64_t(prhs[1], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in1_ = NULL;
+
+    if (mxGetM(prhs[2])*mxGetN(prhs[2]) != 0) {
+        in2_ = mxWrapGetArray_int64_t(prhs[2], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in2_ = NULL;
+
+    in3_ = (char*) mxMalloc(dim15_*sizeof(char));
+    if (mxGetString(prhs[3], in3_, dim15_) != 0) {
+        mw_err_txt_ = "Invalid string argument";
+        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[4])*mxGetN(prhs[4]) != 0) {
+        in4_ = mxWrapGetArray_int64_t(prhs[4], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in4_ = NULL;
+
+    if (mxGetM(prhs[5])*mxGetN(prhs[5]) != 0) {
+        in5_ = mxWrapGetArray_int64_t(prhs[5], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in5_ = NULL;
+
+    if (mxGetM(prhs[6])*mxGetN(prhs[6]) != 0) {
+        in6_ = mxWrapGetArray_int64_t(prhs[6], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in6_ = NULL;
+
+    if (mxGetM(prhs[7])*mxGetN(prhs[7]) != 0) {
+        in7_ = mxWrapGetArray_int64_t(prhs[7], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in7_ = NULL;
+
+    if (mxGetM(prhs[8])*mxGetN(prhs[8]) != 0) {
+        if( mxGetClassID(prhs[8]) != mxDOUBLE_CLASS )
+            mw_err_txt_ = "Invalid array argument, mxDOUBLE_CLASS expected";
+        if (mw_err_txt_) goto mw_err_label;
+#if MX_HAS_INTERLEAVED_COMPLEX
+        in8_ = mxGetDoubles(prhs[8]);
+#else
+        in8_ = mxGetPr(prhs[8]);
+#endif
+    } else
+        in8_ = NULL;
+
+    in9_ = (char*) mxMalloc(dim21_*sizeof(char));
+    if (mxGetString(prhs[9], in9_, dim21_) != 0) {
+        mw_err_txt_ = "Invalid string argument";
+        goto mw_err_label;
+    }
+
+    if (mxGetM(prhs[10])*mxGetN(prhs[10]) != 0) {
+        in10_ = mxWrapGetArray_int64_t(prhs[10], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in10_ = NULL;
+
+    if (mxGetM(prhs[11])*mxGetN(prhs[11]) != 0) {
+        in11_ = mxWrapGetArray_int64_t(prhs[11], &mw_err_txt_);
+        if (mw_err_txt_)
+            goto mw_err_label;
+    } else
+        in11_ = NULL;
+
+    if (mexprofrecord_)
+        mexprofrecord_[3]++;
+    MWF77_multiscale_mesher_two_stage_recovery(in0_, in1_, in2_, in3_, in4_, in5_, in6_, in7_, in8_, in9_, in10_, in11_);
+    plhs[0] = mxCreateDoubleMatrix(dim23_, 1, mxREAL);
+    mxWrapCopy_int64_t(plhs[0], in11_, dim23_);
+
+mw_err_label:
+    if (in0_)  mxFree(in0_);
+    if (in1_)  mxFree(in1_);
+    if (in2_)  mxFree(in2_);
+    if (in3_)  mxFree(in3_);
+    if (in4_)  mxFree(in4_);
+    if (in5_)  mxFree(in5_);
+    if (in6_)  mxFree(in6_);
+    if (in7_)  mxFree(in7_);
+    if (in9_)  mxFree(in9_);
+    if (in10_)  mxFree(in10_);
+    if (in11_)  mxFree(in11_);
+    if (mw_err_txt_)
+        mexErrMsgTxt(mw_err_txt_);
+}
+
+/* ---- surfsmooth3d_routs.mw: 175 ----
+ * MWF77_multiscale_mesher(cstring[1000] fnameuse, int64_t[1] ifiletype, int64_t[1] ifcad, cstring[1000] fcad, int64_t[1] norder_skel, int64_t[1] norder_smooth, int64_t[1] nrefine, int64_t[1] adapt_sigma, double[1] rlam, cstring[1000] fnameoutuse, inout int64_t[1] ier);
+ */
+static const char* stubids4_ = "MWF77_multiscale_mesher(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i cstring[x], c io int64_t[x])";
+
+void mexStub4(int nlhs, mxArray* plhs[],
               int nrhs, const mxArray* prhs[])
 {
     const char* mw_err_txt_ = 0;
@@ -1500,7 +1696,7 @@ void mexStub3(int nlhs, mxArray* plhs[],
         in10_ = NULL;
 
     if (mexprofrecord_)
-        mexprofrecord_[3]++;
+        mexprofrecord_[4]++;
     MWF77_multiscale_mesher(in0_, in1_, in2_, in3_, in4_, in5_, in6_, in7_, in8_, in9_, in10_);
     plhs[0] = mxCreateDoubleMatrix(dim21_, 1, mxREAL);
     mxWrapCopy_int64_t(plhs[0], in10_, dim21_);
@@ -1520,12 +1716,12 @@ mw_err_label:
         mexErrMsgTxt(mw_err_txt_);
 }
 
-/* ---- surfsmooth3d_routs.mw: 268 ----
+/* ---- surfsmooth3d_routs.mw: 307 ----
  * MWF77_get_filetype(cstring[1000] fnameuse, inout int64_t[1] ifiletype, inout int64_t[1] ier);
  */
-static const char* stubids4_ = "MWF77_get_filetype(c i cstring[x], c io int64_t[x], c io int64_t[x])";
+static const char* stubids5_ = "MWF77_get_filetype(c i cstring[x], c io int64_t[x], c io int64_t[x])";
 
-void mexStub4(int nlhs, mxArray* plhs[],
+void mexStub5(int nlhs, mxArray* plhs[],
               int nrhs, const mxArray* prhs[])
 {
     const char* mw_err_txt_ = 0;
@@ -1569,7 +1765,7 @@ void mexStub4(int nlhs, mxArray* plhs[],
         in2_ = NULL;
 
     if (mexprofrecord_)
-        mexprofrecord_[4]++;
+        mexprofrecord_[5]++;
     MWF77_get_filetype(in0_, in1_, in2_);
     plhs[0] = mxCreateDoubleMatrix(dim4_, 1, mxREAL);
     mxWrapCopy_int64_t(plhs[0], in1_, dim4_);
@@ -1584,12 +1780,12 @@ mw_err_label:
         mexErrMsgTxt(mw_err_txt_);
 }
 
-/* ---- surfsmooth3d_routs.mw: 292 ----
+/* ---- surfsmooth3d_routs.mw: 331 ----
  * MWF77_multiscale_mesher_sigma_eval(cstring[1000] fnameuse, int64_t[1] ifiletype, int64_t[1] ifcad, cstring[1000] fcad, int64_t[1] norder_skel, int64_t[1] norder_smooth, int64_t[1] adapt_sigma, double[1] rlam, int64_t[1] ntarg, double[3, ntarg] targets, inout double[ntarg] sigma, inout double[3, ntarg] gradSigma, inout int64_t[1] ier);
  */
-static const char* stubids5_ = "MWF77_multiscale_mesher_sigma_eval(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i int64_t[x], c i double[xx], c io double[x], c io double[xx], c io int64_t[x])";
+static const char* stubids6_ = "MWF77_multiscale_mesher_sigma_eval(c i cstring[x], c i int64_t[x], c i int64_t[x], c i cstring[x], c i int64_t[x], c i int64_t[x], c i int64_t[x], c i double[x], c i int64_t[x], c i double[xx], c io double[x], c io double[xx], c io int64_t[x])";
 
-void mexStub5(int nlhs, mxArray* plhs[],
+void mexStub6(int nlhs, mxArray* plhs[],
               int nrhs, const mxArray* prhs[])
 {
     const char* mw_err_txt_ = 0;
@@ -1786,7 +1982,7 @@ void mexStub5(int nlhs, mxArray* plhs[],
         in12_ = NULL;
 
     if (mexprofrecord_)
-        mexprofrecord_[5]++;
+        mexprofrecord_[6]++;
     MWF77_multiscale_mesher_sigma_eval(in0_, in1_, in2_, in3_, in4_, in5_, in6_, in7_, in8_, in9_, in10_, in11_, in12_);
     plhs[0] = mxCreateDoubleMatrix(dim24_, 1, mxREAL);
     mxWrapCopy_double(plhs[0], in10_, dim24_);
@@ -1836,12 +2032,14 @@ void mexFunction(int nlhs, mxArray* plhs[],
         mexStub4(nlhs,plhs, nrhs-1,prhs+1);
     else if (strcmp(id, stubids5_) == 0)
         mexStub5(nlhs,plhs, nrhs-1,prhs+1);
+    else if (strcmp(id, stubids6_) == 0)
+        mexStub6(nlhs,plhs, nrhs-1,prhs+1);
     else if (strcmp(id, "*profile on*") == 0) {
         if (!mexprofrecord_) {
-            mexprofrecord_ = (int*) malloc(6 * sizeof(int));
+            mexprofrecord_ = (int*) malloc(7 * sizeof(int));
             mexLock();
         }
-        memset(mexprofrecord_, 0, 6 * sizeof(int));
+        memset(mexprofrecord_, 0, 7 * sizeof(int));
     } else if (strcmp(id, "*profile off*") == 0) {
         if (mexprofrecord_) {
             free(mexprofrecord_);
@@ -1851,11 +2049,12 @@ void mexFunction(int nlhs, mxArray* plhs[],
     } else if (strcmp(id, "*profile report*") == 0) {
         if (!mexprofrecord_)
             mexPrintf("Profiler inactive\n");
-        mexPrintf("%d calls to surfsmooth3d_routs.mw:122\n", mexprofrecord_[1]);
-        mexPrintf("%d calls to surfsmooth3d_routs.mw:153\n", mexprofrecord_[2]);
-        mexPrintf("%d calls to surfsmooth3d_routs.mw:155\n", mexprofrecord_[3]);
-        mexPrintf("%d calls to surfsmooth3d_routs.mw:268\n", mexprofrecord_[4]);
-        mexPrintf("%d calls to surfsmooth3d_routs.mw:292\n", mexprofrecord_[5]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:137\n", mexprofrecord_[1]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:170\n", mexprofrecord_[2]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:172\n", mexprofrecord_[3]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:175\n", mexprofrecord_[4]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:307\n", mexprofrecord_[5]);
+        mexPrintf("%d calls to surfsmooth3d_routs.mw:331\n", mexprofrecord_[6]);
     } else if (strcmp(id, "*profile log*") == 0) {
         FILE* logfp;
         if (nrhs != 2 || mxGetString(prhs[1], id, sizeof(id)) != 0)
@@ -1865,11 +2064,12 @@ void mexFunction(int nlhs, mxArray* plhs[],
             mexErrMsgTxt("Cannot open log for output");
         if (!mexprofrecord_)
             fprintf(logfp, "Profiler inactive\n");
-        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:122\n", mexprofrecord_[1]);
-        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:153\n", mexprofrecord_[2]);
-        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:155\n", mexprofrecord_[3]);
-        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:268\n", mexprofrecord_[4]);
-        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:292\n", mexprofrecord_[5]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:137\n", mexprofrecord_[1]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:170\n", mexprofrecord_[2]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:172\n", mexprofrecord_[3]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:175\n", mexprofrecord_[4]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:307\n", mexprofrecord_[5]);
+        fprintf(logfp, "%d calls to surfsmooth3d_routs.mw:331\n", mexprofrecord_[6]);
         fclose(logfp);
     } else
         mexErrMsgTxt("Unknown identifier");

@@ -1,0 +1,459 @@
+{
+  "schema": "SURFSMOOTH3D_NEWTON_RECOVERY_VALIDATION_V1",
+  "generated_utc": "2026-10-08T23:39:09.449224+00:00",
+  "baseline_commit": "c62afced9437993bd11a5fadad0e2a8c54f65ed4",
+  "branch": "newton-recovery",
+  "platform": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "compiler": "GNU Fortran 14.2.0 (Homebrew GCC 14.2.0_1)",
+    "threads": 2,
+    "native_blas": "Apple Accelerate LP64",
+    "fflags": "-fPIC -O3 -std=legacy -w -mno-outline-atomics -fopenmp"
+  },
+  "fmm3d_archive_sha256": "38032bd02db49e923c6dd458a8be0dac5758fab0db5be8e10eb2a2b56377addb",
+  "input_sha256": {
+    "tests/fixtures/cylinder/cylinder.gidmsh": "561d33c69c2d0c3934bd1d799b59ca8b044193c3819541d2fde368c4406af05d",
+    "tests/fixtures/cylinder/cylinder_skeleton.txt": "d2bc72f2e7fe2068eb9b0b2f1253a5967aa26f971d8a4ea0a987c994d11201dc",
+    "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/scaffold.gidmsh": "5bf5b92c47a7119111bd518c538a783bac3abca18331b9bd6192e446acd660a3",
+    "tests/fixtures/cad/convergence_intersection_two_balls/p4_mf0p10000_rl0/surface.go3": "3602db4731098023b87978de72feee0370c8f932495f7d892c67574c82cd3358",
+    "outputs/step/convergence_wobbly_hairy_torus_10_v2_flat_AP214/p4_mf0p10000_rl0/surface.go3": "adbdee43015bce33391968b277045023346879278d23120f72f669a68c25a88b",
+    "outputs/step/convergence_wobbly_hairy_torus_10_v2_flat_AP214/p4_mf0p10000_rl0/scaffold.gidmsh": "a800d38d3001f93d1c4a553969c1f5f81b8fb58109453c4b80aafdbb353ada2b",
+    "outputs/step/convergence_wobbly_hairy_torus_10_v2_flat_AP214/p4_mf0p10000_rl0/metadata.txt": "c77947c1e01d4722a67d9f1029c1d4bc89460ed8381c50c327d6e72cc27bf1d1"
+  },
+  "controlled_benchmarks": {
+    "two-balls": {
+      "runs": [
+        {
+          "baseline": {
+            "seconds": 1.371207,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          },
+          "new": {
+            "seconds": 1.235383,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          }
+        },
+        {
+          "new": {
+            "seconds": 1.258517,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          },
+          "baseline": {
+            "seconds": 1.222598,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          }
+        },
+        {
+          "baseline": {
+            "seconds": 1.205482,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          },
+          "new": {
+            "seconds": 1.270141,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          }
+        },
+        {
+          "new": {
+            "seconds": 1.233572,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          },
+          "baseline": {
+            "seconds": 1.202059,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          }
+        },
+        {
+          "baseline": {
+            "seconds": 1.224465,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          },
+          "new": {
+            "seconds": 1.274655,
+            "calls": 9,
+            "targets": 12422,
+            "sha256": "5ffb07d211d1dfdcc929377bde628a763418ed668e531bd176f325d9c78a2aeb"
+          }
+        }
+      ],
+      "medians": {
+        "baseline": 1.222598,
+        "new": 1.258517
+      },
+      "ratio": 1.0293792399464092,
+      "within_five_percent": true,
+      "output_bitwise_equal": true,
+      "fmm_calls_and_targets_equal": true,
+      "change_percent": 2.937923994640923,
+      "scope": "complete guarded two-stage solve at p4, nquad8, mode1, rlam5, no refinement"
+    },
+    "cylinder": {
+      "runs": [
+        {
+          "baseline": {
+            "seconds": 20.590764,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          },
+          "new": {
+            "seconds": 21.30831,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          }
+        },
+        {
+          "new": {
+            "seconds": 20.713455,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          },
+          "baseline": {
+            "seconds": 20.524856,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          }
+        },
+        {
+          "baseline": {
+            "seconds": 20.446609,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          },
+          "new": {
+            "seconds": 20.512033,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          }
+        },
+        {
+          "new": {
+            "seconds": 20.602386,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          },
+          "baseline": {
+            "seconds": 20.597866,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          }
+        },
+        {
+          "baseline": {
+            "seconds": 20.51357,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          },
+          "new": {
+            "seconds": 20.446935,
+            "calls": 8,
+            "targets": 22079,
+            "sha256": "bd4385a483e92219fd78ccf5672b99941ef653a324ebcf95e3358ea39779b266"
+          }
+        }
+      ],
+      "medians": {
+        "baseline": 20.524856,
+        "new": 20.602386
+      },
+      "ratio": 1.003777371202994,
+      "within_five_percent": true,
+      "output_bitwise_equal": true,
+      "fmm_calls_and_targets_equal": true,
+      "change_percent": 0.377737120299404,
+      "scope": "complete guarded two-stage solve at p4, nquad8, mode1, rlam5, no refinement"
+    }
+  },
+  "sampled_hairy": {
+    "scope": "128 arbitrary Newton targets selected from the original p4 launch, retaining all CAD sources and the original sigma field; no stage-one projection and no full-surface validation",
+    "patches": 23260,
+    "cad_sources": 348900,
+    "sigma_seeds": 23260,
+    "original_stage_two_targets": 348900,
+    "sampled_targets": 128,
+    "one_based_selection_indices": [
+      1,
+      2748,
+      5495,
+      8242,
+      10989,
+      13737,
+      16484,
+      19231,
+      21978,
+      24726,
+      27473,
+      30220,
+      32967,
+      35715,
+      38462,
+      41209,
+      43956,
+      46704,
+      49451,
+      52198,
+      54945,
+      57692,
+      60440,
+      63187,
+      65934,
+      68681,
+      71429,
+      74176,
+      76923,
+      79670,
+      82418,
+      85165,
+      87912,
+      90659,
+      93407,
+      96154,
+      98901,
+      101648,
+      104395,
+      107143,
+      109890,
+      112637,
+      115384,
+      118132,
+      120879,
+      123626,
+      126373,
+      129121,
+      131868,
+      134615,
+      137362,
+      140110,
+      142857,
+      145604,
+      148351,
+      151098,
+      153846,
+      156593,
+      159340,
+      162087,
+      164835,
+      167582,
+      170329,
+      173076,
+      175824,
+      178571,
+      181318,
+      184065,
+      186813,
+      189560,
+      192307,
+      195054,
+      197802,
+      200549,
+      203296,
+      206043,
+      208790,
+      211538,
+      214285,
+      217032,
+      219779,
+      222527,
+      225274,
+      228021,
+      230768,
+      233516,
+      236263,
+      239010,
+      241757,
+      244505,
+      247252,
+      249999,
+      252746,
+      255493,
+      258241,
+      260988,
+      263735,
+      266482,
+      269230,
+      271977,
+      274724,
+      277471,
+      280219,
+      282966,
+      285713,
+      288460,
+      291208,
+      293955,
+      296702,
+      299449,
+      302196,
+      304944,
+      307691,
+      310438,
+      313185,
+      315933,
+      318680,
+      321427,
+      324174,
+      326922,
+      329669,
+      332416,
+      335163,
+      337911,
+      340658,
+      343405,
+      346152,
+      348900
+    ],
+    "selection_formula": "1 + floor((i-1)*(348900-1)/127), i=1..128",
+    "baseline": {
+      "status": 0,
+      "seconds": 47.63734,
+      "fmm_calls": 4,
+      "target_evaluations": 352
+    },
+    "new": {
+      "status": 0,
+      "seconds": 44.933743,
+      "fmm_calls": 4,
+      "target_evaluations": 352
+    },
+    "baseline_output_sha256": "2e241f04014435b16913295ba38383a36f6c523b074b7f7e1b05584600430a73",
+    "new_output_sha256": "2e241f04014435b16913295ba38383a36f6c523b074b7f7e1b05584600430a73",
+    "output_bitwise_equal": true,
+    "timing_gate_applied": false,
+    "timing_note": "One pair completed under varying parallel validation load; not a controlled median benchmark."
+  },
+  "full_hairy": {
+    "status": "incomplete_baseline_terminated",
+    "full_surface_acceptance_established": false,
+    "approximately_minutes_running_before_pause": 21,
+    "profile_observation": "Approximately 99% of sampled stacks in target-dependent recursive sigma-gradient evaluation during stage-two My_Newton",
+    "sigma_sample_targets": 128,
+    "sigma_sample_seconds": 0.538653,
+    "estimated_sigma_seconds_per_348900_target_pass": 1468.2502476562502,
+    "estimate_note": "Linear extrapolation, not a measured full solve time. Full baseline wall time also included a pause and is not reported as solver runtime.",
+    "command": "OMP_NUM_THREADS=2 ./benchmark HAIRY_PACKAGE/scaffold.gidmsh HAIRY_PACKAGE/surface.go3 OUTPUT_ROOT",
+    "field_settings": {
+      "rlam": 5,
+      "adapt_sigma": 1,
+      "launch_order": 4,
+      "nquad": 8,
+      "source_order": 4
+    },
+    "pause_provenance": {
+      "pid": 15635,
+      "stop_recorded_utc": "2026-10-08T23:27:33.403509+00:00",
+      "stop_recorded_monotonic": 65629.6942405,
+      "note": "Timestamp recorded after successful SIGSTOP tool call. Full benchmark wall time includes this pause and will not be used as an unadjusted solver runtime.",
+      "termination_recorded_utc": "2026-10-08T23:34:21.375917+00:00",
+      "paused_duration_recorded_seconds": 407.9702891659981,
+      "disposition": "terminated_incomplete_baseline",
+      "termination_reason": "Full surface solve is prohibitively long for this validation run; sampled fixed-field comparisons retained, full acceptance not established."
+    }
+  },
+  "validation": {
+    "native_and_c_full_suites": "PASS; eight native suites and C/native/static/shared equality before final recovered-only hardening",
+    "latest_recovery_suite": "PASS; includes inherited height, multiple nonleading target indices, unnormalized directions, candidate/nonfinite triggers, compact event growth, all-deferred solve, active-group failure, no-crossing fail-closed, finite cross-product overflow and transactional scaffold orientation failure",
+    "latest_fixed_sources_suite": "PASS; exact CAD source/sigma seed invariants and exact fixed phi/sigma reference values across recovery and refinements",
+    "transactional_scaffold": "three valid projected roots cause a reversed triangle; ier6 and all original corners/midpoints remain bitwise unchanged",
+    "analytic_brent_bounds_checked": "PASS at -O0 and -O3, including root selection, ties, near-zero clusters, tangencies, clipped intervals and iteration exhaustion",
+    "matlab_full_suite": "PASS: pure, native, GUI/independent accuracy and diagnostic groups",
+    "matlab_latest_recovery_tests": "PASS after final coordinate-consistency and nonfinite-Jacobian fixes: recovery switch, report parsing, real enabled/disabled failures in uniform/adaptive/blend APIs, preserved reports and no failed export",
+    "baseline_inputs_after_validation": "All seven recorded input hashes still match",
+    "main_unchanged": true
+  },
+  "artifact_files": {
+    "baseline_driver": "baseline_driver.f90",
+    "sampled_driver": "sampled_driver.f90",
+    "sigma_driver": "sigma_driver.f90",
+    "controlled_benchmark_runner": "compare_controlled_benchmarks.py",
+    "earlier_loaded_benchmark_runner": "compare_benchmarks.py",
+    "controlled_benchmark_results": "bench-results/controlled-comparison.json",
+    "full_native_c_log": "final-native-tests.log",
+    "latest_recovery_log": "last-recovery.log",
+    "latest_fixed_sources_log": "final-fixed.log",
+    "full_hairy_profile": "hairy-profile.txt",
+    "matlab_full_suite_log": "surfsmooth3d-newton-recovery-matlab.log",
+    "matlab_latest_recovery_log": "surfsmooth3d-newton-recovery-matlab-jacobian-check.log"
+  },
+  "discarded_timing_note": "Earlier five-pair runtime collection overlapped native/MATLAB/sampled validations and varied CPU load. It retained exact numerical/call equivalence but is not used for the 5% runtime acceptance gate.",
+  "artifact_root": "build/newton-recovery-validation (local, ignored by Git)",
+  "matlab_release": "R2026a",
+  "reproduce_regressions": [
+    "OMP_NUM_THREADS=2 make test-native test-c",
+    "make test-matlab TEST_THREADS=2 TEST_GROUP=all"
+  ],
+  "implementation_defaults": {
+    "guarded_recovery": true,
+    "legacy_one_stage_unchanged": true,
+    "search_sigma_each_side": 8,
+    "scan_subdivisions_each_side": 128,
+    "brent_max_iterations": 80,
+    "residual_tolerance": 1e-08,
+    "target_batch_limit": 32768,
+    "field_sources_and_sigma_fixed": true,
+    "upward_tree_reuse": "deferred"
+  },
+  "algorithm_reference": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html",
+  "limitations": [
+    "Full hairy-torus surface acceptance is not established; its baseline was stopped before completion.",
+    "The closest detected local downward crossing is selected; finite scanning does not certify every root.",
+    "Patch sampling does not prove global injectivity.",
+    "Recovery cannot recreate a feature absent from the fixed smoothed level set."
+  ],
+  "implementation_sha256": {
+    "makefile": "14174138acb2c42b4b1ad5fffaf3abf866edee17774041d875754cddc6f98d9c",
+    "matlab/+surfsmooth3d/+adaptiveblend/check_error.m": "8980bf0da08d06eff40179f2d99bd46243d6e5c4fbfaa84b5b225c2d8c8f81cf",
+    "matlab/+surfsmooth3d/+adaptiveblend/default_settings.m": "1328c9bcae17e503ee824d09ff421f4eb4d1e8d65425d4d3210f35f78cbfb590",
+    "matlab/+surfsmooth3d/+adaptiveblend/solve.m": "7527018af9fd172a57619e32c3549d1089979c7dfc9f431a34e0e1e9ef99a3a3",
+    "matlab/+surfsmooth3d/+adaptiveblend/validate_settings.m": "1cadbfa684210da48f8c6e79c06ea986c89a0f023a12239f6c300a8584392e43",
+    "matlab/+surfsmooth3d/+edgepreserve/default_settings.m": "1a849114801882dd2a900a2d3364372510e119b5815674c2567a9591c102b29e",
+    "matlab/+surfsmooth3d/+edgepreserve/mesher_options.m": "7b2004c082086e89145ad1dea5238ae49b3f7bee4bac1212a4fb5560aa7577eb",
+    "matlab/+surfsmooth3d/attach_recovery_report.m": "db0ebd80cd673c8a03ae19a47410799243600f80d96c8831d1df713375c60acf",
+    "matlab/+surfsmooth3d/multiscale_mesher.m": "72e503c6bb771e073f5b46ca30353cef777b0cf01c0f230ae1f31d88bd23055c",
+    "matlab/+surfsmooth3d/multiscale_mesher_adaptive.m": "186c582023121036ac47f65ab1a0fffb1cd4f604ed382c46cf2cd41464147f7f",
+    "matlab/+surfsmooth3d/read_newton_recovery.m": "05d68311e05c35a3acb0241affcec1b5b065d3d3c4421a0eaa8a34765b8054c3",
+    "matlab/+surfsmooth3d/validate_newton_recovery.m": "8cd29870336d52865278dadc279fa5475fccf4c3317b79075bba1a494c5afa33",
+    "matlab/surfsmooth3d_adaptive_blend_routs.c": "65902aff28bf8497c22be4adbb887c5282f4750528c6baf679ff197a36b3e7e3",
+    "matlab/surfsmooth3d_adaptive_routs.c": "83176b8cce4c04f0d604d12693fd8a4af5ca0bc1a9ff797710c15b171eba2587",
+    "matlab/surfsmooth3d_routs.c": "3eaff67db3e51d9566744f498f16b8713e1be9c80dd202a4c1df676a66aa599a",
+    "matlab/surfsmooth3d_routs.mw": "3495741eb2309ea003d6c976183094f23181459cd59c6988aa192e177009d067",
+    "src/multiscale_mesher/Mod_Adaptive_Blend_Surface.f90": "590ed6c80d2d06285af1449aee49c00666a0de68c5725a82bd93093c9a9f1ac2",
+    "src/multiscale_mesher/Mod_Adaptive_Smooth_Surface.f90": "865e3a697b8b81d1d1a0af8ef7e6b139d29d0f9d556f9d49fd84d1a74ace97ad",
+    "src/multiscale_mesher/Mod_Feval.f90": "bd5c6eea462e6b3a0c92ac43b3efc5007d60cee4f97a38d4c8ff89e8241a8262",
+    "src/multiscale_mesher/Mod_Newton_Recovery.f90": "c97bee72776c43239a7424cd6579d9960916785d55d991a3a6589f154c67d767",
+    "src/multiscale_mesher/Mod_Smooth_Surface.f90": "74d9d1bbb727ae717bc2fea36ac5d307d4076fcf35de41e284477910625aa867",
+    "src/multiscale_mesher/surface_smoother.f90": "4d9c27386f03ea17551a462635ea0363086ad5da73be204c8eccfffc1915e313",
+    "tests/fortran/test_fixed_sources.f90": "61be0f72262c50f978ca50aa805032f4851c9933d2b93b596ed8a232089ae0aa",
+    "tests/fortran/test_newton_recovery.f90": "4d11ca02399fff8b95b877e72a8a511f5456848f62aa8fb99af71b9214ecd74c",
+    "tests/fortran/test_recovery_brent.f90": "bc58a7a6efbe9a0c61214b90a8ccdd05d6416211f63f58cf2af1883533547b99",
+    "tests/matlab/run_surfsmooth3d_tests.m": "83d172807ec0c3618449c7d7ef8b5ffac2b46eb2ceecdfdd6d884093eb89ec92",
+    "tests/matlab/test_adaptive_smoother.m": "2e41a060b5a175b0a68494597c8a7d5c42e28996d898ac545213f9b7c89b9fdf",
+    "tests/matlab/test_newton_recovery_report.m": "5ce72fe66be0570bcd12cee7d27d04e18bcc5e5ae7d7ca778fa40a7c0a160f08",
+    "tests/matlab/test_newton_recovery_switch.m": "3def828abb006b00494b3b73888d0a874f456de7d10cdbe29dcc5b9cbed8af2b"
+  }
+}

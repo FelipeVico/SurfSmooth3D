@@ -2,6 +2,7 @@ Module Mod_Smooth_Surface
   
   use Mod_Feval
   use ModType_Smooth_Surface
+  use Mod_Newton_Recovery
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite, ieee_value, ieee_quiet_nan
   
   implicit none
@@ -9,15 +10,370 @@ Module Mod_Smooth_Surface
   ! Per-solve diagnostic state; the original one-stage path leaves it disabled.
   type projection_radius_guard
     logical :: enabled = .false., failed = .false., report_written = .false.
+    logical :: recovery_enabled = .true., recovery_report_started = .false.
+    integer*8 :: recovery_deferred = 0, recovery_recovered = 0, recovery_unresolved = 0
     double precision :: center(3) = 0.0d0, radius = 0.0d0
     integer *8 :: stage = 0, refinement = 0, iteration = 0
     character(:), allocatable :: filename
+    character(:), allocatable :: recovery_filename
+    logical, allocatable :: recovered_mask(:)
     double precision, allocatable :: step_length(:)
     integer *8, allocatable :: step_iteration(:)
     logical, allocatable :: step_available(:)
   end type projection_radius_guard
   
 contains
+
+  logical function projection_recovery_enabled(guard) result(enabled)
+    type(projection_radius_guard), optional, intent(in) :: guard
+    enabled = .false.
+    if (.not.present(guard)) return
+    enabled = guard%enabled .and. guard%recovery_enabled
+  end function
+
+  subroutine defer_projection_target(guard,index,iteration,base,normal,initial,last,candidate,f,grad,event,deferred)
+    type(projection_radius_guard), intent(in) :: guard
+    integer*8, intent(in) :: index,iteration
+    real*8, intent(in) :: base(3),normal(3),initial,last,candidate,f,grad(3)
+    type(recovery_event), intent(inout) :: event
+    logical, intent(out) :: deferred
+    real*8 :: ratio,point(3)
+    integer :: reason
+    point = base + normal*candidate
+    call projection_target_status(guard,point,ratio,reason)
+    deferred = reason /= 0
+    if (.not.deferred) return
+    event=recovery_event()
+    event%last_residual=ieee_value(0d0,ieee_quiet_nan)
+    event%last_gradient=ieee_value(0d0,ieee_quiet_nan)
+    event%base_point=base
+    event%normal=normal
+    event%initial_point=base+normal*initial
+    event%last_point=base+normal*last
+    event%index = index
+    event%reason = reason
+    event%iteration = iteration
+    event%initial_height = initial
+    event%last_height = last
+    event%rejected_height = candidate
+    event%rejected_point = point
+    if (ieee_is_finite(f)) event%last_residual = f
+    if (all(ieee_is_finite(grad))) event%last_gradient = grad
+  end subroutine
+
+  subroutine append_recovery_event(events,event,used)
+    type(recovery_event), allocatable, intent(inout) :: events(:)
+    type(recovery_event), intent(in) :: event
+    integer*8, intent(inout) :: used
+    type(recovery_event), allocatable :: expanded(:)
+    if (.not.allocated(events)) allocate(events(16))
+    if (used==size(events,kind=8)) then
+      allocate(expanded(2*size(events,kind=8)))
+      expanded(1:used)=events(1:used)
+      call move_alloc(expanded,events)
+    endif
+    used=used+1
+    events(used)=event
+  end subroutine
+
+  subroutine evaluate_projection_subset(n,heights,base,normals,active,g,feval,mode,f,df,grad,r,guard,iteration,ier)
+    integer*8, intent(in) :: n,mode,iteration
+    real*8, intent(in) :: heights(n),base(3,n),normals(3,n)
+    logical, intent(in) :: active(n)
+    type(Geometry), intent(in) :: g
+    type(Feval_stuff), intent(inout) :: feval
+    type(projection_radius_guard), intent(inout) :: guard
+    real*8, intent(out) :: f(n),df(n)
+    real*8, intent(inout) :: grad(3,n),r(3,n)
+    integer*8, intent(out) :: ier
+    real*8, allocatable :: targets(:,:),directions(:,:),values(:),derivatives(:,:)
+    integer*8 :: i,j,nt,flags(n)
+    flags=0
+    ! Safe retained positions are checked independently of the active mask.
+    call check_projection_targets(guard,n,base,normals,heights,flags,iteration,ier)
+    if (ier/=0) return
+    nt=count(active,kind=8)
+    if (nt==0) return
+    allocate(targets(3,nt),directions(3,nt),values(nt),derivatives(3,nt))
+    j=0
+    do i=1,n
+      if (.not.active(i)) cycle
+      r(:,i)=base(:,i)+normals(:,i)*heights(i)
+      j=j+1
+      targets(:,j)=r(:,i)
+      directions(:,j)=normals(:,i)
+    enddo
+    call eval_density_grad_FMM(g,targets,directions,nt,values,derivatives,feval,mode)
+    j=0
+    do i=1,n
+      if (.not.active(i)) cycle
+      j=j+1
+      f(i)=values(j)
+      ! Match My_Newton's existing arithmetic for the unaffected active group.
+      df(i)=derivatives(1,j)*normals(1,i)+derivatives(2,j)*normals(2,i)+derivatives(3,j)*normals(3,i)
+      grad(:,i)=derivatives(:,j)
+      r(:,i)=targets(:,j)
+    enddo
+  end subroutine
+
+  subroutine finish_projection_recovery(n,base,normals,initial,heights,deferred,events,grad,r,g,feval,mode, &
+      flags,guard,ier)
+    integer*8, intent(in) :: n,mode,flags(n)
+    real*8, intent(in) :: base(3,n),normals(3,n),initial(n)
+    real*8, intent(inout) :: heights(n),grad(3,n),r(3,n)
+    logical, intent(in) :: deferred(n)
+    type(recovery_event), intent(inout) :: events(:)
+    type(Geometry), intent(in) :: g
+    type(Feval_stuff), intent(inout) :: feval
+    type(projection_radius_guard), intent(inout) :: guard
+    integer*8, intent(out) :: ier
+    logical :: failures(n)
+    real*8 :: snapshot(n)
+    integer*8 :: i,j
+    ier=0
+    if (.not.any(deferred)) return
+    call recover_levelset_targets(n,base,normals,initial,heights,deferred,grad,r,g,feval,mode, &
+        guard%center,guard%radius,events,ier)
+    do j=1,size(events,kind=8)
+      i=events(j)%index
+      guard%recovered_mask(i)=events(j)%recovered
+    enddo
+    call write_recovery_report(guard,n,deferred,events)
+    if (ier==0) return
+    failures=.false.
+    snapshot=heights
+    do j=1,size(events,kind=8)
+      i=events(j)%index
+      failures(i)=.not.events(j)%recovered
+      if (failures(i)) snapshot(i)=events(j)%rejected_height
+    enddo
+    call report_newton_failure(guard,n,base,normals,snapshot,flags,guard%iteration, &
+        'Local downward-crossing recovery failed; see Newton recovery diagnostic',failures)
+    ier=7
+  end subroutine
+
+  subroutine write_recovery_report(guard,n,deferred,events)
+    type(projection_radius_guard), intent(inout) :: guard
+    integer*8, intent(in) :: n
+    logical, intent(in) :: deferred(n)
+    type(recovery_event), intent(in) :: events(:)
+    integer :: unit,ios,close_ios
+    integer*8 :: i,j,nd,nr
+    nd=count(deferred,kind=8)
+    nr=0
+    do i=1,size(events,kind=8)
+      if (events(i)%recovered) nr=nr+1
+    enddo
+    guard%recovery_deferred=guard%recovery_deferred+nd
+    guard%recovery_recovered=guard%recovery_recovered+nr
+    guard%recovery_unresolved=guard%recovery_unresolved+nd-nr
+    print *, 'Newton recovery stage/refinement:',guard%stage,guard%refinement
+    print *, '  deferred/recovered/unresolved:',nd,nr,nd-nr
+    if (.not.allocated(guard%recovery_filename)) then
+      print *, 'WARNING: no Newton recovery diagnostic filename'
+      return
+    endif
+    if (guard%recovery_report_started) then
+      open(newunit=unit,file=guard%recovery_filename,status='old',position='append',iostat=ios)
+    else
+      open(newunit=unit,file=guard%recovery_filename,status='replace',iostat=ios)
+    endif
+    if (ios/=0) then
+      print *, 'WARNING: unable to write Newton recovery diagnostic: ',guard%recovery_filename
+      return
+    endif
+    if (.not.guard%recovery_report_started) write(unit,'(a)',iostat=ios) 'NEWTON_RECOVERY_V1'
+    guard%recovery_report_started=.true.
+    if (ios==0) write(unit,*,iostat=ios) 'BEGIN ',guard%stage,guard%refinement,nd
+    do i=1,size(events,kind=8)
+      if (ios/=0) cycle
+      write(unit,*,iostat=ios) 'TARGET ',events(i)%index,events(i)%reason,events(i)%iteration
+      if (ios==0) write(unit,'(a)',iostat=ios) 'OUTCOME '//trim(events(i)%outcome)
+      if (ios==0) write(unit,*,iostat=ios) 'BASE_POINT ',events(i)%base_point
+      if (ios==0) write(unit,*,iostat=ios) 'NORMAL ',events(i)%normal
+      if (ios==0) write(unit,*,iostat=ios) 'INITIAL_POINT ',events(i)%initial_point
+      if (ios==0) write(unit,*,iostat=ios) 'LAST_POINT ',events(i)%last_point
+      if (ios==0) write(unit,*,iostat=ios) 'INITIAL_HEIGHT ',events(i)%initial_height
+      if (ios==0) write(unit,*,iostat=ios) 'LAST_HEIGHT ',events(i)%last_height
+      if (ios==0) write(unit,*,iostat=ios) 'REJECTED_HEIGHT ',events(i)%rejected_height
+      if (ios==0) write(unit,*,iostat=ios) 'REJECTED_POINT ',events(i)%rejected_point
+      if (ios==0) write(unit,*,iostat=ios) 'LAST_RESIDUAL ',events(i)%last_residual
+      if (ios==0) write(unit,*,iostat=ios) 'LAST_GRADIENT ',events(i)%last_gradient
+      if (ios==0) write(unit,*,iostat=ios) 'SIGMA ',events(i)%sigma
+      if (ios==0) write(unit,*,iostat=ios) 'INTERVAL ',events(i)%lo,events(i)%hi
+      if (ios==0) write(unit,*,iostat=ios) 'ROOT ',events(i)%root
+      if (ios==0) write(unit,*,iostat=ios) 'RESIDUAL ',events(i)%residual
+      if (ios==0) write(unit,*,iostat=ios) 'SLOPE ',events(i)%slope
+      if (ios==0) write(unit,*,iostat=ios) 'POSITION_TOLERANCE ',events(i)%position_tolerance
+      if (ios==0) write(unit,*,iostat=ios) 'COUNTS ',events(i)%evaluations,events(i)%brackets,events(i)%iterations
+      if (allocated(events(i)%bracket_lower)) then
+        do j=1,size(events(i)%bracket_lower,kind=8)
+          if (ios==0) write(unit,*,iostat=ios) 'BRACKET ',events(i)%bracket_lower(j),events(i)%bracket_upper(j), &
+              events(i)%bracket_lower_residual(j),events(i)%bracket_upper_residual(j)
+          if (ios==0) write(unit,*,iostat=ios) 'CANDIDATE ',events(i)%candidate_root(j), &
+              events(i)%candidate_residual(j),events(i)%candidate_slope(j),events(i)%candidate_iterations(j)
+          if (ios==0) write(unit,'(a)',iostat=ios) 'CANDIDATE_OUTCOME '//trim(events(i)%candidate_outcome(j))
+        enddo
+      endif
+      if (ios==0) write(unit,'(a)',iostat=ios) 'END_TARGET'
+    enddo
+    if (ios==0) write(unit,*,iostat=ios) 'END ',nr,nd-nr
+    close(unit,iostat=close_ios)
+    if (ios/=0.or.close_ios/=0) print *, 'WARNING: incomplete Newton recovery diagnostic: ',guard%recovery_filename
+  end subroutine
+
+  subroutine validate_recovered_patches(g,feval,mode,guard,ier)
+    type(Geometry), intent(in) :: g
+    type(Feval_stuff), intent(inout) :: feval
+    type(projection_radius_guard), intent(inout) :: guard
+    integer*8, intent(in) :: mode
+    integer*8, intent(out) :: ier
+    integer*8 :: p,np,m,nc,k,i,j,l,first,last,nt,nb,nbatch,owner,patches(g%ntri)
+    integer*8, allocatable :: owners(:)
+    real*8, allocatable :: rv(:,:),umat(:,:),vmat(:,:),w(:),uv(:,:),pol(:,:),du(:,:),dv(:,:)
+    real*8, allocatable :: coefficients(:,:),targets(:,:),normals(:,:),grad(:,:),f(:),crosses(:,:),jac0(:)
+    real*8 :: d(2,g%n_order_sf),anchor(3),r_u(3),r_v(3),b_u(3),b_v(3),cr(3),cr0(3),jac,ng
+    real*8 :: u,v,t,lu(6),lv(6),ratio,dotn,radial
+    integer :: reason
+    ier=0
+    if (.not.allocated(guard%recovered_mask)) return
+    if (.not.any(guard%recovered_mask)) return
+    np=g%n_order_sf
+    if (size(guard%recovered_mask,kind=8)/=g%ntri*np) then
+      call reject_recovered_geometry(guard,'Invalid recovered patch layout',ier)
+      return
+    endif
+    nb=0
+    do k=1,g%ntri
+      first=(k-1)*np+1
+      last=k*np
+      if (.not.any(guard%recovered_mask(first:last))) cycle
+      nb=nb+1
+      patches(nb)=k
+      do i=first,last
+        if (.not.all(ieee_is_finite(g%du_smooth(:,i))).or. &
+            .not.all(ieee_is_finite(g%dv_smooth(:,i))).or..not.ieee_is_finite(g%ds_smooth(i))) then
+          call reject_recovered_geometry(guard,'Nonfinite recovered patch derivatives',ier)
+          return
+        endif
+        call crossproduct(g%du_smooth(:,i),g%dv_smooth(:,i),cr)
+        call crossproduct(g%Base_Points_U(:,i),g%Base_Points_V(:,i),cr0)
+        jac=norm2(cr)
+        ng=norm2(g%N_smooth(:,i))
+        if (.not.all(ieee_is_finite(cr)).or..not.all(ieee_is_finite(cr0)).or. &
+            .not.all(ieee_is_finite(g%N_smooth(:,i))).or..not.ieee_is_finite(jac).or. &
+            .not.ieee_is_finite(norm2(cr0)).or..not.ieee_is_finite(ng).or. &
+            jac<=0d0.or.norm2(cr0)<=0d0.or.ng<=0d0) then
+          call reject_recovered_geometry(guard,'Degenerate recovered patch node',ier)
+          return
+        endif
+        ratio=jac/norm2(cr0)
+        dotn=dot_product(cr/jac,g%N_smooth(:,i)/ng)
+        if (.not.ieee_is_finite(ratio).or..not.ieee_is_finite(dotn).or.ratio<1d-3.or.dotn<.99d0) then
+          call reject_recovered_geometry(guard,'Recovered patch node orientation or Jacobian failed',ier)
+          return
+        endif
+      enddo
+    enddo
+    p=g%norder_smooth
+    m=2*p+4
+    nc=(m+1)*(m+2)/2
+    allocate(rv(2,np),umat(np,np),vmat(np,np),w(np),uv(2,nc),pol(np,nc),du(np,nc),dv(np,nc))
+    allocate(coefficients(3,np))
+    call vioreanu_simplex_quad(p,np,rv,umat,vmat,w)
+    l=0
+    do i=0,m
+      do j=0,m-i
+        l=l+1
+        uv(:,l)=[real(i,8)/m,real(j,8)/m]
+        call koorn_ders(uv(:,l),p,np,pol(:,l),d)
+        du(:,l)=d(1,:)
+        dv(:,l)=d(2,:)
+      enddo
+    enddo
+    ! Oversampled patch checks are grouped to avoid one source-tree build per patch.
+    nbatch=max(1_8,32768_8/nc)
+    do owner=1,nb,nbatch
+      nt=min(nbatch,nb-owner+1)*nc
+      allocate(targets(3,nt),normals(3,nt),crosses(3,nt),jac0(nt),f(nt),grad(3,nt),owners(nt))
+      l=0
+      do k=owner,min(nb,owner+nbatch-1)
+        first=(patches(k)-1)*np+1
+        last=patches(k)*np
+        anchor=g%S_smooth(:,first)
+        coefficients=matmul(g%S_smooth(:,first:last)-spread(anchor,2,np),transpose(umat))
+        do j=1,nc
+          l=l+1
+          owners(l)=patches(k)
+          targets(:,l)=anchor+matmul(coefficients,pol(:,j))
+          r_u=matmul(coefficients,du(:,j))
+          r_v=matmul(coefficients,dv(:,j))
+          call crossproduct(r_u,r_v,cr)
+          crosses(:,l)=cr
+          u=uv(1,j)
+          v=uv(2,j)
+          t=1-u-v
+          lu=[1-4*t,4*u-1,0d0,4*(t-u),4*v,-4*v]
+          lv=[1-4*t,0d0,4*v-1,-4*u,4*u,4*(t-v)]
+          ! Subtract an anchor for translation-stable launch derivatives.
+          b_u=matmul(g%Points(:,g%Tri(:,patches(k)))- &
+              spread(g%Points(:,g%Tri(1,patches(k))),2,6),lu)
+          b_v=matmul(g%Points(:,g%Tri(:,patches(k)))- &
+              spread(g%Points(:,g%Tri(1,patches(k))),2,6),lv)
+          call crossproduct(b_u,b_v,cr0)
+          jac0(l)=norm2(cr0)
+          normals(:,l)=t*g%Normal_Vert(:,g%Tri(1,patches(k)))+ &
+              u*g%Normal_Vert(:,g%Tri(2,patches(k)))+v*g%Normal_Vert(:,g%Tri(3,patches(k)))
+          call projection_target_status(guard,targets(:,l),radial,reason)
+          if (reason/=0.or..not.all(ieee_is_finite(cr)).or..not.all(ieee_is_finite(cr0)).or. &
+              .not.ieee_is_finite(jac0(l)).or..not.ieee_is_finite(norm2(cr)).or. &
+              jac0(l)<=0d0.or.norm2(cr)<=0d0) then
+            call reject_recovered_geometry(guard,'Invalid oversampled recovered patch',ier)
+            return
+          endif
+          if (norm2(cr)/jac0(l)<1d-3) then
+            call reject_recovered_geometry(guard,'Degenerate oversampled recovered patch Jacobian',ier)
+            return
+          endif
+        enddo
+      enddo
+      call eval_density_grad_FMM(g,targets,normals,nt,f,grad,feval,mode)
+      do i=1,nt
+        jac=norm2(crosses(:,i))
+        ng=norm2(grad(:,i))
+        if (.not.all(ieee_is_finite(grad(:,i))).or..not.ieee_is_finite(ng).or.ng*guard%radius<=1d-14) then
+          call reject_recovered_geometry(guard,'Invalid oversampled field gradient',ier)
+          return
+        endif
+        ratio=jac/jac0(i)
+        dotn=-dot_product(crosses(:,i)/jac,grad(:,i)/ng)
+        if (.not.ieee_is_finite(ratio).or..not.ieee_is_finite(dotn).or.ratio<1d-3.or.dotn<.99d0) then
+          call reject_recovered_geometry(guard,'Oversampled recovered patch orientation or Jacobian failed',ier)
+          return
+        endif
+      enddo
+      deallocate(targets,normals,crosses,jac0,f,grad,owners)
+    enddo
+  end subroutine
+
+  subroutine reject_recovered_geometry(guard,message,ier)
+    type(projection_radius_guard), intent(inout) :: guard
+    character(*), intent(in) :: message
+    integer*8, intent(out) :: ier
+    integer :: unit,ios
+    ier=6
+    guard%failed=.true.
+    print *, 'Recovered surface validation failed: ',message
+    if (.not.allocated(guard%recovery_filename)) return
+    open(newunit=unit,file=guard%recovery_filename,status='old',position='append',iostat=ios)
+    if (ios/=0) then
+      print *, 'WARNING: cannot append recovery validation diagnostic'
+      return
+    endif
+    write(unit,'(a)',iostat=ios) 'VALIDATION_FAILED '//trim(message)
+    close(unit)
+  end subroutine
+
 
   double precision function newton_correction_limit(guard) result(limit)
     implicit none
@@ -31,19 +387,24 @@ contains
     endif
   end function newton_correction_limit
 
-  subroutine initialize_projection_guard(guard, Geometry1, output_root, ier)
+  subroutine initialize_projection_guard(guard, Geometry1, output_root, ier, newton_recovery)
     implicit none
     type(projection_radius_guard), intent(out) :: guard
     type(Geometry), intent(in) :: Geometry1
     character(len=*), intent(in) :: output_root
     integer *8, intent(out) :: ier
+    logical, optional, intent(in) :: newton_recovery
     double precision :: lower(3), upper(3)
     integer :: unit, ios
     integer *8 :: i
 
     ier = 0
     guard%enabled = .true.
+    if (present(newton_recovery)) guard%recovery_enabled = newton_recovery
     guard%filename = trim(output_root)//'_newton_failure.txt'
+    guard%recovery_filename = trim(output_root)//'_newton_recovery.txt'
+    open(newunit=unit, file=guard%recovery_filename, status='old', iostat=ios)
+    if (ios.eq.0) close(unit, status='delete', iostat=ios)
     open(newunit=unit, file=guard%filename, status='old', iostat=ios)
     if (ios.eq.0) close(unit, status='delete', iostat=ios)
 
@@ -76,6 +437,9 @@ contains
     if (.not.guard%enabled) return
     if (allocated(guard%step_length)) deallocate(guard%step_length,guard%step_iteration,guard%step_available)
     allocate(guard%step_length(npoints),guard%step_iteration(npoints),guard%step_available(npoints))
+    if (allocated(guard%recovered_mask)) deallocate(guard%recovered_mask)
+    allocate(guard%recovered_mask(npoints))
+    guard%recovered_mask = .false.
     guard%stage = stage
     guard%iteration = 0
     guard%failed = .false.
@@ -678,6 +1042,15 @@ subroutine find_smooth_surface(Geometry1, Feval_stuff_1, adapt_flag, ier, guard)
 
   enddo
 
+  if (present(guard)) then
+    if (allocated(guard%recovered_mask)) then
+      if (any(guard%recovered_mask)) then
+        call validate_recovered_patches(Geometry1,Feval_stuff_1,adapt_flag,guard,ier)
+        if (ier/=0) return
+      endif
+    endif
+  endif
+
   !
   ! copy over the h height function
   !
@@ -696,6 +1069,7 @@ end subroutine find_smooth_surface
 subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
     Feval_stuff_1 ,adapt_flag, grad_F, r_t, guard)
   implicit none
+  intrinsic :: merge
 
   !List of calling arguments
   type (Geometry), intent(in) :: Geometry1
@@ -735,9 +1109,37 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
   double precision :: correction_limit
   integer *8  flag_con(Geometry1%n_Sf_points)
   integer *8 guard_error
+  logical :: recovery, deferred(Geometry1%n_Sf_points)
+  real*8 :: candidate
+  real*8, allocatable :: initial(:),last_finite_f(:),last_finite_grad(:,:)
+  type(recovery_event) :: candidate_event
+  integer*8 :: events_used
+  type(recovery_event), allocatable :: events(:)
 
   correction_limit = newton_correction_limit(guard)
   call begin_projection_guard(guard,2_8,Geometry1%n_Sf_points)
+
+  recovery = projection_recovery_enabled(guard)
+  deferred = .false.
+  events_used=0
+  if (recovery) then
+    initial=x
+    allocate(last_finite_f(Geometry1%n_Sf_points),last_finite_grad(3,Geometry1%n_Sf_points))
+    last_finite_f=ieee_value(0d0,ieee_quiet_nan)
+    last_finite_grad=ieee_value(0d0,ieee_quiet_nan)
+    do count2=1,Geometry1%n_Sf_points
+      if (.not.all(ieee_is_finite(Geometry1%Base_Points_N(:,count2))) .or. &
+          .not.ieee_is_finite(norm2(Geometry1%Base_Points_N(:,count2))).or. &
+          norm2(Geometry1%Base_Points_N(:,count2))<=0d0) then
+        flag_con=0
+        call report_newton_failure(guard,Geometry1%n_Sf_points,Geometry1%Base_Points, &
+            Geometry1%Base_Points_N,x,flag_con,0_8,'Zero or nonfinite pseudonormal', &
+            [(count==count2,count=1,Geometry1%n_Sf_points)])
+        flag=3
+        return
+      endif
+    enddo
+  endif
 
   ! initialize the errors and convergence flags
   do count2 = 1,Geometry1%n_Sf_points
@@ -753,7 +1155,7 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
   ! print out convergence information
   write (*,*) 'iteration,  #targets,   err'  
   write (*,4999) count, &
-        Geometry1%n_Sf_points-sum(flag_con), 1.0d0 
+        Geometry1%n_Sf_points-sum(flag_con)-sum(merge(1_8,0_8,deferred)), 1.0d0
 
   ! the x function has been initialized to 0
   do while ( (maxval(err)>tol) .and. (count<maxiter) )
@@ -762,8 +1164,13 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
 
     !print *, "Entering fun_roots_derivative"
 
-    call fun_roots_derivative(x, Geometry1, F, dF, Feval_stuff_1, &
-        adapt_flag, flag_con, grad_F, r_t, guard, count, guard_error)
+    if (any(deferred)) then
+      call evaluate_projection_subset(Geometry1%n_Sf_points,x,Geometry1%Base_Points,Geometry1%Base_Points_N, &
+          flag_con==0.and..not.deferred,Geometry1,Feval_stuff_1,adapt_flag,F,dF,grad_F,r_t,guard,count,guard_error)
+    else
+      call fun_roots_derivative(x, Geometry1, F, dF, Feval_stuff_1, &
+          adapt_flag, flag_con, grad_F, r_t, guard, count, guard_error)
+    endif
     if (guard_error.ne.0) then
       flag = guard_error
       return
@@ -772,11 +1179,26 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
     count = count+1
     do count2 = 1,Geometry1%n_Sf_points
 
-      if (flag_con(count2) .eq. 0) then
+      if (flag_con(count2) .eq. 0 .and. .not.deferred(count2)) then
 
+        if (recovery) then
+          if (ieee_is_finite(F(count2))) last_finite_f(count2)=F(count2)
+          if (all(ieee_is_finite(grad_F(:,count2)))) last_finite_grad(:,count2)=grad_F(:,count2)
+        endif
         err(count2) = F(count2)/dF(count2)
         call record_projection_step(guard,count2,err(count2),Geometry1%Base_Points_N(:,count2),count-1)
-        x(count2) = x(count2) - err(count2)!    Mucho ojo con esto
+        if (recovery) then
+          candidate=x(count2)-err(count2)
+          call defer_projection_target(guard,count2,count-1,Geometry1%Base_Points(:,count2), &
+              Geometry1%Base_Points_N(:,count2),initial(count2),x(count2),candidate,last_finite_f(count2), &
+              last_finite_grad(:,count2),candidate_event,deferred(count2))
+          if (deferred(count2)) then
+            call append_recovery_event(events,candidate_event,events_used)
+            err(count2)=0d0
+            cycle
+          endif
+        endif
+        x(count2) = x(count2) - err(count2)
 
         err(count2) = abs(err(count2))
         
@@ -800,12 +1222,13 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
       return
     endif
     write (*,4999) count, &
-        Geometry1%n_Sf_points-sum(flag_con), maxval(err)
+        Geometry1%n_Sf_points-sum(flag_con)-sum(merge(1_8,0_8,deferred)), maxval(err)
     if (maxval(err) > correction_limit) then
        call report_newton_failure(guard,Geometry1%n_Sf_points,Geometry1%Base_Points, &
            Geometry1%Base_Points_N,x,flag_con,count-1, &
            'Newton correction exceeded the solver limit',err.gt.correction_limit)
        flag = 3
+       if (any(deferred)) call write_recovery_report(guard,Geometry1%n_Sf_points,deferred,events(1:events_used))
        return
     endif
         
@@ -818,7 +1241,13 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
     call report_newton_failure(guard,Geometry1%n_Sf_points,Geometry1%Base_Points, &
         Geometry1%Base_Points_N,x,flag_con,count-1,'Newton iteration limit reached',flag_con.eq.0)
     flag=1
+    if (any(deferred)) call write_recovery_report(guard,Geometry1%n_Sf_points,deferred,events(1:events_used))
     return
+  endif
+
+  if (any(deferred)) then
+    call finish_projection_recovery(Geometry1%n_Sf_points,Geometry1%Base_Points,Geometry1%Base_Points_N, &
+        initial,x,deferred,events(1:events_used),grad_F,r_t,Geometry1,Feval_stuff_1,adapt_flag,flag_con,guard,flag)
   endif
 
   return
@@ -908,6 +1337,7 @@ end subroutine project_points_eval_roots
 subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
     nproj, base_points, base_normals, projected_points, heights, grad_F, ier, guard)
   implicit none
+  intrinsic :: merge
 
   type (Geometry), intent(in) :: Geometry1
   type (Feval_stuff), intent(inout) :: Feval_stuff_1
@@ -922,7 +1352,12 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
   integer *8 :: flag_con(nproj)
   double precision :: F(nproj), dF(nproj), err(nproj)
   double precision :: r_t(3,nproj), maxerr, normn, step, tol, correction_limit
-  logical :: failure_mask(nproj)
+  logical :: failure_mask(nproj), recovery, deferred(nproj)
+  real*8 :: candidate
+  real*8, allocatable :: initial(:),last_finite_f(:),last_finite_grad(:,:)
+  type(recovery_event) :: candidate_event
+  integer*8 :: events_used
+  type(recovery_event), allocatable :: events(:)
 
   ier = 0
   correction_limit = newton_correction_limit(guard)
@@ -933,10 +1368,21 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
   grad_F = 0.0d0
   flag_con = 0
   call begin_projection_guard(guard,1_8,nproj)
+  recovery=projection_recovery_enabled(guard)
+  deferred=.false.
+  events_used=0
+  if (recovery) then
+    initial=heights
+    allocate(last_finite_f(nproj),last_finite_grad(3,nproj))
+    last_finite_f=ieee_value(0d0,ieee_quiet_nan)
+    last_finite_grad=ieee_value(0d0,ieee_quiet_nan)
+  endif
 
   do count=1,nproj
     normn = sqrt(sum(base_normals(:,count)**2))
-    if (.not.(normn.gt.0.0d0)) then
+    if (recovery) normn = norm2(base_normals(:,count))
+    if (.not.(normn.gt.0.0d0).or..not.ieee_is_finite(normn).or. &
+        .not.all(ieee_is_finite(base_normals(:,count)))) then
       failure_mask = .false.
       failure_mask(count) = .true.
       call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,0_8, &
@@ -950,28 +1396,49 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
 
   iter = 1
   write (*,*) 'two-stage vertex Newton iteration,  #targets,   err'
-  write (*,'(i10,i9,5x,e10.2)') iter, nproj-sum(flag_con), 1.0d0
+  write (*,'(i10,i9,5x,e10.2)') iter, nproj-sum(flag_con)-sum(merge(1_8,0_8,deferred)), 1.0d0
 
   do while ((maxval(err).gt.tol) .and. (iter.lt.maxiter))
-    call project_points_eval_roots(nproj, heights, base_points, &
-        base_normals, Geometry1, F, dF, Feval_stuff_1, adapt_flag, &
-        flag_con, grad_F, r_t, guard, iter, ier)
+    if (any(deferred)) then
+      call evaluate_projection_subset(nproj,heights,base_points,base_normals,flag_con==0.and..not.deferred, &
+          Geometry1,Feval_stuff_1,adapt_flag,F,dF,grad_F,r_t,guard,iter,ier)
+    else
+      call project_points_eval_roots(nproj, heights, base_points, &
+          base_normals, Geometry1, F, dF, Feval_stuff_1, adapt_flag, &
+          flag_con, grad_F, r_t, guard, iter, ier)
+    endif
     if (ier.ne.0) return
 
     iter = iter + 1
     maxerr = 0.0d0
     do count=1,nproj
-      if (flag_con(count) .eq. 0) then
+      if (flag_con(count) .eq. 0 .and. .not.deferred(count)) then
+        if (recovery) then
+          if (ieee_is_finite(F(count))) last_finite_f(count)=F(count)
+          if (all(ieee_is_finite(grad_F(:,count)))) last_finite_grad(:,count)=grad_F(:,count)
+        endif
         if (abs(dF(count)) .le. 1.0d-300) then
           failure_mask = .false.
           failure_mask(count) = .true.
           call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,iter-1, &
               'Directional level-set derivative is too small for Newton',failure_mask)
           ier = 4
+          if (any(deferred)) call write_recovery_report(guard,nproj,deferred,events(1:events_used))
           return
         endif
         step = F(count)/dF(count)
         call record_projection_step(guard,count,step,base_normals(:,count),iter-1)
+        if (recovery) then
+          candidate=heights(count)-step
+          call defer_projection_target(guard,count,iter-1,base_points(:,count),base_normals(:,count), &
+              initial(count),heights(count),candidate,last_finite_f(count),last_finite_grad(:,count), &
+              candidate_event,deferred(count))
+          if (deferred(count)) then
+            call append_recovery_event(events,candidate_event,events_used)
+            err(count)=0d0
+            cycle
+          endif
+        endif
         heights(count) = heights(count) - step
         err(count) = abs(step)
         if (abs(heights(count)) .ge. 1.0d0) then
@@ -984,12 +1451,13 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
 
     call check_projection_targets(guard,nproj,base_points,base_normals,heights,flag_con,iter-1,ier)
     if (ier.ne.0) return
-    write (*,'(i10,i9,5x,e10.2)') iter, nproj-sum(flag_con), &
+    write (*,'(i10,i9,5x,e10.2)') iter, nproj-sum(flag_con)-sum(merge(1_8,0_8,deferred)), &
         maxval(err)
     if (maxerr .gt. correction_limit) then
       call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,iter-1, &
           'Newton correction exceeded the solver limit',err.gt.correction_limit)
       ier = 4
+      if (any(deferred)) call write_recovery_report(guard,nproj,deferred,events(1:events_used))
       return
     endif
   enddo
@@ -998,7 +1466,14 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
     call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,iter-1, &
         'Newton iteration limit reached',flag_con.eq.0)
     ier = 3
+    if (any(deferred)) call write_recovery_report(guard,nproj,deferred,events(1:events_used))
     return
+  endif
+
+  if (any(deferred)) then
+    call finish_projection_recovery(nproj,base_points,base_normals,initial,heights,deferred,events(1:events_used), &
+        grad_F,r_t,Geometry1,Feval_stuff_1,adapt_flag,flag_con,guard,ier)
+    if (ier/=0) return
   endif
 
   do count=1,nproj
@@ -1067,7 +1542,9 @@ subroutine project_scaffold_vertices_to_levelset(Geometry1, Feval_stuff_1, &
   integer *8, intent(out) :: ier
   type(projection_radius_guard), optional, intent(inout) :: guard
 
-  logical, allocatable :: is_corner(:)
+  logical, allocatable :: is_corner(:),recovered_vertices(:)
+  real*8, allocatable :: candidate_points(:,:)
+  real*8 :: old_cross(3),new_cross(3)
   integer *8, allocatable :: vertex_ids(:)
   double precision, allocatable :: base_points(:,:), base_normals(:,:)
   double precision, allocatable :: projected_points(:,:), heights(:)
@@ -1129,6 +1606,39 @@ subroutine project_scaffold_vertices_to_levelset(Geometry1, Feval_stuff_1, &
   if (ier .ne. 0) then
     print *, "two-stage scaffold vertex projection failed, ier=", ier
     return
+  endif
+
+  if (present(guard)) then
+    if (allocated(guard%recovered_mask)) then
+      if (any(guard%recovered_mask)) then
+        candidate_points=Geometry1%Points
+        allocate(recovered_vertices(Geometry1%npoints))
+        recovered_vertices=.false.
+        do i=1,nproj
+          candidate_points(:,vertex_ids(i))=projected_points(:,i)
+          recovered_vertices(vertex_ids(i))=guard%recovered_mask(i)
+        enddo
+        do itri=1,Geometry1%ntri
+          p1=candidate_points(:,Geometry1%Tri(1,itri))
+          p2=candidate_points(:,Geometry1%Tri(2,itri))
+          p3=candidate_points(:,Geometry1%Tri(3,itri))
+          ratio=triangle_area_from_points(p1,p2,p3)/area0(itri)
+          if (.not.all(ieee_is_finite([p1,p2,p3])).or..not.ieee_is_finite(ratio).or.ratio<1d-10) then
+            call reject_recovered_geometry(guard,'Recovered scaffold area or coordinates failed',ier)
+            return
+          endif
+          if (.not.any(recovered_vertices(Geometry1%Tri(1:3,itri)))) cycle
+          call crossproduct(p2-p1,p3-p1,new_cross)
+          call crossproduct(Geometry1%Points(:,Geometry1%Tri(2,itri))- &
+              Geometry1%Points(:,Geometry1%Tri(1,itri)),Geometry1%Points(:,Geometry1%Tri(3,itri))- &
+              Geometry1%Points(:,Geometry1%Tri(1,itri)),old_cross)
+          if (dot_product(old_cross/norm2(old_cross),new_cross/norm2(new_cross))<=0d0) then
+            call reject_recovered_geometry(guard,'Recovered scaffold triangle reversed orientation',ier)
+            return
+          endif
+        enddo
+      endif
+    endif
   endif
 
   mean_disp = 0.0d0

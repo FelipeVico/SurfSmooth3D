@@ -10,6 +10,10 @@ extern void multiscale_mesher_adaptive_c(const char *, const char *, const char 
     const int64_t *, const int64_t *, const int64_t *, const int64_t *,
     const double *, const double *, const int64_t *, const int64_t *, int64_t *, progress_fn);
 
+extern void multiscale_mesher_adaptive_recovery_c(const char *, const char *, const char *,
+    const int64_t *, const int64_t *, const int64_t *, const int64_t *,
+    const double *, const double *, const int64_t *, const int64_t *, const int64_t *, int64_t *, progress_fn);
+
 static void progress(const int64_t *pass, const int64_t *patches,
     const int64_t *unresolved, const int64_t *depth, const double *eta)
 {
@@ -33,11 +37,11 @@ static double scalar(const mxArray *a, double lo, double hi, int integer)
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    int64_t filetype, nquad, p, mode, depth, budget, ier = 0;
+    int64_t filetype, nquad, p, mode, depth, budget, recovery = 1, ier = 0;
     double rlam, tol;
     char *fname, *cad, *root;
-    if (nrhs != 11 || nlhs != 1)
-        mexErrMsgIdAndTxt("adaptivesmoother:arguments", "Expected eleven inputs and one output.");
+    if ((nrhs != 11 && nrhs != 12) || nlhs != 1)
+        mexErrMsgIdAndTxt("adaptivesmoother:arguments", "Expected eleven inputs, an optional recovery flag, and one output.");
     for (int i = 0; i < 3; ++i)
         if (!mxIsChar(prhs[i]) || mxGetM(prhs[i]) != 1 || mxGetN(prhs[i]) == 0)
             mexErrMsgIdAndTxt("adaptivesmoother:path", "Paths must be nonempty character rows.");
@@ -51,11 +55,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexErrMsgIdAndTxt("adaptivesmoother:argument", "Require rlam > 0 and 0 < tolerance < 1.");
     depth = (int64_t)scalar(prhs[9], 0, 20, 1);
     budget = (int64_t)scalar(prhs[10], 1, 9007199254740991., 1);
+    if (nrhs == 12) recovery = (int64_t)scalar(prhs[11], 0, 1, 1);
     fname = mxArrayToString(prhs[0]);
     cad = mxArrayToString(prhs[1]);
     root = mxArrayToString(prhs[2]);
-    multiscale_mesher_adaptive_c(fname,cad,root,&filetype,&nquad,&p,&mode,
-        &rlam,&tol,&depth,&budget,&ier,progress);
+    multiscale_mesher_adaptive_recovery_c(fname,cad,root,&filetype,&nquad,&p,&mode,
+        &rlam,&tol,&depth,&budget,&recovery,&ier,progress);
     mxFree(fname); mxFree(cad); mxFree(root);
     plhs[0] = mxCreateDoubleScalar((double)ier);
 }
