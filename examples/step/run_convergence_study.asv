@@ -35,7 +35,7 @@ ORDERS = [4];
 MESH_FRACTIONS = [0.1];
 % MESH_FRACTIONS = [0.05];
 
-REFINEMENT_LEVELS = [0];
+REFINEMENT_LEVELS = [0, 1];
 
 
 EDGE_GLL_ORDER = max(ORDERS);
@@ -64,7 +64,7 @@ STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced_local';
 
 % Optional curvature-profile overrides. Leave [] to use the selected
 % preset defaults. For 'curvature_balanced_local', the defaults are:
-%   curvature_points = 8
+%   curvature_points = 58
 %   hmin_mode = 'fraction'
 %   hmin_fraction = 0.01
 %   hmin_edge_scale = 0.25
@@ -86,32 +86,6 @@ HMIN_FRACTION_OVERRIDE = 0.01;
 % CAD_EDGE_TOL_FRACTION_OVERRIDE = 1e-6;
 HMAX_FRACTION_OVERRIDE = 0.12;
 MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = false;
-
-
-
-%%%%%%%%%%%% Properties for Hairy torus:
-
-STEP1_MESH_PROFILE_CHOICE = 'curvature_balanced_local';
-
-CURVATURE_POINTS_OVERRIDE = 7;   % Target around a full 360-degree circle
-HMIN_MODE_OVERRIDE = 'fraction';
-HMIN_FRACTION_OVERRIDE = 0.0005;  % Allow sufficiently small elements
-
-HMAX_FRACTION_OVERRIDE = 0.12;
-MESH_SIZE_EXTEND_FROM_BOUNDARY_OVERRIDE = true;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 RUN_PLOTS = true;
 SAVE_FIGURES = true;
