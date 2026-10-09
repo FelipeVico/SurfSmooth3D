@@ -7,6 +7,8 @@ Module Mod_Smooth_Surface
   
   implicit none
 
+  integer*8, parameter :: recovery_reason_iteration_limit = 3
+
   ! Per-solve diagnostic state; the original one-stage path leaves it disabled.
   type projection_radius_guard
     logical :: enabled = .false., failed = .false., report_written = .false.
@@ -43,6 +45,13 @@ contains
     call projection_target_status(guard,point,ratio,reason)
     deferred = reason /= 0
     if (.not.deferred) return
+    call initialize_recovery_event(index,iteration,int(reason,8),base,normal,initial,last,candidate,f,grad,event)
+  end subroutine
+
+  subroutine initialize_recovery_event(index,iteration,reason,base,normal,initial,last,candidate,f,grad,event)
+    integer*8, intent(in) :: index,iteration,reason
+    real*8, intent(in) :: base(3),normal(3),initial,last,candidate,f,grad(3)
+    type(recovery_event), intent(out) :: event
     event=recovery_event()
     event%last_residual=ieee_value(0d0,ieee_quiet_nan)
     event%last_gradient=ieee_value(0d0,ieee_quiet_nan)
@@ -56,10 +65,47 @@ contains
     event%initial_height = initial
     event%last_height = last
     event%rejected_height = candidate
-    event%rejected_point = point
+    event%rejected_point = base+normal*candidate
     if (ieee_is_finite(f)) event%last_residual = f
     if (all(ieee_is_finite(grad))) event%last_gradient = grad
   end subroutine
+
+  subroutine defer_iteration_limit_targets(n,base,normals,initial,heights,flags,deferred,events,used,iteration,f,grad)
+    integer*8, intent(in) :: n,flags(n),iteration
+    real*8, intent(in) :: base(3,n),normals(3,n),initial(n),heights(n),f(n),grad(3,n)
+    logical, intent(inout) :: deferred(n)
+    type(recovery_event), allocatable, intent(inout) :: events(:)
+    integer*8, intent(inout) :: used
+    type(recovery_event) :: event
+    integer*8 :: i
+    real*8 :: no_proposal
+    ! These targets retained safe coordinates but exhausted Newton's budget.
+    ! There is no rejected unsafe proposal; NaN marks that diagnostic as absent.
+    ! The last finite field data may precede the final accepted Newton step.
+    no_proposal=ieee_value(0d0,ieee_quiet_nan)
+    do i=1,n
+      if (flags(i)/=0.or.deferred(i)) cycle
+      call initialize_recovery_event(i,iteration,recovery_reason_iteration_limit,base(:,i),normals(:,i), &
+          initial(i),heights(i),no_proposal,f(i),grad(:,i),event)
+      call append_recovery_event(events,event,used)
+      deferred(i)=.true.
+    enddo
+  end subroutine
+
+  function recovery_reason_name(reason) result(name)
+    integer*8, intent(in) :: reason
+    character(32) :: name
+    select case(reason)
+    case(1)
+      name='outside_radius'
+    case(2)
+      name='nonfinite'
+    case(recovery_reason_iteration_limit)
+      name='iteration_limit'
+    case default
+      name='unknown'
+    end select
+  end function
 
   subroutine append_recovery_event(events,event,used)
     type(recovery_event), allocatable, intent(inout) :: events(:)
@@ -132,6 +178,7 @@ contains
     integer*8 :: i,j
     ier=0
     if (.not.any(deferred)) return
+    print *, 'Starting local recovery: stage/refinement/targets:',guard%stage,guard%refinement,count(deferred)
     call recover_levelset_targets(n,base,normals,initial,heights,deferred,grad,r,g,feval,mode, &
         guard%center,guard%radius,events,ier)
     do j=1,size(events,kind=8)
@@ -145,7 +192,8 @@ contains
     do j=1,size(events,kind=8)
       i=events(j)%index
       failures(i)=.not.events(j)%recovered
-      if (failures(i)) snapshot(i)=events(j)%rejected_height
+      if (failures(i).and.events(j)%reason/=recovery_reason_iteration_limit) &
+          snapshot(i)=events(j)%rejected_height
     enddo
     call report_newton_failure(guard,n,base,normals,snapshot,flags,guard%iteration, &
         'Local downward-crossing recovery failed; see Newton recovery diagnostic',failures)
@@ -188,6 +236,7 @@ contains
     do i=1,size(events,kind=8)
       if (ios/=0) cycle
       write(unit,*,iostat=ios) 'TARGET ',events(i)%index,events(i)%reason,events(i)%iteration
+      if (ios==0) write(unit,'(a)',iostat=ios) 'REASON_NAME '//trim(recovery_reason_name(events(i)%reason))
       if (ios==0) write(unit,'(a)',iostat=ios) 'OUTCOME '//trim(events(i)%outcome)
       if (ios==0) write(unit,*,iostat=ios) 'BASE_POINT ',events(i)%base_point
       if (ios==0) write(unit,*,iostat=ios) 'NORMAL ',events(i)%normal
@@ -1238,11 +1287,16 @@ subroutine My_Newton(x,tol,maxiter,Geometry1,flag, &
 
   
   if ( maxval(err)>tol ) then
-    call report_newton_failure(guard,Geometry1%n_Sf_points,Geometry1%Base_Points, &
-        Geometry1%Base_Points_N,x,flag_con,count-1,'Newton iteration limit reached',flag_con.eq.0)
-    flag=1
-    if (any(deferred)) call write_recovery_report(guard,Geometry1%n_Sf_points,deferred,events(1:events_used))
-    return
+    if (recovery.and.count>1) then
+      call defer_iteration_limit_targets(Geometry1%n_Sf_points,Geometry1%Base_Points,Geometry1%Base_Points_N, &
+          initial,x,flag_con,deferred,events,events_used,count-1,last_finite_f,last_finite_grad)
+    else
+      call report_newton_failure(guard,Geometry1%n_Sf_points,Geometry1%Base_Points, &
+          Geometry1%Base_Points_N,x,flag_con,count-1,'Newton iteration limit reached',flag_con.eq.0)
+      flag=1
+      if (any(deferred)) call write_recovery_report(guard,Geometry1%n_Sf_points,deferred,events(1:events_used))
+      return
+    endif
   endif
 
   if (any(deferred)) then
@@ -1463,11 +1517,16 @@ subroutine project_points_to_levelset(Geometry1, Feval_stuff_1, adapt_flag, &
   enddo
 
   if (maxval(err) .gt. tol) then
-    call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,iter-1, &
-        'Newton iteration limit reached',flag_con.eq.0)
-    ier = 3
-    if (any(deferred)) call write_recovery_report(guard,nproj,deferred,events(1:events_used))
-    return
+    if (recovery.and.iter>1) then
+      call defer_iteration_limit_targets(nproj,base_points,base_normals,initial,heights,flag_con, &
+          deferred,events,events_used,iter-1,last_finite_f,last_finite_grad)
+    else
+      call report_newton_failure(guard,nproj,base_points,base_normals,heights,flag_con,iter-1, &
+          'Newton iteration limit reached',flag_con.eq.0)
+      ier = 3
+      if (any(deferred)) call write_recovery_report(guard,nproj,deferred,events(1:events_used))
+      return
+    endif
   endif
 
   if (any(deferred)) then

@@ -4,7 +4,8 @@ function [S, info] = multiscale_mesher_adaptive(scaffoldFile, norder, opts)
 % opts.fcad is required (x y z nx ny nz w point-skeleton file).
 % Existing options: nquad=12, rlam=10, adapt_sigma=1, filetype inferred.
 % Sigma modes: 0 constant, 1 longest-side, 2 recursive, 3 shortest-side.
-% opts.newton_recovery=true enables local recovery of unsafe Newton targets.
+% opts.newton_recovery=true enables local recovery of targets with unsafe
+% proposed steps or exhausted Newton iterations.
 % info.recovery contains counts and stage records; false restores guarded aborts.
 % Adaptive options: eps_adapt=1e-4, max_refine=3, max_points=2000000.
 % Order is 1:20, maximum depth is 0:20. Leaves refine independently.

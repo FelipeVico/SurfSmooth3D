@@ -2,6 +2,8 @@ function info = read_newton_recovery(filename,enabled,preserve)
 %READ_NEWTON_RECOVERY Read tagged NEWTON_RECOVERY_V1 stage/refinement records.
 % Missing reports mean no targets were deferred. Optional preserve=true copies
 % a present report out of a temporary solver directory before it is removed.
+% Each target includes its numeric reason and a readable reason_name; older
+% reports without a REASON_NAME tag use the corresponding numeric mapping.
 if nargin < 2, enabled = true; end
 if nargin < 3, preserve = false; end
 info = struct('enabled',logical(enabled),'deferred',0,'recovered',0, ...
@@ -32,7 +34,7 @@ while true
         case 'TARGET'
             numbers = values(value,3);
             target = struct('index',numbers(1),'reason',numbers(2),'iteration',numbers(3), ...
-                'outcome','','base_point',nan(1,3),'normal',nan(1,3), ...
+                'reason_name',reason_name(numbers(2)),'outcome','','base_point',nan(1,3),'normal',nan(1,3), ...
                 'initial_point',nan(1,3),'last_point',nan(1,3), ...
                 'initial_height',NaN,'last_height',NaN, ...
                 'rejected_height',NaN,'rejected_point',nan(1,3),'last_residual',NaN, ...
@@ -40,6 +42,9 @@ while true
                 'root',NaN,'residual',NaN,'slope',NaN,'position_tolerance',NaN, ...
                 'counts',zeros(1,3),'brackets',zeros(0,4), ...
                 'candidates',zeros(0,4),'candidate_outcomes',{{}});
+        case 'REASON_NAME'
+            if isempty(target) || isempty(value), malformed(filename); end
+            target.reason_name = value;
         case 'OUTCOME'
             target.outcome = value;
         case {'INITIAL_HEIGHT','LAST_HEIGHT','REJECTED_HEIGHT','LAST_RESIDUAL', ...
@@ -97,6 +102,15 @@ if preserve
             'Could not preserve recovery diagnostic %s: %s',filename,message);
     end
     info.report_file = destination;
+end
+end
+
+function name = reason_name(reason)
+switch reason
+    case 1, name = 'outside_radius';
+    case 2, name = 'nonfinite';
+    case 3, name = 'iteration_limit';
+    otherwise, name = 'unknown';
 end
 end
 

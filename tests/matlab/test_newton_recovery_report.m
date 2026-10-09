@@ -19,13 +19,20 @@ fprintf(fid,['NEWTON_RECOVERY_V1\nBEGIN 1 0 1\nTARGET 7 2 4\n', ...
     'POSITION_TOLERANCE 1e-10\nCOUNTS 271 1 14\n', ...
     'BRACKET 0.1 0.2 0.02 -0.08\nCANDIDATE 0.12 1e-10 -0.5 14\nCANDIDATE_OUTCOME acceptable\nEND_TARGET\nEND 1 0\n', ...
     'BEGIN 2 3 1\nTARGET 9 1 2\nOUTCOME no_bracket\n', ...
-    'END_TARGET\nEND 0 1\nVALIDATION_FAILED folded_patch\n']);
+    'END_TARGET\nEND 0 1\n', ...
+    'BEGIN 2 4 2\nTARGET 11 3 40\nREASON_NAME iteration_limit\nOUTCOME recovered\nEND_TARGET\n', ...
+    'TARGET 12 3 40\nOUTCOME no_bracket\nEND_TARGET\nEND 1 1\n', ...
+    'VALIDATION_FAILED folded_patch\n']);
 fclose(fid);
 info = surfsmooth3d.read_newton_recovery(filename,true,true);
-assert(info.enabled && info.report_available && info.deferred==2 && info.recovered==1 && info.unresolved==1);
-assert(numel(info.events)==2 && info.events(2).refinement==3 && info.validation_failed);
+assert(info.enabled && info.report_available && info.deferred==4 && info.recovered==2 && info.unresolved==2);
+assert(numel(info.events)==3 && info.events(2).refinement==3 && info.validation_failed);
 target = info.events(1).targets(1);
 assert(target.index==7 && target.reason==2 && strcmp(target.outcome,'recovered'));
+assert(strcmp(target.reason_name,'nonfinite'));
+assert(strcmp(info.events(2).targets(1).reason_name,'outside_radius'));
+assert(all([info.events(3).targets.reason]==3));
+assert(all(strcmp({info.events(3).targets.reason_name},'iteration_limit')));
 assert(isequal(target.base_point,[1 2 3]) && isequal(target.normal,[0 0 2]));
 assert(abs(target.last_height-.1)<eps && isinf(target.rejected_height));
 assert(isnan(target.rejected_point(1)) && target.rejected_point(3)==-Inf);
@@ -41,7 +48,13 @@ delete(filename);
 assert(isfile(info.report_file) && isfile(exceptionReport));
 fid = fopen(filename,'w'); fprintf(fid,'NEWTON_RECOVERY_V1\nBEGIN 1 0 1\n'); fclose(fid);
 must_fail(@() surfsmooth3d.read_newton_recovery(filename));
-fprintf('PASS: recovery switch validation, tagged reports, stage totals, nonfinite diagnostics and preservation.\n');
+fid = fopen(filename,'w');
+fprintf(fid,['NEWTON_RECOVERY_V1\nBEGIN 1 0 1\nTARGET 1 99 5\n', ...
+    'REASON_NAME future_reason\nOUTCOME unresolved\nEND_TARGET\nEND 0 1\n']);
+fclose(fid);
+future = surfsmooth3d.read_newton_recovery(filename);
+assert(strcmp(future.events(1).targets(1).reason_name,'future_reason'));
+fprintf('PASS: recovery switch validation, reason names, tagged reports, stage totals, nonfinite diagnostics and preservation.\n');
 end
 
 function must_fail(call)

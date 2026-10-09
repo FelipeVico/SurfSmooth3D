@@ -1,0 +1,319 @@
+{
+  "schema": "SURFSMOOTH3D_NEWTON_ITERATION_RECOVERY_VALIDATION_V1",
+  "date": "2026-10-09",
+  "branch": "newton-recovery",
+  "parent_commit": "79e1374005d6050a2f68b4f837181206b4ae1fb0",
+  "main_unchanged_commit": "c62afced9437993bd11a5fadad0e2a8c54f65ed4",
+  "change": "Guarded Newton targets still active after the normal iteration budget join deferred local recovery. Nonpositive/no-evaluation budgets, invalid inputs, small-derivative and correction-limit failures retain their terminal behavior.",
+  "environment": {
+    "native_compiler": "GNU Fortran 14.2.0",
+    "native_flags": "-O3 -std=legacy -fopenmp",
+    "native_blas": "Apple Accelerate LP64",
+    "matlab": "R2026a, separate ILP64 build and pinned gateways",
+    "omp_num_threads": 2,
+    "fmm_dependency": "build/deps/fmm3d-reference/install/lib/libfmm3d.a",
+    "fmm_dependency_changed": false
+  },
+  "builds": {
+    "native": "passed",
+    "matlab_all_three_gateways": "passed",
+    "reload_requirement": "Restart MATLAB to load rebuilt pinned gateways."
+  },
+  "regressions": {
+    "native_recovery": "passed: mixed unsafe and iteration-limited targets; direct-kernel reference roots; fresh field and gradients; inherited height; stable indices; safe FMM targets; disabled recovery; no available Newton iterations; invalid inputs; no-root failure with finite retained snapshot; recovered patch rejection; transactional scaffold",
+    "native_radius_guard": "passed",
+    "native_fixed_sources": "passed: CAD positions, normals, weights and sigma field invariance; full and selective refinement; legacy repeated A/B/A delta=0",
+    "matlab_pure": "passed",
+    "matlab_native": "passed: uniform, adaptive and blend enabled/disabled recovery; valid output and failed export behavior",
+    "matlab_diagnostics": "passed: V1/V2 reports, failure plotting and preserved GUI/batch diagnostics; no invalid exports",
+    "matlab_recovery_report": "passed: numeric and named reasons, older reports, future tags, native iteration-limit recovered record",
+    "timing_limit": "No new healthy-surface timing benchmark was run for this iteration-limit-only extension. Prior controlled benchmarks are recorded in newton-recovery-validation.json; this follow-up does not establish new performance measurements."
+  },
+  "exact_hairy_torus_replay": {
+    "fixture": "Original saved GUI scaffold and CAD source package",
+    "input_sha256": {
+      "scaffold.gidmsh": "a800d38d3001f93d1c4a553969c1f5f81b8fb58109453c4b80aafdbb353ada2b",
+      "cad_points.txt": "ac26f810b4948e77ef4b089a95c3487beedc7b00d5c5591f8a92754ed02181fd",
+      "tmp_newton_failure.txt": "9a279faada64b6704f8c5450b18bed217bf4d3407d2cf9ad32a61362cde08f92",
+      "tmp_newton_recovery.txt": "dc21e62e8e55d858d5e8d1f4ef777899c419491930b0d764699f8596bed416cd"
+    },
+    "settings": {
+      "rlam": 2,
+      "adapt_sigma": 1,
+      "source_order": 4,
+      "requested_output_order": 6,
+      "stage": "scaffold vertices",
+      "refinement": 0,
+      "cad_sources": 348900,
+      "triangles": 23260,
+      "vertex_targets": 11630
+    },
+    "original_failure": {
+      "unsafe_deferred": 221,
+      "active_at_iteration_limit": 182,
+      "recovery_attempted": false
+    },
+    "updated_result": {
+      "native_status": 7,
+      "deferred": 403,
+      "recovered": 0,
+      "unresolved": 403,
+      "reason_counts": {
+        "outside_radius": 221,
+        "iteration_limit": 182
+      },
+      "outcome_counts": {
+        "no_downward_bracket": 403
+      },
+      "brent_candidates": 0,
+      "seconds": 886.6493729999929,
+      "field_calls": 17,
+      "field_target_evaluations": 140539,
+      "unsafe_target_evaluated": false,
+      "cad_positions_normals_weights_unchanged": true,
+      "scaffold_unchanged": true,
+      "surface_exported": false
+    },
+    "independent_dense_line_scans": [
+      {
+        "target": 11604,
+        "deferral_reason": "unsafe Newton proposal",
+        "samples": 1025,
+        "interval": [
+          -0.33469577032082504,
+          0.33469577032082504
+        ],
+        "min_phi_minus_half": -0.5000473741224476,
+        "max_phi_minus_half": -0.09145942541846919,
+        "max_phi": 0.4085405745815308,
+        "physical_displacement_at_max_phi": -0.049027700730589596,
+        "downward_crossing_count": 0,
+        "upward_crossing_count": 0
+      },
+      {
+        "target": 20,
+        "deferral_reason": "Newton iteration limit",
+        "samples": 1025,
+        "interval": [
+          -0.3915246790571271,
+          0.3915246790571271
+        ],
+        "min_phi_minus_half": -0.5000469826031759,
+        "max_phi_minus_half": -0.16100076681297093,
+        "max_phi": 0.33899923318702907,
+        "physical_displacement_at_max_phi": -0.08335193362739618,
+        "downward_crossing_count": 0,
+        "upward_crossing_count": 0
+      }
+    ],
+    "interpretation": "The iteration-limit handoff is fixed. This original rlam=2 case still fails because no eligible downward crossing was detected within the fixed local search windows. Finite scans do not prove absence of every possible root. No stage-2 or full-surface success is claimed.",
+    "replay_build_note": "The statically linked replay precedes only the final console message announcing local recovery; it includes all numerical changes. Native and MATLAB binaries were rebuilt after that message was added.",
+    "diagnostic_parameter_comparison": {
+      "scope": "Two representative original projection lines only; 1025 samples each; sigma and local window recomputed for each rlam; CAD data unchanged; no full mesh solve and no production setting changed.",
+      "results": {
+        "description": "Diagnostic scans only. Same original CAD sources and projection lines; sigma and local +/-8sigma window recomputed independently for each rlam. No completed mesh or patch validity is asserted.",
+        "baseline_rlam2": [
+          {
+            "target": 11604,
+            "deferral_reason": "unsafe Newton proposal",
+            "samples": 1025,
+            "interval": [
+              -0.33469577032082504,
+              0.33469577032082504
+            ],
+            "min_phi_minus_half": -0.5000473741224476,
+            "max_phi_minus_half": -0.09145942541846919,
+            "max_phi": 0.4085405745815308,
+            "physical_displacement_at_max_phi": -0.049027700730589596,
+            "downward_crossing_count": 0,
+            "upward_crossing_count": 0
+          },
+          {
+            "target": 20,
+            "deferral_reason": "Newton iteration limit",
+            "samples": 1025,
+            "interval": [
+              -0.3915246790571271,
+              0.3915246790571271
+            ],
+            "min_phi_minus_half": -0.5000469826031759,
+            "max_phi_minus_half": -0.16100076681297093,
+            "max_phi": 0.33899923318702907,
+            "physical_displacement_at_max_phi": -0.08335193362739618,
+            "downward_crossing_count": 0,
+            "upward_crossing_count": 0
+          }
+        ],
+        "comparison": [
+          {
+            "target": 11604,
+            "original_deferral_reason": "unsafe Newton proposal",
+            "rlam": 3,
+            "sigma_anchor": 0.023712268185236682,
+            "samples": 1025,
+            "interval": [
+              -0.18969814548189345,
+              0.18969814548189345
+            ],
+            "min_phi_minus_half": -0.500040002165396,
+            "max_phi_minus_half": 0.3361392492035089,
+            "max_phi": 0.8361392492035089,
+            "physical_displacement_at_max_phi": -0.05001806570323364,
+            "downward_crossing_brackets": [
+              [
+                -0.008521596379069435,
+                -0.008151092188675102,
+                0.002196971916513357,
+                -0.003141408702882875
+              ]
+            ],
+            "upward_crossing_brackets": [
+              [
+                -0.09151453502739781,
+                -0.0911440308370035,
+                -0.0012365933914949,
+                0.004054310787261373
+              ]
+            ],
+            "seconds": 12.759480000007898,
+            "unsafe_target_seen": false
+          },
+          {
+            "target": 20,
+            "original_deferral_reason": "Newton iteration limit",
+            "rlam": 3,
+            "sigma_anchor": 0.025534092098180194,
+            "samples": 1025,
+            "interval": [
+              -0.20427273678544156,
+              0.20427273678544156
+            ],
+            "min_phi_minus_half": -0.5000475331040688,
+            "max_phi_minus_half": 0.30949637129210605,
+            "max_phi": 0.809496371292106,
+            "physical_displacement_at_max_phi": -0.07181463402613181,
+            "downward_crossing_brackets": [
+              [
+                -0.02673100266528239,
+                -0.026332032476248324,
+                0.00048771388653778835,
+                -0.004293426776515674
+              ]
+            ],
+            "upward_crossing_brackets": [
+              [
+                -0.12009002689925373,
+                -0.11969105671021966,
+                -0.00035786468483794964,
+                0.0038236416681839414
+              ]
+            ],
+            "seconds": 13.411273000005167,
+            "unsafe_target_seen": false
+          },
+          {
+            "target": 11604,
+            "original_deferral_reason": "unsafe Newton proposal",
+            "rlam": 4,
+            "sigma_anchor": 0.015303269367646827,
+            "samples": 1025,
+            "interval": [
+              -0.12242615494117462,
+              0.12242615494117462
+            ],
+            "min_phi_minus_half": -0.5000318244084719,
+            "max_phi_minus_half": 0.4867563198576105,
+            "max_phi": 0.9867563198576105,
+            "physical_displacement_at_max_phi": -0.04997473902872167,
+            "downward_crossing_brackets": [
+              [
+                -0.002630249422564304,
+                -0.0023911358386948106,
+                0.0005620850584061587,
+                -0.005454653591691838
+              ]
+            ],
+            "upward_crossing_brackets": [
+              [
+                -0.09755834221874853,
+                -0.09731922863487905,
+                -0.005097406489177336,
+                0.0008839613788287348
+              ]
+            ],
+            "seconds": 12.825944000011077,
+            "unsafe_target_seen": false
+          },
+          {
+            "target": 20,
+            "original_deferral_reason": "Newton iteration limit",
+            "rlam": 4,
+            "sigma_anchor": 0.0158173717089532,
+            "samples": 1025,
+            "interval": [
+              -0.1265389736716256,
+              0.1265389736716256
+            ],
+            "min_phi_minus_half": -0.5000583360801613,
+            "max_phi_minus_half": 0.4878466481997411,
+            "max_phi": 0.9878466481997411,
+            "physical_displacement_at_max_phi": -0.06895385479371785,
+            "downward_crossing_brackets": [
+              [
+                -0.014581639544191227,
+                -0.014334493111238841,
+                0.0045462151726870514,
+                -0.0006710527013621959
+              ]
+            ],
+            "upward_crossing_brackets": [],
+            "seconds": 13.585760999994818,
+            "unsafe_target_seen": false
+          }
+        ]
+      },
+      "interpretation": "Both representative lines have one detected downward crossing at rlam=3 and at rlam=4. This supports testing less smoothing, but does not establish full-surface validity or guarantee successful recovery for the other targets."
+    }
+  },
+  "artifacts": {
+    "directory": "build/newton-iteration-recovery-validation",
+    "ignored": true,
+    "log_sha256": {
+      "newton-iteration-recovery-native-final.log": "e831f9c6e1f9a6290b5c4b4a9f09e675806fc60be6c9b77dab3dd63f754480b1",
+      "newton-iteration-recovery-guard.log": "27e8fbc2bd0da00b76bfc6bada9428d171e8df2cb5d499be53b17df714c717ff",
+      "newton-iteration-recovery-fixed.log": "2f0966c0a70c72ec73a11fb0ce2023265e4ba8d24b3671cd3f811efb6c37a94a",
+      "surfsmooth3d-iteration-recovery-pure-tests.log": "af5824093301969cbbf4dcc45aef9419956400c83fbcc5cfc3c1cce680f3830c",
+      "surfsmooth3d-iteration-recovery-report-test.log": "b51bde0f049f04793f25def98f7626a759c445ab3dcf729433388d729412c08f",
+      "surfsmooth3d-iteration-recovery-matlab-tests.log": "d98360052f01c73dc917a38ccfc286248c1cb94e847053f6bac824a9587e0e58",
+      "surfsmooth3d-iteration-recovery-native-report-test.log": "dda5ecb5df96631ce49502f8dddaf0dde57f8a0fbf6307636b154cad5cd9a760",
+      "newton-iteration-recovery-final-native-build.log": "5f40f4629ed36ce80e37ccc3d346b892fd32d9e4b8797dd06ae17d66b0cc995c",
+      "newton-iteration-recovery-final-matlab-build.log": "39ec21cbb27572ef8bf606f4005d5e185a5bef67803dc2533b9c5fdb8c8bdb62",
+      "stage1_replay.log": "d0ea3e08083ef27d9115ec148cc2db1be1acae19a7340b3b552bc2e007d1973f"
+    },
+    "supporting_file_sha256": {
+      "replay_stage1.f90": "07ea8ddd265d4a744b22c3f26af34fbaaa9ae1471d73d1997be866c6eaae6070",
+      "scan_unresolved.f90": "6daa003d8d32e714e25013b3d2ed7e076895fd8a656028fe4ac56783c48df02f",
+      "stage1_summary.txt": "78139f84c04c35d5539d6b6066818b2c056b77ec2d499cb68b71ec10de0bb436",
+      "stage1_replay_newton_recovery.txt": "e4c3601186cc074e287717648a7557e9e4587702ff1eb8982e070c9ed364fa93",
+      "replay-recovery-summary.json": "ef7a46f73d937c4aec01f4ed8ea2ccc6681037c803ff32d5b2d57bf4dd850b18",
+      "independent-scan-summary.json": "9c70ff7e00daea6af7e544e2adbc1a227ece9b73fb823f89bacdfde351eefbb8",
+      "rlam-comparison-summary.json": "997e99e85ffde084233e3bceabb05394f71c15a0a1f7611ce2196deffb440dc4"
+    }
+  },
+  "changed_source_sha256": {
+    "README.md": "66776ed40ff1aef18de982d42d146dbcdc12740fe08774a75575e8e8f03df77e",
+    "matlab/+surfsmooth3d/multiscale_mesher.m": "27cb0633cd89f0554d11efff8dc67c8bd3f9b9ef9bf2e044a0d5563a9e8aaaf2",
+    "matlab/+surfsmooth3d/multiscale_mesher_adaptive.m": "1ba4e2ffc4a7435eefda87835230f4dd510c81d1a9899cb68182c7e53baaf7f5",
+    "matlab/+surfsmooth3d/read_newton_recovery.m": "5b6e8eb848e8c227f88f694b4ce5e8178db7dd630f9010a2a1aa074a8fe682d3",
+    "matlab/surfsmooth3d_routs.mw": "23dd91485d44aa602dd4ed5e48894be17a98716609077c89f99a5baf020e3fa3",
+    "src/multiscale_mesher/Mod_Smooth_Surface.f90": "27e6d6f1ce71568c44dba5a54c04a35d0276389243385948e79f8ad4472eacb4",
+    "tests/fortran/test_newton_recovery.f90": "b0f01572c23186c767e7312edbc4894b0933170cb1b4988354437ecee7dbb50d",
+    "tests/matlab/test_newton_recovery_report.m": "172c424d9b1664796376a8044a5a6caa7cb1ac25b785290933623f1e8e2eeec8"
+  },
+  "limits": [
+    "No automatic change to smoothing parameters, source data or projection lines.",
+    "No relaxed root or patch acceptance checks.",
+    "No upward-tree reuse or FMM3D changes.",
+    "Full hairy-torus acceptance remains unresolved at the user's rlam=2 setting."
+  ]
+}

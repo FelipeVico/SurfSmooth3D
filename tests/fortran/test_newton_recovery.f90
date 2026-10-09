@@ -8,7 +8,7 @@ program test_newton_recovery
   integer*8 :: ier,calls0,deferred0,recovered0
   double precision :: bases(3,2),normals(3,2),projected(3,2),h(2),grad(3,2),f(2)
   double precision :: x(1),r(3,1),df(3,1),initial_grad(3),reference,sigma(1),ds(3,1)
-  double precision :: original_sources(3,1),unsafe_proposal(3)
+  double precision :: original_sources(3,1),unsafe_proposal(3),radial_reference,accepted_grad(3,2)
   logical :: exists
 
   call get_command_argument(1,mesh)
@@ -43,6 +43,7 @@ program test_newton_recovery
   call require(norm2((unsafe_proposal-guard%center)/guard%radius)>10d0,'first proposal exceeds 10R')
   call function_eval_sigma(fev%FSS_1,bases(:,1:1),1_8,sigma,ds(1,:),ds(2,:),ds(3,:),1_8)
   reference=independent_root(bases(:,1),normals(:,1),8d0*sigma(1))
+  radial_reference=independent_root(bases(:,2),normals(:,2),8d0*sigma(1))
 
   deferred0=guard%recovery_deferred
   recovered0=guard%recovery_recovered
@@ -69,21 +70,33 @@ program test_newton_recovery
   call require(ier==0.and.guard%recovery_deferred==deferred0+1,'all-deferred vertex solve succeeds')
   call require(abs(x(1)-reference)<1d-6,'all-deferred solve selects the same root')
 
-  ! A deferred point must not start recovery when another active point hits
-  ! the unchanged Newton iteration limit.
+  ! When the remaining active point reaches its Newton iteration limit,
+  ! queue it with reason 3 and recover it together with the unsafe point.
   if(allocated(g%Base_Points)) deallocate(g%Base_Points)
   if(allocated(g%Base_Points_N)) deallocate(g%Base_Points_N)
   allocate(g%Base_Points(3,2),g%Base_Points_N(3,2))
   g%n_Sf_points=2
   g%Base_Points=bases;g%Base_Points_N=normals
   h=0d0;projected=bases;grad=0d0
+  deferred0=guard%recovery_deferred
   recovered0=guard%recovery_recovered
   calls0=fev%evaluation_calls
   call My_Newton(h,1d-9,2_8,g,ier,fev,1_8,grad,projected,guard)
-  call require(ier==1,'remaining active targets retain the existing iteration limit')
-  call require(guard%recovery_recovered==recovered0,'active-group failure prevents deferred recovery')
-  call require(h(1)==0d0,'unsafe proposal does not overwrite the deferred safe height')
-  call require(fev%evaluation_calls==calls0+1,'active-group failure issues no recovery field evaluations')
+  call require(ier==0,'remaining active targets recover at the iteration limit')
+  call require(guard%recovery_deferred==deferred0+2,'unsafe and iteration-limited targets are both deferred')
+  call require(guard%recovery_recovered==recovered0+2,'both target groups recover together')
+  call require(all(guard%recovered_mask),'mixed recovery records both original target indices')
+  call require(abs(h(1)-reference)<1d-6.and.abs(h(2)-radial_reference)<1d-6, &
+      'mixed recovery agrees with independent direct-kernel roots')
+  call require(fev%evaluation_calls>calls0+1,'iteration-limited solve performs recovery evaluations')
+  accepted_grad=grad
+  call eval_density_grad_FMM(g,projected,normals,2_8,f,grad,fev,1_8)
+  call require(maxval(abs(f))<=1d-8,'mixed iteration-limit recovery returns fresh residuals')
+  call require(maxval(abs(grad-accepted_grad))<1d-8,'mixed recovery returns gradients at accepted coordinates')
+  call require(.not.fev%unsafe_target_seen,'mixed iteration-limit recovery never evaluates unsafe proposals')
+  call require_report_reason(trim(root),1_8,1_8)
+  call require_report_reason(trim(root),2_8,3_8)
+  print *, 'PASS: unsafe and iteration-limited targets recover together with fresh field data.'
 
   ! My_Newton also serves arbitrary independent/adaptive-blend targets. It
   ! must not assume that n_Sf_points is a multiple of the patch node count.
@@ -102,6 +115,8 @@ program test_newton_recovery
       'recovered coordinate uses original base and direction')
   call require(.not.fev%unsafe_target_seen,'all recovery evaluations stay inside 10R')
   call check_inherited_height()
+  call check_iteration_limit_only()
+  call check_invalid_inputs()
   print *, 'PASS: all-deferred and arbitrary-target solves use the original projection line.'
 
   ! Disabled recovery retains the original guarded abort, before a bad target
@@ -115,13 +130,14 @@ program test_newton_recovery
   call require(.not.fev%unsafe_target_seen,'disabled solve also blocks unsafe evaluations')
   guard%recovery_enabled=.true.
 
-  ! Existing iteration-limit failures do not trigger recovery.
+  ! With no Newton iteration available, there is no evaluated target to
+  ! classify. Keep this ordinary solver/input failure and perform no FMM.
   x=0d0;r=g%Base_Points;df=0d0
   deferred0=guard%recovery_deferred
   calls0=fev%evaluation_calls
   call My_Newton(x,1d-9,1_8,g,ier,fev,1_8,df,r,guard)
-  call require(ier==1,'ordinary iteration limit remains unchanged')
-  call require(guard%recovery_deferred==deferred0,'iteration limit does not defer')
+  call require(ier==1,'zero available Newton iterations retain ordinary failure')
+  call require(guard%recovery_deferred==deferred0,'zero available iterations do not defer')
   call require(fev%evaluation_calls==calls0,'zero available iterations issue no FMM call')
 
   ! A circumferential line entirely outside the smoothed barrel has no local
@@ -139,8 +155,137 @@ program test_newton_recovery
   call check_invalid_patches()
   call check_transactional_scaffold()
   call destroy_Feval_tree(fev)
-  print *, 'PASS: disabled recovery, ordinary iteration limits, and absent crossings fail safely.'
+  print *, 'PASS: disabled recovery, invalid iteration budgets, and absent crossings fail safely.'
 contains
+  subroutine check_iteration_limit_only()
+    type(projection_radius_guard) :: limit_guard
+    double precision :: saved_base(3),saved_normal(3),accepted_gradient(3,1),tangent(3)
+    integer*8 :: status,before
+    logical :: report_exists
+    saved_base=g%Base_Points(:,1);saved_normal=g%Base_Points_N(:,1)
+    g%Base_Points(:,1)=bases(:,2)-.1d0*normals(:,2)
+    g%Base_Points_N(:,1)=normals(:,2)
+    call initialize_projection_guard(limit_guard,g,trim(root)//'_iteration_limit',status)
+    call require(status==0,'initialize iteration-limit recovery guard')
+    x=.1d0;r(:,1)=bases(:,2);df=0d0
+    call My_Newton(x,1d-9,2_8,g,status,fev,1_8,df,r,limit_guard)
+    call require(status==0,'finite safe target recovers after exhausting Newton iterations')
+    call require(limit_guard%recovery_deferred==1.and.limit_guard%recovery_recovered==1, &
+        'iteration-limit-only recovery records exactly one target')
+    call require(abs(x(1)-(.1d0+radial_reference))<1d-6,'iteration-limit recovery preserves inherited height')
+    call require_report_reason(trim(root)//'_iteration_limit',1_8,3_8)
+    accepted_gradient=df
+    call eval_density_grad_FMM(g,r,g%Base_Points_N,1_8,f(1:1),df,fev,1_8)
+    call require(abs(f(1))<=1d-8,'iteration-limit-only root meets fresh residual tolerance')
+    call require(maxval(abs(df-accepted_gradient))<1d-8,'iteration-limit-only gradient is fresh')
+    call require(.not.fev%unsafe_target_seen,'finite iteration-limit recovery remains inside guard')
+
+    call initialize_projection_guard(limit_guard,g,trim(root)//'_iteration_limit_disabled',status,.false.)
+    call require(status==0,'initialize disabled iteration-limit recovery guard')
+    x=.1d0;r(:,1)=bases(:,2);df=0d0
+    before=fev%evaluation_calls
+    call My_Newton(x,1d-9,2_8,g,status,fev,1_8,df,r,limit_guard)
+    call require(status==1,'disabled recovery retains finite-target iteration-limit failure')
+    call require(limit_guard%recovery_deferred==0.and.limit_guard%recovery_recovered==0, &
+        'disabled iteration-limit recovery does not queue or recover targets')
+    call require(fev%evaluation_calls==before+1,'disabled iteration-limit solve only evaluates its Newton step')
+    inquire(file=trim(root)//'_iteration_limit_disabled_newton_recovery.txt',exist=report_exists)
+    call require(.not.report_exists,'disabled iteration-limit solve writes no recovery report')
+    call require(newton_correction_limit(limit_guard)==huge(1d0),'guarded correction limit is unchanged')
+    call require(newton_correction_limit()==1.1d0,'legacy correction limit is unchanged')
+
+    ! A shallow, almost circumferential line outside the smoothed barrel
+    ! has a safe first Newton step but no crossing. Reason 3 must fail
+    ! without replacing the failure snapshot's safe target with NaNs.
+    call initialize_projection_guard(limit_guard,g,trim(root)//'_iteration_limit_no_root',status)
+    call require(status==0,'initialize absent-root iteration-limit guard')
+    g%Base_Points(:,1)=[9.99d0,0d0,0d0]
+    g%Base_Points_N(:,1)=[1d0,0d0,0d0]
+    call eval_density_grad_FMM(g,g%Base_Points,g%Base_Points_N,1_8,f(1:1),df,fev,1_8)
+    tangent=[-df(2,1),df(1,1),0d0]
+    tangent=tangent/norm2(tangent)
+    g%Base_Points_N(:,1)=(tangent-.05d0*df(:,1)/norm2(df(:,1)))/sqrt(1d0+.05d0**2)
+    x=0d0;r=g%Base_Points
+    call My_Newton(x,1d-9,2_8,g,status,fev,1_8,df,r,limit_guard)
+    call require(status==7,'iteration-limited target without local crossing fails closed')
+    call require(limit_guard%recovery_deferred==1.and.limit_guard%recovery_recovered==0.and. &
+        limit_guard%recovery_unresolved==1,'absent iteration-limit root remains explicitly unresolved')
+    call require_report_reason(trim(root)//'_iteration_limit_no_root',1_8,3_8)
+    call require_finite_failure_target(trim(root)//'_iteration_limit_no_root')
+    call require(.not.fev%unsafe_target_seen,'failed iteration-limit recovery still protects FMM inputs')
+    g%Base_Points(:,1)=saved_base;g%Base_Points_N(:,1)=saved_normal
+    print *, 'PASS: finite iteration-limited targets recover; disabled recovery retains the original abort.'
+  end subroutine
+
+  subroutine require_finite_failure_target(output_root)
+    character(*),intent(in) :: output_root
+    character(1024) :: line
+    integer :: unit,ios
+    integer*8 :: target
+    double precision :: launch(3),point(3)
+    open(newunit=unit,file=output_root//'_newton_failure.txt',status='old',iostat=ios)
+    call require(ios==0,'open unresolved recovery failure snapshot')
+    do
+      read(unit,'(a)',iostat=ios) line
+      if(ios/=0) exit
+      if(index(line,'columns ')==1) exit
+    enddo
+    call require(ios==0,'unresolved recovery snapshot includes coordinate columns')
+    read(unit,*,iostat=ios) target,launch,point
+    close(unit)
+    call require(ios==0.and.target==1,'unresolved recovery snapshot identifies original target')
+    call require(all(ieee_is_finite(launch)).and.all(ieee_is_finite(point)), &
+        'iteration-limit failure snapshot retains finite safe coordinates')
+    call require(norm2((point-guard%center)/guard%radius)<=10d0,'failure snapshot retains the last safe target')
+  end subroutine
+
+  subroutine check_invalid_inputs()
+    type(projection_radius_guard) :: input_guard
+    double precision :: saved_base(3),saved_normal(3)
+    integer*8 :: status,before
+    saved_base=g%Base_Points(:,1);saved_normal=g%Base_Points_N(:,1)
+    call initialize_projection_guard(input_guard,g,trim(root)//'_invalid_input',status)
+    call require(status==0,'initialize invalid-input guard')
+    g%Base_Points_N(:,1)=0d0
+    x=0d0;r=g%Base_Points;df=0d0
+    before=fev%evaluation_calls
+    call My_Newton(x,1d-9,2_8,g,status,fev,1_8,df,r,input_guard)
+    call require(status==3,'zero pseudonormal remains an input failure')
+    call require(fev%evaluation_calls==before.and.input_guard%recovery_deferred==0, &
+        'invalid normal never reaches the field or recovery')
+    g%Base_Points_N(:,1)=saved_normal
+    g%Base_Points(1,1)=ieee_value(0d0,ieee_quiet_nan)
+    x=0d0;r=g%Base_Points;df=0d0
+    call My_Newton(x,1d-9,2_8,g,status,fev,1_8,df,r,input_guard)
+    call require(status==7,'nonfinite initial coordinate remains an input failure')
+    call require(fev%evaluation_calls==before.and.input_guard%recovery_deferred==0, &
+        'invalid initial point never reaches the field or recovery')
+    g%Base_Points(:,1)=saved_base;g%Base_Points_N(:,1)=saved_normal
+    print *, 'PASS: invalid normals and initial coordinates remain terminal input failures.'
+  end subroutine
+
+  subroutine require_report_reason(output_root,target,expected_reason)
+    character(*),intent(in) :: output_root
+    integer*8,intent(in) :: target,expected_reason
+    character(1024) :: line
+    integer :: unit,ios
+    integer*8 :: index,reason,iteration,latest_reason
+    latest_reason=-1
+    open(newunit=unit,file=output_root//'_newton_recovery.txt',status='old',iostat=ios)
+    call require(ios==0,'open recovery reason diagnostic')
+    do
+      read(unit,'(a)',iostat=ios) line
+      if(ios/=0) exit
+      line=adjustl(line)
+      if(scan(line,' ')==7.and.line(1:6)=='TARGET') then
+        read(line(8:),*) index,reason,iteration
+        if(index==target) latest_reason=reason
+      endif
+    enddo
+    close(unit)
+    call require(latest_reason==expected_reason,'recovery diagnostic distinguishes the target deferral reason')
+  end subroutine
+
   subroutine check_inherited_height()
     double precision :: anchor(3),expected(3),recorded_height,recorded_point(3)
     integer :: unit,ios

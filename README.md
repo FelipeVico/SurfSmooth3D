@@ -62,8 +62,9 @@ defaults and return conventions are preserved. The one-step path remains the
 default of `multiscale_mesher`.
 
 Guarded two-stage and adaptive solves automatically defer Newton targets whose
-proposed step is nonfinite or leaves the fixed 10R sphere. After the other
-targets converge, recovery scans the original pseudonormal near its initial
+proposed step is nonfinite or leaves the fixed 10R sphere. Targets still active
+at the Newton iteration limit are also deferred. Once ordinary Newton finishes,
+recovery scans the original pseudonormal near each deferred target's initial
 position and uses safeguarded Brent iterations to select the closest detected
 outward crossing of Phi=1/2. Sources and the sigma field stay fixed. Unresolved
 roots or invalid recovered patches stop the solve without returning a mesh.
@@ -71,7 +72,9 @@ Set `opts.newton_recovery=false` to restore the previous guarded abort behavior;
 the default one-stage path is unaffected. The uniform wrapper also supports
 `[S,info] = surfsmooth3d.multiscale_mesher(...)`. Its `info.recovery`, and the
 corresponding adaptive/blend metadata, contain counts, per-target stage records,
-and a preserved diagnostic path when recovery occurred.
+and a preserved diagnostic path when recovery occurred. Each target's
+`reason_name` distinguishes `outside_radius`, `nonfinite`, and `iteration_limit`
+deferrals. Other ordinary Newton failures still stop the solve.
 
 Recovery searches at most eight local sigma on each side with 128 subdivisions
 per side. It cannot certify all intersections or restore a feature removed by
@@ -83,6 +86,14 @@ cylinder and intersecting-sphere comparisons retain bitwise output equality
 and identical FMM calls, with median overhead below 5%. The hairy-torus check
 covers 128 targets on the full fixed CAD sources; full-surface acceptance has
 not yet been established. Restart MATLAB after rebuilding the pinned gateways.
+
+The [iteration-limit recovery validation record](provenance/newton-iteration-recovery-validation.json)
+covers the subsequent handoff of unfinished Newton targets to recovery. In the
+saved hairy-torus GUI case at `rlam=2`, all 403 problem vertices enter recovery,
+but none has a detected local downward crossing. Independent denser scans on
+two representative projection lines also stay below Phi=1/2. The solve reports
+unresolved recovery and leaves the scaffold unchanged; it does not export a
+surface. Changing smoothing parameters is a separate geometry decision.
 
 The main interactive/batch drivers are in `examples/matlab`:
 
